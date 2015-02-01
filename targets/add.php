@@ -70,7 +70,7 @@
             $LV = $logicalvolumes[$_POST['path']-1];
 
             // Add target and lun to daemon
-            $add_target_output = shell_exec("$sudo $ietadm --op new --tid=0 --params Name=$NAME");
+            $add_target_output = shell_exec("$sudo $ietadm --op new --tid=0 --params Name=$iqn:$NAME");
             $a_volumes = get_file_cat($proc_volumes);
             $tid = get_data_regex($a_volumes, "/tid:([0-9].*?)/");
             $a_name = get_data_regex($a_volumes, "/name:(.*)/");
