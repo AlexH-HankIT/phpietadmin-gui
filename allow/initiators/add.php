@@ -1,7 +1,7 @@
 <?php
     require '../../views/header.html';
     require '../../views/nav.html';
-    require '../../views/allow/targets/add/header.html';
+    require '../../views/allow/initiators/add/header.html';
     require '../../views/allow/menu.html';
 
     try {
@@ -11,7 +11,7 @@
                 throw new Exception("Error - No targets found");
             } else {
                 $name = get_data_regex($a_volumes, "/name:(.*)/");
-                require '../../views/allow/targets/add/input.html';
+                require '../../views/allow/initiators/add/input.html';
             }
         } else {
             throw new Exception("Error - The file $proc_volumes was not found");

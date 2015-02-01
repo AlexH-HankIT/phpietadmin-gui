@@ -4,10 +4,9 @@
     require '../../views/allow/initiators/display/header.html';
     require '../../views/overview/menu.html';
 
-    $a_data2 = get_allow('/etc/iet/initiators.allow');
+    $a_data2 = get_allow('/etc/iet/targets.allow');
 
     require '../../views/allow/initiators/display/output.html';
     require '../../views/div.html';
     require '../../views/footer.html';
-
 ?>
