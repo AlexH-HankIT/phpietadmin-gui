@@ -21,7 +21,7 @@
             $d = $_POST['IQNs'];
             $d = $d-1;
             $current = "\n$name[$d] $_POST[ip]\n";
-            file_put_contents($ietd_target_allow, $current, FILE_APPEND | LOCK_EX);
+            file_put_contents($ietd_init_allow, $current, FILE_APPEND | LOCK_EX);
         }
     } catch (Exception $e) {
         $error = $e->getMessage();

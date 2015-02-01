@@ -20,7 +20,7 @@
         if (!empty($_POST['IQNs2'])) {
             $d=$_POST['IQNs2'];
             $d = $d-1;
-            deleteLineInFile("$ietd_target_allow", "$name[$d]");
+            deleteLineInFile($ietd_init_allow, "$name[$d]");
         }
     } catch (Exception $e) {
         $error = $e->getMessage();
