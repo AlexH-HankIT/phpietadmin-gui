@@ -78,7 +78,7 @@
 
             // Add target and lun to config file
             $add_lun_output = shell_exec("$sudo $ietadm --op new --tid=$tid[$key] --lun=0 --params Path=$LV");
-            $current = "\nTarget $NAME\n Lun 0 Type=fileio,Path=$LV\n";
+            $current = "\nTarget $iqn:$NAME\n Lun 0 Type=fileio,Path=$LV\n";
             file_put_contents($ietd_config_file, $current, FILE_APPEND | LOCK_EX);
 
             require '../views/targets/add/success.html';
