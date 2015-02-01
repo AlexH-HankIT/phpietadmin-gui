@@ -1,0 +1,14 @@
+<div id="leftDiv">
+<table border='1'>
+        <tr>
+            <th>Name</th>
+            <th>VG</th>
+            <th>Attr</th>
+            <th>Size</th>
+        </tr>
+        <?php for ($i = 0; $i < count($lvs2); $i++) { ?>
+            <tr><?php for ($i2 = 0; $i2 < count($lvs2[0]); $i2++) { ?>
+                <td> <?php echo $lvs2[$i][$i2] ?> </td> <?php } ?>
+            </tr> <?php } ?>
+    </table>
+</div>

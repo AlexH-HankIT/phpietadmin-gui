@@ -1,0 +1,12 @@
+<div id="leftDiv">
+    <table border='1'>
+        <tr>
+            <th>Target</th>
+            <th>Allow</th>
+        </tr>
+        <?php for ($i = 0; $i < count($a_data2); $i++) { ?>
+        <tr><?php for ($i2 = 0; $i2 < count($a_data2[0]); $i2++) { ?>
+            <td> <?php echo $a_data2[$i][$i2] ?> </td> <?php } ?>
+        </tr> <?php } ?>
+    </table>
+</div>

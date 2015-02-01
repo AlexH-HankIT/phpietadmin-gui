@@ -1,0 +1,19 @@
+<div id="leftDiv">
+<table border="1">
+    <tr>
+        <th>PV</th>
+        <th>VG</th>
+        <th>Fmt</th>
+        <th>Attr</th>
+        <th>PSize</th>
+        <th>Pfree</th>
+    </tr>
+    <?php for ($i=0; $i < count($data); $i++) { ?>
+    <tr>
+        <?php for ($i2=0; $i2 < count($data[0]); $i2++) { ?>
+        <td> <?php echo $data[$i][$i2] ?> </td>
+        <?php } ?>
+    </tr>
+    <?php } ?>
+</table>
+</div>

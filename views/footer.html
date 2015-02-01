@@ -1,0 +1,13 @@
+<div id="footer">
+    <?php
+        $return = get_service_status($service);
+        if ($return[1]!=0) {
+            ?><p>Service status: <img src="/phpietadmin/img/red.png"</p><?php
+        } else {
+            ?><p>Service status: <img src="/phpietadmin/img/green.png"</p><?php
+        }
+    ?>
+</div>
+
+</body>
+</html>

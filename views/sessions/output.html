@@ -1,0 +1,13 @@
+<div id="leftDiv">
+       <table border="1">
+           <tr>
+                <th>IQN</th>
+                <th>TID</th>
+                <th>IP</th>
+                <th>STATE</th>
+                <th>INITIATOR</th>
+            </tr>
+            <?php for ($i=0; $i <= count($name_sessions)-1; $i++) { echo "<tr> <td>" . $name_sessions[$i] . "</td> <td>" . $tid_sessions[$i] . "</td> <td>" . $ip[$i] . "</td> <td>" . $state_sessions[$i] . "</td> <td>" . $initiator[$i] ."</td> </tr>"; }?>
+        </table>
+        <br>
+    </div>

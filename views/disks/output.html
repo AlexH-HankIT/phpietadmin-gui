@@ -1,0 +1,20 @@
+<div id="leftDiv">
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>MAJ:MIN</th>
+            <th>RM</th>
+            <th>Size</th>
+            <th>RO</th>
+            <th>Type</th>
+            <th>Mountpoint</th>
+        </tr>
+        <?php for ($i=0; $i < count($blk2); $i++) { ?>
+        <tr>
+            <?php for ($i2=0; $i2 < count($blk2[0]); $i2++) { ?>
+            <td> <?php echo $blk2[$i][$i2] ?> </td>
+            <?php } ?>
+        </tr>
+        <?php } ?>
+    </table>
+</div>

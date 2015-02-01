@@ -1,0 +1,9 @@
+<div id="leftDiv">
+    <form method="post">
+        <select name="IQN">
+            <option value="">Select...</option>
+                <?php for ($i = 0; $i < count($a_name); $i++) { echo '<option value=' . ($i+1) . '>' . $a_name[$i] . '</option>'; } ?>
+        </select>
+        <input type="submit" value="Delete">
+    </form>
+</div>

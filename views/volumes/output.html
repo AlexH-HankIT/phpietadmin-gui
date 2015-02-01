@@ -1,0 +1,15 @@
+<div id="leftDiv">
+<table border="1">
+    <tr>
+        <th>IQN</th>
+        <th>TID</th>
+        <th>LUN</th>
+        <th>STATE</th>
+        <th>TYPE</th>
+        <th>BLOCKS</th>
+        <th>BLOCKSIZE</th>
+        <th>PATH</th>
+    </tr>
+    <?php for ($i=0; $i <= count($name)-1; $i++) { echo "<tr> <td>" . $name[$i] . "</td> <td>" . $tid[$i] . "</td> <td>" . $lun[$i] . "</td> <td>" . $state[$i] ."</td> <td>" . $type[$i] . "</td> <td>" . $blocks[$i] . "</td> <td>" . $size[$i] . "</td> <td>" .  $paths[$i] . "</td> </tr>"; }?>
+</table>
+    </div>

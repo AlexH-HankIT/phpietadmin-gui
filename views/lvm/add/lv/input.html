@@ -1,0 +1,32 @@
+<div id="leftDiv">
+    <form action="lv_add.php" method="post">
+        <table border="0">
+
+            <tr>
+                <p>
+                    <td>Name:</td>
+                    <td><input type="text" name="name" /></td>
+                </p>
+            </tr>
+
+            <tr>
+                <p>
+                <td>Size:</td>
+                <td><input type="range" min="1" max="<?php echo $freesize[1] ?>" value="1" name="size" step="1" onchange="showValue(this.value + 'G')"  oninput="showValue(this.value + 'G')"/>
+                    <span id="range">1G</span>
+                    <script type="text/javascript">
+                        function showValue(newValue) {
+                            document.getElementById("range").innerHTML=newValue;
+                        }
+                    </script>
+                </td>
+                </p>
+            </tr>
+
+        </table>
+        <input type='submit' value='Create'>
+    </form>
+
+    <br>
+
+</div>

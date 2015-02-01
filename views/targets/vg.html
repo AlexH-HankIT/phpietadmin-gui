@@ -1,0 +1,16 @@
+<div id="leftDiv">
+    <form action="add.php" method="post">
+            <tr>
+                <p>
+                <td>VG:</td>
+                <td>
+                    <select name="vg_post">
+                        <option value="">Select...</option>
+                        <?php for ($i = 0; $i < $volumegroups[1]; $i++) { echo '<option value=' . ($i+1) . '>' . $volumegroups[0][$i] . '</option>'; } ?>
+                    </select>
+                </td>
+                </p>
+            </tr>
+    <br>
+    <input type='submit' value='Next'>
+</div>

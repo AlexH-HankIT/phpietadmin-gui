@@ -1,0 +1,10 @@
+<div id="leftDiv">
+<form action="add.php" method="post">
+    <p>Name: <input type="text" name="name" /> Name to be added to the iqn</p>
+    <select name="path">
+        <option value="">Select...</option>
+    <?php for ($i = 0; $i < count($logicalvolumes); $i++) { echo '<option value=' . ($i+1) . '>' . $logicalvolumes[$i] . '</option>'; } ?>
+    </select>
+    <p><input type="submit" value="Create"/></p>
+</form>
+</div>

@@ -1,0 +1,9 @@
+<div id="leftDiv">
+    <form method="post">
+        <select name="vg_post">
+            <option value="">Select...</option>
+            <?php for ($i = 0; $i < count($vg_out2); $i++) { echo '<option value=' . ($i+1) . '>' . $vg_out2[$i] . '</option>'; } ?>
+        </select>
+        <input type='submit' value='Show'>
+    </form>
+    </div>

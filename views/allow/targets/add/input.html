@@ -1,0 +1,10 @@
+<div id="leftDiv">
+<form method="post">
+    <select name="IQNs">
+        <option value="">Select...</option>
+        <?php for ($i = 0; $i < count($name); $i++) { echo '<option value=' . ($i+1) . '>' . $name[$i] . '</option>'; } ?>
+    </select>
+    <p>IP: <input type="text" name="ip" /> Source IP of the client which should connect to this target</p>
+    <input type="submit" value="Allow">
+</form>
+    </div>
