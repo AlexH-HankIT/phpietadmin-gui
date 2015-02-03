@@ -4,9 +4,11 @@
             <th>Initiator</th>
             <th>Allow</th>
         </tr>
-        <?php for ($i = 0; $i < count($a_data2); $i++) { ?>
-        <tr><?php for ($i2 = 0; $i2 < count($a_data2[0]); $i2++) { ?>
-            <td> <?php echo $a_data2[$i][$i2] ?> </td> <?php } ?>
-        </tr> <?php } ?>
+        <?php foreach ($a_data2 as $value): ?>
+        <tr>
+            <td><?php echo $value[0] ?></td>
+            <td><?php echo $value[1] ?></td>
+        </tr>
+        <?php endforeach; ?>
     </table>
 </div>
