@@ -1,15 +1,26 @@
 <div id="leftDiv">
-<table border="1">
-    <tr>
-        <th>IQN</th>
-        <th>TID</th>
-        <th>LUN</th>
-        <th>STATE</th>
-        <th>TYPE</th>
-        <th>BLOCKS</th>
-        <th>BLOCKSIZE</th>
-        <th>PATH</th>
-    </tr>
-    <?php for ($i=0; $i <= count($name)-1; $i++) { echo "<tr> <td>" . $name[$i] . "</td> <td>" . $tid[$i] . "</td> <td>" . $lun[$i] . "</td> <td>" . $state[$i] ."</td> <td>" . $type[$i] . "</td> <td>" . $blocks[$i] . "</td> <td>" . $size[$i] . "</td> <td>" .  $paths[$i] . "</td> </tr>"; }?>
-</table>
-    </div>
+    <table border="1">
+        <tr>
+            <th>name</th>
+            <th>tid</th>
+            <th>path</th>
+            <th>lun</th>
+            <th>state</th>
+            <th>iotype</th>
+            <th>blocks</th>
+            <th>blocksize</th>
+        </tr>
+        <?php foreach ($data as $value): ?>
+        <tr>
+            <td><?php echo $value[0] ?></td>
+            <td><?php echo $value[1] ?></td>
+            <td><?php echo $value[2] ?></td>
+            <td><?php echo $value[3] ?></td>
+            <td><?php echo $value[4] ?></td>
+            <td><?php echo $value[5] ?></td>
+            <td><?php echo $value[6] ?></td>
+            <td><?php echo $value[7] ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+</div>
