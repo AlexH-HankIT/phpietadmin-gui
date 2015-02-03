@@ -8,13 +8,16 @@
             <th>RO</th>
             <th>Type</th>
             <th>Mountpoint</th>
-        </tr>
-        <?php for ($i=0; $i < count($blk2); $i++) { ?>
+        <?php foreach ($blk2 as $value): ?>
         <tr>
-            <?php for ($i2=0; $i2 < count($blk2[0]); $i2++) { ?>
-            <td> <?php echo $blk2[$i][$i2] ?> </td>
-            <?php } ?>
+            <td><?php echo $value[0] ?></td>
+            <td><?php echo $value[1] ?></td>
+            <td><?php echo $value[2] ?></td>
+            <td><?php echo $value[3] ?></td>
+            <td><?php echo $value[4] ?></td>
+            <td><?php echo $value[5] ?></td>
+            <td><?php echo $value[6] ?></td>
         </tr>
-        <?php } ?>
+        <?php endforeach; ?>
     </table>
 </div>
