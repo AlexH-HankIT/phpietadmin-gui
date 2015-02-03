@@ -5,16 +5,15 @@
     require '../../views/allow/menu.html';
 
     try {
-        if (file_exists($proc_volumes)) {
-            $a_volumes = get_file_cat($proc_volumes);
-            if ($a_volumes == "error") {
-                throw new Exception("Error - No targets found");
-            } else {
-                $name = get_data_regex($a_volumes, "/name:(.*)/");
-                require '../../views/allow/initiators/delete/input.html';
-            }
+        // Check if service is running and abort if not
+        check_service_status();
+
+        $a_volumes = get_file_cat($proc_volumes);
+        if ($a_volumes == "error") {
+            throw new Exception("Error - No targets found");
         } else {
-            throw new Exception("Error - The file $proc_volumes was not found");
+            $name = get_data_regex($a_volumes, "/name:(.*)/");
+            require '../../views/allow/initiators/delete/input.html';
         }
 
         if (!empty($_POST['IQNs2'])) {
