@@ -5,54 +5,75 @@
     require 'views/overview/menu.html';
 
     try {
-        if (file_exists($proc_sessions)) {
-            $a_sessions = get_file_cat($proc_sessions);
-            for ($i = 0; $i < count($a_sessions); $i++) {
-                if (strpos($a_sessions[$i], 'cid') !== false) {
-                    // Get array with tid
-                    preg_match("/tid:([0-9].*?)/", $a_sessions[$i - 2], $result);
-                    if (isset($result[1])) {
-                        $tid_sessions[$i] = $result[1];
-                        $tid_sessions = array_slice($tid_sessions, 0);
-                    }
+        // Check if service is running and abort if not
+        check_service_status();
 
-                    // Get array with names
-                    preg_match("/name:(.*)/", $a_sessions[$i - 2], $result);
-                    if (isset($result[1])) {
-                        $name_sessions[$i] = $result[1];
-                        $name_sessions = array_slice($name_sessions, 0);
-                    }
+        // Read contents of file $proc_sessions in var
+        $sessions = file_get_contents($proc_sessions);
 
-                    // Get array with initiators
-                    preg_match("/initiator:(.*)/", $a_sessions[$i - 1], $result);
-                    if (isset($result[1])) {
-                        $initiator[$i] = $result[1];
-                        $initiator = array_slice($initiator, 0);
-                    }
+        // Check if even one session exists
+        if (strpos($sessions, 'cid') == false && strpos($sessions, 'sid') == false) {
+            throw new exception("Error - Could not create list of sessions");
+        }
 
-                    // Get array with ips
-                    preg_match("/ip:(.*?) /", $a_sessions[$i], $result);
-                    if (isset($result[1])) {
-                        $ip[$i] = $result[1];
-                        $ip = array_slice($ip, 0);
-                    }
+        // Get line count
+        $count = substr_count($sessions, "\n")/3;
 
-                    // Get array with state
-                    preg_match("/state:(.*?) /", $a_sessions[$i], $result);
-                    if (isset($result[1])) {
-                        $state_sessions[$i] = $result[1];
-                        $state_sessions = array_slice($state_sessions, 0);
-                    }
+        if  ($count / 3) {
+            $a_sessions = explode("\n", $sessions);
+            $a_sessions = array_filter($a_sessions);
+
+            for ($i = 0; $i < count($a_sessions) - 2; $i++) {
+                if (strpos($a_sessions[$i + 2], 'cid') !== false) {
+                    $a_sessions2[$i][0] = $a_sessions[$i];
+                    $a_sessions2[$i][1] = $a_sessions[$i + 1];
+                    $a_sessions2[$i][2] = $a_sessions[$i + 2];
                 }
             }
-            if (empty($tid_sessions)) {
-                throw new Exception("Error - Could not create list of sessions");
-            } else {
-                require 'views/sessions/output.html';
-            }
-        } else {
-            throw new Exception("Error - The file $proc_sessions was not found");
         }
+
+        // Filter empty values
+        $a_sessions2 = array_values(($a_sessions2));
+
+        for ($i=0; $i < count($a_sessions2); $i++) {
+            $a_sessions3[$i] = implode(' ', $a_sessions2[$i]);
+        }
+
+        for ($i=0; $i < count($a_sessions3); $i++) {
+            $sessions = implode("\n", $a_sessions3);
+        }
+
+        for ($b=0; $b < floor($count); $b++) {
+            preg_match_all("/name:(.*?) /", $sessions, $result);
+            $data[$b][0] = $result[1][$b];
+
+            preg_match_all("/tid:([0-9].*?)/", $sessions, $result);
+            $data[$b][1] = $result[1][$b];
+
+            preg_match_all("/sid:(.*?) /", $sessions, $result);
+            $data[$b][2] = $result[1][$b];
+
+            preg_match_all("/initiator:(.*?) /", $sessions, $result);
+            $data[$b][3] = $result[1][$b];
+
+            preg_match_all("/cid:([0-9].*?)/", $sessions, $result);
+            $data[$b][4] = $result[1][$b];
+
+            preg_match_all("/ip:(.*?) /", $sessions, $result);
+            $data[$b][5] = $result[1][$b];
+
+            preg_match_all("/state:(.*?) /", $sessions, $result);
+            $data[$b][6] = $result[1][$b];
+
+            preg_match_all("/hd:(.*?) /", $sessions, $result);
+            $data[$b][7] = $result[1][$b];
+
+            preg_match_all("/dd:(.*)/", $sessions, $result);
+            $data[$b][8] = $result[1][$b];
+        }
+
+
+        require 'views/sessions/output.html';
     } catch (Exception $e) {
         $error = $e->getMessage();
         require 'views/error.html';

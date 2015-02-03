@@ -44,63 +44,6 @@ function get_allow($file) {
     return $a_data2;
 }
 
-function set_config_options($var) {
-    echo "<table width=800px>";
-    echo "<tr>";
-    echo '<form action="../../config_menu.php" method="post">';
-    echo "<td width=150px>$var: \t</td><td width=150px><input type='text' name=${var}_input /></td>";
-    echo '<td width=45px> <input type="submit" value="Speichern"/></td>';
-    include 'config.php';
-    $arr = get_defined_vars();
-    $input = $_POST["${var}_input"];
-
-    if (!empty($input)) {
-        if ($input !== $arr[$var]) {
-            deleteLineInFile("config.php", "$var");
-            deleteLineInFile("config.php", "?>");
-            add_LineToFile("config.php", "\$$var=\"$input\";\n?>");
-            include 'config.php';
-            $arr = get_defined_vars();
-            echo "<td>Wert: $arr[$var]</td>";
-            echo "</tr>";
-            echo "</table>";
-            echo "<br>";
-            return;
-        } else if ($input == $arr[$var]) {
-            echo "<td><h4>Keine &Auml;nderungen, da Wert gleich</h4></td>";
-            echo "</tr>";
-            echo "</table>";
-            return;
-        }
-    } else {
-        echo "<td>Wert: $arr[$var]</td>";
-        echo "</tr>";
-        echo "</table>";
-        echo "<br>";
-        return;
-    }
-
-    if (isset($arr[$var])) {
-        if ($input !== $arr[$var]) {
-            deleteLineInFile("config.php", "$var");
-            deleteLineInFile("config.php", "?>");
-            add_LineToFile("config.php", "\$$var=\"$input\";\n?>");
-            include 'config.php';
-            $arr = get_defined_vars();
-            echo "<td>Wert: $arr[$var]</td>";
-            echo "</tr>";
-            echo "</table>";
-            echo "<br>";
-            return;
-        } else if ($input == $arr[$var]) {
-            echo "<td>Keine &Auml;nderungen, da Wert gleich</td>";
-            echo "</tr>";
-            echo "</table>";
-            return;
-        }
-    }
-}
-
 function get_file_cat($file) {
     global $cat;
     $data = shell_exec("$cat $file");
@@ -125,42 +68,6 @@ function get_data_regex($array, $regex) {
     } else {
         return "error";
     }
-}
-
-function read_initiators_allow($ietd_allow) {
-    global $cat;
-    $allowed = shell_exec("$cat $ietd_allow");
-    $a_allowed = explode("\n", $allowed);
-    return $a_allowed;
-}
-
-function get_sessions($proc_sessions) {
-    global $cat;
-    $sessions = shell_exec("$cat $proc_sessions");
-    $a_sessions = explode("\n", $sessions);
-    return $a_sessions;
-}
-
-function get_initiator($array) {
-    for ($i=0; $i < count($array); $i++) {
-        preg_match("/initiators:(.*)/", $array[$i], $result);
-        if (isset($result[1])) {
-            $initiator[$i] = $result[1];
-            $initiator = array_slice($initiator, 0);
-        }
-    }
-    return $initiator;
-}
-
-function get_ips($array) {
-    for ($i=0; $i < count($array); $i++) {
-        preg_match("/ip:(.*?) /", $array[$i], $result);
-        if (isset($result[1])) {
-            $ip[$i] = $result[1];
-            $ip = array_slice($ip, 0);
-        }
-    }
-    return $ip;
 }
 
 function get_service_status() {
