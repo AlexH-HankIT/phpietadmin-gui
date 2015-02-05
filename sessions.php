@@ -20,8 +20,7 @@
         $count = substr_count($sessions, "\n")/3;
 
         if  ($count / 3) {
-            $a_sessions = explode("\n", $sessions);
-            $a_sessions = array_filter($a_sessions);
+            $a_sessions = array_filter(explode("\n", $sessions));
 
             for ($i = 0; $i < count($a_sessions) - 2; $i++) {
                 if (strpos($a_sessions[$i + 2], 'cid') !== false) {

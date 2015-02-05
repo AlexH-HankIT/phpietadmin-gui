@@ -12,15 +12,13 @@
             throw new Exception("Error - Could not list volume groups");
         }
 
-        $vg_out2 = $groups[0];
-
         if (!isset($_POST['vg_post']) && !isset($_POST['volumes'])) {
             require '../views/lvm/delete/lv/vg.html';
         } else {
             if (isset($_POST['volumes'])) {
                 $VG = $_COOKIE["volumegroup"];
 
-                $data = get_one_lvm_data($lvs, $VG);
+                $data = get_lvm_data($lvs, $VG);
 
                 for ($i = 0; $i < count($data); $i++) {
                     $data2[$i] = "/dev/" . $VG . "/" . $data[$i][0];
@@ -53,10 +51,10 @@
                 }
 
                 // Write name of volume group in var and save it as cookie for later use
-                $VG = $vg_out2[$_POST['vg_post'] - 1];
+                $VG = $groups[$_POST['vg_post'] - 1];
                 setcookie("volumegroup", $VG);
 
-                $data = get_one_lvm_data($lvs, $VG);
+                $data = get_lvm_data($lvs, $VG);
 
                 if ($data == "error") {
                     throw new Exception("Error - Volume group $VG is empty");

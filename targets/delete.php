@@ -8,21 +8,23 @@
         // Check if service is running and abort if not
         check_service_status();
 
-        $a_volumes = get_file_cat($proc_volumes);
-        if ($a_volumes == "error") {
+        $volumes = file_get_contents($proc_volumes);
+        if (empty($volumes)) {
             throw new Exception("Error - No targets found");
         } else {
-            $a_name = get_data_regex($a_volumes, "/name:(.*)/");
-            $a_tid = get_data_regex($a_volumes, "/tid:([0-9].*?)/");
+            preg_match_all("/name:(.*)/", $volumes, $a_name);
+            preg_match_all("/tid:([0-9].*?)/", $volumes, $a_tid);
 
             if (!isset($_POST['IQN'])) {
                 require '../views/targets/delete/input.html';
             } else {
+                preg_match_all("/path:(.*)/", $volumes, $a_paths);
                 $IQN = $_POST['IQN'] - 1 ;
-                $TID = $a_tid[$IQN];
-                $NAME = $a_name[$IQN];
-                $a_paths = get_data_regex($a_volumes, "/path:(.*)/");
-                $key = array_search("$TID", $a_tid );
+                $TID = $a_tid[1][$IQN];
+                $NAME = $a_name[1][$IQN];
+                $PATH = $a_paths[1][$IQN];
+
+                //$key = array_search($TID, $a_tid[1]);
 
                 exec("$sudo $ietadm --op delete --tid=$TID 2>&1", $status, $result);
 
@@ -30,8 +32,8 @@
                 if ($result ==! 0) {
                     throw new Exception("Error - Could not delete target $NAME. Server said: $status[0]");
                 } else {
-                    deleteLineInFile("$ietd_config_file", "$a_name[$key]");
-                    deleteLineInFile("$ietd_config_file", "$a_paths[$key]");
+                    deleteLineInFile($ietd_config_file, $NAME);
+                    deleteLineInFile($ietd_config_file, $PATH);
                     require '../views/targets/delete/success.html';
                 }
             }

@@ -10,10 +10,6 @@ Hohe Priorität
 
     - MEHR KOMMENTARE
 
-    - Ordentliches Unterprogramm für den Mist der in lvm/add.php am anfang steht
-
-    - Unterprogramme aufräumen
-
     - Initiatoren allow
         - Bereits verwendetes Targets nicht anzeigen
 
@@ -28,8 +24,6 @@ Niedrige Priorität:
 
    -doku
         -sudo (Volle pfade + Parameter)
-            cat /proc/net/iet/volume
-            cat /proc/net/iet/session
             vgs
             pvs
             lvs

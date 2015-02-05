@@ -26,10 +26,13 @@ function get_allow($file) {
     $data = file_get_contents("$file");
 
     // Create array
-    $a_data= explode("\n", $data);
+    $a_data = explode("\n", $data);
+
+    // Filter empty elements
+    $a_data = array_values(array_filter($a_data));
 
     // Delete all lines containing '#' and seperate remaining data by space
-    for ($i=0; $i<count($a_data)-1; $i++) {
+    for ($i=0; $i<count($a_data); $i++) {
         if (strpos($a_data[$i],'#') === false) {
             # Ignore empty lines
             if (strpos($a_data[$i]," ") !== false) {
@@ -38,10 +41,8 @@ function get_allow($file) {
         }
     }
 
-    // Rebuild array index
-    $a_data2 = array_values($a_data2);
-
-    return $a_data2;
+    // Rebuild array index and return
+    return array_values($a_data2);
 }
 
 function get_file_cat($file) {
@@ -88,6 +89,64 @@ function check_service_status() {
     }
 }
 
+// LVM
+function get_volume_groups() {
+    global $sudo;
+    global $vgs;
+
+    // Read output from shell in var
+    $vg = shell_exec("$sudo $vgs --rows --noheadings");
+
+    // Take only first line, since it contains the names of all groups
+    $vg = strtok($vg, "\n");
+
+    // Create array from string
+    $a_vg = explode(" ", $vg);
+
+    // Filter empty array elements and recreate index
+    $a_vg = array_values(array_filter($a_vg));
+
+    // Return if not empty
+    if (!empty($a_vg)) {
+        return $a_vg;
+    } else {
+        return "error";
+    }
+}
+
+function get_lvm_data($bin, $name = 0) {
+    global $sudo;
+
+    // Read output from shell in var
+    // Use specific name if supplied
+    if ($name === 0) {
+        $var = shell_exec("$sudo $bin --noheadings --units g");
+    } else {
+        $var = shell_exec("$sudo $bin --noheadings --units g $name");
+    }
+
+    // Explode string by line
+    $a_var = array_filter(explode("\n", $var));
+
+    for ($i=0; $i < count($a_var); $i++) {
+        // Create array for every line
+        $data[$i] = explode(" ", $a_var[$i]);
+
+        // Filter empty lines
+        $data[$i] = array_filter($data[$i], 'strlen');
+
+        // Recreate array index
+        $data[$i] = array_values($data[$i]);
+    }
+
+    // Return if not empty
+    if (!empty($data)) {
+        return $data;
+    } else {
+        return "error";
+    }
+}
+
 function get_logical_volumes($vgroup) {
     global $sudo;
     global $lvs;
@@ -105,59 +164,6 @@ function get_logical_volumes($vgroup) {
 
     if (!empty($lvs2)) {
         return $lvs2;
-    } else {
-        return "error";
-    }
-}
-
-function get_volume_groups() {
-    global $sudo;
-    global $vgs;
-    $vg = shell_exec("$sudo $vgs --noheadings --rows");
-    $vg_out = explode("\n", $vg);
-    $vg_out = explode(" ", $vg_out[0]);
-    $vg_out = array_filter($vg_out);
-    $vg_out2 = array_values($vg_out);
-
-    if (!empty($vg_out2)) {
-        $count = count($vg_out2) ;
-        $data[0] = $vg_out2;
-        $data[1] = $count;
-        return $data;
-    } else {
-        return "error";
-    }
-}
-
-function get_lvm_data($bin) {
-    global $sudo;
-    $var = shell_exec("$sudo $bin --noheadings --units g");
-    $var_out = explode("\n", $var);
-    $var_out = array_filter($var_out, 'strlen');
-
-    for ($i=0; $i < count($var_out); $i++) {
-        $var_out2[$i] = explode(" ", $var_out[$i]);
-        $var_out2[$i] = array_filter($var_out2[$i], 'strlen');
-        $var_out2[$i] = array_values($var_out2[$i]);
-    }
-
-    return $var_out2;
-}
-
-function get_one_lvm_data($bin, $var) {
-    global $sudo;
-    $var = shell_exec("$sudo $bin --noheadings --units g $var");
-    $var_out = explode("\n", $var);
-    $var_out = array_filter($var_out, 'strlen');
-
-    for ($i=0; $i < count($var_out); $i++) {
-        $var_out2[$i] = explode(" ", $var_out[$i]);
-        $var_out2[$i] = array_filter($var_out2[$i], 'strlen');
-        $var_out2[$i] = array_values($var_out2[$i]);
-    }
-
-    if (!empty($var_out2)) {
-        return $var_out2;
     } else {
         return "error";
     }

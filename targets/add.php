@@ -29,7 +29,7 @@
             // Read VG from cookie in var
             $VG = $_COOKIE["volumegroup"];
 
-            $data = get_one_lvm_data($lvs, $VG);
+            $data = get_lvm_data($lvs, $VG);
 
             // Abort if vg has no lvs
             if ($data == "error") {
@@ -41,43 +41,53 @@
                 $logicalvolumes[$i] = "/dev/" . $VG . "/" . $data[$i][0];
             }
 
-            // Read existing volumes in array
-            $a_volumes = get_file_cat($proc_volumes);
-            if ($a_volumes !== "error") {
-                // Check if name is already in use
-                $a_name = get_data_regex($a_volumes, "/name:(.*)/");
-                $key = array_search($NAME, $a_name);
+            // Read existing volumes in var
+            $volumes = file_get_contents($proc_volumes);
 
-                if ($a_name[$key] == "$NAME") {
+            if (!empty($volumes)) {
+                // Check if name is already in use
+                preg_match_all("/name:(.*)/", $volumes, $a_name);
+                $key = array_search("$iqn:$NAME", $a_name[1]);
+
+                if ($a_name[1][$key] == "$iqn:$NAME") {
                     throw new Exception("Error - The name $NAME is already in use");
                 }
 
                 // Extract volumes if existing
-                $paths = get_data_regex($a_volumes, "/path:(.*)/");
+                preg_match_all("/path:(.*)/", $volumes, $paths);
 
                 // Filter already used ones
-                $logicalvolumes = array_diff($logicalvolumes, $paths);
+                $logicalvolumes = array_diff($logicalvolumes, $paths[1]);
 
                 //Rebuild array index
                 $logicalvolumes = array_values($logicalvolumes);
+            }
 
-                if(empty($logicalvolumes)) {
-                    throw new Exception("Error - All volumes in volume group $VG are already in use");
-                }
+            if(empty($logicalvolumes)) {
+                throw new Exception("Error - All volumes in volume group $VG are already in use");
             }
 
             // Read path to lv in var
             $LV = $logicalvolumes[$_POST['path']-1];
 
             // Add target and lun to daemon
-            $add_target_output = shell_exec("$sudo $ietadm --op new --tid=0 --params Name=$iqn:$NAME");
-            $a_volumes = get_file_cat($proc_volumes);
-            $tid = get_data_regex($a_volumes, "/tid:([0-9].*?)/");
-            $a_name = get_data_regex($a_volumes, "/name:(.*)/");
+            exec("$sudo $ietadm --op new --tid=0 --params Name=$iqn:$NAME 2>&1", $status, $result);
+            if ($result ==! 0) {
+                throw new Exception("Error - Could not add target $NAME. Server said: $status[0]");
+            }
+
+            $volumes = file_get_contents($proc_volumes);
+            preg_match_all("/tid:([0-9].*?)/", $volumes, $a_tid);
+            preg_match_all("/name:(.*)/", $volumes, $a_name);
             $key = array_search($NAME, $a_name);
+            $TID = $a_tid[1][$key];
 
             // Add target and lun to config file
-            $add_lun_output = shell_exec("$sudo $ietadm --op new --tid=$tid[$key] --lun=0 --params Path=$LV");
+            exec("$sudo $ietadm --op new --tid=$TID --lun=0 --params Path=$LV 2>&1", $status, $result);
+            if ($result ==! 0) {
+                throw new Exception("Error - Could not add lun. Server said: $status[0]");
+            }
+
             $current = "\nTarget $iqn:$NAME\n Lun 0 Type=fileio,Path=$LV\n";
             file_put_contents($ietd_config_file, $current, FILE_APPEND | LOCK_EX);
 
@@ -88,11 +98,14 @@
         // Show VG Input if $_POST['vg_post'] is not set
         require '../views/targets/vg.html';
     } else {
+        if (empty($_POST['vg_post'])) {
+            throw new Exception("Error - Please choose a volume group");
+        }
         // Write selected volume group in $VG
-        $VG = $volumegroups[0][$_POST['vg_post'] - 1];
+        $VG = $volumegroups[$_POST['vg_post'] - 1];
 
         // Get all logical volumes in group $VG
-        $data = get_one_lvm_data($lvs, $VG);
+        $data = get_lvm_data($lvs, $VG);
 
         if ($data == "error") {
             throw new Exception("Error - Volume Group $VG is empty");
@@ -106,13 +119,13 @@
         }
 
         // Read existing volumes in array
-        $a_volumes = get_file_cat($proc_volumes);
-        if ($a_volumes !== "error") {
+        $volumes = file_get_contents($proc_volumes);
+        if (!empty($volumes)) {
             // Extract volumes if existing
-            $paths = get_data_regex($a_volumes, "/path:(.*)/");
+            preg_match_all("/path:(.*)/", $volumes, $paths);
 
             // Filter already used ones
-            $logicalvolumes = array_diff($logicalvolumes, $paths);
+            $logicalvolumes = array_diff($logicalvolumes, $paths[1]);
 
             //Rebuild array index
             $logicalvolumes = array_values($logicalvolumes);

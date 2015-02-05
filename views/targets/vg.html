@@ -6,7 +6,7 @@
                 <td>
                     <select name="vg_post">
                         <option value="">Select...</option>
-                        <?php for ($i = 0; $i < $volumegroups[1]; $i++) { echo '<option value=' . ($i+1) . '>' . $volumegroups[0][$i] . '</option>'; } ?>
+                        <?php for ($i = 0; $i < count($volumegroups); $i++) { echo '<option value=' . ($i+1) . '>' . $volumegroups[$i] . '</option>'; } ?>
                     </select>
                 </td>
                 </p>
