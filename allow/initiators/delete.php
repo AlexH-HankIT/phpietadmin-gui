@@ -16,14 +16,14 @@
         // Check if service is running and abort if not
         check_service_status();
 
-        $a_volumes = get_file_cat($proc_volumes);
+        $volumes = file_get_contents($proc_volumes);
         //preg_match_all("/name:(.*)/", file_get_contents($proc_volumes), $result);
 
         //$a_initiators = array_values(array_filter(explode("\n", file_get_contents($ietd_init_allow)), "contains_hashtag" ));
-        if ($a_volumes == "error") {
+        if (empty($volumes)) {
             throw new Exception("Error - No targets found");
         } else {
-            $name = get_data_regex($a_volumes, "/name:(.*)/");
+            preg_match_all("/name:(.*)/", $volumes, $a_name);
             require '../../views/allow/initiators/delete/input.html';
         }
 
@@ -45,9 +45,9 @@
         echo "</pre>";*/
 
         if (!empty($_POST['IQNs2'])) {
-            $d=$_POST['IQNs2'];
-            $d = $d-1;
-            deleteLineInFile($ietd_init_allow, "$name[$d]");
+            $d=$_POST['IQNs2'] -1;
+            $NAME = $a_name[1][$d];
+            deleteLineInFile($ietd_init_allow, "$NAME");
         }
     } catch (Exception $e) {
         $error = $e->getMessage();

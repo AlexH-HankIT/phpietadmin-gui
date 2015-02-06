@@ -16,8 +16,7 @@ try {
 
     if (isset($_POST['vg_post'])) {
         if ($_POST['vg_post'] > 0) {
-            $a = $_POST['vg_post'];
-            $a = $a - 1;
+            $a = $_POST['vg_post'] - 1;
             $lvs2 = get_logical_volumes($data[$a]);
 
             if ($lvs2 == "error") {

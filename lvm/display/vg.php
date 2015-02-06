@@ -9,6 +9,6 @@
 
     require '../../views/lvm/display/vg/output.html';
     require '../../views/div.html';
-    require '../../views/footer.html'
+require '../../views/footer.html'
 
 ?>

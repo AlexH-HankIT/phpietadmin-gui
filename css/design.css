@@ -94,9 +94,9 @@ h1 {
     padding-left:  15px;
     padding-right: 15px;
     position:absolute;
-    bottom:5%;
-    width:150px;
-    height:60px;   /* Height of the footer */
+    bottom:10%;
+    width:220px;
+    height:120px;   /* Height of the footer */
     border-radius: 5px 5px 5px 5px;
     background-color: #ffffff;
 }

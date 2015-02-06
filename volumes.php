@@ -45,7 +45,6 @@
         $error = $e->getMessage();
         require 'views/error.html';
     }
-
     require 'views/div.html';
     require 'views/footer.html';
 ?>

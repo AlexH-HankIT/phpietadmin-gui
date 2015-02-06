@@ -25,17 +25,14 @@
                 }
 
                 // Get array with volumes and paths
-                $a_volumes = get_file_cat($proc_volumes);
-                $paths = get_data_regex($a_volumes, "/path:(.*)/");
+                $volumes = file_get_contents($proc_volumes);
+                preg_match_all("/path:(.*)/", $volumes, $paths);
 
-                // Check if there are used volumes
-                if ($paths !== "error") {
-                    // Filter all used volumes
-                    $data2 = array_diff($data2, $paths);
+                // Filter all used volumes
+                $data2 = array_diff($data2, $paths[1]);
 
-                    // Rebuild array index
-                    $data2 = array_values($data2);
-                }
+                // Rebuild array index
+                $data2 = array_values($data2);
 
                 $var = $_POST['volumes'] - 1;
                 exec("$sudo $lvremove -f $data2[$var] 2>&1", $status, $result);
@@ -66,17 +63,14 @@
                 }
 
                 // Get array with volumes and paths
-                $a_volumes = get_file_cat($proc_volumes);
-                $paths = get_data_regex($a_volumes, "/path:(.*)/");
+                $volumes = file_get_contents($proc_volumes);
+                preg_match_all("/path:(.*)/", $volumes, $paths);
 
-                // Check if there are used volumes
-                if ($paths !== "error") {
-                    // Filter all used volumes
-                    $data2 = array_diff($data2, $paths);
+                // Filter all used volumes
+                $data2 = array_diff($data2, $paths[1]);
 
-                    // Rebuild array index
-                    $data2 = array_values($data2);
-                }
+                // Rebuild array index
+                $data2 = array_values($data2);
 
                 require '../views/lvm/delete/lv/input.html';
             }

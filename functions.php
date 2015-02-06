@@ -45,32 +45,6 @@ function get_allow($file) {
     return array_values($a_data2);
 }
 
-function get_file_cat($file) {
-    global $cat;
-    $data = shell_exec("$cat $file");
-    $a_data = explode("\n", $data);
-    if (!empty($a_data[0])) {
-        return $a_data;
-    } else {
-        return "error";
-    }
-}
-
-function get_data_regex($array, $regex) {
-    for ($i=0; $i < count($array); $i++) {
-        preg_match($regex, $array[$i], $result);
-        if (isset($result[1])) {
-            $var[$i] = $result[1];
-            $var = array_slice($var, 0);
-        }
-    }
-    if (!empty($var)) {
-        return $var;
-    } else {
-        return "error";
-    }
-}
-
 function get_service_status() {
     global $sudo;
     global $service;
