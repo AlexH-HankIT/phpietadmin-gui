@@ -13,7 +13,7 @@ $vgs="/sbin/vgs";
 $pvs="/sbin/pvs";
 $lvcreate="/sbin/lvcreate";
 $lvremove="/sbin/lvremove";
-$iqn="iqn.2014-12.com.example.iscsi";
 $lsblk="/bin/lsblk";
 $service_name="iscsitarget";
+$iqn="iqn.2014-12.com.example.iscsi";
 ?>

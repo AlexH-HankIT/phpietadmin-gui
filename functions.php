@@ -21,7 +21,8 @@ function add_LineToFile($file, $line) {
     file_put_contents($file, $current, FILE_APPEND | LOCK_EX);
 }
 
-function get_allow($file) {
+function get_allow($file)
+{
     // Read data in var
     $data = file_get_contents("$file");
 
@@ -32,17 +33,21 @@ function get_allow($file) {
     $a_data = array_values(array_filter($a_data));
 
     // Delete all lines containing '#' and seperate remaining data by space
-    for ($i=0; $i<count($a_data); $i++) {
-        if (strpos($a_data[$i],'#') === false) {
+    for ($i = 0; $i < count($a_data); $i++) {
+        if (strpos($a_data[$i], '#') === false) {
             # Ignore empty lines
-            if (strpos($a_data[$i]," ") !== false) {
+            if (strpos($a_data[$i], " ") !== false) {
                 $a_data2[$i] = explode(" ", $a_data[$i]);
             }
         }
     }
 
     // Rebuild array index and return
-    return array_values($a_data2);
+    if (!empty($a_data2)) {
+        return array_values($a_data2);
+    } else {
+        return "error";
+    }
 }
 
 function get_service_status() {

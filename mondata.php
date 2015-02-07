@@ -4,7 +4,7 @@
 
     // Get system load
     $load = sys_getloadavg();
-    $out = "<p>Current load: " . $load[0] . " " . $load[1] . " " . $load[2] . "</p>";
+    $out = "<p>Load: " . $load[0] . " " . $load[1] . " " . $load[2] . "</p>";
 
     // Get uptime
     $uptime = shell_exec("uptime -p");
