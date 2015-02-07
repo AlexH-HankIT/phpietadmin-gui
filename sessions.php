@@ -46,7 +46,7 @@
             preg_match_all("/name:(.*?) /", $sessions, $result);
             $data[$b][0] = $result[1][$b];
 
-            preg_match_all("/tid:([0-9].*?)/", $sessions, $result);
+            preg_match_all("/tid:([0-9].*?) /", $sessions, $result);
             $data[$b][1] = $result[1][$b];
 
             preg_match_all("/sid:(.*?) /", $sessions, $result);

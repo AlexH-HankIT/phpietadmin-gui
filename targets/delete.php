@@ -13,7 +13,7 @@
             throw new Exception("Error - No targets found");
         } else {
             preg_match_all("/name:(.*)/", $volumes, $a_name);
-            preg_match_all("/tid:([0-9].*?)/", $volumes, $a_tid);
+            preg_match_all("/tid:([0-9].*?) /", $volumes, $a_tid);
 
             if (!isset($_POST['IQN'])) {
                 require '../views/targets/delete/input.html';

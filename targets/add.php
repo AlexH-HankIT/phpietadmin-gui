@@ -77,7 +77,7 @@
             }
 
             $volumes = file_get_contents($proc_volumes);
-            preg_match_all("/tid:([0-9].*?)/", $volumes, $a_tid);
+            preg_match_all("/tid:([0-9].*?) /", $volumes, $a_tid);
             preg_match_all("/name:(.*)/", $volumes, $a_name);
             $key = array_search($NAME, $a_name);
             $TID = $a_tid[1][$key];

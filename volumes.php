@@ -19,7 +19,7 @@
             preg_match_all("/name:(.*)/", $volumes, $result);
             $data[$b][0] = $result[1][$b];
 
-            preg_match_all("/tid:([0-9].*?)/", $volumes, $result);
+            preg_match_all("/tid:([0-9].*?) /", $volumes, $result);
             $data[$b][1] = $result[1][$b];
 
             preg_match_all("/path:(.*)/", $volumes, $result);
