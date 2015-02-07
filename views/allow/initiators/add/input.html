@@ -2,9 +2,11 @@
 <form method="post">
     <select name="IQNs">
         <option value="">Select...</option>
-        <?php for ($i = 0; $i < count($a_name[1]); $i++) { echo '<option value=' . ($i+1) . '>' . $a_name[1][$i] . '</option>'; } ?>
+        <?php for ($i = 0; $i < count($a_name); $i++) { echo '<option value=' . ($i+1) . '>' . $a_name[$i] . '</option>'; } ?>
     </select>
-    <p>IP: <input type="text" name="ip" /> Source IP of the client which should connect to this target</p>
+    <p>IP: <input type="text" name="ip" /></p>
+    <p>Source IP of the client which should connect to this target</p>
+    <p>You can seperate multiple ips with a comma</p>
     <input type="submit" value="Allow">
 </form>
     </div>

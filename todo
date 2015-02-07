@@ -2,16 +2,10 @@ Hohe Priorität
     - LVM
         - VG erstellen
 
-    - Delete
-        - Lösche Allow Regeln, wenn Target gelöscht wird
-
     - Targets adden
             - Volume Groups vom Dropdown Menu ausnehmen
 
     - MEHR KOMMENTARE
-
-    - Initiatoren allow
-        - Bereits verwendetes Targets nicht anzeigen
 
 Niedrige Priorität:
     - LVM überarbeiten

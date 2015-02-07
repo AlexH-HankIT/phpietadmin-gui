@@ -32,6 +32,10 @@
                 if ($result ==! 0) {
                     throw new Exception("Error - Could not delete target $NAME. Server said: $status[0]");
                 } else {
+                    // Delete permission for target
+                    deleteLineInFile($ietd_init_allow, "$NAME");
+
+                    // Delete target from config file
                     deleteLineInFile($ietd_config_file, $NAME);
                     deleteLineInFile($ietd_config_file, $PATH);
                     require '../views/targets/delete/success.html';
