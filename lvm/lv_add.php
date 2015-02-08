@@ -44,7 +44,7 @@
                     $data = get_lvm_data($vgs, $VG);
 
                     // Extract free size of the volume group
-                    preg_match("/(.+?)./", $data[0][6], $freesize);
+                    preg_match("/(.*?)(?=\.|$)/", $data[0][6], $freesize);
 
                     if ($freesize[1] <= 1) {
                         throw new Exception("Error - Volume group $VG is too small for new volumes");
