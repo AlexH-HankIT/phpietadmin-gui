@@ -14,15 +14,6 @@
 
         if (isset($_POST['size'])) {
             $LV = $_COOKIE["logicalvolume"];
-
-            $lvmdata = get_lvm_data($lvs, $LV);
-
-            preg_match("/(.*?)(?=\.|$)/", $lvmdata[0][3], $minsize);
-
-            if ($_POST['size'] === $minsize[1]) {
-                throw new Exception("Error - Size is identically");
-            }
-
             exec("$sudo $lvextend -L ${_POST['size']}G $LV 2>&1", $status, $result);
 
             if ($result ==! 0) {
@@ -59,6 +50,7 @@
 
                 // Leave 1 gig free in volume group
                 $maxsize2 = $maxsize[1] + $minsize[1] - 1;
+                $minsize2 = $minsize[1] + 1;
 
                 require '../views/lvm/extend/input.html';
 
