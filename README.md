@@ -1,7 +1,7 @@
 # phpietadmin
 
 ToDo
-<pre>
+=================
     lvextend/lvreduce
     Add Targets
     Exclude volume group from dropdown menus
@@ -10,4 +10,4 @@ ToDo
         Target
             Add
             Delete
-</pre>
+    Software Raid status
