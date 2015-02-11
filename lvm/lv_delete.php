@@ -37,7 +37,7 @@
                 $var = $_POST['volumes'] - 1;
                 exec("$sudo $lvremove -f $data2[$var] 2>&1", $status, $result);
 
-                if ($result == !0) {
+                if ($result ==! 0) {
                     throw new Exception("Error - Could not delete volume $data2[$var] Server said: $status[0]");
                 } else {
                     require '../views/lvm/delete/lv/success.html';

@@ -2,7 +2,7 @@
 
 ToDo
 =================
-    lvextend/lvreduce
+    lvreduce
     
     Add Targets
     
