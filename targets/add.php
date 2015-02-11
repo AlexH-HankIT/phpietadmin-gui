@@ -96,7 +96,7 @@
         } else {
     if (!isset($_POST['vg_post'])) {
         // Show VG Input if $_POST['vg_post'] is not set
-        require '../views/targets/vg.html';
+        require '../views/targets/add/vg.html';
     } else {
         if (empty($_POST['vg_post'])) {
             throw new Exception("Error - Please choose a volume group");

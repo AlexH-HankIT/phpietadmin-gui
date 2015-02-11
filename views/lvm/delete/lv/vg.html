@@ -1,16 +1,15 @@
 <div id="leftDiv">
-    <form action="lv_delete.php" method="post">
-            <tr>
-                <p>
-                <td>VG:</td>
-                <td>
-                    <select name="vg_post">
-                        <option value="">Select...</option>
-                        <?php for ($i = 0; $i < count($groups); $i++) { echo '<option value=' . ($i+1) . '>' . $groups[$i] . '</option>'; } ?>
-                    </select>
-                </td>
-                </p>
-            </tr>
-    <br>
-    <input type='submit' value='Next'>
+    <p>
+        <form action="lv_delete.php" method="post">
+                <tr>
+                    <td>VG:</td>
+                    <td>
+                        <select name="vg_post">
+                            <option value="">Select...</option>
+                            <?php for ($i = 0; $i < count($groups); $i++) { echo '<option value=' . ($i+1) . '>' . $groups[$i] . '</option>'; } ?>
+                        </select>
+                    </td>
+                </tr>
+        <input type='submit' value='Next'>
+    </p>
 </div>

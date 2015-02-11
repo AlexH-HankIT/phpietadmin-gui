@@ -1,12 +1,12 @@
 <div id="leftDiv">
     <p>
-        <form action="lv_add.php" method="post">
+        <form action="add.php" method="post">
                 <tr>
                     <td>VG:</td>
                     <td>
                         <select name="vg_post">
                             <option value="">Select...</option>
-                            <?php for ($i = 0; $i < count($data); $i++) { echo '<option value=' . ($i+1) . '>' . $data[$i] . '</option>'; } ?>
+                            <?php for ($i = 0; $i < count($volumegroups); $i++) { echo '<option value=' . ($i+1) . '>' . $volumegroups[$i] . '</option>'; } ?>
                         </select>
                     </td>
                 </tr>
