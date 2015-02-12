@@ -14,7 +14,8 @@
 
         if (isset($_POST['size'])) {
             $LV = $_COOKIE["logicalvolume"];
-            exec("$sudo $lvextend -L ${_POST['size']}G $LV 2>&1", $status, $result);
+
+            exec("$sudo $lvreduce -f -L ${_POST['size']}G $LV 2>&1", $status, $result);
 
             if ($result ==! 0) {
                 throw new Exception("Error - Could not resize volume ${LV}. Server said: $status[0]");
@@ -32,34 +33,26 @@
                     $data2[$i] = "/dev/" . $VG . "/" . $lvmdata[$i][0];
                 }
 
-                $groups = get_lvm_data($vgs, $VG);
-
-                // Get max possible size of volume
-                preg_match("/(.*?)(?=\.|$)/", $groups[0][6], $maxsize);
-
-                if ($maxsize[1] <= 1) {
-                    throw new Exception("Error - Volume group $VG is too small for the extention of logical volumes");
-                }
-
-                // Get min (current) size of volume
+                // Get max (current) size of volume
                 $LV = get_lvm_data($lvs, $data2[$var]);
 
                 setcookie("logicalvolume", $data2[$var]);
-                preg_match("/(.*?)(?=\.|$)/", $LV[0][3], $minsize);
+                preg_match("/(.*?)(?=\.|$)/", $LV[0][3], $maxsize);
 
+                if ($maxsize[1] <= 1) {
+                    throw new Exception("Error - Volume $data2[$var] can't be shrunk");
+                }
 
-                // Leave 1 gig free in volume group
-                $maxsize2 = $maxsize[1] + $minsize[1] - 1;
-                $minsize2 = $minsize[1] + 1;
+                $maxsize2 = $maxsize[1] - 1;
 
-                require '../views/lvm/extend/input.html';
-
+                require '../views/lvm/shrink/input.html';
             } else {
                 if (!isset($_POST['vg_post'])) {
-                    require '../views/lvm/extend/vg.html';
+                    require '../views/lvm/shrink/vg.html';
                 } else {
                     $VG = $data[$_POST['vg_post'] - 1];
                     setcookie("volumegroup", $VG);
+
                     $lvmdata = get_lvm_data($lvs, $VG);
 
                     if ($lvmdata == "error") {
@@ -70,10 +63,11 @@
                         $data2[$i] = "/dev/" . $VG . "/" . $lvmdata[$i][0];
                     }
 
-                    require '../views/lvm/extend/lv.html';
+                    require '../views/lvm/shrink/lv.html';
                 }
             }
         }
+
     } catch (Exception $e) {
         $error = $e->getMessage();
         require '../views/error.html';

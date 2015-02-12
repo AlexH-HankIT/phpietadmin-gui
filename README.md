@@ -2,9 +2,7 @@
 
 ToDo
 =================
-    lvreduce
-    
-    Add Targets
+    lvrename
     
     Exclude volume group from dropdown menu
     

@@ -12,6 +12,7 @@ $lvs="/sbin/lvs";
 $vgs="/sbin/vgs";
 $pvs="/sbin/pvs";
 $lvcreate="/sbin/lvcreate";
+$lvreduce="/sbin/lvreduce";
 $lvextend="/sbin/lvextend";
 $lvremove="/sbin/lvremove";
 $lsblk="/bin/lsblk";
