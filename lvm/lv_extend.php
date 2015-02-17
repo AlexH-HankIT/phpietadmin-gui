@@ -24,6 +24,11 @@
         } else {
             if (isset($_POST['volumes'])) {
                 $var = $_POST['volumes'] - 1;
+
+                if ($var < 0) {
+                    throw new Exception("Error - Please select a logical volume");
+                }
+
                 $VG = $_COOKIE["volumegroup"];
 
                 $lvmdata = get_lvm_data($lvs, $VG);
@@ -58,7 +63,12 @@
                 if (!isset($_POST['vg_post'])) {
                     require '../views/lvm/extend/vg.html';
                 } else {
+                    if (empty($_POST['vg_post'])) {
+                        throw new Exception("Error - Please choose a volume group");
+                    }
+
                     $VG = $data[$_POST['vg_post'] - 1];
+
                     setcookie("volumegroup", $VG);
                     $lvmdata = get_lvm_data($lvs, $VG);
 
