@@ -1,6 +1,8 @@
 # phpietadmin
 For installation instructions, take a look at the wiki.
 
+For installation instructions, take a look at the wiki.
+
 ToDo
 =================
     lvrename
@@ -15,3 +17,5 @@ ToDo
             Delete
             
     Software Raid status
+    
+    Add screenshots
