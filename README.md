@@ -1,4 +1,5 @@
 # phpietadmin
+For installation instructions, take a look at the wiki.
 
 ToDo
 =================
