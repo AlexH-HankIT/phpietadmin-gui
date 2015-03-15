@@ -5,7 +5,7 @@
     require '../../views/lvm/display/pv/header.html';
     require '../../views/overview/menu.html';
 
-    $data = get_lvm_data($pvs);
+    $data = get_lvm_data($a_config['lvm']['pvs']);
 
     require '../../views/lvm/display/pv/output.html';
     require '../../views/div.html';

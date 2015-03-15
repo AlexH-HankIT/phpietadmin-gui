@@ -22,7 +22,7 @@
                 $SIZE = $_POST['size'];
                 $VG = $_COOKIE["volumegroup"];
 
-                exec("$sudo $lvcreate -L${SIZE}G -n$NAME $VG 2>&1", $status, $result);
+                exec("{$a_config['misc']['sudo']} {$a_config['lvm']['lvcreate']} -L${SIZE}G -n$NAME $VG 2>&1", $status, $result);
 
                 if ($result ==! 0) {
                     throw new Exception("Error - Could not create volume $NAME. Server said: $status[0]");
@@ -41,7 +41,7 @@
                     $VG = $data[$_POST['vg_post'] - 1];
 
                     // Get data from selected group
-                    $data = get_lvm_data($vgs, $VG);
+                    $data = get_lvm_data($a_config['lvm']['vgs'], $VG);
 
                     // Extract free size of the volume group
                     preg_match("/(.*?)(?=\.|$)/", $data[0][6], $freesize);

@@ -8,11 +8,11 @@
         // Check if service is running and abort if not
         check_service_status();
 
-        $volumes = file_get_contents($proc_volumes);
+        $volumes = file_get_contents($a_config['iet']['proc_volumes']);
         preg_match_all("/name:(.*)/", $volumes, $a_name);
         $a_name = $a_name[1];
 
-        $a_initiators = get_allow($ietd_init_allow);
+        $a_initiators = get_allow($a_config['iet']['ietd_init_allow']);
 
         if ($a_initiators !== "error") {
             for ($i = 0; $i < count($a_initiators); $i++) {
@@ -33,7 +33,7 @@
             $d = $_POST['IQNs'] - 1;
             $NAME = $a_name[$d];
             $current = "\n$NAME $_POST[ip]\n";
-            file_put_contents($ietd_init_allow, $current, FILE_APPEND | LOCK_EX);
+            file_put_contents($a_config['iet']['ietd_init_allow'], $current, FILE_APPEND | LOCK_EX);
             require '../../views/allow/initiators/add/success.html';
         }
 

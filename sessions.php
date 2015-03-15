@@ -9,7 +9,7 @@
         check_service_status();
 
         // Read contents of file $proc_sessions in var
-        $sessions = file_get_contents($proc_sessions);
+        $sessions = file_get_contents($a_config['iet']['proc_sessions']);
 
         // Check if even one session exists
         if (strpos($sessions, 'cid') == false && strpos($sessions, 'sid') == false) {

@@ -8,7 +8,7 @@
         // Check if service is running and abort if not
         check_service_status();
 
-        $volumes = file_get_contents($proc_volumes);
+        $volumes = file_get_contents($a_config['iet']['proc_volumes']);
         if (empty($volumes)) {
             throw new Exception("Error - No targets found");
         } else {
@@ -26,18 +26,18 @@
 
                 //$key = array_search($TID, $a_tid[1]);
 
-                exec("$sudo $ietadm --op delete --tid=$TID 2>&1", $status, $result);
+                exec("{$a_config['misc']['sudo']} {$a_config['iet']['ietadm']} --op delete --tid=$TID 2>&1", $status, $result);
 
                 // Check if target is deleted from daemon and then delete it from config file as well
                 if ($result ==! 0) {
                     throw new Exception("Error - Could not delete target $NAME. Server said: $status[0]");
                 } else {
                     // Delete permission for target
-                    deleteLineInFile($ietd_init_allow, "$NAME");
+                    deleteLineInFile($a_config['iet']['ietd_init_allow'], "$NAME");
 
                     // Delete target from config file
-                    deleteLineInFile($ietd_config_file, $NAME);
-                    deleteLineInFile($ietd_config_file, $PATH);
+                    deleteLineInFile($a_config['iet']['ietd_config_file'], $NAME);
+                    deleteLineInFile($a_config['iet']['ietd_config_file'], $PATH);
                     require '../views/targets/delete/success.html';
                 }
             }

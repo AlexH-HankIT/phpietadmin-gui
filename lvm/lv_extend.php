@@ -14,7 +14,7 @@
 
         if (isset($_POST['size'])) {
             $LV = $_COOKIE["logicalvolume"];
-            exec("$sudo $lvextend -L ${_POST['size']}G $LV 2>&1", $status, $result);
+            exec("{$a_config['misc']['sudo']} {$a_config['lvm']['lvextend']} -L ${_POST['size']}G $LV 2>&1", $status, $result);
 
             if ($result ==! 0) {
                 throw new Exception("Error - Could not resize volume ${LV}. Server said: $status[0]");
@@ -31,13 +31,13 @@
 
                 $VG = $_COOKIE["volumegroup"];
 
-                $lvmdata = get_lvm_data($lvs, $VG);
+                $lvmdata = get_lvm_data($a_config['lvm']['lvs'], $VG);
 
                 for ($i = 0; $i < count($lvmdata); $i++) {
                     $data2[$i] = "/dev/" . $VG . "/" . $lvmdata[$i][0];
                 }
 
-                $groups = get_lvm_data($vgs, $VG);
+                $groups = get_lvm_data($a_config['lvm']['vgs'], $VG);
 
                 // Get max possible size of volume
                 preg_match("/(.*?)(?=\.|$)/", $groups[0][6], $maxsize);
@@ -47,7 +47,7 @@
                 }
 
                 // Get min (current) size of volume
-                $LV = get_lvm_data($lvs, $data2[$var]);
+                $LV = get_lvm_data($a_config['lvm']['lvs'], $data2[$var]);
 
                 setcookie("logicalvolume", $data2[$var]);
                 preg_match("/(.*?)(?=\.|$)/", $LV[0][3], $minsize);
@@ -70,7 +70,7 @@
                     $VG = $data[$_POST['vg_post'] - 1];
 
                     setcookie("volumegroup", $VG);
-                    $lvmdata = get_lvm_data($lvs, $VG);
+                    $lvmdata = get_lvm_data($a_config['lvm']['lvs'], $VG);
 
                     if ($lvmdata == "error") {
                         throw new Exception("Error - Volume group is empty");

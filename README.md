@@ -1,5 +1,5 @@
 # phpietadmin
-For installation instructions, take a look at the wiki.
+https://github.com/MrCrankHank/phpietadmin/wiki/Installation
 
 
 ToDo

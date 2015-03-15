@@ -1,6 +1,6 @@
 <?php
    // Get service status ;-)
-   $return = get_service_status($service);
+   $return = get_service_status();
 
     // Get system load
     $load = sys_getloadavg();

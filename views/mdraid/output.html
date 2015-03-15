@@ -1,0 +1,23 @@
+<div id="leftDiv">
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>MAJ:MIN</th>
+            <th>RM</th>
+            <th>Size</th>
+            <th>RO</th>
+            <th>Type</th>
+            <th>Mountpoint</th>
+            <?php foreach ($blk2 as $value): ?>
+        <tr>
+            <td><?php echo $value[0] ?></td>
+            <td><?php echo $value[1] ?></td>
+            <td><?php echo $value[2] ?></td>
+            <td><?php echo $value[3] ?></td>
+            <td><?php echo $value[4] ?></td>
+            <td><?php echo $value[5] ?></td>
+            <td><?php echo $value[6] ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+</div>

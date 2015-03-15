@@ -29,7 +29,7 @@
             // Read VG from cookie in var
             $VG = $_COOKIE["volumegroup"];
 
-            $data = get_lvm_data($lvs, $VG);
+            $data = get_lvm_data($a_config['lvm']['lvs'], $VG);
 
             // Abort if vg has no lvs
             if ($data == "error") {
@@ -42,14 +42,14 @@
             }
 
             // Read existing volumes in var
-            $volumes = file_get_contents($proc_volumes);
+            $volumes = file_get_contents($a_config['iet']['proc_volumes']);
 
             if (!empty($volumes)) {
                 // Check if name is already in use
                 preg_match_all("/name:(.*)/", $volumes, $a_name);
-                $key = array_search("$iqn:$NAME", $a_name[1]);
+                $key = array_search("{$a_config['iet']['iqn']}:$NAME", $a_name[1]);
 
-                if ($a_name[1][$key] == "$iqn:$NAME") {
+                if ($a_name[1][$key] == "{$a_config['iet']['iqn']}:$NAME") {
                     throw new Exception("Error - The name $NAME is already in use");
                 }
 
@@ -71,25 +71,25 @@
             $LV = $logicalvolumes[$_POST['path']-1];
 
             // Add target and lun to daemon
-            exec("$sudo $ietadm --op new --tid=0 --params Name=$iqn:$NAME 2>&1", $status, $result);
+            exec("{$a_config['misc']['sudo']} {$a_config['iet']['ietadm']} --op new --tid=0 --params Name={$a_config['iet']['iqn']}:$NAME 2>&1", $status, $result);
             if ($result ==! 0) {
                 throw new Exception("Error - Could not add target $NAME. Server said: $status[0]");
             }
 
-            $volumes = file_get_contents($proc_volumes);
+            $volumes = file_get_contents($a_config['iet']['proc_volumes']);
             preg_match_all("/tid:([0-9].*?) /", $volumes, $a_tid);
             preg_match_all("/name:(.*)/", $volumes, $a_name);
             $key = array_search($NAME, $a_name);
             $TID = $a_tid[1][$key];
 
             // Add target and lun to config file
-            exec("$sudo $ietadm --op new --tid=$TID --lun=0 --params Path=$LV 2>&1", $status, $result);
+            exec("{$a_config['misc']['sudo']} {$a_config['iet']['ietadm']} --op new --tid=$TID --lun=0 --params Path=$LV 2>&1", $status, $result);
             if ($result ==! 0) {
                 throw new Exception("Error - Could not add lun. Server said: $status[0]");
             }
 
-            $current = "\nTarget $iqn:$NAME\n Lun 0 Type=fileio,Path=$LV\n";
-            file_put_contents($ietd_config_file, $current, FILE_APPEND | LOCK_EX);
+            $current = "\nTarget {$a_config['iet']['iqn']}:$NAME\n Lun 0 Type=fileio,Path=$LV\n";
+            file_put_contents($a_config['iet']['ietd_config_file'], $current, FILE_APPEND | LOCK_EX);
 
             require '../views/targets/add/success.html';
 
@@ -105,7 +105,7 @@
         $VG = $volumegroups[$_POST['vg_post'] - 1];
 
         // Get all logical volumes in group $VG
-        $data = get_lvm_data($lvs, $VG);
+        $data = get_lvm_data($a_config['lvm']['lvs'], $VG);
 
         if ($data == "error") {
             throw new Exception("Error - Volume Group $VG is empty");
@@ -119,7 +119,7 @@
         }
 
         // Read existing volumes in array
-        $volumes = file_get_contents($proc_volumes);
+        $volumes = file_get_contents($a_config['iet']['proc_volumes']);
         if (!empty($volumes)) {
             // Extract volumes if existing
             preg_match_all("/path:(.*)/", $volumes, $paths);

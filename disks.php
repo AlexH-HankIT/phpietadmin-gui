@@ -4,7 +4,7 @@
     require 'views/disks/header.html';
     require 'views/overview/menu.html';
 
-    $lsblk_out = shell_exec("$sudo $lsblk -rn");
+    $lsblk_out = shell_exec("{$a_config['misc']['sudo']} {$a_config['misc']['lsblk']} -rn");
     $blk = explode ("\n", $lsblk_out);
 
     $blk = array_filter($blk, 'strlen');

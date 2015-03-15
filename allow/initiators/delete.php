@@ -8,7 +8,7 @@
         // Check if service is running and abort if not
         check_service_status();
 
-        $a_initiators = get_allow($ietd_init_allow);
+        $a_initiators = get_allow($a_config['iet']['ietd_init_allow']);
 
         if ($a_initiators == "error") {
             throw new Exception("Error - No allow rules found");
@@ -20,7 +20,7 @@
             if (!empty($_POST['IQNs2'])) {
                 $d = $_POST['IQNs2'] - 1;
                 $NAME = $a_initiators2[$d];
-                deleteLineInFile($ietd_init_allow, "$NAME");
+                deleteLineInFile($a_config['iet']['ietd_init_allow'], "$NAME");
                 require '../../views/allow/initiators/delete/success.html';
 
             } else {

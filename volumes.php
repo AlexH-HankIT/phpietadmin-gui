@@ -9,7 +9,7 @@
         check_service_status();
 
         // Read contents of file $proc_volumes in var
-        $volumes = file_get_contents($proc_volumes);
+        $volumes = file_get_contents($a_config['iet']['proc_volumes']);
 
         if (empty($volumes)) {
             throw new exception("Error - Could not create list of volumes");
@@ -40,6 +40,7 @@
             preg_match_all("/blocksize:([0-9].*?) /", $volumes, $result);
             $data[$b][7] = $result[1][$b];
         }
+
         require 'views/volumes/output.html';
     }  catch (Exception $e) {
         $error = $e->getMessage();

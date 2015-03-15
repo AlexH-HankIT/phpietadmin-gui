@@ -4,7 +4,7 @@
     require '../../views/allow/targets/display/header.html';
     require '../../views/overview/menu.html';
     try {
-        $a_data2 = get_allow($ietd_target_allow);
+        $a_data2 = get_allow($a_config['iet']['ietd_target_allow']);
 
         if ($a_data2 == "error") {
             throw new exception ("Error - Could not list targets");
