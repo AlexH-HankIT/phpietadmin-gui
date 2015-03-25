@@ -20,7 +20,7 @@
             if ($result ==! 0) {
                 throw new Exception("Error - Could not resize volume ${LV}. Server said: $status[0]");
             } else {
-                require '../views/lvm/extend/success.html';
+                require '../views/lvm/shrink/success.html';
             }
         } else {
             if (isset($_POST['volumes'])) {
