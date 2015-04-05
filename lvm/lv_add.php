@@ -5,8 +5,10 @@
     require '../views/lvm/menu.html';
 
     try {
+            $lvm = new Lvm;
+
             // Get array with volume groups and count
-            $data = get_volume_groups();
+            $data = $lvm->get_volume_groups();
             $count = count($data);
 
             if ($data == "error") {
@@ -41,7 +43,7 @@
                     $VG = $data[$_POST['vg_post'] - 1];
 
                     // Get data from selected group
-                    $data = get_lvm_data($a_config['lvm']['vgs'], $VG);
+                    $data = $lvm->get_lvm_data($a_config['lvm']['vgs'], $VG);
 
                     // Extract free size of the volume group
                     preg_match("/(.*?)(?=\.|$)/", $data[0][6], $freesize);

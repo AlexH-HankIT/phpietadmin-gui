@@ -5,7 +5,9 @@
     require '../views/lvm/menu.html';
 
     try {
-        $data = get_volume_groups();
+        $lvm = new Lvm;
+
+        $data = $lvm->get_volume_groups();
         $count = count($data);
 
         if ($data == "error") {
@@ -31,13 +33,13 @@
 
                 $VG = $_COOKIE["volumegroup"];
 
-                $lvmdata = get_lvm_data($a_config['lvm']['lvs'], $VG);
+                $lvmdata = $lvm->get_lvm_data($a_config['lvm']['lvs'], $VG);
 
                 for ($i = 0; $i < count($lvmdata); $i++) {
                     $data2[$i] = "/dev/" . $VG . "/" . $lvmdata[$i][0];
                 }
 
-                $groups = get_lvm_data($a_config['lvm']['vgs'], $VG);
+                $groups = $lvm->get_lvm_data($a_config['lvm']['vgs'], $VG);
 
                 // Get max possible size of volume
                 preg_match("/(.*?)(?=\.|$)/", $groups[0][6], $maxsize);
@@ -47,7 +49,7 @@
                 }
 
                 // Get min (current) size of volume
-                $LV = get_lvm_data($a_config['lvm']['lvs'], $data2[$var]);
+                $LV = $lvm->get_lvm_data($a_config['lvm']['lvs'], $data2[$var]);
 
                 setcookie("logicalvolume", $data2[$var]);
                 preg_match("/(.*?)(?=\.|$)/", $LV[0][3], $minsize);
@@ -70,7 +72,7 @@
                     $VG = $data[$_POST['vg_post'] - 1];
 
                     setcookie("volumegroup", $VG);
-                    $lvmdata = get_lvm_data($a_config['lvm']['lvs'], $VG);
+                    $lvmdata = $lvm->get_lvm_data($a_config['lvm']['lvs'], $VG);
 
                     if ($lvmdata == "error") {
                         throw new Exception("Error - Volume group is empty");

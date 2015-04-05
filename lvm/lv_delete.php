@@ -5,8 +5,10 @@
     require '../views/lvm/menu.html';
 
     try {
+        $lvm = new Lvm;
+
         // Get array with volume groups and count
-        $groups = get_volume_groups();
+        $groups = $lvm->get_volume_groups();
 
         if ($groups == "error") {
             throw new Exception("Error - Could not list volume groups");
@@ -18,7 +20,7 @@
             if (isset($_POST['volumes'])) {
                 $VG = $_COOKIE["volumegroup"];
 
-                $data = get_lvm_data($a_config['lvm']['lvs'], $VG);
+                $data = $lvm->get_lvm_data($a_config['lvm']['lvs'], $VG);
 
                 for ($i = 0; $i < count($data); $i++) {
                     $data2[$i] = "/dev/" . $VG . "/" . $data[$i][0];
@@ -51,7 +53,7 @@
                 $VG = $groups[$_POST['vg_post'] - 1];
                 setcookie("volumegroup", $VG);
 
-                $data = get_lvm_data($a_config['lvm']['lvs'], $VG);
+                $data = $lvm->get_lvm_data($a_config['lvm']['lvs'], $VG);
 
                 if ($data == "error") {
                     throw new Exception("Error - Volume group $VG is empty");

@@ -5,7 +5,10 @@
     require '../../views/lvm/display/pv/header.html';
     require '../../views/overview/menu.html';
 
-    $data = get_lvm_data($a_config['lvm']['pvs']);
+    // Create lvm object
+    $lvm = new Lvm;
+
+    $data = $lvm->get_lvm_data($a_config['lvm']['pvs']);
 
     require '../../views/lvm/display/pv/output.html';
     require '../../views/div.html';
