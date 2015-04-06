@@ -1,7 +1,7 @@
 <?php
     require 'views/header.html';
     require 'views/nav.html';
-    require 'views/disks/header.html';
+    print_title("Disks");
     require 'views/overview/menu.html';
 
     $lsblk_out = shell_exec("{$a_config['misc']['sudo']} {$a_config['misc']['lsblk']} -rn");
