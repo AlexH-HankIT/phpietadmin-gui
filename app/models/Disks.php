@@ -1,9 +1,15 @@
 <?php
     class Disks {
         public function getDisks() {
-            $a_config = parse_ini_file("/home/vm/ownCloud/Work/PhpstormProjects/mvctest/app/config.ini.php", true);
+            require 'Database.php';
+            $database = new Database();
+            $lsblk_out = shell_exec($database->getConfig('sudo') . " " . $database->getConfig('lsblk') . " -rn");
+            $database->close();
 
-            $lsblk_out = shell_exec("{$a_config['misc']['sudo']} {$a_config['misc']['lsblk']} -rn");
+            if (empty($lsblk_out)) {
+                return 2;
+            }
+
             $blk = explode ("\n", $lsblk_out);
 
             $blk = array_filter($blk, 'strlen');

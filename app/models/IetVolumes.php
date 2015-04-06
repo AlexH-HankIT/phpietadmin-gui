@@ -1,9 +1,16 @@
 <?php
     class IetVolumes {
         public function getProcVolumes() {
-            $a_config = parse_ini_file("/home/vm/ownCloud/Work/PhpstormProjects/mvctest/app/config.ini.php", true);
-            if (file_exists($a_config['iet']['proc_volumes'])) {
-                return file_get_contents($a_config['iet']['proc_volumes']);
+            require 'Database.php';
+            $database = new Database();
+            if (file_exists($database->getConfig('proc_volumes'))) {
+                $return = file_get_contents($database->getConfig('proc_volumes'));
+                $database->close();
+                if (empty($return)) {
+                    return 2;
+                } else {
+                    return $return;
+                }
             } else {
                 return 1;
             }

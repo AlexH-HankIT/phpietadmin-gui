@@ -1,8 +1,8 @@
 function showMenu() {
     document.getElementById("nav01").innerHTML =
         "<ul id='menu'>" +
-        "<li><a href='/mvctest/home'>Home</a></li>" +
-        "<li><a href='/mvctest/overview'>Overview</a></li>" +
+        "<li><a href='/phpietadminv02/home'>Home</a></li>" +
+        "<li><a href='/phpietadminv02/overview'>Overview</a></li>" +
         "<li><a href='/phpietadmin/targets/targets.php'>Targets</a></li>" +
         "<li><a href='/phpietadmin/allow/initiators/allow.php'>Allow</a></li>" +
         "<li><a href='/phpietadmin/lvm/lvm.php'>LVM</a></li>" +

@@ -36,6 +36,15 @@
                 return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
             }
         }
+
+        public function getConfig() {
+            $config = "/home/vm/ownCloud/Work/PhpstormProjects/phpietadminv02/app/config.ini.php";
+            if (file_exists($config)) {
+                return parse_ini_file($config, true);
+            } else {
+                return 1;
+            }
+        }
     }
 
 ?>

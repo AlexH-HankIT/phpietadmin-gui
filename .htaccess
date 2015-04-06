@@ -1,4 +1,0 @@
-AuthType Basic
-AuthName "Access denied - Please type username and password"
-AuthUserFile /etc/apache2/.htpasswd
-Require valid-user

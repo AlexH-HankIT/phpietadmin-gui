@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <meta name="content-language" content="de">
-    <link href="/mvctest/css/design.css" type="text/css" rel="stylesheet">
-    <script type="text/javascript" src=/mvctest/js/scripts.js></script>
+    <link href="/phpietadminv02/css/design.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src=/phpietadminv02/js/scripts.js></script>
 </head>
 <title>phpietadmin</title>
 <body>
