@@ -1,7 +1,7 @@
 <?php
     require '../../views/header.html';
     require '../../views/nav.html';
-    require '../../views/allow/header.html';
+    print_title("Allow");
     require '../../views/allow/menu.html';
     require '../../views/div.html';
     require '../../views/footer.html';

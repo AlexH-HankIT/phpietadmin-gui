@@ -1,7 +1,7 @@
 <?php
     require 'views/header.html';
     require 'views/nav.html';
-    require 'views/sessions/header.html';
+    print_title("Sessions");
     require 'views/overview/menu.html';
 
     try {

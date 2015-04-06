@@ -2,7 +2,7 @@
 
     require '../../views/header.html';
     require '../../views/nav.html';
-    require '../../views/lvm/display/pv/header.html';
+    print_title("Physical Volumes");
     require '../../views/overview/menu.html';
 
     // Create lvm object

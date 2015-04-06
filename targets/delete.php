@@ -1,7 +1,7 @@
 <?php
     require '../views/header.html';
     require '../views/nav.html';
-    require '../views/targets/delete/header.html';
+    print_title("Delete");
     require '../views/targets/menu.html';
 
     try {

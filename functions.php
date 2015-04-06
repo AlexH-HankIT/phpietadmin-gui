@@ -64,4 +64,9 @@
             throw new Exception("Error - Service {$a_config['iet']['servicename']} is not running.");
         }
     }
+
+    function print_title($var) { ?>
+            <div id="main">
+            <h1><?php echo $var ?></h1>
+    <?php }
 ?>

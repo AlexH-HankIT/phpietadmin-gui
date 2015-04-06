@@ -1,7 +1,7 @@
 <?php
     require '../../views/header.html';
     require '../../views/nav.html';
-    require '../../views/allow/targets/display/header.html';
+    print_title("Initiator");
     require '../../views/overview/menu.html';
     try {
         $a_data2 = get_allow($a_config['iet']['ietd_target_allow']);

@@ -1,7 +1,7 @@
 <?php
     require '../../views/header.html';
     require '../../views/nav.html';
-    require '../../views/lvm/display/lv/header.html';
+    print_title("Logical Volumes");
     require '../../views/overview/menu.html';
 
 try {

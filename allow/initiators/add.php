@@ -1,7 +1,7 @@
 <?php
     require '../../views/header.html';
     require '../../views/nav.html';
-    require '../../views/allow/initiators/add/header.html';
+    print_title("Add");
     require '../../views/allow/menu.html';
 
     try {

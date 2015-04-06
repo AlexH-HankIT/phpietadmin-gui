@@ -1,7 +1,7 @@
 <?php
     require 'views/header.html';
     require 'views/nav.html';
-    require 'views/volumes/header.html';
+    print_title("Volumes");
     require 'views/overview/menu.html';
 
     try {

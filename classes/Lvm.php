@@ -33,8 +33,7 @@
             }
         }
 
-        function get_logical_volumes($vgroup)
-        {
+        function get_logical_volumes($vgroup) {
             global $a_config;
             $lv = shell_exec("{$a_config['misc']['sudo']} {$a_config['lvm']['lvs']} --noheadings --units g $vgroup");
             $lv_out = explode("\n", $lv);

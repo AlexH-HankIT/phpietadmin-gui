@@ -2,7 +2,7 @@
 
     require '../../views/header.html';
     require '../../views/nav.html';
-    require '../../views/lvm/display/vg/header.html';
+    print_title("Volume Groups");
     require '../../views/overview/menu.html';
 
     $lvm = new Lvm;
