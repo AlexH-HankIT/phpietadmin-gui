@@ -1,6 +1,6 @@
 <?php
-    require 'views/header.html';
-    require 'views/nav.html';
+    require 'includes.php';
+    $layout->print_nav();
     require 'views/index.html';
-    require 'views/footer.html';
+    $layout->print_footer();
 ?>

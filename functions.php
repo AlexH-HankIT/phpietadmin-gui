@@ -65,15 +65,4 @@
         }
     }
 
-    function print_title($var) { ?>
-            <div id="main">
-            <h1><?php echo $var ?></h1>
-    <?php }
-
-    function print_error($e) {
-        $error = $e->getMessage(); ?>
-        <div id="leftDiv">
-            <h4><?php echo $error ?></h4>
-        </div>
-    <?php }
 ?>

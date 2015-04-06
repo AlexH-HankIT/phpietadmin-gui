@@ -1,7 +1,7 @@
 <?php
-    require '../../views/header.html';
-    require '../../views/nav.html';
-    print_title("Delete");
+    require '../../includes.php';
+    $layout->print_nav();
+    $layout->print_title("Delete");
     require '../../views/allow/menu.html';
 
     try {
@@ -29,8 +29,8 @@
 
         }
     } catch (Exception $e) {
-        print_error($e);
+        $layout->print_error($e);
     }
 
-    require '../../views/footer.html';
+    $layout->print_footer();
 ?>

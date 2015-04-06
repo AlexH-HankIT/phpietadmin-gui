@@ -1,6 +1,6 @@
 <?php
-    require 'views/header.html';
-    require 'views/nav.html';
+    require 'includes.php';
+    $layout->print_nav();
     require 'views/mdraid/header.html';
     require 'views/overview/menu.html';
 
@@ -19,5 +19,5 @@
 
 
     //require 'views/mdraid/output.html';
-    require 'views/footer.html';
+    $layout->print_footer();
 ?>

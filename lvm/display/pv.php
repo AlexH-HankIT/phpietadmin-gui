@@ -1,8 +1,7 @@
 <?php
-
-    require '../../views/header.html';
-    require '../../views/nav.html';
-    print_title("Physical Volumes");
+    require '../../includes.php';
+    $layout->print_nav();
+    $layout->print_title("Physical Volumes");
     require '../../views/overview/menu.html';
 
     // Create lvm object
@@ -11,6 +10,5 @@
     $data = $lvm->get_lvm_data($a_config['lvm']['pvs']);
 
     require '../../views/lvm/display/pv/output.html';
-    require '../../views/footer.html';
-
+    $layout->print_footer();
 ?>

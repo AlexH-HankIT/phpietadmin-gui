@@ -1,7 +1,6 @@
 <?php
-    require 'views/header.html';
-    require 'views/nav.html';
-
+    require 'includes.php';
+    $layout->print_nav();
 
     if (isset($_POST['start'])) {
         $output = shell_exec("{$a_config['misc']['sudo']} {$a_config['misc']['service']} {$a_config['iet']['servicename']} start");
@@ -19,5 +18,5 @@
     } else {
         require 'views/service/good.html';
     }
-    require 'views/footer.html';
+    $layout->print_footer();
 ?>

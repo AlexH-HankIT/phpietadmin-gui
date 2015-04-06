@@ -1,7 +1,7 @@
 <?php
-    require 'views/header.html';
-    require 'views/nav.html';
-    print_title("Disks");
+    require 'includes.php';
+    $layout->print_nav();
+    $layout->print_title("Disks");
     require 'views/overview/menu.html';
 
     $lsblk_out = shell_exec("{$a_config['misc']['sudo']} {$a_config['misc']['lsblk']} -rn");
@@ -22,5 +22,5 @@
     $blk2 = array_values($blk2);
 
     require 'views/disks/output.html';
-    require 'views/footer.html';
+    $layout->print_footer();
 ?>

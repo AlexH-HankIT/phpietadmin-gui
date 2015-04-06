@@ -1,7 +1,7 @@
 <?php
-    require 'views/header.html';
-    require 'views/nav.html';
-    print_title("Sessions");
+    require 'includes.php';
+    $layout->print_nav();
+    $layout->print_title("Sessions");
     require 'views/overview/menu.html';
 
     try {
@@ -74,8 +74,8 @@
 
         require 'views/sessions/output.html';
     } catch (Exception $e) {
-        print_error($e);
+        $layout->print_error($e);
     }
 
-        require 'views/footer.html';
+    $layout->print_footer();
 ?>

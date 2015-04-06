@@ -1,7 +1,7 @@
 <?php
-    require '../views/header.html';
-    require '../views/nav.html';
-    print_title("Targets");
+    require '../includes.php';
+    $layout->print_nav();
+    $layout->print_title("Targets");
     require '../views/targets/menu.html';
-    require '../views/footer.html';
+    $layout->print_footer();
 ?>

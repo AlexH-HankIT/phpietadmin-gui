@@ -1,7 +1,7 @@
 <?php
-    require '../../views/header.html';
-    require '../../views/nav.html';
-    print_title("Initiator");
+    require '../../includes.php';
+    $layout->print_nav();
+    $layout->print_title("Initiator");
     require '../../views/overview/menu.html';
     try {
         $a_data2 = get_allow($a_config['iet']['ietd_target_allow']);
@@ -12,7 +12,7 @@
             require '../../views/allow/targets/display/output.html';
         }
     } catch (Exception $e) {
-        print_error($e);
+        $layout->print_error($e);
     }
-    require '../../views/footer.html';
+    $layout->print_footer();
 ?>

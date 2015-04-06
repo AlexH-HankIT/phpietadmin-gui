@@ -1,7 +1,7 @@
 <?php
-    require '../views/header.html';
-    require '../views/nav.html';
-    print_title("LVM");
+    require '../includes.php';
+    $layout->print_nav();
+    $layout->print_title("LVM");
     require '../views/lvm/menu.html';
-    require '../views/footer.html';
+    $layout->print_footer();
 ?>
