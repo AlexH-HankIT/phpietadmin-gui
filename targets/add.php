@@ -5,11 +5,13 @@
     require '../views/targets/menu.html';
 
     try {
+        $lvm = new Lvm;
+
         // Check if service is running and abort if not
         check_service_status();
 
         // Get array with volume groups and count
-        $volumegroups = get_volume_groups();
+        $volumegroups = $lvm->get_volume_groups();
 
         // Check if something went wrong
         if($volumegroups == "error") {
@@ -29,7 +31,7 @@
             // Read VG from cookie in var
             $VG = $_COOKIE["volumegroup"];
 
-            $data = get_lvm_data($a_config['lvm']['lvs'], $VG);
+            $data = $lvm->get_lvm_data($a_config['lvm']['lvs'], $VG);
 
             // Abort if vg has no lvs
             if ($data == "error") {
@@ -105,7 +107,7 @@
         $VG = $volumegroups[$_POST['vg_post'] - 1];
 
         // Get all logical volumes in group $VG
-        $data = get_lvm_data($a_config['lvm']['lvs'], $VG);
+        $data = $lvm->get_lvm_data($a_config['lvm']['lvs'], $VG);
 
         if ($data == "error") {
             throw new Exception("Error - Volume Group $VG is empty");
@@ -139,10 +141,8 @@
     }
 }
     } catch (Exception $e) {
-        $error = $e->getMessage();
-        require '../views/error.html';
+        print_error($e);
     }
 
-    require '../views/div.html';
     require '../views/footer.html';
 ?>

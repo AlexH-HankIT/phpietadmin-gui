@@ -12,10 +12,8 @@
             require '../../views/allow/initiators/display/output.html';
         }
     } catch (Exception $e) {
-        $error = $e->getMessage();
-        require '../../views/error.html';
+        print_error($e);
     }
-    require '../../views/div.html';
     require '../../views/footer.html';
 ?>
 ?>

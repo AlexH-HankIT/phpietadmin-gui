@@ -22,6 +22,5 @@
     $blk2 = array_values($blk2);
 
     require 'views/disks/output.html';
-    require 'views/div.html';
     require 'views/footer.html';
 ?>

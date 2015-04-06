@@ -11,7 +11,6 @@
     $data = $lvm->get_lvm_data($a_config['lvm']['pvs']);
 
     require '../../views/lvm/display/pv/output.html';
-    require '../../views/div.html';
     require '../../views/footer.html';
 
 ?>

@@ -19,6 +19,5 @@
 
 
     //require 'views/mdraid/output.html';
-    require 'views/div.html';
     require 'views/footer.html';
 ?>
