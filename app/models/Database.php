@@ -1,7 +1,8 @@
 <?php
     class Database extends SQLite3 {
         function __construct() {
-            $dbpath = "/home/vm/ownCloud/Work/PhpstormProjects/phpietadmin/app/config.db";
+            //$dbpath = "/home/vm/ownCloud/Work/PhpstormProjects/phpietadmin/app/config.db";
+		$dbpath = "/home/dev/ownCloud/Work/PhpstormProjects/phpietadmin/app/config.db";
             $this->open($dbpath);
         }
 

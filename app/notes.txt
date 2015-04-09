@@ -29,6 +29,10 @@ INSERT INTO config (option, value, description) VALUES
 
 
     return codes
+    0 OK
     1 file not found
     2 file is empty
     3 No data
+    4 already in use
+    5 error while exec
+    6 write failure

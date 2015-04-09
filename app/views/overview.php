@@ -9,12 +9,12 @@
         </li>
         <li class='last'><a href='#'><span>LVM</span></a>
             <ul class='last'><a href='/phpietadminv02/overview/pv'><span>Physical Volumes (PV)</span></a></ul>
-            <ul class='active'><a href='/phpietadmin/lvm/display/vg.php'><span>Volume Groups (VG)</span></a></ul>
-            <ul class='last'><a href='/phpietadmin/lvm/display/lv.php'><span>Logical Volumes (LV)</span></a></ul>
+            <ul class='active'><a href='/phpietadminv02/overview/vg'><span>Volume Groups (VG)</span></a></ul>
+            <ul class='last'><a href='/phpietadminv02/overview/lv'><span>Logical Volumes (LV)</span></a></ul>
         </li>
         <li class='last'><a href='#'><span>Allow</span></a>
-            <ul class='last'><a href='/phpietadmin/allow/initiators/display.php'><span>Initiators</span></a></ul>
-            <ul class='last'><a href='/phpietadmin/allow/targets/display.php'><span>Targets</span></a></ul>
+            <ul class='last'><a href='/phpietadminv02/overview/initiators'><span>Initiators</span></a></ul>
+            <ul class='last'><a href='/phpietadminv02/overview/targets'><span>Targets</span></a></ul>
         </li>
     </ul>
 </div>
