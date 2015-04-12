@@ -30,9 +30,7 @@ class Overview extends Controller {
         $this->view('menu');
         $this->view('overview');
         if ($volumes == 1) {
-            $this->view('message', "The ietvolumes file was not found. Please check the path!");
-        } elseif ($volumes == 2) {
-            $this->view('message', "The ietvolumes file is empty.");
+            $this->view('message', "The ietvolumes file was not found or is empty!");
         } else {
             $this->view('table', $volumes);
         }
@@ -46,10 +44,8 @@ class Overview extends Controller {
         $this->view('header');
         $this->view('menu');
         $this->view('overview');
-        if ($sessions == 1) {
-            $this->view('message', "The ietsessions file was not found. Please check the path!");
-        } elseif ($sessions == 2) {
-            $this->view('message', "The ietsessions file is empty.");
+        if ($sessions == 2) {
+            $this->view('message', "The ietsessions file was not found or is empty!");
         } else {
             $this->view('table', $sessions);
         }

@@ -1,7 +1,7 @@
 <?php
     class IetVolumes {
         public function getProcVolumes() {
-            require 'Database.php';
+            require_once 'Database.php';
             $database = new Database();
             if (file_exists($database->getConfig('proc_volumes'))) {
                 $return = file_get_contents($database->getConfig('proc_volumes'));
@@ -19,7 +19,7 @@
         public function getIetVolumes() {
             $volumes = $this->getProcVolumes();
 
-            if ($volumes !== 1) {
+            if ($volumes !== 1 and $volumes !== 2) {
                 for ($b = 0; $b < substr_count($volumes, "\n") / 2; $b++) {
                     preg_match_all("/name:(.*)/", $volumes, $result);
                     $data[$b][0] = $result[1][$b];
