@@ -1,6 +1,6 @@
 <div id="leftDiv">
     <form method="post">
-        <p>Name: <input type="text" name="name" /> Name to be added to the iqn</p>
+        <p>Name: <input type="text" name="name"/> Name to be added to the iqn</p>
         <p>
             LV:
             <select name="path">
