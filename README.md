@@ -18,3 +18,4 @@ Exclude volume group
 
 Allow->Target->Add/Delete
 
+Write installation doc
