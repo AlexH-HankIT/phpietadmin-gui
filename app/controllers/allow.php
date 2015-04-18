@@ -23,9 +23,7 @@
             } elseif ($data == 1) {
                 $this->view('message', "Error - The iet volumes file under /proc doesn't exist!");
             } else {
-                preg_match_all("/name:(.*)/", $data, $a_name);
-                $a_name = $a_name[1];
-
+                $a_name = $ietpermissions->get_volume_names($data);
                 $a_initiators = $ietpermissions->get_allow($database->getConfig('ietd_init_allow'));
                 $a_name = $ietpermissions->get_targets_without_rules($a_initiators, $a_name);
 

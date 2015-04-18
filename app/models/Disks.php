@@ -20,7 +20,6 @@
                 if (strpos($blk[$i],"dm") === false) {
                     $blk2[$i] = explode (" ", $blk[$i]);
                 }
-
             }
 
             $table = array(

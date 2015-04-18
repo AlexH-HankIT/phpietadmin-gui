@@ -1,9 +1,9 @@
 CREATE TABLE config(
-id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-option VARCHAR(50) NOT NULL,
-value VARCHAR(50) NOT NULL,
-editable_via_gui BOOLEAN NOT NULL DEFAULT 0,
-description VARCHAR(200)
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    option VARCHAR(50) NOT NULL,
+    value VARCHAR(50) NOT NULL,
+    editable_via_gui BOOLEAN NOT NULL DEFAULT 0,
+    description VARCHAR(200)
 );
 
 INSERT INTO config (option, value, description) VALUES
@@ -40,3 +40,6 @@ INSERT INTO config (option, value, description) VALUES
 
 Handle "Device or resource busy" error when trying to delete a target in use
 Handle duplicated names of logical volumes
+Output error messages from exec
+Show all available lvm volumes in one dropdown menu (targets add/delete)
+Delete all permissions of target if it is deleted

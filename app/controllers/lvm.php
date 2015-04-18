@@ -39,15 +39,14 @@
                         $this->view('vginput', $data);
                     } else {
                         // Get name of selected volume group
-                        $VG = $data[$_POST['vg_post'] - 1];
+                        $VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
 
                         // Get data from selected group
                         $data = $lvm->get_lvm_data("vgs", $VG);
 
-                        // Extract free size of the volume group
-                        preg_match("/(.*?)(?=\.|$)/", $data[1][0][6], $freesize);
+                        $freesize = $lvm->extract_free_size_from_volume_group($data);
 
-                        if ($freesize[1] <= 1) {
+                        if ($freesize <= 1) {
                             $this->view('message', "Error - Volume group $VG is too small for new volumes");
                         } else {
                             setcookie("volumegroup", $VG);
@@ -81,25 +80,14 @@
                         $VG = $_COOKIE["volumegroup"];
 
                         $data = $lvm->get_lvm_data('lvs', $VG);
+                        $data = $lvm->get_full_path_to_volumes($data, $VG);
+                        $data = $lvm->get_unused_logical_volumes($data);
+                        $VG = $lvm->get_data_from_drop_down($data, $_POST['volumes']);
 
-                        $data2 = $lvm->get_full_path_to_volumes($data, $VG);
-
-                        // Get array with volumes and paths
-                        $volumes = file_get_contents($database->getConfig('proc_volumes'));
-                        preg_match_all("/path:(.*)/", $volumes, $paths);
-
-                        // Filter all used volumes
-                        $data2 = array_diff($data2, $paths[1]);
-
-                        // Rebuild array index
-                        $data2 = array_values($data2);
-
-                        $var = $lvm->get_data_from_drop_down($data2, $_POST['volumes']);
-
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " .  $database->getConfig('lvremove') . ' -f ' . $var);
+                        $return = $std->exec_and_return($database->getConfig('sudo') . " " .  $database->getConfig('lvremove') . ' -f ' . $VG);
 
                         if ($return != 0) {
-                            $this->view('message', "Error - Cannot delete volume group " . $var);
+                            $this->view('message', "Error - Cannot delete volume group " . $VG);
                         } else {
                             $this->view('message', "Success");
                         }
@@ -111,25 +99,16 @@
                         $data = $lvm->get_lvm_data('lvs', $VG);
 
                         if ($data == 3) {
-                            $this->view('message', "Error - Volume group " . $VG . "is empty");
+                            $this->view('message', "Error - Volume group " . $VG . " is empty");
                         } else {
                              // Get array with full path to the volumes and ignore already used ones
-                            $data2 = $lvm->get_full_path_to_volumes($data, $VG);
+                            $data = $lvm->get_full_path_to_volumes($data, $VG);
+                            $data = $lvm->get_unused_logical_volumes($data);
 
-                             // Get array with volumes and paths
-                            $volumes = file_get_contents($database->getConfig('proc_volumes'));
-                            preg_match_all("/path:(.*)/", $volumes, $paths);
-
-                            // Filter all used volumes
-                            $data2 = array_diff($data2, $paths[1]);
-
-                            // Rebuild array index
-                            $data2 = array_values($data2);
-
-                            if (empty($data2)) {
+                            if ($data == 2) {
                                 $this->view('message', "Error - The volume group " . $VG . " has no targets to delete!");
                             } else {
-                                $this->view('lvm/delete', $data2);
+                                $this->view('lvm/delete', $data);
                             }
                         }
                     }

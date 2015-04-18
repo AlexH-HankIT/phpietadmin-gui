@@ -11,17 +11,17 @@
                 <p>
                 <td>Size in GB:</td>
                 <td>
-                    <input id="sizefield" type="text" name="sizefield" value="1" oninput="validatelvinput(this.value, <?php echo $data[1] ?>)"/>
+                    <input id="sizefield" type="text" name="sizefield" value="1" oninput="validatelvinput(this.value, <?php echo $data ?>)"/>
                 </td>
                 <td>
-                    <input id="rangeinput" type="range" min="1" max="<?php echo $data[1] ?>" value="1" name="size" step="1" oninput="validatelvinput(this.value, <?php echo $data[1] ?>); updateTextInput(this.value)"/>
+                    <input id="rangeinput" type="range" min="1" max="<?php echo $data ?>" value="1" name="size" step="1" oninput="validatelvinput(this.value, <?php echo $data ?>); updateTextInput(this.value)"/>
                     <span id="range">1</span>
                 </td>
                 </p>
             </tr>
             <tr>
                 <td>
-                    (max <?php echo $data[1] ?>G)
+                    (max <?php echo $data ?>G)
                 </td>
             </tr>
         </table>

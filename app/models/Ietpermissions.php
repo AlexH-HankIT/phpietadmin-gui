@@ -113,5 +113,10 @@
                 $std->deleteLineInFile($database->getConfig('ietd_init_allow'), "$NAME");
             }
         }
+
+        public function get_volume_names($data) {
+            preg_match_all("/name:(.*)/", $data, $a_name);
+            return $a_name[1];
+        }
     }
 ?>

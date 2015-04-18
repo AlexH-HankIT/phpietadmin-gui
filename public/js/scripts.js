@@ -80,3 +80,10 @@ function validateinitiatorallowdelete() {
         return false;
     }
 }
+
+function validatelogicalvolumedelete() {
+    if (document.getElementById("volumes").value == document.getElementById("default").value) {
+        alert("Error - Please select a logical volume to delete!");
+        return false;
+    }
+}

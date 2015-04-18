@@ -140,5 +140,32 @@
 
             return $logicalvolumes;
         }
+
+        public function get_unused_logical_volumes($data) {
+            require_once 'Database.php';
+            $database = new Database();
+
+            // Get array with volumes and paths
+            $volumes = file_get_contents($database->getConfig('proc_volumes'));
+            preg_match_all("/path:(.*)/", $volumes, $paths);
+
+            // Filter all used volumes
+            $data = array_diff($data, $paths[1]);
+
+            // Rebuild array index
+            $data =  array_values($data);
+
+            if (empty($data)) {
+                return 2;
+            } else {
+                return $data;
+            }
+        }
+
+        public function extract_free_size_from_volume_group($data) {
+            // Extract free size of the volume group
+            preg_match("/(.*?)(?=\.|$)/", $data[1][0][6], $freesize);
+            return $freesize[1];
+        }
     }
 ?>
