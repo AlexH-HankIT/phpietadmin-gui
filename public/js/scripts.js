@@ -42,7 +42,41 @@ function updateTextInput(newValue) {
 
 function validatevginput() {
     if(document.getElementById("vg").value == document.getElementById("default").value) {
-        alert("Please select a volume group");
+        alert("Error - Please select a volume group!");
+        return false;
+    }
+}
+
+function validatetargetdelete() {
+    if(document.getElementById("targetdelete").value == document.getElementById("default").value) {
+        alert("Error - Please select a target to delete!");
+        return false;
+    }
+}
+
+function validatetargetadd() {
+    if (document.getElementById("name").value == "") {
+        alert("Error - Field name is empty");
+        return false;
+    } else if (document.getElementById("path").value == document.getElementById("default").value) {
+        alert("Error - Please select a volume!");
+        return false;
+    }
+}
+
+function validateinitiatorallowadd() {
+    if (document.getElementById("iqn").value == document.getElementById("default").value) {
+        alert("Error - Please select a target!");
+        return false;
+    } else if(document.getElementById("ip").value == "") {
+        alert("Error - Field ip is empty");
+        return false;
+    }
+}
+
+function validateinitiatorallowdelete() {
+    if (document.getElementById("iqn").value == document.getElementById("default").value) {
+        alert("Error - Please select a target!");
         return false;
     }
 }

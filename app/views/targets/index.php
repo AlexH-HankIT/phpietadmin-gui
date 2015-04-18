@@ -1,5 +1,5 @@
 <div id="main">
-    <h1>Overview</h1>
+    <h1>Targets</h1>
 <div id='cssmenu'>
     <ul>
         <li class='active'><a href='/phpietadminv02/targets/add'><span>Add</span></a></li>

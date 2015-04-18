@@ -30,7 +30,7 @@
                 $a_name = $ietpermissions->get_targets_without_rules($a_initiators, $a_name);
 
                 if ($a_name == 3) {
-                    $this->view('message', "Error - Rules for all targets are allready set!");
+                    $this->view('message', "Error - Rules for all targets are already set!");
                 } else {
                     if (empty($_POST['IQNs'])) {
                         $this->view('allow/add', $a_name);
