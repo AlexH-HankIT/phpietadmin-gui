@@ -23,6 +23,8 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Add authentication via chap
 - [x] Add service running/not running to footer
 - [ ] Add console output to service menu
+- [ ] Write installation documentation
+- [ ] Create screenshots and document the features
 
 
 Items are completely random ;-)
