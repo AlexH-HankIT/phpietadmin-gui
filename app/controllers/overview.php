@@ -1,14 +1,18 @@
 <?php
 class Overview extends Controller {
     public function index() {
+        $std = $this->model('Std');
+
         $this->view('header');
         $this->view('menu');
         //$this->view('overview');
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function disks() {
         $disks = $this->model('Disks');
+        $std = $this->model('Std');
         $data = $disks->getDisks();
 
         $this->view('header');
@@ -18,12 +22,15 @@ class Overview extends Controller {
         } else {
             $this->view('message', "Boeser Fehler");
         }
-        $this->view('footer');
+
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function ietvolumes() {
         $ietvolumes = $this->model('IetVolumes');
         $volumes = $ietvolumes->getIetVolumes();
+        $std = $this->model('Std');
 
         $this->view('header');
         $this->view('menu');
@@ -32,12 +39,14 @@ class Overview extends Controller {
         } else {
             $this->view('table', $volumes);
         }
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function ietsessions() {
         $ietsessions = $this->model('IetSessions');
         $sessions = $ietsessions->getIetSessions();
+        $std = $this->model('Std');
 
         $this->view('header');
         $this->view('menu');
@@ -46,32 +55,38 @@ class Overview extends Controller {
         } else {
             $this->view('table', $sessions);
         }
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function pv() {
         $lvm = $this->model('Lvmdisplay');
         $data = $lvm->get_lvm_data('pvs');
+        $std = $this->model('Std');
 
         $this->view('header');
         $this->view('menu');
         $this->view('table', $data);
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function vg() {
         $lvm = $this->model('Lvmdisplay');
         $data = $lvm->get_lvm_data('vgs');
+        $std = $this->model('Std');
 
         $this->view('header');
         $this->view('menu');
         $this->view('table', $data);
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function lv() {
         $lvm = $this->model('Lvmdisplay');
         $data = $lvm->get_volume_groups();
+        $std = $this->model('Std');
 
         $this->view('header');
         $this->view('menu');
@@ -91,12 +106,14 @@ class Overview extends Controller {
             $this->view('vginput', $data);
         }
 
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function initiators() {
         $iet = $this->model('Ietpermissions');
         $data = $iet->get_initiator_permissions();
+        $std = $this->model('Std');
 
         $this->view('header');
         $this->view('menu');
@@ -111,12 +128,14 @@ class Overview extends Controller {
             $this->view('table', $data);
         }
 
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
     public function targets() {
         $iet = $this->model('Ietpermissions');
         $data = $iet->get_target_permissions();
+        $std = $this->model('Std');
 
         $this->view('header');
         $this->view('menu');
@@ -131,7 +150,8 @@ class Overview extends Controller {
             $this->view('table', $data);
         }
 
-        $this->view('footer');
+        $data = $std->get_service_status();
+        $this->view('footer', $data);
     }
 
 }

@@ -1,9 +1,11 @@
 <?php
     class Lvm extends Controller {
         public function index() {
+            $std = $this->model('Std');
             $this->view('header');
             $this->view('menu');
-            $this->view('footer');
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
         }
 
 
@@ -54,7 +56,8 @@
                 }
             }
 
-            $this->view('footer');
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
         }
 
         public function delete() {
@@ -111,7 +114,8 @@
                     }
                 }
             }
-            $this->view('footer');
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
         }
 
         public function extend() {
@@ -193,7 +197,8 @@
             }
 
 
-            $this->view('footer');
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
 
         }
 

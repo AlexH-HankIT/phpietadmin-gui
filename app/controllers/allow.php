@@ -1,12 +1,15 @@
 <?php
     class allow extends Controller {
         public function index() {
+            $std = $this->model('Std');
             $this->view('header');
             $this->view('menu');
-            $this->view('footer');
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
         }
 
         public function addinitiator() {
+            $std = $this->model('Std');
             $database = $this->model('Database');
             $ietpermissions = $this->model('Ietpermissions');
             $ietvolume = $this->model('IetVolumes');
@@ -41,10 +44,12 @@
                     }
                 }
             }
-            $this->view('footer');
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
         }
 
         public function deleteinitiator() {
+            $std = $this->model('Std');
             $database = $this->model('Database');
             $ietpermissions = $this->model('Ietpermissions');
 
@@ -71,7 +76,8 @@
                     }
                 }
             }
-            $this->view('footer');
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
         }
     }
 ?>

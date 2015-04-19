@@ -11,18 +11,38 @@
         }
 
         public function deleteLineInFile($file, $string) {
-            $i=0;$array=array();
+            $i = 0;
+            $array = array();
             $read = fopen($file, "r") or die("can't open the file $file");
-            while(!feof($read)) {
+            while (!feof($read)) {
                 $array[$i] = fgets($read);
                 ++$i;
             }
             fclose($read);
             $write = fopen($file, "w") or die("can't open the file $file");
-            foreach($array as $a) {
-                if(!strstr($a,$string)) fwrite($write,$a);
+            foreach ($array as $a) {
+                if (!strstr($a, $string)) fwrite($write, $a);
             }
             fclose($write);
+        }
+
+
+        public function get_service_status() {
+            require_once 'Database.php';
+            $database = new Database;
+
+            exec($database->getConfig('sudo') . " " . $database->getConfig('service') . " " . $database->getConfig('servicename') . " status", $status, $result);
+            $return[0] = $status;
+            $return[1] = $result;
+            return $return;
+        }
+
+        public function check_service_status() {
+            global $a_config;
+            $result = $this->get_service_status();
+            if ($result[1] !== 0) {
+                throw new Exception("Error - Service {$a_config['iet']['servicename']} is not running.");
+            }
         }
     }
 ?>

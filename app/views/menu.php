@@ -53,7 +53,7 @@
                     </ul>
                 </li>
 
-                <li><a href='/phpietadmin/service.php'>Service</a></li>
+                <li><a href='/phpietadminv02/service'>Service</a></li>
             </ul>
         </div>
     </div>

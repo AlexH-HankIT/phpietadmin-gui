@@ -172,7 +172,7 @@
         public function extract_free_size_from_volume_group($data) {
             // Extract free size of the volume group
             preg_match("/(.*?)(?=\.|$)/", $data[1][0][6], $freesize);
-            return $freesize[1];
+            return $freesize[1] - 1;
         }
     }
 ?>
