@@ -1,4 +1,5 @@
 <div class = "container">
+    <h1>Delete initiator permission</h1>
     <div class = "jumbotron">
         <form method="post">
             <select name="IQNs2" id="iqn" class="form-control">
