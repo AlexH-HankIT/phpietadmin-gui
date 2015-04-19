@@ -1,4 +1,5 @@
 <div class = "container">
+    <h1>Add logical volumes</h1>
     <div class = "jumbotron">
         <form method="post">
             <table class = "table borderless">
