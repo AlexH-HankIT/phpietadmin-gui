@@ -5,3 +5,10 @@ h4 {
 .borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
     border: none;
 }
+
+@media (min-width: 880px) {
+    ul.nav li.dropdown:hover ul.dropdown-menu{
+        display: block;
+        margin-top:0px
+    }
+}
