@@ -3,7 +3,6 @@
         public function index() {
             $this->view('header');
             $this->view('menu');
-            $this->view('allow/index');
             $this->view('footer');
         }
 
@@ -14,7 +13,6 @@
 
             $this->view('header');
             $this->view('menu');
-            $this->view('allow/index');
 
             $data = $ietvolume->getProcVolumes();
 
@@ -52,7 +50,6 @@
 
             $this->view('header');
             $this->view('menu');
-            $this->view('allow/index');
 
             $a_initiators = $ietpermissions->get_allow($database->getConfig('ietd_init_allow'));
 

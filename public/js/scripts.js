@@ -1,15 +1,3 @@
-function showMenu() {
-    document.getElementById("nav01").innerHTML =
-        "<ul id='menu'>" +
-        "<li><a href='/phpietadminv02/home'>Home</a></li>" +
-        "<li><a href='/phpietadminv02/overview'>Overview</a></li>" +
-        "<li><a href='/phpietadminv02/targets'>Targets</a></li>" +
-        "<li><a href='/phpietadminv02/allow'>Allow</a></li>" +
-        "<li><a href='/phpietadminv02/lvm'>LVM</a></li>" +
-        "<li><a href='/phpietadmin/service.php'>Service</a></li>" +
-        "</ul>";
-}
-
 function validatelvinput(newValue, freesize) {
     if (newValue == 0) {
         alert("Error - The size cannot be zero!");
@@ -41,7 +29,7 @@ function updateTextInput(newValue) {
 }
 
 function validatevginput() {
-    if(document.getElementById("vg").value == document.getElementById("default").value) {
+    if(document.getElementById("vg").value == "") {
         alert("Error - Please select a volume group!");
         return false;
     }

@@ -78,6 +78,7 @@
 
                 $data2[0] = $table;
                 $data2[1] = $data;
+                $data2[2] = "Iet sessions";
 
                 return $data2;
             }

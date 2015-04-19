@@ -14,6 +14,8 @@
                     4 => "PSize",
                     5 => "Pfree",
                 );
+
+                $data2[2] = "Physical volumes";
             } elseif ($bin == 'vgs') {
                 $bin = $database->getConfig('vgs');
                 $table = array(
@@ -25,6 +27,8 @@
                     5 => "VSize",
                     6 => "Vfree"
                 );
+
+                $data2[2] = "Volume groups";
             } elseif ($bin == 'lvs') {
                 $bin = $database->getConfig('lvs');
                 $table = array(
@@ -33,6 +37,8 @@
                     2 => "Attr",
                     3 => "Size"
                 );
+
+                $data2[2] = "Logical volumes";
             }
 
             // Read output from shell in var
@@ -125,6 +131,7 @@
 
             $data2[0] = $table;
             $data2[1] = $data;
+            $data2[2] = "Logical volumes";
 
             return $data2;
         }

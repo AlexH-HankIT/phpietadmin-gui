@@ -3,7 +3,7 @@ class Overview extends Controller {
     public function index() {
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
+        //$this->view('overview');
         $this->view('footer');
     }
 
@@ -13,7 +13,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
         if (!empty($data)) {
             $this->view('table', $data);
         } else {
@@ -28,7 +27,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
         if ($volumes == 1) {
             $this->view('message', "The ietvolumes file was not found or is empty!");
         } else {
@@ -43,7 +41,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
         if ($sessions == 2) {
             $this->view('message', "The ietsessions file was not found or is empty!");
         } else {
@@ -58,7 +55,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
         $this->view('table', $data);
         $this->view('footer');
     }
@@ -69,7 +65,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
         $this->view('table', $data);
         $this->view('footer');
     }
@@ -80,7 +75,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
 
         if (isset($_POST['vg_post'])) {
             if ($_POST['vg_post'] > 0) {
@@ -106,7 +100,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
 
         if ($data[1] == 1 ) {
             $this->view('message', "The iet initiators allow file was not found. Please check the path!");
@@ -127,7 +120,6 @@ class Overview extends Controller {
 
         $this->view('header');
         $this->view('menu');
-        $this->view('overview');
 
         if ($data[1] == 1 ) {
             $this->view('message', "The iet targets allow file was not found. Please check the path!");

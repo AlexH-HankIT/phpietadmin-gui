@@ -3,7 +3,6 @@
         public function index() {
             $this->view('header');
             $this->view('menu');
-            $this->view('targets/index');
             $this->view('footer');
         }
 
@@ -15,7 +14,6 @@
             $data = $lvm->get_volume_groups();
             $this->view('header');
             $this->view('menu');
-            $this->view('targets/index');
             if (isset($_POST['vg_post'])) {
                 $VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
                 $data = $lvm->get_lvm_data('lvs', $VG);
@@ -80,9 +78,8 @@
             $std = $this->model('Std');
             $this->view('header');
             $this->view('menu');
-            $this->view('targets/index');
             if (isset($_POST['IQN'])) {
-                $data=$ietdelete->parse_data($_POST['IQN']);
+                $data = $ietdelete->parse_data($_POST['IQN']);
                 $command = $database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op delete --tid=" . $data[0];
                 $std->exec_and_return($command);
                 $ietdelete->delete_from_config_file($data);

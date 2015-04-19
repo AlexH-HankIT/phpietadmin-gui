@@ -1,5 +1,6 @@
-<div id="leftDiv">
-    <table border="1">
+<div class = "container">
+    <h1><?=$data[2]?></h1>
+    <table class = "table table-striped">
         <tr>
             <?php foreach ($data[0] as $value): ?>
                 <th><?php echo $value ?></th>

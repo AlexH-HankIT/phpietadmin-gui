@@ -34,6 +34,7 @@
 
             $data[0] = $table;
             $data[1] = $blk2;
+            $data[2] = "Disks";
 
             return array_values($data);
         }
