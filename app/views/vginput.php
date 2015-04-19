@@ -1,5 +1,6 @@
 <!-- Do this with ajax later!-->
 <div class = "container">
+    <h1>Volume groups</h1>
     <div class = "jumbotron">
         <form method="post">
             <select name="vg_post" id="vg" multiple class="form-control">
