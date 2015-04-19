@@ -1,0 +1,7 @@
+h4 {
+    color: #ff0000;
+}
+
+.borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+    border: none;
+}
