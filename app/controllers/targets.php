@@ -31,9 +31,11 @@
                         $this->view('targets/add', $data);
                     }
                 }
-            } elseif (isset($_POST['name']) && isset($_POST['path'])) {
+            } elseif (isset($_POST['name']) && isset($_POST['path']) && isset($_POST['type'])) {
                 $NAME = $_POST['name'];
                 $VG = $_COOKIE["volumegroup"];
+                $TYPE = $_POST['type'];
+
                 $data = $lvm->get_lvm_data('lvs', $VG);
                 if ($data == 3) {
                     $this->view('message', "Error - the volume group $VG has no logical volumes!");
@@ -53,11 +55,11 @@
                                 $this->view('message', "Error - Could not add target $NAME. Server said: $return[0]");
                             } else {
                                 $TID = $ietadd->get_tid($NAME);
-                                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=0 --params Path=" . $LV);
+                                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=0 --params Path=" . $LV. ",Type=" . $TYPE);
                                 if ($return != 0) {
                                     $this->view('message', "Error - Could not add lun. Server said: $return[0]");
                                 } else {
-                                    $return = $ietadd->write_target_and_lun($NAME, $LV);
+                                    $return = $ietadd->write_target_and_lun($NAME, $LV, $TYPE);
                                     if ($return == 6) {
                                         $this->view('message', "Error - Could not write into the ietd config file!");
                                     } elseif ($return == 0) {

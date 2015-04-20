@@ -9,6 +9,15 @@
                     <?php for ($i = 0; $i < count($data); $i++) { echo '<option value=' . ($i+1) . '>' . $data[$i] . '</option>'; } ?>
                 </select>
             </p>
+
+            <p>
+                Type:
+            <select name="type" id="type" multiple class="form-control">
+                <option value="fileio">fileio</option>
+                <option selected value="blockio" >blockio</option>
+            </select>
+            </p>
+
             <p><input class="btn btn-primary" type="submit" value="Create" onclick="return validatetargetadd();"/></p>
         </form>
     </div>
