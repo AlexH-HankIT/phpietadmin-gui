@@ -1,4 +1,8 @@
 <div class = "container">
+    <ol class="breadcrumb">
+        <li class="active">Add target</li>
+    </ol>
+
     <div class = "jumbotron">
         <form method="post">
             <p>Name: <input class="form-control" type="text" name="name" id="name"/></p>

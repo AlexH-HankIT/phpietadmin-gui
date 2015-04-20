@@ -1,4 +1,7 @@
 <div class = "container">
+    <ol class="breadcrumb">
+        <li class="active">Delete target</li>
+    </ol>
     <div class = "jumbotron">
         <form method="post">
             <select name="IQN" id="targetdelete" class="form-control">
