@@ -1,5 +1,8 @@
 <div class = "container">
-    <h1>Delete logical volumes</h1>
+    <ol class="breadcrumb">
+        <li class="active">Delete logical volumes</li>
+    </ol>
+
     <div class = "jumbotron">
         <p>
         <form method="post">

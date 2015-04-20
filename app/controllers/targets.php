@@ -35,6 +35,7 @@
                 $NAME = $_POST['name'];
                 $VG = $_COOKIE["volumegroup"];
                 $TYPE = $_POST['type'];
+                $MODE = $_POST['mode'];
 
                 $data = $lvm->get_lvm_data('lvs', $VG);
                 if ($data == 3) {
@@ -55,11 +56,11 @@
                                 $this->view('message', "Error - Could not add target $NAME. Server said: $return[0]");
                             } else {
                                 $TID = $ietadd->get_tid($NAME);
-                                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=0 --params Path=" . $LV. ",Type=" . $TYPE);
+                                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=0 --params Path=" . $LV. ",Type=" . $TYPE . ",IOMode=" . $MODE);
                                 if ($return != 0) {
                                     $this->view('message', "Error - Could not add lun. Server said: $return[0]");
                                 } else {
-                                    $return = $ietadd->write_target_and_lun($NAME, $LV, $TYPE);
+                                    $return = $ietadd->write_target_and_lun($NAME, $LV, $TYPE, $MODE);
                                     if ($return == 6) {
                                         $this->view('message', "Error - Could not write into the ietd config file!");
                                     } elseif ($return == 0) {

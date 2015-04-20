@@ -15,12 +15,12 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Handle duplicated names of logical volumes
 - [ ] Output error messages from exec
 - [ ] Show all available lvm volumes in one dropdown menu (targets add/delete)
-- [ ] Delete all permissions of target if it is deleted
+- [x] Delete all permissions of target if it is deleted
 - [ ] Add lvextend, lvremove, lvrename features
 - [ ] Use ajax for post requests
 - [ ] Add php sessions
-- [ ] Add user managment
-- [ ] Add authentication via chap
+- [ ] Add incoming user authentication for target
+- [ ] Add incoming global user authentication
 - [x] Add service running/not running to footer
 - [ ] Add console output to service menu
 - [ ] Write installation documentation
@@ -28,7 +28,7 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Don't reload menu and footer
 - [ ] Add multiple luns to one target
 - [x] Dropdown for fileio or blockio
-- [ ] Add user authentication
+- [x] Dropdown for mode (write through/read only)
 
 Items are completely random ;-)
 

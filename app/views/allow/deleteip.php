@@ -1,5 +1,8 @@
 <div class = "container">
-    <h1>Delete initiator permission</h1>
+    <ol class="breadcrumb">
+        <li class="active">Delete initiator permission</li>
+    </ol>
+
     <div class = "jumbotron">
         <form method="post">
             <select name="IQNs2" id="iqn" class="form-control">

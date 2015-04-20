@@ -1,5 +1,8 @@
 <div class = "container">
-    <h1>Add logical volumes</h1>
+    <ol class="breadcrumb">
+        <li class="active">Add logical volumes</li>
+    </ol>
+
     <div class = "jumbotron">
         <form method="post">
             <table class = "table borderless">

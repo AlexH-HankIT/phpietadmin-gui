@@ -1,5 +1,8 @@
 <div class = "container">
-    <h1><?=$data[2]?></h1>
+    <ol class="breadcrumb">
+        <li class="active"><?=$data[2]?></li>
+    </ol>
+
     <table class = "table table-striped">
         <tr>
             <?php foreach ($data[0] as $value): ?>

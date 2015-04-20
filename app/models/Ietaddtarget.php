@@ -51,11 +51,11 @@
             return $a_tid[1][$key];
         }
 
-        public function write_target_and_lun($NAME, $LV, $TYPE) {
+        public function write_target_and_lun($NAME, $LV, $TYPE, $MODE) {
             require_once 'Database.php';
             $database = new Database();
 
-            $current = "\nTarget " .  $database->getConfig('iqn') . ":" . $NAME . "\n Lun 0 Type=" . $TYPE . ",Path=" . $LV . "\n";
+            $current = "\nTarget " .  $database->getConfig('iqn') . ":" . $NAME . "\n Lun 0 Type=" . $TYPE . ",IOMode=" . $MODE . ",Path=" . $LV . "\n";
             $return = file_put_contents($database->getConfig('ietd_config_file'), $current, FILE_APPEND | LOCK_EX);
             if ($return == "FALSE" or $return == 0) {
                 return 6;

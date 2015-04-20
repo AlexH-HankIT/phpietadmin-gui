@@ -1,5 +1,7 @@
 <div class = "container">
-    <h1>Service</h1>
+    <ol class="breadcrumb">
+        <li class="active">Service</li>
+    </ol>
     <div class = "jumbotron">
         <form method = "post">
             <input class="btn btn-primary" type="submit" name="start" value="Start" />

@@ -1,5 +1,4 @@
 <div class = "navbar navbar-inverse navbar-static-top">
-
     <div class = "container">
         <div class="navbar-header">
             <a href = "#" class = "navbar-brand">phpietadmin</a>
@@ -40,8 +39,9 @@
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Allow <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadminv02/allow/addinitiator'>Add</a></li>
-                        <li><a href='/phpietadminv02/allow/deleteinitiator'>Delete</a></li>
+                        <li><a href='/phpietadminv02/allow/addinitiator'>Add initiator</a></li>
+                        <li><a href='/phpietadminv02/allow/deleteinitiator'>Delete initiator</a></li>
+                        <li><a href='/phpietadminv02/allow/adduser'>Add user</a></li>
                     </ul>
                 </li>
 
@@ -54,6 +54,8 @@
                 </li>
 
                 <li><a href='/phpietadminv02/service'>Service</a></li>
+
+                <li><a href='/phpietadminv02/config'>Config</a></li>
             </ul>
         </div>
     </div>

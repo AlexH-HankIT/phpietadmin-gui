@@ -32,7 +32,7 @@
                     $this->view('message', "Error - Rules for all targets are already set!");
                 } else {
                     if (empty($_POST['IQNs'])) {
-                        $this->view('allow/add', $a_name);
+                        $this->view('allow/addip', $a_name);
                     } else {
                         $return = $ietpermissions->write_allow_rule($_POST['IQNs'], $a_name);
 
@@ -66,7 +66,7 @@
                 $a_initiators2 = $ietpermissions->get_initiator_array($a_initiators);
 
                 if (empty($_POST['IQNs2'])) {
-                    $this->view('allow/delete', $a_initiators2);
+                    $this->view('allow/deleteip', $a_initiators2);
                 } else {
                     $return = $ietpermissions->delete_allow_rule($a_initiators2);
                     if ($return == 1) {
@@ -78,6 +78,51 @@
             }
             $data = $std->get_service_status();
             $this->view('footer', $data);
+        }
+
+        public function adduser() {
+            $std = $this->model('Std');
+            $database = $this->model('Database');
+            $ietvolume = $this->model('IetVolumes');
+            $ietdelete = $this->model('Ietdeletetarget');
+            $ietadd = $this->model('Ietaddtarget');
+
+            $this->view('header');
+            $this->view('menu');
+
+            $data = $ietdelete->get_names();
+
+            if ($data == 2) {
+                $this->view('message', "Error - No targets found");
+            } else {
+                if (isset($_POST['iqn']) && isset($_POST['user']) && isset($_POST['pass'])) {
+                    $IQN = $_POST['iqn'];
+                    $USER = $_POST['user'];
+                    $PASS = $_POST['pass'];
+
+                    $TID = $ietadd->get_tid($IQN);
+
+                    $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --user --params=IncomingUser=" . $USER . ",Password=" . $PASS);
+
+                    if ($return == 1) {
+                        $this->view('message', "Error - The user was not added!");
+                    } else {
+                        $this->view('message', "Success");
+
+                        // Only add user to config if cli was ok
+                        $std->addlineafterpattern($IQN, $database->getConfig('ietd_config_file'), "IncomingUser " . $USER . " " . $PASS);
+                    }
+                } else {
+                    $this->view('allow/adduser', $data);
+                }
+            }
+
+            $data = $std->get_service_status();
+            $this->view('footer', $data);
+        }
+
+        public function deleteuser() {
+
         }
     }
 ?>

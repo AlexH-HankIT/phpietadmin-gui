@@ -18,6 +18,14 @@
             </select>
             </p>
 
+            <p>
+                Mode:
+                <select name="mode" id="mode" multiple class="form-control">
+                    <option selected value="wt" >Write through</option>
+                    <option value="ro" >Read only</option>
+                </select>
+            </p>
+
             <p><input class="btn btn-primary" type="submit" value="Create" onclick="return validatetargetadd();"/></p>
         </form>
     </div>

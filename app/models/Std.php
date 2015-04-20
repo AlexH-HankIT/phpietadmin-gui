@@ -44,5 +44,12 @@
                 throw new Exception("Error - Service {$a_config['iet']['servicename']} is not running.");
             }
         }
+
+        public function addlineafterpattern($pattern, $file, $data) {
+            $lines = file( $file , FILE_IGNORE_NEW_LINES );
+            $key = array_search($pattern, $lines);
+            $lines[$key+1] .= "\n" . $data;
+            file_put_contents( $file , implode( "\n", $lines ) );
+        }
     }
 ?>

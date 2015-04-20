@@ -49,6 +49,8 @@ function validatetargetadd() {
     } else if (document.getElementById("path").value == document.getElementById("default").value) {
         alert("Error - Please select a volume!");
         return false;
+    } else if (document.getElementById("type").value == "") {
+        alert("Error - Field type is empty");
     }
 }
 
