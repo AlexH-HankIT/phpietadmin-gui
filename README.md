@@ -8,7 +8,6 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Software raid status
 - [ ] Exclude volume group
 - [ ] Allow->Target->Add/Delete
-- [ ] Write installation doc
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
 - [ ] Don't display targets in use for permission deletion
 - [ ] Handle duplicated names of logical volumes
