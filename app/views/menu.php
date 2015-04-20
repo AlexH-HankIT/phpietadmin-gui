@@ -41,7 +41,7 @@
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadminv02/allow/addinitiator'>Add initiator</a></li>
                         <li><a href='/phpietadminv02/allow/deleteinitiator'>Delete initiator</a></li>
-                        <li><a href='/phpietadminv02/allow/adduser'>Add user</a></li>
+                        <li><a href='/phpietadminv02/allow/adduser'>Add user (BUGGY)</a></li>
                     </ul>
                 </li>
 
