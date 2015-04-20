@@ -38,18 +38,15 @@
                     if (!isset($_POST['vg_post'])) {
                         $this->view('vginput', $data);
                     } else {
-                        // Get name of selected volume group
-                        $VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
-
                         // Get data from selected group
-                        $data = $lvm->get_lvm_data("vgs", $VG);
+                        $data = $lvm->get_lvm_data("vgs", $_POST['vg_post']);
 
                         $freesize = $lvm->extract_free_size_from_volume_group($data);
 
                         if ($freesize <= 1) {
-                            $this->view('message', "Error - Volume group $VG is too small for new volumes");
+                            $this->view('message', "Error - Volume group " . $_POST['vg_post'] . " is too small for new volumes");
                         } else {
-                            setcookie("volumegroup", $VG);
+                            setcookie("volumegroup", $_POST['vg_post']);
                             $this->view('lvm/add', $freesize);
                         }
                     }
@@ -73,20 +70,20 @@
             if ($data == 3) {
                 $this->view('message', "Error - No logical volumes available");
             } else {
-                $data2 = $lvm->get_unused_logical_volumes($data[2]);
-                if ($data2 == 2) {
+                $data = $lvm->get_unused_logical_volumes($data[2]);
+                if ($data == 2) {
                     $this->view('message', "Error - No logical volumes available");
                 } else {
                     if (isset($_POST['volumes'])) {
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvremove') . ' -f ' . $data2[$_POST['volumes'] - 1]);
+                        $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvremove') . ' -f ' . $_POST['volumes']);
 
                         if ($return != 0) {
-                            $this->view('message', "Error - Cannot delete logical volume " . $data2[$_POST['volumes'] - 1]);
+                            $this->view('message', "Error - Cannot delete logical volume " . $data[$_POST['volumes'] - 1]);
                         } else {
                             $this->view('message', "Success");
                         }
                     } else {
-                        $this->view('lvm/delete', $data2);
+                        $this->view('lvm/delete', $data);
                     }
                 }
             }
@@ -155,16 +152,16 @@
                         if (!isset($_POST['vg_post'])) {
                             $this->view('vginput', $data);
                         } else {
-                            $VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
+                            //$VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
 
-                            setcookie("volumegroup", $VG);
+                            setcookie("volumegroup", $_POST['vg_post']);
 
-                            $data = $lvm->get_lvm_data("lvs", $VG);
+                            $data = $lvm->get_lvm_data("lvs", $_POST['vg_post']);
 
                             if ($data == 3) {
                                 $this->view('message', "Error - Can't display the logical volumes");
                             } else {
-                                $data = $lvm->get_full_path_to_volumes($data, $VG);
+                                $data = $lvm->get_full_path_to_volumes($data, $_POST['vg_post']);
                                 $this->view('lvm/delete', $data);
                             }
                         }

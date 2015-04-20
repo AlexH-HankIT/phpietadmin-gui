@@ -9,7 +9,9 @@
             LV:
             <select name="volumes" id="volumes" class="form-control">
                 <option id="default">Select...</option>
-                <?php for ($i = 0; $i < count($data); $i++) { echo '<option value=' . ($i+1) . '>' . $data[$i] . '</option>'; } ?>
+                <?php for ($i = 0; $i < count($data); $i++) { ?>
+                    <option value="<?=$data[$i]?>"> <?=$data[$i]?> </option>
+                <?php } ?>
             </select>
             <br />
             <input class="btn btn-primary" type='submit' value='Delete' onclick="return validatelogicalvolumedelete()">
