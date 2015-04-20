@@ -6,7 +6,6 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Add config menu to gui
 - [ ] Use more javascript
 - [ ] Software raid status
-- [ ] lvrename
 - [ ] Exclude volume group
 - [ ] Allow->Target->Add/Delete
 - [ ] Write installation doc
