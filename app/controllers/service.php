@@ -25,7 +25,7 @@
                 $this->view('message', "Service is running!");
             }
 
-            $this->view('footer');
+            $this->view('footer', $return);
         }
     }
 ?>

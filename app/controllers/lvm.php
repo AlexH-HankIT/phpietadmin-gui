@@ -68,49 +68,25 @@
             $this->view('header');
             $this->view('menu');
 
-            $data = $lvm->get_volume_groups();
+            $data = $lvm->get_all_logical_volumes();
 
             if ($data == 3) {
-                $this->view('message', "Error - Can't display the volumes groups");
+                $this->view('message', "Error - No logical volumes available");
             } else {
-                if (!isset($_POST['vg_post']) && !isset($_POST['volumes'])) {
-                    $this->view('vginput', $data);
+                $data2 = $lvm->get_unused_logical_volumes($data[2]);
+                if ($data2 == 2) {
+                    $this->view('message', "Error - No logical volumes available");
                 } else {
                     if (isset($_POST['volumes'])) {
-                        $VG = $_COOKIE["volumegroup"];
-
-                        $data = $lvm->get_lvm_data('lvs', $VG);
-                        $data = $lvm->get_full_path_to_volumes($data, $VG);
-                        $data = $lvm->get_unused_logical_volumes($data);
-                        $VG = $lvm->get_data_from_drop_down($data, $_POST['volumes']);
-
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " .  $database->getConfig('lvremove') . ' -f ' . $VG);
+                        $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvremove') . ' -f ' . $data2[$_POST['volumes'] - 1]);
 
                         if ($return != 0) {
-                            $this->view('message', "Error - Cannot delete volume group " . $VG);
+                            $this->view('message', "Error - Cannot delete logical volume " . $data2[$_POST['volumes'] - 1]);
                         } else {
                             $this->view('message', "Success");
                         }
                     } else {
-                        // Write name of volume group in var and save it as cookie for later use
-                        $VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
-                        setcookie("volumegroup", $VG);
-
-                        $data = $lvm->get_lvm_data('lvs', $VG);
-
-                        if ($data == 3) {
-                            $this->view('message', "Error - Volume group " . $VG . " is empty");
-                        } else {
-                             // Get array with full path to the volumes and ignore already used ones
-                            $data = $lvm->get_full_path_to_volumes($data, $VG);
-                            $data = $lvm->get_unused_logical_volumes($data);
-
-                            if ($data == 2) {
-                                $this->view('message', "Error - The volume group " . $VG . " has no targets to delete!");
-                            } else {
-                                $this->view('lvm/delete', $data);
-                            }
-                        }
+                        $this->view('lvm/delete', $data2);
                     }
                 }
             }

@@ -111,8 +111,10 @@
                 $lvs2[$i] = array_slice($lv_out, 0);
             }
 
-            for ($i = 0; $i < count($lvs2); $i++) {
-                $paths[$i] = "/dev/" . $lvs2[$i][1] . "/" . $lvs2[$i][0];
+            if (!empty($lvs2)) {
+                for ($i = 0; $i < count($lvs2); $i++) {
+                    $paths[$i] = "/dev/" . $lvs2[$i][1] . "/" . $lvs2[$i][0];
+                }
             }
 
             $table = array(
