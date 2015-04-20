@@ -93,7 +93,7 @@ class Overview extends Controller {
 
         $data = $lvm->get_all_logical_volumes();
 
-        if ($data[1] == 3 ) {
+        if ($data == 3 ) {
             $this->view('message', "Error - No logical volumes found!");
         } else {
             $this->view('table', $data);
