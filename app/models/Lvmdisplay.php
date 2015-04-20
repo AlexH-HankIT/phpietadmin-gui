@@ -15,7 +15,7 @@
                     5 => "Pfree",
                 );
 
-                $data2[2] = "Physical volumes";
+                $data2['title'] = "Physical volumes";
             } elseif ($bin == 'vgs') {
                 $bin = $database->getConfig('vgs');
                 $table = array(
@@ -28,7 +28,7 @@
                     6 => "Vfree"
                 );
 
-                $data2[2] = "Volume groups";
+                $data2['title'] = "Volume groups";
             } elseif ($bin == 'lvs') {
                 $bin = $database->getConfig('lvs');
                 $table = array(
@@ -38,7 +38,7 @@
                     3 => "Size"
                 );
 
-                $data2[2] = "Logical volumes";
+                $data2['title'] = "Logical volumes";
             }
 
             // Read output from shell in var
@@ -115,12 +115,21 @@
                 $paths[$i] = "/dev/" . $lvs2[$i][1] . "/" . $lvs2[$i][0];
             }
 
+            $table = array(
+                0 => "Name",
+                1 => "VG",
+                2 => "Attr",
+                3 => "Size"
+            );
+
             if (empty($lvs2) or empty($paths)) {
                 return 3;
             } else {
                 $data = array(
-                    0 => $lvs2,
-                    1 => $paths
+                    0 => $table,
+                    1 => $lvs2,
+                    2 => $paths,
+                    'title' => "Logical volumes"
                 );
                 return $data;
             }
@@ -163,7 +172,7 @@
 
             $data2[0] = $table;
             $data2[1] = $data;
-            $data2[2] = "Logical volumes";
+            $data2['title'] = "Logical volumes";
 
             return $data2;
         }

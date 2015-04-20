@@ -1,6 +1,6 @@
 <div class = "container">
     <ol class="breadcrumb">
-        <li class="active"><?=$data[2]?></li>
+        <li class="active"><?=$data['title']?></li>
     </ol>
 
     <table class = "table table-striped">

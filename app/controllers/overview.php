@@ -91,19 +91,12 @@ class Overview extends Controller {
         $this->view('header');
         $this->view('menu');
 
-        if (isset($_POST['vg_post'])) {
-            if ($_POST['vg_post'] > 0) {
-                $a = $_POST['vg_post'] - 1;
-                $data = $lvm->get_logical_volumes_with_table($data[$a]);
+        $data = $lvm->get_all_logical_volumes();
 
-                if ($data[1] == 3 ) {
-                    $this->view('message', "Volume group is empty!");
-                } else {
-                    $this->view('table', $data);
-                }
-            }
+        if ($data[1] == 3 ) {
+            $this->view('message', "Error - No logical volumes found!");
         } else {
-            $this->view('vginput', $data);
+            $this->view('table', $data);
         }
 
         $data = $std->get_service_status();

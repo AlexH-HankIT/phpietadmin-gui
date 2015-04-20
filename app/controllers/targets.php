@@ -28,7 +28,7 @@
                     if ($return == 4) {
                         $this->view('message', "Error - The name $NAME is already taken!");
                     } else {
-                        $data = $ietadd->get_unused_volumes($data[1]);
+                        $data = $ietadd->get_unused_volumes($data[2]);
                         if (empty($data)) {
                             $this->view('message', "Error - No logical volumes found!");
                         } else {
@@ -55,10 +55,11 @@
                 }
             } else {
                 $data = $lvm->get_all_logical_volumes();
+
                 if ($data == 3) {
                     $this->view('message', "Error - No logical volumes found!");
                 } else {
-                    $data = $ietadd->get_unused_volumes($data[1]);
+                    $data = $ietadd->get_unused_volumes($data[2]);
                     if (empty($data)) {
                         $this->view('message', "Error - No logical volumes available!");
                     } else {

@@ -45,7 +45,7 @@
 
             $data[0] = $table;
             $data[1] = $this->get_allow($database->getConfig('ietd_init_allow'));
-            $data[2] = "Initiator permission";
+            $data['title'] = "Initiator permission";
 
             return $data;
         }
@@ -60,7 +60,7 @@
 
             $data[0] = $table;
             $data[1] = $this->get_allow($database->getConfig('ietd_target_allow'));
-            $data[2] = "Target permission";
+            $data['title'] = "Target permission";
 
             return $data;
         }
