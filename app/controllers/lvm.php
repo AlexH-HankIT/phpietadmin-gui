@@ -152,8 +152,6 @@
                         if (!isset($_POST['vg_post'])) {
                             $this->view('vginput', $data);
                         } else {
-                            //$VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
-
                             setcookie("volumegroup", $_POST['vg_post']);
 
                             $data = $lvm->get_lvm_data("lvs", $_POST['vg_post']);

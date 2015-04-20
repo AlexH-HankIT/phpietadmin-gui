@@ -179,10 +179,6 @@
             return $data2;
         }
 
-        public function get_data_from_drop_down($data, $NR) {
-            return $data[$NR - 1];
-        }
-
         public function get_full_path_to_volumes($data, $VG) {
             for ($i = 0; $i < count($data[1]); $i++) {
                 $logicalvolumes[$i] = "/dev/" . $VG . "/" . $data[1][$i][0];

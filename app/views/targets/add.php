@@ -10,7 +10,9 @@
                 LV:
                 <select name="path" id="path" class="form-control">
                     <option id="default">Select...</option>
-                    <?php for ($i = 0; $i < count($data); $i++) { echo '<option value=' . ($i+1) . '>' . $data[$i] . '</option>'; } ?>
+                    <?php for ($i = 0; $i < count($data); $i++) { ?>
+                        <option value="<?=$data[$i]?>"> <?=$data[$i]?> </option>
+                    <?php } ?>
                 </select>
             </p>
             <div class = "row">

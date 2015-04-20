@@ -32,17 +32,16 @@
                         if (empty($data)) {
                             $this->view('message', "Error - No logical volumes found!");
                         } else {
-                            $LV = $lvm->get_data_from_drop_down($data, $_POST['path']);
                             $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=0 --params Name=" . $database->getConfig('iqn') . ":" . $NAME);
                             if ($return != 0) {
                                 $this->view('message', "Error - Could not add target $NAME. Server said: $return[0]");
                             } else {
                                 $TID = $ietadd->get_tid($NAME);
-                                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=0 --params Path=" . $LV. ",Type=" . $TYPE . ",IOMode=" . $MODE);
+                                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=0 --params Path=" . $_POST['path'] . ",Type=" . $TYPE . ",IOMode=" . $MODE);
                                 if ($return != 0) {
                                     $this->view('message', "Error - Could not add lun. Server said: $return[0]");
                                 } else {
-                                    $return = $ietadd->write_target_and_lun($NAME, $LV, $TYPE, $MODE);
+                                    $return = $ietadd->write_target_and_lun($NAME, $_POST['path'], $TYPE, $MODE);
                                     if ($return == 6) {
                                         $this->view('message', "Error - Could not write into the ietd config file!");
                                     } elseif ($return == 0) {
