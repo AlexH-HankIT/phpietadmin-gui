@@ -94,6 +94,38 @@
             }
         }
 
+        public function get_all_logical_volumes() {
+            require_once 'Database.php';
+            $database = new Database();
+
+            $lv = shell_exec($database->getConfig('sudo') . " " .  $database->getConfig('lvs') . " --noheadings --units g ");
+
+            $lv = explode("\n", $lv);
+            $count = count($lv) - 1;
+
+            for ($i = 0; $i < $count; $i++) {
+                $lv = shell_exec($database->getConfig('sudo') . " " .  $database->getConfig('lvs') . " --noheadings --units g ");
+                $lv_out = explode("\n", $lv);
+                $lv_out = explode(" ", $lv_out[$i]);
+                $lv_out = array_filter($lv_out, 'strlen');
+                $lvs2[$i] = array_slice($lv_out, 0);
+            }
+
+            for ($i = 0; $i < count($lvs2); $i++) {
+                $paths[$i] = "/dev/" . $lvs2[$i][1] . "/" . $lvs2[$i][0];
+            }
+
+            if (empty($lvs2) or empty($paths)) {
+                return 3;
+            } else {
+                $data = array(
+                    0 => $lvs2,
+                    1 => $paths
+                );
+                return $data;
+            }
+        }
+
         public function get_logical_volumes($vgroup) {
             require_once 'Database.php';
             $database = new Database();

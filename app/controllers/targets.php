@@ -13,42 +13,24 @@
             $database = $this->model('Database');
             $ietadd = $this->model('Ietaddtarget');
             $std = $this->model('Std');
-            $data = $lvm->get_volume_groups();
             $this->view('header');
             $this->view('menu');
-            if (isset($_POST['vg_post'])) {
-                $VG = $lvm->get_data_from_drop_down($data, $_POST['vg_post']);
-                $data = $lvm->get_lvm_data('lvs', $VG);
-                if ($data == 3) {
-                    $this->view('message', "Error - the volume group $VG has no logical volumes!");
-                } else {
-                    setcookie("volumegroup", $VG);
-                    $logicalvolumes = $lvm->get_full_path_to_volumes($data, $VG);
-                    $data = $ietadd->get_unused_volumes($logicalvolumes);
-                    if (empty($data)) {
-                        $this->view('message', "Error - In the volume group $VG are no volumes available!");
-                    } else {
-                        $this->view('targets/add', $data);
-                    }
-                }
-            } elseif (isset($_POST['name']) && isset($_POST['path']) && isset($_POST['type'])) {
+            if (isset($_POST['name']) && isset($_POST['path']) && isset($_POST['type'])) {
                 $NAME = $_POST['name'];
-                $VG = $_COOKIE["volumegroup"];
                 $TYPE = $_POST['type'];
                 $MODE = $_POST['mode'];
 
-                $data = $lvm->get_lvm_data('lvs', $VG);
+                $data = $lvm->get_all_logical_volumes();
                 if ($data == 3) {
-                    $this->view('message', "Error - the volume group $VG has no logical volumes!");
+                    $this->view('message', "Error - No logical volumes found!");
                 } else {
-                    $logicalvolumes = $lvm->get_full_path_to_volumes($data, $VG);
                     $return = $ietadd->check_target_name_already_in_use($NAME);
                     if ($return == 4) {
                         $this->view('message', "Error - The name $NAME is already taken!");
                     } else {
-                        $data = $ietadd->get_unused_volumes($logicalvolumes);
+                        $data = $ietadd->get_unused_volumes($data[1]);
                         if (empty($data)) {
-                            $this->view('message', "Error - In the volume group $VG are no volumes available!");
+                            $this->view('message', "Error - No logical volumes found!");
                         } else {
                             $LV = $lvm->get_data_from_drop_down($data, $_POST['path']);
                             $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=0 --params Name=" . $database->getConfig('iqn') . ":" . $NAME);
@@ -72,7 +54,17 @@
                     }
                 }
             } else {
-                $this->view('vginput', $data);
+                $data = $lvm->get_all_logical_volumes();
+                if ($data == 3) {
+                    $this->view('message', "Error - No logical volumes found!");
+                } else {
+                    $data = $ietadd->get_unused_volumes($data[1]);
+                    if (empty($data)) {
+                        $this->view('message', "Error - No logical volumes available!");
+                    } else {
+                        $this->view('targets/add', $data);
+                    }
+                }
             }
             $data = $std->get_service_status();
             $this->view('footer', $data);
