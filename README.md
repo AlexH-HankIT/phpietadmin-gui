@@ -15,6 +15,7 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Show all available lvm volumes in one dropdown menu (targets add/delete)
 - [x] Delete all permissions of target if it is deleted
 - [ ] Add lvextend, lvremove, lvrename features
+- [ ] Lvm snapshots
 - [ ] Use ajax for post requests
 - [ ] Add php sessions
 - [ ] Add incoming user authentication for target
