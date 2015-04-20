@@ -26,6 +26,8 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Write installation documentation
 - [ ] Create screenshots and document the features
 - [ ] Don't reload menu and footer
+- [ ] Add multiple luns to one target
+- [ ] Dropdown for fileio or blockio
 
 
 Items are completely random ;-)
