@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Install bins
+apt-get update
 apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-3.2.0-4-amd64
 
 # Create sudoers file
