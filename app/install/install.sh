@@ -14,6 +14,9 @@ chown -R www-data:www-data /usr/share/phpietadmin
 chown -R root:www-data /etc/iet
 chmod -R 660 /etc/iet
 
+# Enable mods
+a2enmod rewrite
+
 # Enable service
 sed -i 's/false/true/g' /etc/default/iscsitarget
 
