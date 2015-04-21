@@ -12,52 +12,52 @@
         <div class = "collapse navbar-collapse navHeaderCollapse">
             <ul class = "nav navbar-nav navbar-right">
 
-                <li class = "active"><a href='/phpietadminv02/home'>Home</a></li>
+                <li class = "active"><a href='/phpietadmin/home'>Home</a></li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Overview <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadminv02/overview/disks'>Disks</a></li>
-                        <li><a href='/phpietadminv02/overview/ietvolumes'>Iet volumes</a></li>
-                        <li><a href='/phpietadminv02/overview/ietsessions'>Iet sessions</a></li>
-                        <li><a href='/phpietadminv02/overview/pv'>Physical volumes</a></li>
-                        <li><a href='/phpietadminv02/overview/vg'>Volume groups</a></li>
-                        <li><a href='/phpietadminv02/overview/lv'>Logical volumes</a></li>
-                        <li><a href='/phpietadminv02/overview/initiators'>Initiator permissions</a></li>
-                        <li><a href='/phpietadminv02/overview/targets'>Target permissions</a></li>
+                        <li><a href='/phpietadmin/overview/disks'>Disks</a></li>
+                        <li><a href='/phpietadmin/overview/ietvolumes'>Iet volumes</a></li>
+                        <li><a href='/phpietadmin/overview/ietsessions'>Iet sessions</a></li>
+                        <li><a href='/phpietadmin/overview/pv'>Physical volumes</a></li>
+                        <li><a href='/phpietadmin/overview/vg'>Volume groups</a></li>
+                        <li><a href='/phpietadmin/overview/lv'>Logical volumes</a></li>
+                        <li><a href='/phpietadmin/overview/initiators'>Initiator permissions</a></li>
+                        <li><a href='/phpietadmin/overview/targets'>Target permissions</a></li>
                     </ul>
                 </li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Targets <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadminv02/targets/add'>Add</a></li>
-                        <li><a href='/phpietadminv02/targets/delete'>Delete</a></li>
+                        <li><a href='/phpietadmin/targets/add'>Add</a></li>
+                        <li><a href='/phpietadmin/targets/delete'>Delete</a></li>
                     </ul>
                 </li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Allow <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadminv02/allow/addinitiator'>Add initiator</a></li>
-                        <li><a href='/phpietadminv02/allow/deleteinitiator'>Delete initiator</a></li>
-                        <li><a href='/phpietadminv02/allow/adduser'>Add user (BUGGY)</a></li>
+                        <li><a href='/phpietadmin/allow/addinitiator'>Add initiator</a></li>
+                        <li><a href='/phpietadmin/allow/deleteinitiator'>Delete initiator</a></li>
+                        <li><a href='/phpietadmin/allow/adduser'>Add user (BUGGY)</a></li>
                     </ul>
                 </li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">LVM <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadminv02/lvm/add'>Add logical volume</a></li>
-                        <li><a href='/phpietadminv02/lvm/delete'>Delete logical volume</a></li>
+                        <li><a href='/phpietadmin/lvm/add'>Add logical volume</a></li>
+                        <li><a href='/phpietadmin/lvm/delete'>Delete logical volume</a></li>
                     </ul>
                 </li>
 
-                <li><a href='/phpietadminv02/service'>Service</a></li>
+                <li><a href='/phpietadmin/service'>Service</a></li>
 
-                <li><a href='/phpietadminv02/config'>Config</a></li>
+                <li><a href='/phpietadmin/config'>Config</a></li>
 
-                <li><a href='/phpietadminv02/auth/logout'>Logout</a></li>
+                <li><a href='/phpietadmin/auth/logout'>Logout</a></li>
             </ul>
         </div>
     </div>

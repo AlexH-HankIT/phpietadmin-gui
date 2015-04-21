@@ -12,7 +12,7 @@
                 $data = $std->get_service_status();
                 $this->view('footer', $data);
             } else {
-                header("Location: /phpietadminv02/auth/login");
+                header("Location: /phpietadmin/auth/login");
             }
         }
 
@@ -69,7 +69,7 @@
                 $data = $std->get_service_status();
                 $this->view('footer', $data);
             } else {
-                header("Location: /phpietadminv02/auth/login");
+                header("Location: /phpietadmin/auth/login");
             }
         }
 
@@ -111,7 +111,7 @@
                 $data = $std->get_service_status();
                 $this->view('footer', $data);
             } else {
-                header("Location: /phpietadminv02/auth/login");
+                header("Location: /phpietadmin/auth/login");
             }
         }
 
@@ -200,7 +200,7 @@
                 $data = $std->get_service_status();
                 $this->view('footer', $data);
             } else {
-                header("Location: /phpietadminv02/auth/login");
+                header("Location: /phpietadmin/auth/login");
             }
         }
 

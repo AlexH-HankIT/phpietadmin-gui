@@ -8,9 +8,10 @@
                 $session->setPassword($_POST['password']);
 
                 if($session->check()) {
-                    header("Location: /phpietadminv02/home");
+                    header("Location: /phpietadmin/home");
                 } else {
                     $this->view('message', 'Wrong username or password!');
+                    header( "refresh:2;url=/phpietadmin/auth/login" );
                 }
             } else {
                 $this->view('header', "login");
@@ -26,10 +27,10 @@
                 if ($session->check()) {
                     session_destroy();
                     $this->view('message', 'Logout successful!');
-                    header( "refresh:2;url=/phpietadminv02/auth/login" );
+                    header( "refresh:2;url=/phpietadmin/auth/login" );
                 }
             } else {
-                header("Location: /phpietadminv02/auth/login");
+                header("Location: /phpietadmin/auth/login");
             }
         }
     }
