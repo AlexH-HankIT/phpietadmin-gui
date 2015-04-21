@@ -14,6 +14,9 @@ chown -R www-data:www-data /usr/share/phpietadmin
 chown -R root:www-data /etc/iet
 chmod -R 660 /etc/iet
 
+# Enable service
+sed -i 's/false/true/g' /etc/default/iscsitarget
+
 # Secure installation
 sed -i '/ALL ALL/d' /etc/iet/initiators.allow
 
