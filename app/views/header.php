@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/phpietadminv02/css/bootstrap.css" type="text/css" rel="stylesheet">
     <link href="/phpietadminv02/css/my.css" type="text/css" rel="stylesheet">
+    <?php if ($data == "login") { ?>
+        <link href="/phpietadminv02/css/login.css" type="text/css" rel="stylesheet">
+    <?php } ?>
 </head>
 <title>phpietadmin</title>
 <body>

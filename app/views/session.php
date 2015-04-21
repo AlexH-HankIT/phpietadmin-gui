@@ -1,14 +1,15 @@
 <div class = "container">
-    <h1>Login</h1>
-    <div class = "jumbotron">
-        <form method = "post">
-            <p>Username</p>
-            <input class="form-control" type="text" name="username" value="" />
-            <br />
-            <p>Password</p>
-            <input class="form-control" type="password" name="password" value="" />
-            <br />
-            <input class="btn btn-primary" type='submit' value='Login'>
-        </form>
-    </div>
+    <form method = "post" class="form-signin">
+        <h2 align="center" class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+            <!--<label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>-->
+        </div>
+        <input class="btn btn-lg btn-primary btn-block" type='submit' value='Login'>
+    </form>
 </div>

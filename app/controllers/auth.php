@@ -13,7 +13,7 @@
                     $this->view('message', 'Wrong username or password!');
                 }
             } else {
-                $this->view('header');
+                $this->view('header', "login");
                 $this->view('session');
             }
         }
