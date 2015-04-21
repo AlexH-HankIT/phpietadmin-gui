@@ -11,7 +11,6 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 
 ## ToDo
 - [x] Complete switch to mvc
-- [ ] Add config menu to gui
 - [ ] Use more javascript
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
 - [ ] Don't display targets in use for permission deletion
@@ -38,6 +37,7 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Add multiple luns to one target
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
+- [ ] Add config menu to gui
 
 Items are completely random ;-)
 
