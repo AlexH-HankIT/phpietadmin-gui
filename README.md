@@ -30,6 +30,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Installation-%5BCurrent-version%
 - [ ] Don't reload menu and footer
 - [x] Dropdown for fileio or blockio
 - [x] Dropdown for mode (write through/read only)
+- [ ] Handle no PV/VG/LV error
 
 ## Planned features
 - [ ] Add lvextend, lvremove, lvrename features
