@@ -8,7 +8,8 @@ cat > /etc/sudoers.d/phpietadmin << "EOF"
             www-data ALL=NOPASSWD: /usr/sbin/service iscsitarget *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce
 EOF
 
-# Set permissions for the iet config files
+# Set permissions for the iet config files and phpietadmin dir
+chown -R www-data:www-data /usr/share/phpietadmin
 chown -R root:www-data /etc/iet
 chmod -R 660 /etc/iet
 
