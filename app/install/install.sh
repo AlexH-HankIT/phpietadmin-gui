@@ -2,7 +2,7 @@
 
 # Install bins
 apt-get update
-apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-3.2.0-4-amd64 sqlite3
+apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-3.2.0-4-amd64 sqlite3 php5-sqlite
 
 # Create sudoers file
 cat > /etc/sudoers.d/phpietadmin << "EOF"
@@ -25,7 +25,7 @@ sed -i '/ALL ALL/d' /etc/iet/initiators.allow
 
 # Configure apache
 sed -i 's/None/all/g' /etc/apache2/sites-enabled/000-default
-echo "Alias /usr/share/phpietadmin/public /phpietadmin" >> /etc/apache2/sites-enabled/000-default
+echo "Alias /phpietadmin /usr/share/phpietadmin/public/" >> /etc/apache2/sites-enabled/000-default
 
 # Restart services
 service iscsitarget restart
