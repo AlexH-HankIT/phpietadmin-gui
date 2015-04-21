@@ -5,11 +5,11 @@
         <input type="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-            <!--<label>
+        <!--<div class="checkbox">
+            <label>
                 <input type="checkbox" value="remember-me"> Remember me
-            </label>-->
-        </div>
+            </label>
+        </div>-->
         <input class="btn btn-lg btn-primary btn-block" type='submit' value='Login'>
     </form>
 </div>
