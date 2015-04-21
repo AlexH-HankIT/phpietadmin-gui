@@ -2,7 +2,7 @@
 Webinterface to control the iet daemon written in php using mvc pattern.
 
 ### Features
-- [x] Overview disks, iet volumes, iet sessions, all typs of lvm volumes, initiator and target permissions
+- [x] Overview about disks, iet volumes, iet sessions, all typs of lvm volumes, initiator and target permissions
 - [x] Add/Delete iSCSI targets
 - [x] Add/Delete initiator allow
 - [x] Add/Delete logical lvm volumes
