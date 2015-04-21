@@ -5,7 +5,7 @@
                 $session = $this->model('Session');
 
                 $session->setUsername($_POST['username']);
-                $session->setPassword($_POST['password']);
+                $session->setPassword(hash('sha256', $_POST['password']));
 
                 if($session->check()) {
                     header("Location: /phpietadmin/home");
