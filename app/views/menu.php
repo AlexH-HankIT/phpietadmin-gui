@@ -37,11 +37,11 @@
                 </li>
 
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Allow <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Permissions <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadmin/allow/addinitiator'>Add initiator</a></li>
-                        <li><a href='/phpietadmin/allow/deleteinitiator'>Delete initiator</a></li>
-                        <li><a href='/phpietadmin/allow/adduser'>Add user (BUGGY)</a></li>
+                        <li><a href='/phpietadmin/permission/addinitiator'>Add initiator</a></li>
+                        <li><a href='/phpietadmin/permission/deleteinitiator'>Delete initiator</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Add user (BUGGY)</a></li>
                     </ul>
                 </li>
 

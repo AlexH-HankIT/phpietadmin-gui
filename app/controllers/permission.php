@@ -1,5 +1,5 @@
 <?php
-    class allow extends Controller {
+    class permission extends Controller {
         public function index() {
             $session = $this->model('Session');
             $session->setUsername($_SESSION['username']);
@@ -45,7 +45,7 @@
                         $this->view('message', "Error - Rules for all targets are already set!");
                     } else {
                         if (empty($_POST['IQNs'])) {
-                            $this->view('allow/addip', $a_name);
+                            $this->view('permission/addip', $a_name);
                         } else {
                             $return = $ietpermissions->write_allow_rule($_POST['IQNs'], $a_name);
 
@@ -87,7 +87,7 @@
                     $a_initiators2 = $ietpermissions->get_initiator_array($a_initiators);
 
                     if (empty($_POST['IQNs2'])) {
-                        $this->view('allow/deleteip', $a_initiators2);
+                        $this->view('permission/deleteip', $a_initiators2);
                     } else {
                         $return = $ietpermissions->delete_allow_rule($a_initiators2);
                         if ($return == 1) {
@@ -142,7 +142,7 @@
                             $std->addlineafterpattern($IQN, $database->getConfig('ietd_config_file'), "IncomingUser " . $USER . " " . $PASS);
                         }
                     } else {
-                        $this->view('allow/adduser', $data);
+                        $this->view('permission/adduser', $data);
                     }
                 }
 
