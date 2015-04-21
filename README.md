@@ -22,7 +22,7 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Add php sessions timeout
 - [x] Add service running/not running to footer
 - [ ] Add console output to service menu
-- [ ] Write installation documentation
+- [x] Write installation documentation
 - [ ] Create screenshots and document the features
 - [ ] Don't reload menu and footer
 - [x] Dropdown for fileio or blockio
@@ -37,7 +37,10 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Add multiple luns to one target
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
-- [ ] Add config menu to gui
+- [ ] Add config menuto gui
+
+## Docs
+https://github.com/MrCrankHank/phpietadmin/wiki/Installation-%5BCurrent-version%5D
 
 Items are completely random ;-)
 
