@@ -1,31 +1,39 @@
 <?php
     class Service extends Controller {
         public function index() {
-            $database = $this->model('Database');
-            $std = $this->model('Std');
+            $session = $this->model('Session');
+            $session->setUsername($_SESSION['username']);
+            $session->setPassword($_SESSION['password']);
 
-            $this->view('header');
-            $this->view('menu');
+            if ($session->check()) {
+                $database = $this->model('Database');
+                $std = $this->model('Std');
 
-            if (isset($_POST['start'])) {
-                $output = shell_exec($database->getConfig('sudo') . " " .   $database->getConfig('service') . " " . $database->getConfig('servicename') . " start");
-            } else if (isset($_POST['stop'])) {
-                $output = shell_exec($database->getConfig('sudo') . " " .   $database->getConfig('service') . " " . $database->getConfig('servicename') . " stop");
-            } else if (isset($_POST['restart'])) {
-                $output = shell_exec($database->getConfig('sudo') . " " .   $database->getConfig('service') . " " . $database->getConfig('servicename') . " restart");
-            }
+                $this->view('header');
+                $this->view('menu');
 
-            $this->view('service');
+                if (isset($_POST['start'])) {
+                    $output = shell_exec($database->getConfig('sudo') . " " .   $database->getConfig('service') . " " . $database->getConfig('servicename') . " start");
+                } else if (isset($_POST['stop'])) {
+                    $output = shell_exec($database->getConfig('sudo') . " " .   $database->getConfig('service') . " " . $database->getConfig('servicename') . " stop");
+                } else if (isset($_POST['restart'])) {
+                    $output = shell_exec($database->getConfig('sudo') . " " .   $database->getConfig('service') . " " . $database->getConfig('servicename') . " restart");
+                }
 
-            $return = $std->get_service_status();
+                $this->view('service');
 
-            if ($return[1]!=0) {
-                $this->view('message', "Service is not running!");
+                $return = $std->get_service_status();
+
+                if ($return[1]!=0) {
+                    $this->view('message', "Service is not running!");
+                } else {
+                    $this->view('message', "Service is running!");
+                }
+
+                $this->view('footer', $return);
             } else {
-                $this->view('message', "Service is running!");
+                header("Location: /phpietadminv02/auth/login");
             }
-
-            $this->view('footer', $return);
         }
     }
 ?>

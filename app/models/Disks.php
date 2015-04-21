@@ -1,7 +1,7 @@
 <?php
     class Disks {
         public function getDisks() {
-            require 'Database.php';
+            require_once 'Database.php';
             $database = new Database();
             $lsblk_out = shell_exec($database->getConfig('sudo') . " " . $database->getConfig('lsblk') . " -rn");
             $database->close();

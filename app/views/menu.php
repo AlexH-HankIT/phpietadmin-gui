@@ -56,6 +56,8 @@
                 <li><a href='/phpietadminv02/service'>Service</a></li>
 
                 <li><a href='/phpietadminv02/config'>Config</a></li>
+
+                <li><a href='/phpietadminv02/auth/logout'>Logout</a></li>
             </ul>
         </div>
     </div>

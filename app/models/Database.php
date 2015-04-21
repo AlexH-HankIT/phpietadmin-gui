@@ -10,5 +10,6 @@
             $data = $this->querySingle('SELECT value from config where option="' . $option . '"', true);
             return $data['value'];
         }
+
     }
 ?>
