@@ -1,7 +1,10 @@
 # phpietadmin
 Webinterface to control the iet daemon written in php using mvc pattern.
 
-### Features
+## Docs
+https://github.com/MrCrankHank/phpietadmin/wiki/Installation-%5BCurrent-version%5D
+
+## Features
 - [x] Overview about disks, iet volumes, iet sessions, all typs of lvm volumes, initiator and target permissions
 - [x] Add/Delete iSCSI targets
 - [x] Add/Delete initiator allow
@@ -38,9 +41,6 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
 - [ ] Add config menuto gui
-
-## Docs
-https://github.com/MrCrankHank/phpietadmin/wiki/Installation-%5BCurrent-version%5D
 
 Items are completely random ;-)
 
