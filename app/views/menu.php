@@ -12,7 +12,7 @@
         <div class = "collapse navbar-collapse navHeaderCollapse">
             <ul class = "nav navbar-nav navbar-right">
 
-                <li class = "active"><a href='/phpietadmin/home'>Home</a></li>
+                <li><a href='/phpietadmin/home'>Home</a></li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Overview <b class = "caret"></b></a>

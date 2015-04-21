@@ -4,6 +4,9 @@ Webinterface to control the iet daemon written in php using mvc pattern.
 ## Docs
 https://github.com/MrCrankHank/phpietadmin/wiki/Installation-v02
 
+## Screens
+https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
+
 ## Features
 - [x] Overview about disks, iet volumes, iet sessions, all typs of lvm volumes, initiator and target permissions
 - [x] Add/Delete iSCSI targets
