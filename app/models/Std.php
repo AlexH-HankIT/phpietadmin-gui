@@ -1,7 +1,7 @@
 <?php
     class Std {
         public function exec_and_return($command) {
-            exec($command, $status, $result);
+            exec($command . " 2>&1", $status, $result);
 
             if ($result != 0) {
                 return $status;

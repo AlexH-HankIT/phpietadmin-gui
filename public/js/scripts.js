@@ -94,3 +94,21 @@ function setNavigation() {
         }
     });
 }
+
+function showlvinput(str) {
+    var data = {
+        "vg": str
+    };
+
+    request = $.ajax({
+        url: "/phpietadmin/lvm/add",
+        type: "post",
+        data: data
+    });
+
+    request.done(function() {
+        if (request.readyState == 4 && request.status == 200) {
+            document.getElementById("lv").innerHTML = request.responseText;
+        }}
+    );
+}

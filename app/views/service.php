@@ -9,4 +9,9 @@
             <input class="btn btn-primary" type="submit" name="restart" value="Restart" />
         </form>
     </div>
+    <?php if (!empty($data)) { ?>
+    <div class = "jumbotron">
+            <p> <?php printf($data) ?></p>
+    </div>
+    <?php } ?>
 </div>

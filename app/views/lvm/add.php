@@ -1,15 +1,12 @@
 <div class = "container">
-    <ol class="breadcrumb">
-        <li class="active">Add logical volumes</li>
-    </ol>
-
-    <div class = "jumbotron">
+    <div class = "jumbotron" id="lvmadd">
         <form method="post">
             <table class = "table borderless">
+                <input type="hidden" name="vg" value=<?=$_POST['vg']?>>
                 <tr>
                     <p>
                     <td>Name:</td>
-                    <td><input type="text" name="name" id="name" class="form-control"/></td>
+                    <td><input type="text" name="name" id="name" class="form-control" required/></td>
                     </p>
                 </tr>
                 <tr>
@@ -31,7 +28,7 @@
                 </tr>
             </table>
             <br />
-            <input class="btn btn-primary" type='submit' value='Create' onclick="return validateinputnotempty('name')">
+        <button class="btn btn-primary" type='submit' value=<?=$_POST['vg']?> onclick="">Create</button>
         </form>
     <br>
     </div>

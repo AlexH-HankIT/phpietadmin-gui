@@ -26,48 +26,50 @@
                 $lvm = $this->model('Lvmdisplay');
                 $std = $this->model('Std');
                 $database = $this->model('Database');
-
-                $this->view('header');
-                $this->view('menu');
-
-                $data = $lvm->get_volume_groups();
-
-                if ($data == 3) {
-                    $this->view('message', "Error - Can't display the volumes groups");
-                } else {
-                    if (isset($_POST['name']) && isset($_POST['size'])) {
+                if (!empty($_POST['vg'])) {
+                    if (isset($_POST['name']) && isset($_POST['size']) && isset($_POST['vg'])) {
                         $NAME = $_POST['name'];
                         $SIZE = $_POST['size'];
-                        $VG = $_COOKIE["volumegroup"];
 
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " .  $database->getConfig('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $VG);
+                        $return = $std->exec_and_return($database->getConfig('sudo') . " " .  $database->getConfig('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $_POST['vg']);
 
+                        $this->view('header');
+                        $this->view('menu');
                         if ($return != 0) {
                             $this->view('message', "Error - Could not add the logical volume $NAME. Server said: $return[0]");
+                            header( "refresh:5;url=/phpietadmin/lvm/add" );
                         } else {
                             $this->view('message', "Success");
+                            header( "refresh:2;url=/phpietadmin/lvm/add" );
                         }
+                        $data = $std->get_service_status();
+                        $this->view('footer', $data);
                     } else {
-                        if (!isset($_POST['vg_post'])) {
-                            $this->view('vginput', $data);
+                        $data = $lvm->get_lvm_data("vgs", $_POST['vg']);
+
+                        $freesize = $lvm->extract_free_size_from_volume_group($data);
+
+                        if ($freesize <= 1) {
+                            $this->view('message', "Error - Volume group " . $_POST['vg_post'] . " is too small for new volumes");
                         } else {
-                            // Get data from selected group
-                            $data = $lvm->get_lvm_data("vgs", $_POST['vg_post']);
-
-                            $freesize = $lvm->extract_free_size_from_volume_group($data);
-
-                            if ($freesize <= 1) {
-                                $this->view('message', "Error - Volume group " . $_POST['vg_post'] . " is too small for new volumes");
-                            } else {
-                                setcookie("volumegroup", $_POST['vg_post']);
-                                $this->view('lvm/add', $freesize);
-                            }
+                            $this->view('lvm/add', $freesize);
                         }
                     }
-                }
+                } else {
+                    $this->view('header');
+                    $this->view('menu');
 
-                $data = $std->get_service_status();
-                $this->view('footer', $data);
+                    $data = $lvm->get_volume_groups();
+
+                    if ($data == 3) {
+                        $this->view('message', "Error - Can't display the volumes groups");
+                    } else {
+                        $this->view('vginput', $data);
+                    }
+
+                    $data = $std->get_service_status();
+                    $this->view('footer', $data);
+                }
             } else {
                 header("Location: /phpietadmin/auth/login");
             }
@@ -102,6 +104,7 @@
                                 $this->view('message', "Error - Cannot delete logical volume " . $data[$_POST['volumes'] - 1]);
                             } else {
                                 $this->view('message', "Success");
+                                header( "refresh:2;url=/phpietadmin/lvm/delete" );
                             }
                         } else {
                             $this->view('lvm/delete', $data);

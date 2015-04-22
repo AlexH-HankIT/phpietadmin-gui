@@ -20,7 +20,11 @@
                     $output = shell_exec($database->getConfig('sudo') . " " .   $database->getConfig('service') . " " . $database->getConfig('servicename') . " restart");
                 }
 
-                $this->view('service');
+                if (!empty($output)) {
+                    $this->view('service', $output);
+                } else {
+                    $this->view('service');
+                }
 
                 $return = $std->get_service_status();
 
@@ -29,6 +33,7 @@
                 } else {
                     $this->view('message', "Service is running!");
                 }
+
 
                 $this->view('footer', $return);
             } else {

@@ -21,15 +21,16 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
 - [ ] Don't display targets in use for permission deletion
 - [ ] Handle duplicated names of logical volumes
-- [ ] Output error messages from exec
+- [x] Output error messages from exec
 - [x] Show all available lvm volumes in one dropdown menu (targets add)
 - [x] Delete all permissions of target if it is deleted
-- [ ] Use ajax for post requests
+- [x] Use ajax for post requests
 - [ ] Add php sessions timeout
 - [x] Add service running/not running to footer
-- [ ] Add console output to service menu
+- [x] Add console output to service menu
 - [x] Write installation documentation
-- [ ] Create screenshots and document the features
+- [x] Create screenshots
+- [ ] Document the features
 - [ ] Don't reload menu and footer
 - [x] Dropdown for fileio or blockio
 - [x] Dropdown for mode (write through/read only)
