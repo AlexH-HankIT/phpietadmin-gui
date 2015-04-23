@@ -101,7 +101,7 @@
                             $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvremove') . ' -f ' . $_POST['volumes']);
 
                             if ($return != 0) {
-                                $this->view('message', "Error - Cannot delete logical volume " . $data[$_POST['volumes'] - 1]);
+                                $this->view('message', "Error - Cannot delete logical volume " . $_POST['volumes']);
                             } else {
                                 $this->view('message', "Success");
                                 header( "refresh:2;url=/phpietadmin/lvm/delete" );
