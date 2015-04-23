@@ -50,7 +50,7 @@
                         $freesize = $lvm->extract_free_size_from_volume_group($data);
 
                         if ($freesize <= 1) {
-                            $this->view('message', "Error - Volume group " . $_POST['vg_post'] . " is too small for new volumes");
+                            $this->view('message', "Error - Volume group " . $_POST['vg'] . " is too small for new volumes");
                         } else {
                             $this->view('lvm/add', $freesize);
                         }
