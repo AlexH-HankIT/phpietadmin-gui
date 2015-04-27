@@ -79,10 +79,11 @@ class Overview extends Controller {
 
             $this->view('header');
             $this->view('menu');
-            if ($sessions == 2) {
+
+            if ($sessions == 2 or $sessions == 1) {
                 $this->view('message', "The ietsessions file was not found or is empty!");
             } else {
-                $this->view('table', $sessions);
+                $this->view('ietsessions', $sessions);
             }
             $data = $std->get_service_status();
             $this->view('footer', $data);
