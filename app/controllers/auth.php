@@ -15,7 +15,7 @@
                 }
             } else {
                 $this->view('header', "login");
-                $this->view('session');
+                $this->view('signin');
             }
         }
 
