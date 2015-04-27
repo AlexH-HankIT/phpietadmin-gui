@@ -16,7 +16,6 @@
             }
         }
 
-
         public function add() {
             $session = $this->model('Session');
             $session->setUsername($_SESSION['username']);
