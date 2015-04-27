@@ -36,7 +36,7 @@
 
                         $return = $lvm->check_logical_volume_exists_in_vg($NAME, $_POST['vg']);
 
-                        if ($return === false) {
+                        if($return) {
                             $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $_POST['vg']);
 
                             if ($return != 0) {

@@ -147,7 +147,7 @@
             $count = count($lv_out) - 1;
 
             for ($i = 0; $i < $count; $i++) {
-                $lv = shell_exec($database->getConfig('sudo') . " " .  $database->getConfig('lvs') . " --noheadings --units g " . $vgroup);
+                //$lv = shell_exec($database->getConfig('sudo') . " " .  $database->getConfig('lvs') . " --noheadings --units g " . $vgroup);
                 $lv_out = explode("\n", $lv);
                 $lv_out = explode(" ", $lv_out[$i]);
                 $lv_out = array_filter($lv_out, 'strlen');
@@ -227,6 +227,22 @@
             // Extract free size of the volume group
             preg_match("/(.*?)(?=\.|$)/", $data[1][0][6], $freesize);
             return $freesize[1] - 1;
+        }
+
+        public function check_logical_volume_exists_in_vg($NAME, $VG) {
+            $data = $this->get_logical_volumes($VG);
+
+            for ($i = 0; $i < count($data); $i++) {
+                $volumes[$i] = $data[$i][0];
+            }
+
+            $return = array_search($NAME, $volumes);
+
+            if ($return === false) {
+                return true;
+            }else {
+                return false;
+            }
         }
     }
 ?>
