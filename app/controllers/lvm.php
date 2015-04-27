@@ -31,20 +31,18 @@
                         $NAME = $_POST['name'];
                         $SIZE = $_POST['size'];
 
+                        $return = $lvm->check_logical_volume_exists_in_vg($NAME, $_POST['vg']);
+
                         $this->view('header');
                         $this->view('menu');
-
-                        $return = $lvm->check_logical_volume_exists_in_vg($NAME, $_POST['vg']);
 
                         if($return) {
                             $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $_POST['vg']);
 
                             if ($return != 0) {
                                 $this->view('message', "Error - Could not add the logical volume $NAME. Server said: $return[0]");
-                                header("refresh:5;url=/phpietadmin/lvm/add");
                             } else {
                                 $this->view('message', "Success");
-                                header("refresh:2;url=/phpietadmin/lvm/add");
                             }
                         } else {
                             $this->view('message', "The logical volume " . $NAME . " already exists!");
@@ -112,7 +110,6 @@
                                 $this->view('message', "Error - Cannot delete logical volume " . $_POST['volumes']);
                             } else {
                                 $this->view('message', "Success");
-                                header( "refresh:2;url=/phpietadmin/lvm/delete" );
                             }
                         } else {
                             $this->view('lvm/delete', $data);
