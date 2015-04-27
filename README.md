@@ -35,6 +35,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [x] Dropdown for fileio or blockio
 - [x] Dropdown for mode (write through/read only)
 - [ ] Handle no PV/VG/LV error
+- [x] Handle multiple sessions for one target
 
 ## Planned features
 - [ ] Add lvextend, lvremove, lvrename features

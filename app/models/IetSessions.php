@@ -3,9 +3,9 @@
         public function getProcSessions() {
             require_once 'Database.php';
             $database = new Database();
+
             if (file_exists($database->getConfig('proc_sessions'))) {
                 $return = file_get_contents($database->getConfig('proc_sessions'));
-                $database->close();
                 if (empty($return)) {
                     return 2;
                 } else {
@@ -17,71 +17,97 @@
         }
 
         public function getIetSessions() {
-            $sessions = $this->getProcSessions();
+            // Read content
+            $data = $this->getProcSessions();
 
-            // Check if even one session exists
-            if (strpos($sessions, 'cid') == false && strpos($sessions, 'sid') == false) {
-                return 2;
-            } else {
-                // Get line count
-                $count = substr_count($sessions, "\n")/3;
-                if ($count / 3) {
-                    $a_sessions = array_filter(explode("\n", $sessions));
-                    for ($i = 0; $i < count($a_sessions) - 2; $i++) {
-                        if (strpos($a_sessions[$i + 2], 'cid') !== false) {
-                            $a_sessions2[$i][0] = $a_sessions[$i];
-                            $a_sessions2[$i][1] = $a_sessions[$i + 1];
-                            $a_sessions2[$i][2] = $a_sessions[$i + 2];
-                        }
-                    }
-                }
-                // Filter empty values
-                $a_sessions2 = array_values(($a_sessions2));
-                for ($i=0; $i < count($a_sessions2); $i++) {
-                    $a_sessions3[$i] = implode(' ', $a_sessions2[$i]);
-                }
-                for ($i=0; $i < count($a_sessions3); $i++) {
-                    $sessions = implode("\n", $a_sessions3);
-                }
-                for ($b=0; $b < floor($count); $b++) {
-                    preg_match_all("/name:(.*?) /", $sessions, $result);
-                    $data[$b][0] = $result[1][$b];
-                    preg_match_all("/tid:([0-9].*?) /", $sessions, $result);
-                    $data[$b][1] = $result[1][$b];
-                    preg_match_all("/sid:(.*?) /", $sessions, $result);
-                    $data[$b][2] = $result[1][$b];
-                    preg_match_all("/initiator:(.*?) /", $sessions, $result);
-                    $data[$b][3] = $result[1][$b];
-                    preg_match_all("/cid:([0-9].*?)/", $sessions, $result);
-                    $data[$b][4] = $result[1][$b];
-                    preg_match_all("/ip:(.*?) /", $sessions, $result);
-                    $data[$b][5] = $result[1][$b];
-                    preg_match_all("/state:(.*?) /", $sessions, $result);
-                    $data[$b][6] = $result[1][$b];
-                    preg_match_all("/hd:(.*?) /", $sessions, $result);
-                    $data[$b][7] = $result[1][$b];
-                    preg_match_all("/dd:(.*)/", $sessions, $result);
-                    $data[$b][8] = $result[1][$b];
-                }
-
-                $table = array(
-                    0 => "name",
-                    1 => "tid",
-                    2 => "sid",
-                    3 => "initiator",
-                    4 => "cid",
-                    5 => "ip",
-                    6 => "state",
-                    7 => "hd",
-                    8 => "dd"
-                );
-
-                $data2[0] = $table;
-                $data2[1] = $data;
-                $data2['title'] = "Iet sessions";
-
-                return $data2;
+            // If data contains error code, return it
+            if (is_int($data)) {
+                return $data;
             }
+
+            // Replace all newlines with spaces
+            $data = trim(preg_replace('/\s\s+/', ' ', $data));
+
+            // Explode array by 'tid'
+            $data = array_values(array_filter(explode('tid:', $data)));
+
+            // Explode arrays by space
+            $counter=0;
+            foreach ($data as $value) {
+                $data2[$counter] = explode(' ', $value);
+                $counter++;
+            }
+
+            $counter=0;
+            foreach ($data2 as $value) {
+                // All arrays with less than two rows don't contain interesting data
+                if (count($value) > 2) {
+                    $sessions[$counter] = $value;
+                }
+                $counter++;
+            }
+
+            // Abort and return if file is empty
+            if (empty($sessions)) {
+                return 2;
+            }
+
+
+            $counter=0;
+            foreach ($sessions as $value) {
+                // No regex here, because explode() already deleted 'tid'
+                $var[$counter][0]['tid'] = $value[0];
+
+                preg_match("/name:(.*)/", $value[1], $result);
+                $var[$counter][0]['name'] = $result[1];
+
+                for ($i=2; $i < count($value); $i=$i+7) {
+                    preg_match("/sid:(.*)/", $value[$i], $result);
+                    $var[$counter][$counter+$i]['sid'] = $result[1];
+
+                    preg_match("/initiator:(.*)/", $value[$i+1], $result);
+                    $var[$counter][$counter+$i]['initiator'] = $result[1];
+
+                    preg_match("/cid:([0-9].*)/", $value[$i+2], $result);
+                    $var[$counter][$counter+$i]['cid'] = $result[1];
+
+                    preg_match("/ip:(.*)/", $value[$i+3], $result);
+                    $var[$counter][$counter+$i]['ip'] = $result[1];
+
+                    preg_match("/state:(.*)/", $value[$i+4], $result);
+                    $var[$counter][$counter+$i]['state'] = $result[1];
+
+                    preg_match("/hd:(.*)/", $value[$i+5], $result);
+                    $var[$counter][$counter+$i]['hd'] = $result[1];
+
+                    preg_match("/dd:(.*)/", $value[$i+6], $result);
+                    $var[$counter][$counter+$i]['dd'] = $result[1];
+                }
+                $counter++;
+            }
+
+            // Correct index
+            for ($i=0; $i < count($var); $i++) {
+                $var[$i] = array_values($var[$i]);
+            }
+
+            $table = array(
+                0 => "name",
+                1 => "tid",
+                2 => "sid",
+                3 => "initiator",
+                4 => "cid",
+                5 => "ip",
+                6 => "state",
+                7 => "hd",
+                8 => "dd"
+            );
+
+            $return[0] = $table;
+            $return[1] = $var;
+            $return['title'] = "Iet sessions";
+
+            return $return;
         }
     }
 
