@@ -5,7 +5,7 @@
 
     <div class = "jumbotron">
         <form method="post">
-            <p>Name: <input class="form-control" type="text" name="name" id="name"/></p>
+            <p>Name: <input class="form-control" type="text" name="name" id="name" required/></p>
             <p>
                 LV:
                 <select name="path" id="path" class="form-control">
@@ -35,7 +35,7 @@
                     </p>
                 </div>
             </div>
-            <p><input class="btn btn-primary" type="submit" value="Create" onclick="return validatetargetadd();"/></p>
+            <p><input class="btn btn-primary" type="submit" value="Create" onclick="return validateinputnotdefault('path', 'Error - Please select a volume!')"/></p>
         </form>
     </div>
 </div>
