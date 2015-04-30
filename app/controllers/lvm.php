@@ -31,17 +31,25 @@
                         $NAME = $_POST['name'];
                         $SIZE = $_POST['size'];
 
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " .  $database->getConfig('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $_POST['vg']);
-
                         $this->view('header');
                         $this->view('menu');
-                        if ($return != 0) {
-                            $this->view('message', "Error - Could not add the logical volume $NAME. Server said: $return[0]");
-                            header( "refresh:5;url=/phpietadmin/lvm/add" );
+
+                        $return = $lvm->check_logical_volume_exists_in_vg($NAME, $_POST['vg']);
+
+                        if ($return === false) {
+                            $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $_POST['vg']);
+
+                            if ($return != 0) {
+                                $this->view('message', "Error - Could not add the logical volume $NAME. Server said: $return[0]");
+                                header("refresh:5;url=/phpietadmin/lvm/add");
+                            } else {
+                                $this->view('message', "Success");
+                                header("refresh:2;url=/phpietadmin/lvm/add");
+                            }
                         } else {
-                            $this->view('message', "Success");
-                            header( "refresh:2;url=/phpietadmin/lvm/add" );
+                            $this->view('message', "The logical volume " . $NAME . " already exists!");
                         }
+
                         $data = $std->get_service_status();
                         $this->view('footer', $data);
                     } else {
@@ -125,80 +133,29 @@
 
             if ($session->check()) {
                 $lvm = $this->model('Lvmdisplay');
-                $std = $this->model('Std');
                 $database = $this->model('Database');
+                $std = $this->model('Std');
 
                 $this->view('header');
                 $this->view('menu');
 
-                $data = $lvm->get_volume_groups();
+                /*
+                 * list logical volumes
+                 * if volume is in use:
+                 * resize it and disconnect the session, the initiator normally reconnects immediatly
+                 *
+                 * otherwise:
+                 * just resize it
+                 */
 
+                $data = $lvm->get_all_logical_volumes();
                 if ($data == 3) {
-                    $this->view('message', "Error - Can't display the volumes groups");
+                    $this->view('message', "Error - No logical volumes available");
                 } else {
-                    if (isset($_POST['size'])) {
-                        $LV = $_COOKIE["logicalvolume"];
-
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " .  $database->getConfig('lvrextend') .  " -L" . $_POST['size'] . "G " . $LV);
-
-                        if ($return != 0) {
-                            $this->view('message', "Error - Cannot extend logical volume" . $LV);
-                        } else {
-                            $this->view('message', "Success");
-                        }
-                    } else {
-                        if (isset($_POST['volumes'])) {
-                            $VG = $_COOKIE["volumegroup"];
-                            $var = $_POST['volumes'] - 1;
-
-                            $data = $lvm->get_lvm_data("lvs", $VG);
-
-                            $data = $lvm->get_full_path_to_volumes($data, $VG);
-
-                            $groups = $lvm->get_lvm_data("vgs", $VG);
-
-                            // Get max possible size of volume
-                            preg_match("/(.*?)(?=\.|$)/", $groups[0][6], $maxsize);
-
-                            if ($maxsize[1] <= 1) {
-                                $this->view('message', "Error - Volume group " . $VG . " is too small for the extention of logical volumes");
-                            } else {
-                                // Get min (current) size of volume
-                                $LV = $lvm->get_lvm_data("lvs", $data[$var]);
-
-                                setcookie("logicalvolume", $data[$var]);
-                                preg_match("/(.*?)(?=\.|$)/", $LV[0][3], $minsize);
-
-                                // Leave 1 gig free in volume group
-                                $maxsize2 = $maxsize[1] + $minsize[1] - 1;
-                                $minsize2 = $minsize[1] + 1;
-
-                                $values = array(
-                                    0 => $maxsize2,
-                                    1 => $minsize2
-                                );
-
-                                $this->view('lvm/extend', $values);
-                            }
-                        } else {
-                            if (!isset($_POST['vg_post'])) {
-                                $this->view('vginput', $data);
-                            } else {
-                                setcookie("volumegroup", $_POST['vg_post']);
-
-                                $data = $lvm->get_lvm_data("lvs", $_POST['vg_post']);
-
-                                if ($data == 3) {
-                                    $this->view('message', "Error - Can't display the logical volumes");
-                                } else {
-                                    $data = $lvm->get_full_path_to_volumes($data, $_POST['vg_post']);
-                                    $this->view('lvm/delete', $data);
-                                }
-                            }
-                        }
-                    }
+                    echo "<pre>";
+                    print_r($lvm->get_used_logical_volumes($data));
+                    echo "</pre>";
                 }
-
 
                 $data = $std->get_service_status();
                 $this->view('footer', $data);

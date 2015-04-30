@@ -20,7 +20,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Use more javascript
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
 - [ ] Don't display targets in use for permission deletion
-- [ ] Handle duplicated names of logical volumes
+- [x] Handle duplicated names of logical volumes
 - [x] Output error messages from exec
 - [x] Show all available lvm volumes in one dropdown menu (targets add)
 - [x] Delete all permissions of target if it is deleted
