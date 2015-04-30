@@ -25,9 +25,9 @@
                 $session->setUsername($_SESSION['username']);
                 $session->setPassword($_SESSION['password']);
                 if ($session->check()) {
+                    session_unset();
                     session_destroy();
-                    $this->view('message', 'Logout successful!');
-                    header( "refresh:2;url=/phpietadmin/auth/login" );
+                    header("Location: /phpietadmin/auth/login");
                 }
             } else {
                 header("Location: /phpietadmin/auth/login");
