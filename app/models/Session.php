@@ -2,6 +2,7 @@
     class Session {
         protected $username;
         protected $password;
+        protected $last_activity;
 
         public function __construct() {
             session_start();
@@ -42,12 +43,10 @@
             $_SESSION['password'] = $PASS;
         }
 
-        protected function getName() {
-            return $this->username;
-        }
-
-        protected function getPass() {
-            return $this->password;
+        public function setLast_activity() {
+            $time = time();
+            $this->last_activity = $time;
+            $_SESSION['last_activity'] =  $time;
         }
     }
 ?>
