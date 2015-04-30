@@ -187,6 +187,21 @@
             return $logicalvolumes;
         }
 
+        public function get_used_logical_volumes($data) {
+            require_once 'Database.php';
+            $database = new Database();
+
+            // Get array with volumes and paths
+            $volumes = file_get_contents($database->getConfig('proc_volumes'));
+            preg_match_all("/path:(.*)/", $volumes, $paths);
+
+            if (empty($paths[1])) {
+                return 2;
+            } else {
+                return $paths[1];
+            }
+        }
+
         public function get_unused_logical_volumes($data) {
             require_once 'Database.php';
             $database = new Database();
@@ -199,7 +214,7 @@
             $data = array_diff($data, $paths[1]);
 
             // Rebuild array index
-            $data =  array_values($data);
+            $data = array_values($data);
 
             if (empty($data)) {
                 return 2;
