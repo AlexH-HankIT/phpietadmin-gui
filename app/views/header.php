@@ -9,6 +9,10 @@
     <?php if ($data == "login") { ?>
         <link href="/phpietadmin/css/login.css" type="text/css" rel="stylesheet">
     <?php } ?>
+    <script type="text/javascript" src=/phpietadmin/js/jquery-2.1.3.min.js></script>
+    <script type="text/javascript" src=/phpietadmin/js/bootstrap.js></script>
+    <script type="text/javascript" src=/phpietadmin/js/jquery.input-ip-address-control.js></script>
+    <script type="text/javascript" src=/phpietadmin/js/scripts.js></script>
 </head>
 <title>phpietadmin</title>
 <body>
