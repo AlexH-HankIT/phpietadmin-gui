@@ -14,7 +14,7 @@
                 <?php } ?>
             </select>
             <br />
-            <input class="btn btn-primary" type='submit' value='Delete' onclick="return validatelogicalvolumedelete()">
+            <input class="btn btn-primary" type='submit' value='Delete' onclick="return validateinputnotdefault('volumes', 'Error - Please select a logical volume to delete!')">
         </form>
         </p>
     </div>
