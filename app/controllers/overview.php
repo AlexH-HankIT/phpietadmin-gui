@@ -172,11 +172,11 @@ class Overview extends Controller {
             $this->view('menu');
 
             if ($data[1] == 1 ) {
-                $this->view('message', "The iet initiators allow file was not found. Please check the path!");
+                $this->view('message', "The iet initiators permissions file was not found. Please check the path!");
             } elseif ($data[1] == 2) {
-                $this->view('message', "The iet initiators allow file is empty!");
+                $this->view('message', "The iet initiators permissions file is empty!");
             } elseif ($data[1] == 3) {
-                $this->view('message', "Could not get any data from the iet initiators allow file!");
+                $this->view('message', "Could not get any data from the iet initiators permissions file!");
             } else {
                 $this->view('table', $data);
             }
@@ -202,11 +202,11 @@ class Overview extends Controller {
             $this->view('menu');
 
             if ($data[1] == 1 ) {
-                $this->view('message', "The iet targets allow file was not found. Please check the path!");
+                $this->view('message', "The iet targets permissions file was not found. Please check the path!");
             } elseif ($data[1] == 2) {
-                $this->view('message', "The iet targets allow file is empty!");
+                $this->view('message', "The iet targets permissions file is empty!");
             } elseif ($data[1] == 3) {
-                $this->view('message', "Could not get any data from the iet targets allow file!");
+                $this->view('message', "Could not get any data from the iet targets permissions file!");
             } else {
                 $this->view('table', $data);
             }
