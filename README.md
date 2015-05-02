@@ -47,6 +47,8 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
 - [ ] Add config menuto gui
+- [ ] Add delete button to sessions
+- [ ] Split 'Add target' in add target and map lun
 
 Items are completely random ;-)
 
