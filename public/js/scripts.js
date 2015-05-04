@@ -65,21 +65,3 @@ function showlvinput(str) {
         }}
     );
 }
-
-function showtestinput(str) {
-    var data = {
-        "type": str
-    };
-
-    request = $.ajax({
-        url: "/phpietadmin/permission/newfeature",
-        type: "post",
-        data: data
-    });
-
-    request.done(function() {
-            if (request.readyState == 4 && request.status == 200) {
-                _("input").innerHTML = request.responseText;
-            }}
-    );
-}
