@@ -82,27 +82,11 @@
             }
         }
 
-        public function get_lun($PATH) {
-            require_once 'Database.php';
-            $database = new Database();
-
-            $volumes = file($database->getConfig('proc_volumes'));
-
-            $key = array_search($volumes, $PATH);
-            preg_match("/lun:([0-9].*?) /", $volumes[$key], $a_lun);
-
-            return $a_lun;
-        }
-
-        public function add_lun_to_config_file($NAME, $BLOCKDEVICE, $TYPE, $MODE) {
-
-        }
-
         public function get_next_lun($TARGET) {
             require_once 'Database.php';
             $database = new Database();
 
-            $data = file($database->getConfig('proc_volumes'));
+            $data = file_get_contents($database->getConfig('proc_volumes'));
 
             // Replace all newlines with spaces
             $data = trim(preg_replace('/\s\s+/', ' ', $data));
@@ -125,6 +109,7 @@
                 }
                 $counter++;
             }
+
 
             // Empty means, target has no luns, therefore we create the first lun with id 0
             if (empty($volumes)) {
@@ -150,10 +135,6 @@
             for ($i=0; $i < count($var); $i++) {
                 $var[$i] = array_values($var[$i]);
             }
-
-            echo "<pre>";
-            print_r($var);
-            echo "</pre>";
 
             for ($i=0; $i < count($var); $i++) {
                 if ($var[$i][0]['name'] === $TARGET) {

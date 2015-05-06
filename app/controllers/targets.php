@@ -76,15 +76,15 @@
             if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['path'])) {
                 // selection via dropdown
                 $TID = $ietadd->get_tid($_POST['target']);
-                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=0 --params Path=" . $_POST['path'] . ",Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode']);
+                $LUN = $ietadd->get_next_lun($_POST['target']);
+                $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --lun=" . $LUN . " --params Path=" . $_POST['path'] . ",Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode']);
 
                 if ($return != 0) {
                     $this->view('message', "Error - Could not add lun to target " . $_POST['target'] . " Server said:" . $return[0]);
                 } else {
                     // add lun to config file here
-                    $LUN = $ietadd->get_lun($_POST['path']);
-                    $line = "Lun " . $LUN . "Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";
-                    $std->addlineafterpattern("Target " . $_POST['target'], $database->getConfig('ietd_config_file', $line));
+                    $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'];
+                    $std->addlineafterpattern("Target " . $_POST['target'], $database->getConfig('ietd_config_file'), $line);
                 }
 
             } else if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['pathtoblockdevice'])) {
