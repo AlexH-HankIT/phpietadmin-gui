@@ -12,12 +12,15 @@
             require_once('Database.php');
             $database = new Database;
 
-            $data = $database->querySingle('SELECT password from user where username=' . '\'' . $this->username . '\'', true);
+            $data = $database->prepare('SELECT password from user where username=:user');
+            $data->bindValue('user', $this->username, SQLITE3_TEXT );
+            $result = $data->execute();
+            $result = $result->fetchArray();
 
-            if (empty($data)) {
+            if (empty($result)) {
                 return;
             } else {
-                return $data['password'];
+                return $result['password'];
             }
         }
 
