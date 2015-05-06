@@ -33,7 +33,7 @@
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadmin/targets/addtarget'>Add target</a></li>
                         <li><a href='/phpietadmin/targets/maplun'>Map lun</a></li>
-                        <li><a href='/phpietadmin/targets/delete'>Delete</a></li>
+                        <li><a href='/phpietadmin/targets/deletelun'>Delete target</a></li>
                     </ul>
                 </li>
 
