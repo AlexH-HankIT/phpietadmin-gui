@@ -9,7 +9,7 @@
                 <?php foreach ($data[0] as $value) { ?>
                     <th><?php echo $value ?></th>
                 <?php } ?>
-                <th>Disconnect</th>
+                <!--<th>Disconnect</th>-->
             </tr>
 
             <?php foreach ($data[1] as $value) { ?>
@@ -29,7 +29,7 @@
                             <td><?php echo $value[$i]['state']?></td>
                             <td><?php echo $value[$i]['hd']?></td>
                             <td><?php echo $value[$i]['dd']?></td>
-                            <td><p data-placement="top" data-toggle="tooltip" title="Disconnect"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            <!--<td><p data-placement="top" data-toggle="tooltip" title="Disconnect"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ><span class="glyphicon glyphicon-trash"></span></button></p></td>-->
                         </tr>
                     <?php } ?>
             <?php } ?>
