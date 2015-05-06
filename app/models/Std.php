@@ -37,19 +37,21 @@
             return $return;
         }
 
-        public function check_service_status() {
-            global $a_config;
-            $result = $this->get_service_status();
-            if ($result[1] !== 0) {
-                throw new Exception("Error - Service {$a_config['iet']['servicename']} is not running.");
-            }
-        }
-
         public function addlineafterpattern($pattern, $file, $data) {
             $lines = file( $file , FILE_IGNORE_NEW_LINES );
             $key = array_search($pattern, $lines);
             $lines[$key+1] .= "\n" . $data;
             file_put_contents( $file , implode( "\n", $lines ) );
+        }
+
+        public function add_line_to_file($line, $file) {
+            if (!file_exists($file)) {
+                return 1;
+            } else if (!is_writeable($file)) {
+                return 1;
+            } else {
+                file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
+            }
         }
     }
 ?>
