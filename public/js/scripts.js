@@ -65,3 +65,22 @@ function showlvinput(str) {
         }}
     );
 }
+
+function validatemaplun() {
+    if(_('target').value == _("default").value) {
+        alert('Error - Please select a target!');
+        return false;
+    } else if (_('logicalvolume').value == _("default").value) {
+        alert('Error - Please select a volume!');
+        return false;
+    }
+}
+
+function validate_addtarget(iqn) {
+    if (_('name').value == iqn) {
+        alert('Please type a complete iqn!');
+        return false;
+    } else {
+        return true;
+    }
+}
