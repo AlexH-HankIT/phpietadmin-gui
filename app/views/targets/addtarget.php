@@ -20,5 +20,3 @@
         </form>
     </div>
 </div>
-
-<!-- Input label next to input field -->
