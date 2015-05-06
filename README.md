@@ -36,6 +36,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [x] Dropdown for mode (write through/read only)
 - [ ] Handle no PV/VG/LV error
 - [x] Handle multiple sessions for one target
+- [x] Handle multiple luns for one target
 
 ## Planned features
 - [ ] Add lvextend, lvremove, lvrename features
@@ -43,12 +44,13 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Allow->Target->Add/Delete
 - [ ] Software raid status
 - [ ] Exclude volume group
-- [ ] Add multiple luns to one target
+- [x] Add multiple luns to one target
+- [ ] Manual selection of block devies (input menu already implemented, but logic is missing)
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
 - [ ] Add config menuto gui
 - [ ] Add delete button to sessions
-- [ ] Split 'Add target' in add target and map lun
+- [x] Split 'Add target' in add target and map lun
 
 Items are completely random ;-)
 
