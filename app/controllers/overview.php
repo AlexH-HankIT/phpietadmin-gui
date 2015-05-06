@@ -41,12 +41,13 @@ class Overview extends Controller {
 
     public function ietvolumes() {
         $ietvolumes = $this->model('IetVolumes');
-        $volumes = $ietvolumes->getIetVolumes();
         $std = $this->model('Std');
+
+        $volumes = $ietvolumes->getIetVolumes();
 
         $this->view('header');
         $this->view('menu');
-        if ($volumes == 1) {
+        if ($volumes == 1 or $volumes == 2) {
             $this->view('message', "The ietvolumes file was not found or is empty!");
         } else {
             $this->view('ietvolumes', $volumes);
