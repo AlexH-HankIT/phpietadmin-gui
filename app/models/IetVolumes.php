@@ -61,10 +61,6 @@
                 }
             }
 
-            if (empty($volumes)) {
-                return 2;
-            }
-
             $volumes = array_values($volumes);
 
             $counter=0;
@@ -117,13 +113,14 @@
                 8 => "iomode"
             );
 
-            $return[0] = $table;
-            $return[1] = $var;
-            if (!empty($volumeswithoutluns)) {
+            if (empty($var) && empty($volumeswithoutluns)) {
+                return 2;
+            } else {
+                $return[0] = $table;
+                $return[1] = $var;
                 $return[2] = $volumeswithoutluns;
+                return $return;
             }
-
-            return $return;
         }
     }
 
