@@ -118,7 +118,9 @@
             } else {
                 $return[0] = $table;
                 $return[1] = $var;
-                $return[2] = $volumeswithoutluns;
+                if (!empty($volumeswithoutluns)) {
+                    $return[2] = $volumeswithoutluns;
+                }
                 return $return;
             }
         }
