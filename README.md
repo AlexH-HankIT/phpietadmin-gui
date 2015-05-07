@@ -52,6 +52,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Add delete button to sessions
 - [x] Split 'Add target' in add target and map lun
 - [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
+- [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 
 Items are completely random ;-)
 
