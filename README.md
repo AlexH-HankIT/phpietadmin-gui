@@ -51,6 +51,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Add config menuto gui
 - [ ] Add delete button to sessions
 - [x] Split 'Add target' in add target and map lun
+- [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
 
 Items are completely random ;-)
 
