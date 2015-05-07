@@ -38,18 +38,15 @@
 
         public function setUsername($NAME) {
             $this->username = $NAME;
-            $_SESSION['username'] = $NAME;
         }
 
         public function setPassword($PASS) {
             $this->password = $PASS;
-            $_SESSION['password'] = $PASS;
         }
 
         public function setLast_activity() {
             $time = time();
             $this->last_activity = $time;
-            $_SESSION['last_activity'] =  $time;
         }
     }
 ?>

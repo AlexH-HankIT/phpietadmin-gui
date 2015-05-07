@@ -4,8 +4,16 @@
             if (isset($_POST['username']) && isset($_POST['password'])) {
                 $session = $this->model('Session');
 
+                // Create pw hash
+                $PWHASH = hash('sha256', $_POST['password']);
+
+                // Save username and hash in session var
+                $_SESSION['username'] = $_POST['username'];
+                $_SESSION['password'] = $PWHASH;
+
+                // Write username and hash to session object
                 $session->setUsername($_POST['username']);
-                $session->setPassword(hash('sha256', $_POST['password']));
+                $session->setPassword($PWHASH);
 
                 if($session->check()) {
                     header("Location: /phpietadmin/home");
