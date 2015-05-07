@@ -53,6 +53,8 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [x] Split 'Add target' in add target and map lun
 - [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
+- [ ] Support for DRBD
+- [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
 
 Items are completely random ;-)
 
