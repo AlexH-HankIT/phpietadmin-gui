@@ -25,7 +25,7 @@ class Overview extends Controller {
     public function disks() {
         $disks = $this->model('Disks');
         $std = $this->model('Std');
-        $data = $disks->getDisks();
+        $data = $disks->get_disks();
 
         $this->view('header');
         $this->view('menu');
@@ -66,7 +66,7 @@ class Overview extends Controller {
         $this->view('menu');
 
         if (isset($_POST['tid']) or isset($_POST['cid']) && isset($_POST['sid'])) {
-            $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . ' --op delete --tid=' . $_POST['tid'] . ' --sid=' . $_POST['sid'] . ' --cid=' . $_POST['cid']);
+            $return = $std->exec_and_return($database->get_config('sudo') . " " . $database->get_config('ietadm') . ' --op delete --tid=' . $_POST['tid'] . ' --sid=' . $_POST['sid'] . ' --cid=' . $_POST['cid']);
         }
 
         if ($sessions == 2 or $sessions == 1) {

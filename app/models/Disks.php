@@ -1,28 +1,26 @@
 <?php
     class Disks {
-        public function getDisks() {
-            require_once 'Database.php';
-            $database = new Database();
-            $lsblk_out = shell_exec($database->getConfig('sudo') . " " . $database->getConfig('lsblk') . " -rn");
-            $database->close();
+        private function parse_lsblk_output($var_lsblk_output) {
+            // Seperate output by lines
+            $array_lsblk_output = explode("\n", $var_lsblk_output);
 
-            if (empty($lsblk_out)) {
-                return 2;
-            }
+            // Filter empty lines
+            $array_lsblk_output = array_filter($array_lsblk_output, 'strlen');
 
-            $blk = explode ("\n", $lsblk_out);
-
-            $blk = array_filter($blk, 'strlen');
-            $count = count($blk);
-
-            for ($i=0; $i < $count; $i++) {
-                // Don't display lvm volumes
-                if (strpos($blk[$i],"dm") === false) {
-                    $blk2[$i] = explode (" ", $blk[$i]);
+            $counter = 0;
+            foreach ($array_lsblk_output as $value) {
+                if (strpos($value, "dm") === false) {
+                    $array_lsblk_output_sperated_by_space[$counter] = explode(" ", $value);
                 }
+                $counter++;
             }
 
-            $table = array(
+            return $array_lsblk_output_sperated_by_space;
+        }
+
+        // Create table array for view
+        private function create_table() {
+            return $table = array(
                 0 => "Name",
                 1 => "MAJ:MIN",
                 2 => "RM",
@@ -31,12 +29,36 @@
                 5 => "Type",
                 6 => "Mountpoint"
             );
+        }
 
-            $data[0] = $table;
-            $data[1] = $blk2;
-            $data['title'] = "Disks";
+        private function exec_lsblk() {
+            require_once 'Database.php';
+            $database = new Database();
+            // We use shell exec, since we don't care about the return value
+            return shell_exec($database->get_config('sudo') . " " . $database->get_config('lsblk') . " -rn");
+        }
 
-            return $data;
+        public function get_disks() {
+            // Get lsblk output
+            $var_lsblk_output = $this->exec_lsblk();
+
+            // Return 2 if no block devices exist (unlikely)
+            if (empty($var_lsblk_output)) {
+                return 2;
+            } else {
+                // Get readable lsblk output
+                $array_lsblk_output_sperated_by_space = $this->parse_lsblk_output($var_lsblk_output);
+
+                // Get table
+                $table = $this->create_table();
+
+                // Create array to return
+                $disks[0] = $table;
+                $disks[1] = $array_lsblk_output_sperated_by_space;
+                $disks['title'] = "Disks";
+
+                return $disks;
+            }
         }
     }
 ?>

@@ -4,8 +4,8 @@
             require_once 'Database.php';
             $database = new Database();
 
-            if (file_exists($database->getConfig('proc_sessions'))) {
-                $return = file_get_contents($database->getConfig('proc_sessions'));
+            if (file_exists($database->get_config('proc_sessions'))) {
+                $return = file_get_contents($database->get_config('proc_sessions'));
                 if (empty($return)) {
                     return 2;
                 } else {

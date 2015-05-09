@@ -1,18 +1,166 @@
 <?php
     class Ietaddtarget {
-        public function get_unused_volumes($logicalvolumes) {
+        /* --------------------------------------------------------------------------------------------------------------------------------------------
+
+        Start // Functions to get the next available lun for a specified target
+
+        -----------------------------------------------------------------------------------------------------------------------------------------------*/
+
+        private function in_array_r($needle, $haystack, $strict = false) {
+            foreach ($haystack as $item) {
+                if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict))) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public function get_next_lun($target) {
+            $array_targets_with_lun = $this->get_targets_with_lun();
+            // Empty or not in array means, the lun has no targets, therefore the first usable lun is 0
+            if (empty($array_targets_with_lun)) {
+                return 0;
+            } else if (!$this->in_array_r($target, $array_targets_with_lun)) {
+                return 0;
+            } else {
+                $array_with_name_lun = $this->parse_name_lun_from_array(array_values($array_targets_with_lun));
+                return $this->get_highest_lun($array_with_name_lun, $target);
+            }
+        }
+
+        private function get_highest_lun($array_name_lun_correct_index, $target) {
+            foreach ($array_name_lun_correct_index as $value) {
+                if (in_array($target, $value[0])) {
+                    $highestlun = max($value['luns']);
+                }
+            }
+
+            // Add 1 to get the next free lun
+            return $highestlun + 1;
+        }
+
+        private function parse_name_lun_from_array($array_targets_with_more_than_two_rows) {
+            require_once 'regex.php';
+
+            $counter = 0;
+            foreach ($array_targets_with_more_than_two_rows as $value) {
+                $array_with_name_lun[$counter][0]['name'] = $value[0]['name'];
+
+                for ($i = 1; $i < count($value); $i++) {
+                    $array_with_name_lun[$counter]['luns'][$i] = $value[$i]['lun'];
+                }
+                $counter++;
+            }
+
+            return $array_with_name_lun;
+        }
+
+        /* --------------------------------------------------------------------------------------------------------------------------------------------
+
+        End // Functions to get the next available lun for a specified target
+
+        -----------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+        /* --------------------------------------------------------------------------------------------------------------------------------------------
+
+        Start // Commonly used functions
+
+        -----------------------------------------------------------------------------------------------------------------------------------------------*/
+
+        // Returns all targets with at least one lun
+        public function get_targets_with_lun() {
+            require_once 'IetVolumes.php';
+            $ietvolumes = new IetVolumes();
+
+            $data = $ietvolumes->parse_proc_volumes();
+
+            if (!empty($data[1])) {
+                return array_values($data[1]);
+            } else {
+                return $data[1] = '';
+             }
+        }
+
+        public function get_proc_volume_content() {
             require_once 'Database.php';
             $database = new Database();
+            return file_get_contents($database->get_config('proc_volumes'));
+        }
 
-            $volumes = file_get_contents($database->getConfig('proc_volumes'));
+        public function get_tid($name) {
+            $volumes = $this->get_proc_volume_content();
+            $a_name = $this->parse_all_names_from_proc_volumes($volumes);
+            $a_tid = $this->parse_all_tids_from_proc_volumes($volumes);
+
+            $key = array_search($name, $a_name);
+            return $a_tid[$key];
+        }
+
+        //
+        public function get_targets() {
+            $volumes = $this->get_proc_volume_content();
+
+            if (!empty($volumes)) {
+                $a_name = $this->parse_all_names_from_proc_volumes($volumes);
+                for ($i=0; $i < count($a_name); $i++) {
+                    $data[$i] = $a_name[$i];
+                }
+                return $data;
+            } else {
+                return 3;
+            }
+        }
+
+        public function check_path_already_in_use($path) {
+            require_once 'regex.php';
+            $volumes = $this->get_proc_volume_content();
+
+            if (!empty($volumes)) {
+                $data = get_all_paths_from_string($volumes);
+                if ($data == 3) {
+                    return 0;
+                } else {
+                    $key = array_search($path, $data);
+                    // If $key contains a number, array_search found something, which is bad
+                    if (is_numeric($key)) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            } else {
+                return 0;
+            }
+        }
+
+        // Check if the specified name is already in use by a target
+        public function check_target_name_already_in_use($name) {
+            $volumes = $this->get_proc_volume_content();
+
+            if (!empty($volumes)) {
+                $a_name = $this->parse_all_names_from_proc_volumes($volumes);
+                $key = array_search($name , $a_name);
+
+                if ($a_name[$key] == $name) {
+                    return 4;
+                }
+            } else {
+                return 0;
+            }
+        }
+
+        // Filters all used volumes from a given array
+        public function get_unused_volumes($logicalvolumes) {
+            $volumes = $this->get_proc_volume_content();
 
             if (!empty($volumes)) {
                 // Extract volumes if existing
+                $paths = $this->parse_all_paths_from_proc_volumes($volumes);
 
-                preg_match_all("/path:(.*)/", $volumes, $paths);
                 // Filter already used ones
-
-                $logicalvolumes = array_diff($logicalvolumes, $paths[1]);
+                $logicalvolumes = array_diff($logicalvolumes, $paths);
 
                 //Rebuild array index
                 return array_values($logicalvolumes);
@@ -21,131 +169,41 @@
             }
         }
 
-        public function check_target_name_already_in_use($NAME) {
-            require_once 'Database.php';
-            $database = new Database();
+        /* --------------------------------------------------------------------------------------------------------------------------------------------
 
-            $volumes = file_get_contents($database->getConfig('proc_volumes'));
+        End // Commonly used functions
 
-            if (!empty($volumes)) {
-                preg_match_all("/name:(.*)/", $volumes, $a_name);
-                $key = array_search($database->getConfig('iqn') . ":" .  $NAME, $a_name[1]);
+        -----------------------------------------------------------------------------------------------------------------------------------------------*/
 
-                $val = $database->getConfig('iqn') . ':' .  $NAME;
-                if ($a_name[1][$key] == $val) {
-                    return 4;
-                }
-            } else {
-                return 0;
-            }
+
+
+        /* --------------------------------------------------------------------------------------------------------------------------------------------
+
+        Start // Regex functions
+
+        -----------------------------------------------------------------------------------------------------------------------------------------------*/
+
+        // Uses regex to extract all target names from a given string
+        private function parse_all_names_from_proc_volumes($var_volumes) {
+            preg_match_all("/name:(.*)/", $var_volumes, $a_name);
+            return $a_name[1];
         }
 
-        public function get_tid($NAME) {
-            require_once 'Database.php';
-            $database = new Database();
-
-            $volumes = file_get_contents($database->getConfig('proc_volumes'));
-            preg_match_all("/tid:([0-9].*?) /", $volumes, $a_tid);
-            preg_match_all("/name:(.*)/", $volumes, $a_name);
-
-            $key = array_search($NAME, $a_name[1]);
-            return $a_tid[1][$key];
+        // Uses regex to extract all tids from a given string
+        private function parse_all_tids_from_proc_volumes($var_volumes) {
+            preg_match_all("/tid:([0-9].*?) /", $var_volumes, $a_tid);
+            return $a_tid[1];
         }
 
-        public function write_target_and_lun($NAME, $LV, $TYPE, $MODE) {
-            require_once 'Database.php';
-            $database = new Database();
-
-            $current = "\nTarget " .  $database->getConfig('iqn') . ":" . $NAME . "\n Lun 0 Type=" . $TYPE . ",IOMode=" . $MODE . ",Path=" . $LV . "\n";
-            $return = file_put_contents($database->getConfig('ietd_config_file'), $current, FILE_APPEND | LOCK_EX);
-            if ($return == "FALSE" or $return == 0) {
-                return 6;
-            } else {
-                return 0;
-            }
+        private function parse_all_paths_from_proc_volumes($var_volumes) {
+            preg_match_all("/path:(.*)/", $var_volumes, $paths);
+            return $paths[1];
         }
 
-        public function get_targets() {
-            require_once 'Database.php';
-            $database = new Database();
+        /* --------------------------------------------------------------------------------------------------------------------------------------------
 
-            $volumes = file_get_contents($database->getConfig('proc_volumes'));
+       End // Regex functions
 
-            if (!empty($volumes)) {
-                preg_match_all("/name:(.*)/", $volumes, $a_name);
-                for ($i=0; $i < count($a_name[1]); $i++) {
-                    $data[$i] = $a_name[1][$i];
-                }
-                return $data;
-            } else {
-                return 3;
-            }
-        }
-
-        public function get_next_lun($TARGET) {
-            require_once 'Database.php';
-            $database = new Database();
-
-            $data = file_get_contents($database->getConfig('proc_volumes'));
-
-            // Replace all newlines with spaces
-            $data = trim(preg_replace('/\s\s+/', ' ', $data));
-
-            // Explode array by 'tid'
-            $data = array_values(array_filter(explode('tid:', $data)));
-
-            // Explode arrays by space
-            $counter=0;
-            foreach ($data as $value) {
-                $data2[$counter] = explode(' ', $value);
-                $counter++;
-            }
-
-            $counter=0;
-            foreach ($data2 as $value) {
-                // All arrays with less than two rows don't contain interesting data
-                if (count($value) > 2) {
-                    $volumes[$counter] = $value;
-                }
-                $counter++;
-            }
-
-
-            // Empty means, target has no luns, therefore we create the first lun with id 0
-            if (empty($volumes)) {
-                return 0;
-            }
-
-            $volumes = array_values($volumes);
-
-            $counter=0;
-            foreach ($volumes as $value) {
-                preg_match("/name:(.*)/", $value[1], $result);
-                $var[$counter][0]['name'] = $result[1];
-
-                for ($i=2; $i < count($value); $i=$i+7) {
-                    preg_match("/lun:([0-9].*)/", $value[$i], $result);
-                    $var[$counter][$counter+$i]['lun'] = $result[1];
-                }
-
-                $counter++;
-            }
-
-            // Correct index
-            for ($i=0; $i < count($var); $i++) {
-                $var[$i] = array_values($var[$i]);
-            }
-
-            for ($i=0; $i < count($var); $i++) {
-                if ($var[$i][0]['name'] === $TARGET) {
-                    for ($b=1; $b < count($var[$i]); $b++) {
-                        $highestlun = $var[$i][$b]['lun'];
-                    }
-                }
-            }
-
-            // Add 1 to get the next free lun
-            return $highestlun + 1;
-        }
+       -----------------------------------------------------------------------------------------------------------------------------------------------*/
     }
 ?>

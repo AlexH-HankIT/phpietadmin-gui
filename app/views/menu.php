@@ -1,4 +1,4 @@
-<div class = "navbar navbar-inverse navbar-static-top">
+<div class = "navbar navbar-inverse navbar-fixed-top">
     <div class = "container">
         <div class="navbar-header">
             <a href = "#" class = "navbar-brand">phpietadmin</a>
@@ -13,6 +13,7 @@
             <ul class = "nav navbar-nav navbar-right">
 
                 <li><a href='/phpietadmin/home'>Home</a></li>
+                <!--<li><a href='/phpietadmin/dashboard'>Dashboard</a></li>-->
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Overview <b class = "caret"></b></a>
@@ -38,14 +39,14 @@
                     </ul>
                 </li>
 
-                <li class = "dropdown">
+                <!--<li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Permissions <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadmin/permission/addinitiator'>Add initiator</a></li>
                         <li><a href='/phpietadmin/permission/deleteinitiator'>Delete initiator</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Add user (BUGGY)</a></li>
                     </ul>
-                </li>
+                </li>-->
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">LVM <b class = "caret"></b></a>
@@ -57,7 +58,16 @@
 
                 <li><a href='/phpietadmin/service'>Service</a></li>
 
-                <!--<li><a href='/phpietadmin/config'>Config</a></li>-->
+                <li><a href='/phpietadmin/config'>Config</a></li>
+
+                <!--<li class = "dropdown">
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Config <b class = "caret"></b></a>
+                    <ul class = "dropdown-menu">
+                        <li><a href='/phpietadmin/config/iet'>IET config</a></li>
+                        <li><a href='/phpietadmin/config/lvm'>LVM config</a></li>
+                        <li><a href='/phpietadmin/config/misc'>Misc config</a></li>
+                    </ul>
+                </li>-->
 
                 <li><a href='/phpietadmin/auth/logout'>Logout</a></li>
             </ul>

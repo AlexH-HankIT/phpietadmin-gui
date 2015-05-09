@@ -31,7 +31,7 @@
             require_once 'Database.php';
             $database = new Database;
 
-            exec($database->getConfig('sudo') . " " . $database->getConfig('service') . " " . $database->getConfig('servicename') . " status", $status, $result);
+            exec($database->get_config('sudo') . " " . $database->get_config('service') . " " . $database->get_config('servicename') . " status", $status, $result);
             $return[0] = $status;
             $return[1] = $result;
             return $return;
@@ -52,6 +52,16 @@
             } else {
                 file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
             }
+        }
+
+        public function explode_array_by_space($array) {
+            // Explode arrays by space
+            $counter = 0;
+            foreach ($array as $value) {
+                $data[$counter] = explode(' ', $value);
+                $counter++;
+            }
+            return $data;
         }
     }
 ?>

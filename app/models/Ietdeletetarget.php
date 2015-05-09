@@ -4,7 +4,7 @@
             require_once 'Database.php';
             $database = new Database();
 
-            $volumes = file_get_contents($database->getConfig('proc_volumes'));
+            $volumes = file_get_contents($database->get_config('proc_volumes'));
 
             if (empty($volumes)) {
                 return 2;
@@ -32,15 +32,15 @@
             $database = new Database();
             $std = new Std();
 
-            $std->deleteLineInFile($database->getConfig('ietd_init_allow'), "$data[1]");
-            $std->deleteLineInFile($database->getConfig('ietd_config_file'), $data[1]);
-            $std->deleteLineInFile($database->getConfig('ietd_config_file'), $data[2]);
+            $std->deleteLineInFile($database->get_config('ietd_init_allow'), "$data[1]");
+            $std->deleteLineInFile($database->get_config('ietd_config_file'), $data[1]);
+            $std->deleteLineInFile($database->get_config('ietd_config_file'), $data[2]);
         }
 
         public function get_names() {
             require_once 'Database.php';
             $database = new Database();
-            $volumes = file_get_contents($database->getConfig('proc_volumes'));
+            $volumes = file_get_contents($database->get_config('proc_volumes'));
 
             if (empty($volumes)) {
                 return 2;

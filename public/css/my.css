@@ -12,3 +12,25 @@ h4 {
         margin-top:0px
     }
 }
+
+body {
+    margin-bottom: 60px;
+    padding-top: 70px;
+}
+
+.footer {
+    position: absolute;
+}
+
+.bestaetigung {
+    position: absolute;
+    display: none;
+}
+
+.focusedInputerror {
+    border-color: red;
+    outline: 0;
+    outline: thin dotted \9;
+    -moz-box-shadow: 0 0 8px red;
+    box-shadow: 0 0 8px red !important;
+}

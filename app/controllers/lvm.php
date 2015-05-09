@@ -36,7 +36,7 @@
                     $this->view('menu');
 
                     if ($return) {
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $_POST['vg']);
+                        $return = $std->exec_and_return($database->get_config('sudo') . " " . $database->get_config('lvcreate') . ' -L ' . $SIZE . 'G -n' . $NAME . " " . $_POST['vg']);
 
                         if ($return != 0) {
                             $this->view('message', "Error - Could not add the logical volume $NAME. Server said: $return[0]");
@@ -95,7 +95,7 @@
                     $this->view('message', "Error - No logical volumes available");
                 } else {
                     if (isset($_POST['volumes'])) {
-                        $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('lvremove') . ' -f ' . $_POST['volumes']);
+                        $return = $std->exec_and_return($database->get_config('sudo') . " " . $database->get_config('lvremove') . ' -f ' . $_POST['volumes']);
 
                         if ($return != 0) {
                             $this->view('message', "Error - Cannot delete logical volume " . $_POST['volumes']);

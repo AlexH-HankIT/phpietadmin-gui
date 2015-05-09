@@ -48,7 +48,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Manual selection of block devies (input menu already implemented, but logic is missing)
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
-- [ ] Add config menuto gui
+- [x] Add config menuto gui
 - [ ] Add delete button to sessions
 - [x] Split 'Add target' in add target and map lun
 - [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)

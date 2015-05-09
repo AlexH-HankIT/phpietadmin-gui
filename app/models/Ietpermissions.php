@@ -3,17 +3,14 @@
         public function get_allow($file) {
             if (file_exists($file)) {
                 // Read data in var
-                $data = file_get_contents("$file");
+                $data = file($file);
 
                 if (empty($data)) {
                     return 2;
                 }
 
-                // Create array
-                $a_data = explode("\n", $data);
-
                 // Filter empty elements
-                $a_data = array_values(array_filter($a_data));
+                $a_data = array_values(array_filter($data));
 
                 // Delete all lines containing '#' and seperate remaining data by space
                 for ($i = 0; $i < count($a_data); $i++) {
@@ -44,7 +41,7 @@
             );
 
             $data[0] = $table;
-            $data[1] = $this->get_allow($database->getConfig('ietd_init_allow'));
+            $data[1] = $this->get_allow($database->get_config('ietd_init_allow'));
             $data['title'] = "Initiator permission";
 
             return $data;
@@ -59,7 +56,7 @@
             );
 
             $data[0] = $table;
-            $data[1] = $this->get_allow($database->getConfig('ietd_target_allow'));
+            $data[1] = $this->get_allow($database->get_config('ietd_target_allow'));
             $data['title'] = "Target permission";
 
             return $data;
@@ -90,13 +87,13 @@
             require_once 'Database.php';
             $database = new Database();
 
-            if(!is_writable($database->getConfig('ietd_init_allow'))) {
+            if(!is_writable($database->get_config('ietd_init_allow'))) {
                 return 1;
             } else {
                 $d = $post - 1;
                 $NAME = $array[$d];
                 $current = "\n$NAME $_POST[ip]\n";
-                file_put_contents($database->getConfig('ietd_init_allow'), $current, FILE_APPEND | LOCK_EX);
+                file_put_contents($database->get_config('ietd_init_allow'), $current, FILE_APPEND | LOCK_EX);
             }
         }
 
@@ -107,12 +104,12 @@
             $std = new Std;
             $database = new Database();
 
-            if(!is_writable($database->getConfig('ietd_init_allow'))) {
+            if(!is_writable($database->get_config('ietd_init_allow'))) {
                 return 1;
             } else {
                 $d = $_POST['IQNs2'] - 1;
                 $NAME = $a_initiators2[$d];
-                $std->deleteLineInFile($database->getConfig('ietd_init_allow'), "$NAME");
+                $std->deleteLineInFile($database->get_config('ietd_init_allow'), "$NAME");
             }
         }
 

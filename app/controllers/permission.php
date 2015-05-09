@@ -63,7 +63,7 @@
                 $this->view('message', "Error - The iet volumes file under /proc doesn't exist!");
             } else {
                 $a_name = $ietpermissions->get_volume_names($data);
-                $a_initiators = $ietpermissions->get_allow($database->getConfig('ietd_init_allow'));
+                $a_initiators = $ietpermissions->get_allow($database->get_config('ietd_init_allow'));
                 $a_name = $ietpermissions->get_targets_without_rules($a_initiators, $a_name);
 
                 if ($a_name == 3) {
@@ -94,7 +94,7 @@
             $this->view('header');
             $this->view('menu');
 
-            $a_initiators = $ietpermissions->get_allow($database->getConfig('ietd_init_allow'));
+            $a_initiators = $ietpermissions->get_allow($database->get_config('ietd_init_allow'));
 
             if ($a_initiators == 3) {
                 $this->view('message', "Error - No permissions rules set");
@@ -140,7 +140,7 @@
 
                     $TID = $ietadd->get_tid($IQN);
 
-                    $return = $std->exec_and_return($database->getConfig('sudo') . " " . $database->getConfig('ietadm') . " --op new --tid=" . $TID . " --user --params=IncomingUser=" . $USER . ",Password=" . $PASS);
+                    $return = $std->exec_and_return($database->get_config('sudo') . " " . $database->get_config('ietadm') . " --op new --tid=" . $TID . " --user --params=IncomingUser=" . $USER . ",Password=" . $PASS);
 
                     if ($return == 1) {
                         $this->view('message', "Error - The user was not added!");
@@ -148,7 +148,7 @@
                         $this->view('message', "Success");
 
                         // Only add user to config if cli was ok
-                        $std->addlineafterpattern($IQN, $database->getConfig('ietd_config_file'), "IncomingUser " . $USER . " " . $PASS);
+                        $std->addlineafterpattern($IQN, $database->get_config('ietd_config_file'), "IncomingUser " . $USER . " " . $PASS);
                     }
                 } else {
                     $this->view('permissions/adduser', $data);

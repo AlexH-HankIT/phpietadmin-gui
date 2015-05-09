@@ -13,7 +13,7 @@
                     <p>
                     <td>Size in GB:</td>
                     <td>
-                        <input id="sizefield" type="text" name="sizefield" value="1" oninput="validatelvinput(this.value, <?php echo $data ?>)" class="form-control"/>
+                        <input id="sizefield" type="text" name="sizefield" value="1" oninput="validatelvinput(this.value, <?php echo $data ?>)" class="form-control "/>
                     </td>
                     <td>
                         <input id="rangeinput" type="range" min="1" max="<?php echo $data ?>" value="1" name="size" step="1" oninput="validatelvinput(this.value, <?php echo $data ?>); updateTextInput(this.value)" class="form-control"/>

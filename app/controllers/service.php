@@ -21,11 +21,11 @@
             $this->view('menu');
 
             if (isset($_POST['start'])) {
-                $output = shell_exec($database->getConfig('sudo') . " " . $database->getConfig('service') . " " . $database->getConfig('servicename') . " start");
+                $output = shell_exec($database->get_config('sudo') . " " . $database->get_config('service') . " " . $database->get_config('servicename') . " start");
             } else if (isset($_POST['stop'])) {
-                $output = shell_exec($database->getConfig('sudo') . " " . $database->getConfig('service') . " " . $database->getConfig('servicename') . " stop");
+                $output = shell_exec($database->get_config('sudo') . " " . $database->get_config('service') . " " . $database->get_config('servicename') . " stop");
             } else if (isset($_POST['restart'])) {
-                $output = shell_exec($database->getConfig('sudo') . " " . $database->getConfig('service') . " " . $database->getConfig('servicename') . " restart");
+                $output = shell_exec($database->get_config('sudo') . " " . $database->get_config('service') . " " . $database->get_config('servicename') . " restart");
             }
 
             if (!empty($output)) {
@@ -45,5 +45,12 @@
 
             $this->view('footer', $return);
         }
+
+        public function status() {
+            $std = $this->model('Std');
+            $return = $std->get_service_status();
+            $this->view('ietdstatus', $return);
+        }
+
     }
 ?>

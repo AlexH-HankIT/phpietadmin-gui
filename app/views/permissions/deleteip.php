@@ -10,7 +10,7 @@
                 <?php for ($i = 0; $i < count($data); $i++) { echo '<option value=' . ($i+1) . '>' . $data[$i] . '</option>'; } ?>
             </select>
             <br />
-            <input class="btn btn-primary" type="submit" value="Delete" onclick="return validateinitiatorallowdelete();">
+            <input class="btn btn-primary" type="submit" value="Delete" onclick="return validateinputnotdefault('iqn', 'Error - Please select a target!')">
         </form>
     </div>
 </div>
