@@ -1,11 +1,22 @@
 <?php
     class IetSessions {
-        public function getProcSessions() {
-            require_once 'Database.php';
-            $database = new Database();
+        // Define global vars
+        var $database;
 
-            if (file_exists($database->get_config('proc_sessions'))) {
-                $return = file_get_contents($database->get_config('proc_sessions'));
+        public function __construct() {
+            $this->create_models();
+        }
+
+        private function create_models() {
+            // Create other need models in this model
+            require_once 'Database.php';
+
+            $this->database = new Database();
+        }
+
+        public function getProcSessions() {
+            if (file_exists($this->database->get_config('proc_sessions'))) {
+                $return = file_get_contents($this->database->get_config('proc_sessions'));
                 if (empty($return)) {
                     return 2;
                 } else {
