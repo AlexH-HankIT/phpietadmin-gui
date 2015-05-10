@@ -1,5 +1,18 @@
 <?php
     class Disks {
+        // Define global vars
+        var $database;
+
+        public function __construct() {
+            $this->create_models();
+        }
+
+        private function create_models() {
+            // Create other need models in this model
+            require_once 'Database.php';
+            $this->database = new Database();
+        }
+
         private function parse_lsblk_output($var_lsblk_output) {
             // Seperate output by lines
             $array_lsblk_output = explode("\n", $var_lsblk_output);
@@ -32,10 +45,9 @@
         }
 
         private function exec_lsblk() {
-            require_once 'Database.php';
-            $database = new Database();
+
             // We use shell exec, since we don't care about the return value
-            return shell_exec($database->get_config('sudo') . " " . $database->get_config('lsblk') . " -rn");
+            return shell_exec($this->database->get_config('sudo') . " " . $this->database->get_config('lsblk') . " -rn");
         }
 
         public function get_disks() {
