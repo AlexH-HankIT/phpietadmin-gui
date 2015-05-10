@@ -8,7 +8,7 @@
             session_start();
         }
 
-        protected function getPassword() {
+        private function getPassword() {
             require_once('Database.php');
             $database = new Database;
 
