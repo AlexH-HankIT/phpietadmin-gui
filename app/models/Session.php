@@ -1,8 +1,8 @@
 <?php
     class Session {
-        protected $username;
-        protected $password;
-        protected $last_activity;
+        private $username;
+        private $password;
+        private $last_activity;
 
         public function __construct() {
             session_start();
