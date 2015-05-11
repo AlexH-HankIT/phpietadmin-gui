@@ -1,10 +1,23 @@
 <?php
     class Ietdeletetarget {
-        public function parse_data($IQN_ID) {
-            require_once 'Database.php';
-            $database = new Database();
+        // Define global vars
+        var $database;
+        var $std;
 
-            $volumes = file_get_contents($database->get_config('proc_volumes'));
+        public function __construct() {
+            $this->create_models();
+        }
+
+        private function create_models() {
+            // Create other need models in this model
+            require_once 'Database.php';
+            require_once 'Std.php';
+            $this->database = new Database();
+            $this->std = new Std();
+        }
+
+        public function parse_data($IQN_ID) {
+            $volumes = file_get_contents($this->database->get_config('proc_volumes'));
 
             if (empty($volumes)) {
                 return 2;
@@ -27,20 +40,13 @@
         }
 
         public function delete_from_config_file($data) {
-            require_once 'Database.php';
-            require_once 'Std.php';
-            $database = new Database();
-            $std = new Std();
-
-            $std->deleteLineInFile($database->get_config('ietd_init_allow'), "$data[1]");
-            $std->deleteLineInFile($database->get_config('ietd_config_file'), $data[1]);
-            $std->deleteLineInFile($database->get_config('ietd_config_file'), $data[2]);
+            $this->std->deleteLineInFile($this->database->get_config('ietd_init_allow'), "$data[1]");
+            $this->std->deleteLineInFile($this->database->get_config('ietd_config_file'), $data[1]);
+            $this->std->deleteLineInFile($this->database->get_config('ietd_config_file'), $data[2]);
         }
 
         public function get_names() {
-            require_once 'Database.php';
-            $database = new Database();
-            $volumes = file_get_contents($database->get_config('proc_volumes'));
+            $volumes = file_get_contents($this->database->get_config('proc_volumes'));
 
             if (empty($volumes)) {
                 return 2;

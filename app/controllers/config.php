@@ -1,16 +1,28 @@
 <?php
     class config extends Controller {
+        var $std;
+        var $database;
+        var $session;
+
         public function __construct() {
-            $session = $this->model('Session');
-            $session->setUsername($_SESSION['username']);
-            $session->setPassword($_SESSION['password']);
+            $this->create_models();
+
+            $this->session->setUsername($_SESSION['username']);
+            $this->session->setPassword($_SESSION['password']);
 
             // Check if user is logged in
-            if (!$session->check()) {
+            if (!$this->session->check()) {
                 header("Location: /phpietadmin/auth/login");
                 // Die in case browser ignores header redirect
                 die();
             }
+        }
+
+        private function create_models() {
+            // Create models used in this controller
+            $this->session = $this->model('Session');
+            $this->database = $this->model('Database');
+            $this->std = $this->model('Std');
         }
 
         public function fetchdata($result) {
@@ -24,66 +36,51 @@
         }
 
         public function index() {
-            $std = $this->model('Std');
-
             $this->view('header');
             $this->view('menu');
             $this->view('config/menu');
             $this->view('message', "Please select a category");
-            $data = $std->get_service_status();
-            $this->view('footer', $data);
+            $this->view('footer', $this->std->get_service_status());
         }
 
         public function lvm() {
-            $std = $this->model('Std');
-            $database = $this->model('Database');
-
             $this->view('header');
             $this->view('menu');
             $this->view('config/menu');
 
-            $result = $database->query('select option, value, description from config where editable_via_gui=1 and category=2');
+            $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=2');
 
             $data=$this->fetchdata($result);
 
             $this->view('config/configtable', $data);
 
-            $data = $std->get_service_status();
-            $this->view('footer', $data);
+            $this->view('footer', $this->std->get_service_status());
         }
 
         public function iet() {
-            $std = $this->model('Std');
-            $database = $this->model('Database');
-
             $this->view('header');
             $this->view('menu');
             $this->view('config/menu');
 
-            $result = $database->query('select option, value, description from config where editable_via_gui=1 and category=1');
+            $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=1');
 
             $data=$this->fetchdata($result);
             $this->view('config/configtable', $data);
 
-            $data = $std->get_service_status();
-            $this->view('footer', $data);
+            $this->view('footer', $this->std->get_service_status());
         }
 
         public function misc() {
-            $std = $this->model('Std');
-            $database = $this->model('Database');
-
             $this->view('header');
             $this->view('menu');
             $this->view('config/menu');
 
-            $result = $database->query('select option, value, description from config where editable_via_gui=1 and category=3');
+            $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=3');
 
             $data=$this->fetchdata($result);
             $this->view('config/configtable', $data);
 
-            $data = $std->get_service_status();
-            $this->view('footer', $data);
+            $this->view('footer', $this->std->get_service_status());
         }
 
         public function users() {

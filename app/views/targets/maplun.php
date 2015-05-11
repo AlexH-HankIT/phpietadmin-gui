@@ -41,7 +41,7 @@
                             Type:
                             <select name="type" id="type" multiple class="form-control">
                                 <option value="fileio">fileio</option>
-                                <option selected value="blockio" >blockio</option>
+                                <option selected value="blockio">blockio</option>
                             </select>
                         </p>
                     </div>

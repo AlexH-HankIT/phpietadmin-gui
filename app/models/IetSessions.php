@@ -10,7 +10,6 @@
         private function create_models() {
             // Create other need models in this model
             require_once 'Database.php';
-
             $this->database = new Database();
         }
 

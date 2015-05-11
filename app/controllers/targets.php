@@ -6,6 +6,7 @@
         var $std;
         var $session;
         var $lvm;
+        var $ietdelete;
 
         public function __construct() {
             $this->create_models();
@@ -38,6 +39,7 @@
             $this->ietadd = $this->model('Ietaddtarget');
             $this->std = $this->model('Std');
             $this->lvm = $this->model('Lvmdisplay');
+            $this->ietdelete = $this->model('Ietdeletetarget');
         }
 
         public function addtarget() {
@@ -61,8 +63,6 @@
                 $this->view('targets/addtarget', $this->database->get_config('iqn') . ":");
                 $this->view('footer', $this->std->get_service_status());
             }
-
-
         }
 
         public function maplun() {
@@ -79,12 +79,11 @@
                     if ($return != 0) {
                         $this->view('message', "Error - Could not add lun to target " . $_POST['target'] . " Server said:" . $return[0]);
                     } else {
-                        $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";
+                        $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'];
                         $this->std->addlineafterpattern("Target " . $_POST['target'], $this->database->get_config('ietd_config_file'), $line);
                         $this->view('message', "Success");
                     }
                 }
-
             } else if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['pathtoblockdevice'])) {
                 // handle manual selection here
             } else {
@@ -113,19 +112,18 @@
         }
 
         public function deletelun() {
-            if (isset($_POST['iqn']) && !isset($_POST['lun'])) {
-                // Get luns for selected target
-                $data = $this->ietadd->get_targets_with_lun();
+            // Get luns for selected target
+            $data = $this->ietadd->get_targets_with_lun();
 
+            if (isset($_POST['iqn']) && !isset($_POST['lun'])) {
                 foreach ($data as $value) {
                     if (strcmp($value[0]['name'], $_POST['iqn']) === 0) {
-                        for ($i=1; $i < count($value); $i++) {
+                        for ($i = 1; $i < count($value); $i++) {
                             $paths[$i]['lun'] = $value[$i]['lun'];
                             $paths[$i]['path'] = $value[$i]['path'];
                         }
                     }
                 }
-
                 // Display page for ajax request
                 $this->view('targets/deletelun02', $paths);
             } else if (isset($_POST['iqn']) && isset($_POST['lun']) && isset($_POST['path'])) {
@@ -136,8 +134,12 @@
                 if ($return != 0) {
                     $this->view('message', "Error - Could not delete lun " . $_POST['lun'] . " from target " . $_POST['iqn'] . " Server said:" . $return[0]);
                 } else {
-                    // $_POST['type']
-                    // $_POST['mode']
+                    foreach ($data as $value) {
+                        if (strcmp($value[0]['name'], $_POST['iqn']) === 0) {
+                            $_POST['type'] = $value[1]['iotype'];
+                            $_POST['mode'] = $value[1]['iomode'];
+                        }
+                    }
 
                     $line = "Lun " . $_POST['lun'] . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";;
                     $this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
@@ -150,15 +152,17 @@
 
                 $data = $this->ietadd->get_targets_with_lun();
 
+                if (empty($data)) {
+                    $this->view('message', "Error - No luns mapped or no targets available!");
+                } else {
                 // Extract target names
-                $counter=0;
-                foreach ($data as $value) {
-                    $targets[$counter] = $value[0]['name'];
-                    $counter++;
+                    $counter = 0;
+                    foreach ($data as $value) {
+                        $targets[$counter] = $value[0]['name'];
+                        $counter++;
+                    }
+                    $this->view('targets/deletelun01', $targets);
                 }
-
-                $this->view('targets/deletelun01', $targets);
-
                 $this->view('footer', $this->std->get_service_status());
             }
         }

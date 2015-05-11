@@ -1,11 +1,21 @@
 <?php
     class Lvmdisplay {
-        public function get_lvm_data($bin, $name = "str") {
-            require_once 'Database.php';
-            $database = new Database();
+        // Define global vars
+        var $database;
 
+        public function __construct() {
+            $this->create_models();
+        }
+
+        private function create_models() {
+            // Create other need models in this model
+            require_once 'Database.php';
+            $this->database = new Database();
+        }
+
+        public function get_lvm_data($bin, $name = "str") {
             if ($bin == 'pvs') {
-                $bin = $database->get_config('pvs');
+                $bin = $this->database->get_config('pvs');
                 $table = array(
                     0 => "PV",
                     1 => "VG",
@@ -17,7 +27,7 @@
 
                 $data2['title'] = "Physical volumes";
             } elseif ($bin == 'vgs') {
-                $bin = $database->get_config('vgs');
+                $bin = $this->database->get_config('vgs');
                 $table = array(
                     0 => "PV",
                     1 => "VG",
@@ -30,7 +40,7 @@
 
                 $data2['title'] = "Volume groups";
             } elseif ($bin == 'lvs') {
-                $bin = $database->get_config('lvs');
+                $bin = $this->database->get_config('lvs');
                 $table = array(
                     0 => "Name",
                     1 => "VG",
@@ -44,12 +54,11 @@
             // Read output from shell in var
             // Use specific name if supplied
             if ($name == "str") {
-                $var = shell_exec($database->get_config('sudo') . " " . $bin . " --noheadings --units g");
+                $var = shell_exec($this->database->get_config('sudo') . " " . $bin . " --noheadings --units g");
             } else {
-                $var = shell_exec($database->get_config('sudo') . " " . $bin . " --noheadings --units g " . $name);
+                $var = shell_exec($this->database->get_config('sudo') . " " . $bin . " --noheadings --units g " . $name);
             }
 
-            $database->close();
             // Explode string by line
             $a_var = array_filter(explode("\n", $var));
             for ($i=0; $i < count($a_var); $i++) {
@@ -72,10 +81,7 @@
         }
 
         public function get_volume_groups() {
-            require_once 'Database.php';
-            $database = new Database();
-
-            $vg = shell_exec($database->get_config('sudo') . " " .  $database->get_config('vgs') . " --rows --noheadings");
+            $vg = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('vgs') . " --rows --noheadings");
 
             // Take only first line, since it contains the names of all groups
             $vg = strtok($vg, "\n");
@@ -95,16 +101,13 @@
         }
 
         public function get_all_logical_volumes() {
-            require_once 'Database.php';
-            $database = new Database();
-
-            $lv = shell_exec($database->get_config('sudo') . " " .  $database->get_config('lvs') . " --noheadings --units g ");
+            $lv = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g ");
 
             $lv = explode("\n", $lv);
             $count = count($lv) - 1;
 
             for ($i = 0; $i < $count; $i++) {
-                $lv = shell_exec($database->get_config('sudo') . " " .  $database->get_config('lvs') . " --noheadings --units g ");
+                $lv = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g ");
                 $lv_out = explode("\n", $lv);
                 $lv_out = explode(" ", $lv_out[$i]);
                 $lv_out = array_filter($lv_out, 'strlen');
@@ -138,23 +141,17 @@
         }
 
         public function get_logical_volumes($vgroup) {
-            require_once 'Database.php';
-            $database = new Database();
-
-            $lv = shell_exec($database->get_config('sudo') . " " .  $database->get_config('lvs') . " --noheadings --units g " . $vgroup);
+            $lv = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g " . $vgroup);
 
             $lv_out = explode("\n", $lv);
             $count = count($lv_out) - 1;
 
             for ($i = 0; $i < $count; $i++) {
-                //$lv = shell_exec($database->get_config('sudo') . " " .  $database->get_config('lvs') . " --noheadings --units g " . $vgroup);
                 $lv_out = explode("\n", $lv);
                 $lv_out = explode(" ", $lv_out[$i]);
                 $lv_out = array_filter($lv_out, 'strlen');
                 $lvs2[$i] = array_slice($lv_out, 0);
             }
-
-            $database->close();
 
             if (!empty($lvs2)) {
                 return $lvs2;
@@ -188,11 +185,8 @@
         }
 
         public function get_used_logical_volumes($data) {
-            require_once 'Database.php';
-            $database = new Database();
-
             // Get array with volumes and paths
-            $volumes = file_get_contents($database->get_config('proc_volumes'));
+            $volumes = file_get_contents($this->database->get_config('proc_volumes'));
             preg_match_all("/path:(.*)/", $volumes, $paths);
 
             if (empty($paths[1])) {
@@ -203,11 +197,8 @@
         }
 
         public function get_unused_logical_volumes($data) {
-            require_once 'Database.php';
-            $database = new Database();
-
             // Get array with volumes and paths
-            $volumes = file_get_contents($database->get_config('proc_volumes'));
+            $volumes = file_get_contents($this->database->get_config('proc_volumes'));
             preg_match_all("/path:(.*)/", $volumes, $paths);
 
             // Filter all used volumes

@@ -1,20 +1,17 @@
 <?php
     class IetVolumes {
-        /*public function getProcVolumes() {
-            require_once 'Database.php';
-            $database = new Database();
-            if (file_exists($database->get_config('proc_volumes'))) {
-                $return = file_get_contents($database->get_config('proc_volumes'));
-                $database->close();
-                if (empty($return)) {
-                    return 2;
-                } else {
-                    return $return;
-                }
-            } else {
-                return 1;
-            }
-        }*/
+        // Define global vars
+        var $regex;
+
+        public function __construct() {
+            $this->create_models();
+        }
+
+        private function create_models() {
+            // Create other needed models in this model
+            require_once 'Regex.php';
+            $this->regex = new Regex();
+        }
 
         private function create_table() {
             return $table = array(
@@ -101,8 +98,7 @@
         // Luns are also included, if available
         public function parse_proc_volumes() {
             require_once 'Ietaddtarget.php';
-            require_once 'regex.php';
-            $ietaddtarget = new Ietaddtarget;
+            $ietaddtarget = new ietaddtarget();
 
             // Get proc volume content
             $data = $ietaddtarget->get_proc_volume_content();
@@ -113,7 +109,7 @@
             }
 
             // Replace all newlines with spaces
-            $data = replace_newlines_with_space($data);
+            $data = $this->regex->replace_newlines_with_space($data);
 
             $data = $this->explode_arrays($data);
 

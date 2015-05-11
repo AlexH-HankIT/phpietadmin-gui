@@ -31,11 +31,10 @@
                 <?php } ?>
             </tbody>
         </table>
+        <br/>
+        <br/>
+        <br/>
     <?php } ?>
-
-    <br/>
-    <br/>
-    <br/>
 
     <?php if (isset($data[2])) { ?>
             <ol class="breadcrumb">

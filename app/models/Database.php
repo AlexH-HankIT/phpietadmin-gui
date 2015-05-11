@@ -2,7 +2,13 @@
     class Database extends SQLite3 {
         public function __construct() {
             $dbpath = "/usr/share/phpietadmin/app/config.db";
-            $this->open($dbpath);
+
+            if (file_exists($dbpath)) {
+                $this->open($dbpath, SQLITE3_OPEN_READWRITE);
+            } else {
+                echo "<h1>Database connection failed</h1>";
+                die();
+            }
         }
 
         public function get_config($option) {

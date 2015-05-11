@@ -1,5 +1,21 @@
 <?php
     class Ietaddtarget {
+        // Define global vars
+        var $database;
+        var $regex;
+
+        public function __construct() {
+                $this->create_models();
+        }
+
+        private function create_models() {
+            // Create other need models in this model
+            require_once 'Database.php';
+            require_once 'Regex.php';
+            $this->database = new Database();
+            $this->regex = new Regex();
+        }
+
         /* --------------------------------------------------------------------------------------------------------------------------------------------
 
         Start // Functions to get the next available lun for a specified target
@@ -41,8 +57,6 @@
         }
 
         private function parse_name_lun_from_array($array_targets_with_more_than_two_rows) {
-            require_once 'regex.php';
-
             $counter = 0;
             foreach ($array_targets_with_more_than_two_rows as $value) {
                 $array_with_name_lun[$counter][0]['name'] = $value[0]['name'];
@@ -84,9 +98,7 @@
         }
 
         public function get_proc_volume_content() {
-            require_once 'Database.php';
-            $database = new Database();
-            return file_get_contents($database->get_config('proc_volumes'));
+            return file_get_contents($this->database->get_config('proc_volumes'));
         }
 
         public function get_tid($name) {
@@ -114,11 +126,10 @@
         }
 
         public function check_path_already_in_use($path) {
-            require_once 'regex.php';
             $volumes = $this->get_proc_volume_content();
 
             if (!empty($volumes)) {
-                $data = get_all_paths_from_string($volumes);
+                $data = $this->regex->get_all_paths_from_string($volumes);
                 if ($data == 3) {
                     return 0;
                 } else {

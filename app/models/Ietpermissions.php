@@ -1,5 +1,21 @@
 <?php
     class Ietpermissions {
+        // Define global vars
+        var $database;
+        var $std;
+
+        public function __construct() {
+            $this->create_models();
+        }
+
+        private function create_models() {
+            // Create other need models in this model
+            require_once 'Database.php';
+            require_once 'Std.php';
+            $this->database = new Database();
+            $this->std = new Std();
+        }
+
         public function get_allow($file) {
             if (file_exists($file)) {
                 // Read data in var
@@ -33,30 +49,26 @@
         }
 
         public function get_initiator_permissions() {
-            require_once 'Database.php';
-            $database = new Database();
             $table = array(
                 0 => "Initiator",
                 1 => "Allow"
             );
 
             $data[0] = $table;
-            $data[1] = $this->get_allow($database->get_config('ietd_init_allow'));
+            $data[1] = $this->get_allow($this->database->get_config('ietd_init_allow'));
             $data['title'] = "Initiator permission";
 
             return $data;
         }
 
         public function get_target_permissions() {
-            require_once 'Database.php';
-            $database = new Database();
             $table = array(
                 0 => "Targets",
                 1 => "Allow"
             );
 
             $data[0] = $table;
-            $data[1] = $this->get_allow($database->get_config('ietd_target_allow'));
+            $data[1] = $this->get_allow($this->database->get_config('ietd_target_allow'));
             $data['title'] = "Target permission";
 
             return $data;
@@ -84,32 +96,23 @@
         }
 
         public function write_allow_rule($post, $array) {
-            require_once 'Database.php';
-            $database = new Database();
-
-            if(!is_writable($database->get_config('ietd_init_allow'))) {
+            if(!is_writable($this->database->get_config('ietd_init_allow'))) {
                 return 1;
             } else {
                 $d = $post - 1;
                 $NAME = $array[$d];
                 $current = "\n$NAME $_POST[ip]\n";
-                file_put_contents($database->get_config('ietd_init_allow'), $current, FILE_APPEND | LOCK_EX);
+                file_put_contents($this->database->get_config('ietd_init_allow'), $current, FILE_APPEND | LOCK_EX);
             }
         }
 
         public function delete_allow_rule($a_initiators2) {
-            require_once 'Std.php';
-            require_once 'Database.php';
-
-            $std = new Std;
-            $database = new Database();
-
-            if(!is_writable($database->get_config('ietd_init_allow'))) {
+            if(!is_writable($this->database->get_config('ietd_init_allow'))) {
                 return 1;
             } else {
                 $d = $_POST['IQNs2'] - 1;
                 $NAME = $a_initiators2[$d];
-                $std->deleteLineInFile($database->get_config('ietd_init_allow'), "$NAME");
+                $this->std->deleteLineInFile($this->database->get_config('ietd_init_allow'), "$NAME");
             }
         }
 

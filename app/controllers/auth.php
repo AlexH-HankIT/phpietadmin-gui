@@ -1,9 +1,20 @@
 <?php
     class Auth extends Controller {
+        var $session;
+
+        public function __construct() {
+            $this->create_models();
+        }
+
+        private function create_models() {
+
+
+            $this->session = $this->model('Session');
+        }
+
+
         public function login() {
             if (isset($_POST['username']) && isset($_POST['password'])) {
-                $session = $this->model('Session');
-
                 // Create pw hash
                 $PWHASH = hash('sha256', $_POST['password']);
 
@@ -12,10 +23,10 @@
                 $_SESSION['password'] = $PWHASH;
 
                 // Write username and hash to session object
-                $session->setUsername($_POST['username']);
-                $session->setPassword($PWHASH);
+                $this->session->setUsername($_POST['username']);
+                $this->session->setPassword($PWHASH);
 
-                if($session->check()) {
+                if($this->session->check()) {
                     header("Location: /phpietadmin/home");
                 } else {
                     $this->view('message', 'Wrong username or password!');
@@ -28,11 +39,10 @@
         }
 
         public function logout(){
-            $session = $this->model('Session');
             if (!empty($_SESSION['username']) && !empty($_SESSION['password'])) {
-                $session->setUsername($_SESSION['username']);
-                $session->setPassword($_SESSION['password']);
-                if ($session->check()) {
+                $this->session->setUsername($_SESSION['username']);
+                $this->session->setPassword($_SESSION['password']);
+                if ($this->session->check()) {
                     session_unset();
                     session_destroy();
                     header("Location: /phpietadmin/auth/login");

@@ -26,7 +26,6 @@
             fclose($write);
         }
 
-
         public function get_service_status() {
             require_once 'Database.php';
             $database = new Database;
@@ -40,7 +39,7 @@
         public function addlineafterpattern($pattern, $file, $data) {
             $lines = file( $file , FILE_IGNORE_NEW_LINES );
             $key = array_search($pattern, $lines);
-            $lines[$key+1] .= "\n" . $data;
+            $lines[$key] .= "\n" . $data;
             file_put_contents( $file , implode( "\n", $lines ) );
         }
 
