@@ -6,7 +6,6 @@
         var $std;
         var $session;
         var $lvm;
-        var $ietdelete;
 
         public function __construct() {
             $this->create_models();
@@ -39,7 +38,6 @@
             $this->ietadd = $this->model('Ietaddtarget');
             $this->std = $this->model('Std');
             $this->lvm = $this->model('Lvmdisplay');
-            $this->ietdelete = $this->model('Ietdeletetarget');
         }
 
         public function addtarget() {
@@ -167,21 +165,29 @@
             }
         }
 
-        public function delete() {
+        public function deletetarget() {
             $this->view('header');
             $this->view('menu');
-            if (isset($_POST['IQN'])) {
-                $data = $this->ietdelete->parse_data($_POST['IQN']);
-                $command = $this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $data[0];
-                $this->std->exec_and_return($command);
-                $this->ietdelete->delete_from_config_file($data);
-                $this->view('message', "Success");
+
+            if (isset($_POST['target'])) {
+                $tid = $this->ietadd->get_tid($_POST['target']);
+                $command = $this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid;
+                $return = $this->std->exec_and_return($command);
+
+                if ($return != 0) {
+                    $this->view('message', "Error - Could not delete target " . $_POST['iqn'] . " Server said:" . $return[0]);
+                } else {
+                    $line = "Target " . $_POST['target'];
+                    $this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
+                    $this->view('message', "Success");
+                }
             } else {
-                $data = $this->ietdelete->get_names();
-                if ($data == 2) {
+                $data = $this->ietadd->get_targets_without_luns();
+
+                if ($data == 3) {
                     $this->view('message', "Error - No targets found");
                 } else {
-                    $this->view('targets/delete', $data);
+                    $this->view('targets/deletetarget', $data);
                 }
             }
             $this->view('footer', $this->std->get_service_status());

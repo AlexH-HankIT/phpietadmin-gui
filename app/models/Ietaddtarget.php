@@ -125,6 +125,33 @@
             }
         }
 
+        public function get_targets_without_luns() {
+            $alltargets = $this->get_targets();
+            $withluns = $this->get_targets_with_lun();
+
+            if (empty($withluns)) {
+                return $alltargets;
+            } else {
+
+                // Get all target with lun in one array
+                $counter=0;
+                foreach ($withluns as $value) {
+                    $targetswithlun[$counter] = $value[0]['name'];
+                    $counter++;
+                }
+
+                // Compaire these arrays, $data will contain all targets without any luns
+                $data = array_diff($alltargets, $targetswithlun);
+
+
+                if (empty($data)) {
+                    return 3;
+                } else  {
+                    return $data;
+                }
+            }
+        }
+
         public function check_path_already_in_use($path) {
             $volumes = $this->get_proc_volume_content();
 
