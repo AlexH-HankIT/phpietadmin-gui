@@ -16,6 +16,57 @@
             $this->std = new Std();
         }
 
+        function get_iet_allow($iqn, $allowfile) {
+            $data = file_get_contents($allowfile);
+
+            if (empty($data)) {
+                return 3;
+            } else {
+
+                $data = trim(preg_replace('/\s\s+/', ' ', $data));
+
+                $data = explode("\n", $data);
+
+                foreach ($data as $key => $value) {
+                    $data2[$key] = explode(",", $value);
+                }
+
+                unset($data);
+
+                $counter = 0;
+                foreach ($data2 as $value) {
+                    foreach ($value as $key => $value2) {
+                        if ($key === 0) {
+                            $teil[$counter][$key] = explode(' ', $value2);
+                        } else {
+                            $teil[$counter][$key] = $value2;
+                        }
+                    }
+                    $counter++;
+                }
+
+                $counter = 0;
+                foreach ($teil as $value) {
+                    $data[$counter]['iqn'] = $value[0][0];
+                    $data[$counter][0] = $value[0][1];
+
+                    for ($i = 1; count($value) > $i; $i++) {
+                        $data[$counter][$i] = str_replace(' ', '', $value[$i]);
+                    }
+                    $counter++;
+                }
+
+                foreach ($data as $key => $value) {
+                    if (strcmp($value['iqn'], $iqn) === 0) {
+                        return $data[$key];
+                    }
+                }
+
+                return 3;
+            }
+        }
+
+
         public function get_allow($file) {
             if (file_exists($file)) {
                 // Read data in var
