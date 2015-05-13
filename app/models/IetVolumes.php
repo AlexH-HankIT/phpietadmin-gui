@@ -4,6 +4,12 @@
             $this->create_models();
         }
 
+        private function create_models() {
+            // Create other needed models in this model
+            require_once 'Regex.php';
+            $this->regex = new Regex();
+        }
+
         private function create_table() {
             return $table = array(
                 0 => "name",
