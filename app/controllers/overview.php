@@ -1,12 +1,13 @@
 <?php
 class Overview extends Controller {
     public function __construct() {
-        $session = $this->model('Session');
-        $session->setUsername($_SESSION['username']);
-        $session->setPassword($_SESSION['password']);
+        // Creates all available models
+        $this->create_models();
+        $this->session->setUsername($_SESSION['username']);
+        $this->session->setPassword($_SESSION['password']);
 
         // Check if user is logged in
-        if (!$session->check()) {
+        if (!$this->session->check()) {
             header("Location: /phpietadmin/auth/login");
             // Die in case browser ignores header redirect
             die();
@@ -14,18 +15,13 @@ class Overview extends Controller {
     }
 
     public function index() {
-        $std = $this->model('Std');
-
         $this->view('header');
         $this->view('menu');
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function disks() {
-        $disks = $this->model('Disks');
-        $std = $this->model('Std');
-        $data = $disks->get_disks();
+        $data = $this->disks->get_disks();
 
         $this->view('header');
         $this->view('menu');
@@ -35,38 +31,30 @@ class Overview extends Controller {
             $this->view('message', "Boeser Fehler");
         }
 
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function ietvolumes() {
-        $ietvolumes = $this->model('IetVolumes');
-        $std = $this->model('Std');
-
-        $volumes = $ietvolumes->getIetVolumes();
+        $volumes = $this->ietvolumes->getIetVolumes();
 
         $this->view('header');
         $this->view('menu');
-        if ($volumes == 1 or $volumes == 2) {
+        if ($volumes === 1 or $volumes === 2) {
             $this->view('message', "The ietvolumes file was not found or is empty!");
         } else {
             $this->view('ietvolumes', $volumes);
         }
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function ietsessions() {
-        $ietsessions = $this->model('IetSessions');
-        $sessions = $ietsessions->getIetSessions();
-        $std = $this->model('Std');
-        $database = $this->model('Database');
+        $sessions = $this->ietsessions->getIetSessions();
 
         $this->view('header');
         $this->view('menu');
 
         if (isset($_POST['tid']) or isset($_POST['cid']) && isset($_POST['sid'])) {
-            $return = $std->exec_and_return($database->get_config('sudo') . " " . $database->get_config('ietadm') . ' --op delete --tid=' . $_POST['tid'] . ' --sid=' . $_POST['sid'] . ' --cid=' . $_POST['cid']);
+            $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . ' --op delete --tid=' . $_POST['tid'] . ' --sid=' . $_POST['sid'] . ' --cid=' . $_POST['cid']);
         }
 
         if ($sessions == 2 or $sessions == 1) {
@@ -74,43 +62,32 @@ class Overview extends Controller {
         } else {
             $this->view('ietsessions', $sessions);
         }
-
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function pv() {
-        $lvm = $this->model('Lvmdisplay');
-        $data = $lvm->get_lvm_data('pvs');
-        $std = $this->model('Std');
+        $data = $this->lvm->get_lvm_data('pvs');
 
         $this->view('header');
         $this->view('menu');
         $this->view('table', $data);
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function vg() {
-        $lvm = $this->model('Lvmdisplay');
-        $data = $lvm->get_lvm_data('vgs');
-        $std = $this->model('Std');
+        $data = $this->lvm->get_lvm_data('vgs');
 
         $this->view('header');
         $this->view('menu');
         $this->view('table', $data);
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function lv() {
-        $lvm = $this->model('Lvmdisplay');
-        $std = $this->model('Std');
-
         $this->view('header');
         $this->view('menu');
 
-        $data = $lvm->get_all_logical_volumes();
+        $data = $this->lvm->get_all_logical_volumes();
 
         if ($data == 3 ) {
             $this->view('message', "Error - No logical volumes found!");
@@ -118,14 +95,11 @@ class Overview extends Controller {
             $this->view('table', $data);
         }
 
-            $data = $std->get_service_status();
-            $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function initiators() {
-        $iet = $this->model('Ietpermissions');
-        $data = $iet->get_initiator_permissions();
-        $std = $this->model('Std');
+        $data = $this->ietpermissions->get_initiator_permissions();
 
         $this->view('header');
         $this->view('menu');
@@ -140,14 +114,11 @@ class Overview extends Controller {
             $this->view('table', $data);
         }
 
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
     public function targets() {
-        $iet = $this->model('Ietpermissions');
-        $data = $iet->get_target_permissions();
-        $std = $this->model('Std');
+        $data = $this->ietpermissions->get_target_permissions();
 
         $this->view('header');
         $this->view('menu');
@@ -162,8 +133,7 @@ class Overview extends Controller {
             $this->view('table', $data);
         }
 
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 
 }

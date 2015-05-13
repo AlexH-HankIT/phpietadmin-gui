@@ -1,12 +1,5 @@
 <?php
     class targets extends controller {
-        // Define global vars
-        var $database;
-        var $ietadd;
-        var $std;
-        var $session;
-        var $lvm;
-
         public function __construct() {
             $this->create_models();
 
@@ -29,15 +22,6 @@
                     die();
                 }
             }
-        }
-
-        private function create_models() {
-            // Create models used in this controller
-            $this->session = $this->model('Session');
-            $this->database = $this->model('Database');
-            $this->ietadd = $this->model('Ietaddtarget');
-            $this->std = $this->model('Std');
-            $this->lvm = $this->model('Lvmdisplay');
         }
 
         public function addtarget() {
@@ -77,7 +61,7 @@
                     if ($return != 0) {
                         $this->view('message', "Error - Could not add lun to target " . $_POST['target'] . " Server said:" . $return[0]);
                     } else {
-                        $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'];
+                        $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";
                         $this->std->addlineafterpattern("Target " . $_POST['target'], $this->database->get_config('ietd_config_file'), $line);
                         $this->view('message', "Success");
                     }

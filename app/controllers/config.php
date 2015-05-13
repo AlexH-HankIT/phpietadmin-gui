@@ -1,9 +1,5 @@
 <?php
     class config extends Controller {
-        var $std;
-        var $database;
-        var $session;
-
         public function __construct() {
             $this->create_models();
 
@@ -16,13 +12,6 @@
                 // Die in case browser ignores header redirect
                 die();
             }
-        }
-
-        private function create_models() {
-            // Create models used in this controller
-            $this->session = $this->model('Session');
-            $this->database = $this->model('Database');
-            $this->std = $this->model('Std');
         }
 
         public function fetchdata($result) {

@@ -1,17 +1,8 @@
 <?php
     class Auth extends Controller {
-        var $session;
-
         public function __construct() {
             $this->create_models();
         }
-
-        private function create_models() {
-
-
-            $this->session = $this->model('Session');
-        }
-
 
         public function login() {
             if (isset($_POST['username']) && isset($_POST['password'])) {

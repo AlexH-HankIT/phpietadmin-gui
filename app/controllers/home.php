@@ -1,12 +1,13 @@
 <?php
 class Home extends Controller {
     public function __construct() {
-        $session = $this->model('Session');
-        $session->setUsername($_SESSION['username']);
-        $session->setPassword($_SESSION['password']);
+        // Creates all available models
+        $this->create_models();
+        $this->session->setUsername($_SESSION['username']);
+        $this->session->setPassword($_SESSION['password']);
 
         // Check if user is logged in
-        if (!$session->check()) {
+        if (!$this->session->check()) {
             header("Location: /phpietadmin/auth/login");
             // Die in case browser ignores header redirect
             die();
@@ -14,12 +15,10 @@ class Home extends Controller {
     }
 
     public function index() {
-        $std = $this->model('Std');
         $this->view('header');
         $this->view('menu');
         $this->view('home');
-        $data = $std->get_service_status();
-        $this->view('footer', $data);
+        $this->view('footer', $this->std->get_service_status());
     }
 }
 ?>
