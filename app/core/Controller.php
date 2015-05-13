@@ -1,6 +1,4 @@
 <?php
-    // create global objects contaning all needed models here
-
     class Controller {
         // Define global vars
         public $database;
