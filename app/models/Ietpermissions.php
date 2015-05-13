@@ -17,6 +17,7 @@
         }
 
         function get_iet_allow($iqn, $allowfile) {
+
             $data = file_get_contents($allowfile);
 
             if (empty($data)) {
@@ -60,7 +61,6 @@
                     }
                     $counter++;
                 }
-
 
                 foreach ($data as $key => $value) {
                     if (strcmp($value['iqn'], $iqn) === 0) {
