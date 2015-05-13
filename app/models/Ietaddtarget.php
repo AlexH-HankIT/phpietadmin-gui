@@ -98,8 +98,14 @@
         }
 
         public function get_proc_volume_content() {
-            return file_get_contents($this->database->get_config('proc_volumes'));
+            $file = $this->database->get_config('proc_volumes');
+            if (file_exists($file)) {
+                return file_get_contents($this->database->get_config('proc_volumes'));
+            } else {
+             return 2;
+            }
         }
+
 
         public function get_tid($name) {
             $volumes = $this->get_proc_volume_content();
