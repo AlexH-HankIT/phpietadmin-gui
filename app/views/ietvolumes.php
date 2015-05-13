@@ -36,7 +36,7 @@
         <br/>
     <?php } ?>
 
-    <?php if (isset($data[2])) { ?>
+    <?php if (!empty($data[2])) { ?>
             <ol class="breadcrumb">
                 <li class="active">Iet volumes without luns</li>
             </ol>
