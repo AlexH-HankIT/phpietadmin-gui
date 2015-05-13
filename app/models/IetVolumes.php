@@ -1,16 +1,7 @@
 <?php
     class IetVolumes {
-        // Define global vars
-        var $regex;
-
         public function __construct() {
             $this->create_models();
-        }
-
-        private function create_models() {
-            // Create other needed models in this model
-            require_once 'Regex.php';
-            $this->regex = new Regex();
         }
 
         private function create_table() {
@@ -30,6 +21,11 @@
         // Creates array containing all proc volumes in human-readable form
         public function getIetVolumes() {
             $var = $this->parse_proc_volumes();
+
+            if (is_int($var)) {
+                return $var;
+            }
+
             $table = $this->create_table();
 
             if (empty($var)) {
@@ -104,8 +100,8 @@
             $data = $ietaddtarget->get_proc_volume_content();
 
             // Abort if no data is returned
-            if (empty($data)) {
-                return 2;
+            if (is_int($data)) {
+                return $data;
             }
 
             // Replace all newlines with spaces
