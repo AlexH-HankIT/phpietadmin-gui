@@ -61,6 +61,7 @@
                     $counter++;
                 }
 
+
                 foreach ($data as $key => $value) {
                     if (strcmp($value['iqn'], $iqn) === 0) {
                         return $data[$key];
