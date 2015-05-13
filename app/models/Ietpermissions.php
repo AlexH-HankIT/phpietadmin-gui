@@ -22,10 +22,15 @@
             if (empty($data)) {
                 return 3;
             } else {
-
-                $data = trim(preg_replace('/\s\s+/', ' ', $data));
-
                 $data = explode("\n", $data);
+
+                foreach ($data as $key => $value) {
+                    for ($i=0; $i < count($value); $i++) {
+                        if (empty($value[$i]) or (strpos($value[$i][0],'#') !== false)) {
+                            unset($data[$key]);
+                        }
+                    }
+                }
 
                 foreach ($data as $key => $value) {
                     $data2[$key] = explode(",", $value);
