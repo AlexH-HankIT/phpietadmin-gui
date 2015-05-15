@@ -53,13 +53,36 @@ function validatelvinput(newValue, freesize) {
 }
 
 function reloadfooter() {
-    doajax("/phpietadmin/service/status");
+    var pathname = window.location.pathname;
 
-    request.done(function() {
-        if (request.readyState == 4 && request.status == 200) {
-            _("ietdstatus").innerHTML = request.responseText;
-        }
-    });
+    if (pathname !== "/phpietadmin/auth/login") {
+        doajax("/phpietadmin/service/status");
+
+        request.done(function () {
+            if (request.readyState == 4 && request.status == 200) {
+                _("ietdstatus").innerHTML = request.responseText;
+            }
+        });
+    }
+}
+
+function validatedeletetarget() {
+    if(_('targetdelete').value == _("default").value) {
+        alert('Error - Please select a target!');
+        return false;
+    } else {
+        var data = {
+            "target": $('#targetdelete').find('option:selected').val()
+        };
+
+        request = doajax("/phpietadmin/targets/deletetarget", data);
+
+        request.done(function() {
+            if (request.readyState == 4 && request.status == 200) {
+                _("targetdeletecontent").innerHTML = request.responseText;
+            }
+        });
+    }
 }
 
 function validatemaplun() {

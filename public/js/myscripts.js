@@ -55,6 +55,33 @@ $(function () {
     });
 });
 
+$(function () {
+    ietpermissiontargetselection = $('#ietpermissiontargetselection');
+    ietpermissiontargettable = $('#ietpermissiontargettable');
+
+    ietpermissiontargetselection.on('change', function () {
+
+        if (ietpermissiontargetselection.find('option:selected').val() == "default") {
+            ietpermissiontargettable.hide();
+        } else {
+            if(ietpermissiontargettable.is(':hidden')) {
+                ietpermissiontargettable.show();
+            }
+            var data = {
+                "iqn": ietpermissiontargetselection.find('option:selected').val()
+            };
+
+            request = doajax("/phpietadmin/overview/initiators", data);
+
+            request.done(function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    _('ietpermissiontargettable').innerHTML = request.responseText;
+                }
+            });
+        }
+    });
+});
+
 // shows/hides the manual input in views/targets/mapulun.php
 $(function() {
     maplun = $('#maplunmanuelinput');
