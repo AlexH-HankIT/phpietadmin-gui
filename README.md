@@ -37,6 +37,10 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Handle no PV/VG/LV error
 - [x] Handle multiple sessions for one target
 - [x] Handle multiple luns for one target
+- [ ] Delete all comments from config file, when installing (User warning)
+- [ ] Delete lun: Display if target is in use
+- [ ] Delete target: Display if target is in use
+- [ ] Delete target: Checkbox to force deletion, even if in use
 
 ## Planned features
 - [ ] Add lvextend, lvremove, lvrename features
@@ -45,7 +49,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Software raid status
 - [ ] Exclude volume group
 - [x] Add multiple luns to one target
-- [ ] Manual selection of block devies (input menu already implemented, but logic is missing)
+- [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
 - [x] Add config menuto gui
@@ -55,6 +59,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
 - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
+- [ ] Add objects menu for allow rules (host, network, iqn)
 
 Items are completely random ;-)
 
