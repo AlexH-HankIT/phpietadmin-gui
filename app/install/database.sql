@@ -23,6 +23,19 @@ CREATE TABLE user(
   password varchar(50) NOT NULL
 );
 
+DROP TABLE IF EXISTS objects;
+CREATE TABLE objects(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  type_id INTEGER NOT NULL,
+  value varchar(50) NOT NULL
+);
+
+DROP TABLE IF EXISTS types;
+CREATE TABLE types(
+  type_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  value varchar(10) NOT NULL
+);
+
 INSERT INTO config (option, optioningui, ispath, value, description, category) VALUES
     ('iqn', 'IQN', 0, 'iqn.2014-12.com.example.iscsi', "Names of the iscsi targets", 1),
     ('proc_sessions', '/proc session', 1, '/proc/net/iet/session', "Path to the IET sessions file", 1),
@@ -48,3 +61,11 @@ INSERT INTO category (category) VALUES
     ('iet'),
     ('lvm'),
     ('misc');
+
+INSERT INTO types (value) VALUES
+  ('hostv4'),
+  ('hostv6'),
+  ('network'),
+  ('iqn'),
+  ('ALL'),
+  ('regex');
