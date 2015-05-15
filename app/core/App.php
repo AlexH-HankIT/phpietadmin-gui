@@ -23,6 +23,9 @@
                 if(method_exists($this->controller, $url[1])) {
                     $this->method = $url[1];
                     unset($url[1]);
+                } else {
+                    echo "<h1>Method " . $url[1] . " doesn't exist!</h1>";
+                    die();
                 }
             }
 
