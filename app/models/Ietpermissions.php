@@ -16,8 +16,7 @@
             $this->std = new Std();
         }
 
-        function get_iet_allow($iqn, $allowfile) {
-
+        function get_iet_allow($allowfile, $iqn = '') {
             $data = file_get_contents($allowfile);
 
             if (empty($data)) {
@@ -37,8 +36,6 @@
                     $data2[$key] = explode(",", $value);
                 }
 
-                unset($data);
-
                 $counter = 0;
                 foreach ($data2 as $value) {
                     foreach ($value as $key => $value2) {
@@ -53,22 +50,29 @@
 
                 $counter = 0;
                 foreach ($teil as $value) {
-                    $data[$counter]['iqn'] = $value[0][0];
-                    $data[$counter][0] = $value[0][1];
+                    $data3[$counter]['iqn'] = $value[0][0];
+                    $data3[$counter][0] = $value[0][1];
 
                     for ($i = 1; count($value) > $i; $i++) {
-                        $data[$counter][$i] = str_replace(' ', '', $value[$i]);
+                        $data3[$counter][$i] = str_replace(' ', '', $value[$i]);
                     }
                     $counter++;
                 }
 
-                foreach ($data as $key => $value) {
-                    if (strcmp($value['iqn'], $iqn) === 0) {
-                        return $data[$key];
+                if (empty($data3)) {
+                    return 3;
+                } else {
+                    if (!empty($iqn)) {
+                        foreach ($data3 as $key => $value) {
+                            if (strcmp($value['iqn'], $iqn) === 0) {
+                                $return[0] = $data3[$key];
+                            }
+                        }
                     }
-                }
 
-                return 3;
+                    $return[1] = $data3;
+                    return $return;
+                }
             }
         }
 
