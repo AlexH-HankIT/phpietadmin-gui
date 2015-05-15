@@ -3,8 +3,11 @@ class Home extends Controller {
     public function __construct() {
         // Creates all available models
         $this->create_models();
-        $this->session->setUsername($_SESSION['username']);
-        $this->session->setPassword($_SESSION['password']);
+
+        if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+            $this->session->setUsername($_SESSION['username']);
+            $this->session->setPassword($_SESSION['password']);
+        }
 
         // Check if user is logged in
         if (!$this->session->check()) {
@@ -18,6 +21,7 @@ class Home extends Controller {
         $this->view('header');
         $this->view('menu');
         $this->view('home');
+
         $this->view('footer', $this->std->get_service_status());
     }
 }
