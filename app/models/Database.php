@@ -36,6 +36,17 @@
             return $this->return_last_error();
         }
 
+        public function get_object_types() {
+            $data = $this->query('select value from types');
+
+            $counter=0;
+            while ($result = $data->fetchArray(SQLITE3_NUM)) {
+                $data2[$counter] = $result;
+                $counter++;
+            }
+            return $data2;
+        }
+
         public function __destruct() {
             $this->close();
         }
