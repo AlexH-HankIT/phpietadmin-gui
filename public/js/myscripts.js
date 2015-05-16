@@ -75,7 +75,7 @@ $(function () {
 
             request.done(function () {
                 if (request.readyState == 4 && request.status == 200) {
-                    _('ietpermissiontargettable').innerHTML = request.responseText;
+                    $('#ietpermissiontargettable').html(request.responseText);
                 }
             });
         }
@@ -100,21 +100,48 @@ $(function() {
     });
 });
 
+//Usesd in views/target/addtarget.php
+$(function() {
+    $(document).on('click', '#addtargetbutton', function(){
+        var input = $('#iqninput');
+        var def = $('#defaultiqn').val();
 
+        if (input.val() == def) {
+            input.addClass("focusedInputerror");
+            return false;
+        } else {
+            var data = {
+                "name": input.val()
+            };
+
+            doajax("/phpietadmin/targets/addtarget", data);
+
+            request.done(function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    $('#addtargetinput').html(request.responseText);
+                }
+            });
+        }
+    });
+});
+
+// Used in views/lvm/delete.php
 $(function() {
     $(document).on('click', '#logicalvolumedeletebutton', function(){
-        if($('#logicalvolumedeleteselection').find('option:selected').val() == $("#default").val()) {
+        sel = $('#logicalvolumedeleteselection');
+
+        if(sel.find('option:selected').val() == $("#default").val()) {
             alert('Error - Please select a volume!');
         } else {
             var data = {
-                "target": $('#logicalvolumedeleteselection').find('option:selected').val()
+                "target": sel.find('option:selected').val()
             };
 
             request = doajax("/phpietadmin/lvm/delete", data);
 
             request.done(function() {
                 if (request.readyState == 4 && request.status == 200) {
-                    _("logicalvolumedeletecontent").innerHTML = request.responseText;
+                    $('#logicalvolumedeletecontent').html(request.responseText);
                 }
             });
         }
@@ -163,8 +190,6 @@ $(function() {
     setInterval(reloadfooter, (5 * 1000));
 });
 
-
-
 // ajax requests for deletelun
 $(function() {
     $('#deleteluniqnselection').on('change', function () {
@@ -181,8 +206,11 @@ $(function() {
                 if (request.readyState == 4 && request.status == 200) {
                     deletelunluns = $('#deletelunluns');
 
-                    _('deletelunluns').innerHTML = request.responseText;
-                    if(deletelunluns.is(':hidden')) { deletelunluns.show(); }
+                    deletelunluns.html(request.responseText);
+
+                    if(deletelunluns.is(':hidden')) {
+                        deletelunluns.show();
+                    }
                 }
             });
         } else {

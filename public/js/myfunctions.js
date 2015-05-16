@@ -91,28 +91,6 @@ function validatemaplun() {
     }
 }
 
-function addtarget() {
-    var input = $('#iqninput');
-    var def = $('#defaultiqn').val();
-
-    if (input.val() == def) {
-        input.addClass("focusedInputerror");
-        return false;
-    } else {
-        var data = {
-            "name": input.val()
-        };
-
-        doajax("/phpietadmin/targets/addtarget", data);
-
-        request.done(function() {
-            if (request.readyState == 4 && request.status == 200) {
-                _("addtargetinput").innerHTML = request.responseText;
-            }
-        });
-    }
-}
-
 function validatedeletetarget() {
     if(_('targetdelete').value == _("default").value) {
         alert('Error - Please select a target!');
