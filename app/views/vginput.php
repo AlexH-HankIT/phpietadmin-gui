@@ -6,7 +6,7 @@
         <form method="post">
             <select name="vg_post" multiple class="form-control" onchange="showlvinput(this.value)">
                 <?php for ($i = 0; $i < count($data); $i++) { ?>
-                    <option value="<?=$data[$i]?>"> <?=$data[$i]?> </option>
+                    <option value="<?php echo $data[$i]?>"> <?php echo $data[$i]?> </option>
                 <?php } ?>
             </select>
             <br />
