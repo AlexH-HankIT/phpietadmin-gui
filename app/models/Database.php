@@ -28,11 +28,10 @@
         }
 
         public function set_config($option, $value) {
-            $option = SQLite3::escapeString($option);
-            $value = SQLite3::escapeString($value);
-            $value = "\"$value\"";
-            $option = "\"$option\"";
-            $this->query('update config set value =' . $value . ' where option=' . $option . ';');
+            $data = $this->prepare('UPDATE CONFIG SET VALUE=:value where option=:option');
+            $data->bindValue('value', $value, SQLITE3_TEXT);
+            $data->bindValue('option', $option, SQLITE3_TEXT);
+            $data->execute();
             return $this->return_last_error();
         }
 
