@@ -1,17 +1,3 @@
-<!--
-
-Liste mit allen targets anzeigen (targets ohne luns nicht anzeigen!)
-user wählt target aus
-liste mit luns zu target per ajax nachladen (nur luns ohne session anzeigen!)
-bestätigung um lun zu löschen
-
-lun live mit ietadm löschen
-wenn erfolgreich im config file entfernen (delete_line_in_file $string = pathtoblockdevice)
-
-ansonsten fehler anzeigen
-
--->
-
 <div class = "container">
     <ol class="breadcrumb">
         <li class="active">Delete lun</li>
