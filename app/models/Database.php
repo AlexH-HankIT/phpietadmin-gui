@@ -3,7 +3,7 @@
         public function __construct() {
             $dbpath = "/usr/share/phpietadmin/app/config.db";
 
-            if (file_exists($dbpath)) {
+            if (is_writable($dbpath)) {
                 $this->open($dbpath, SQLITE3_OPEN_READWRITE);
             } else {
                 echo "<h1>Database connection failed</h1>";
