@@ -13,7 +13,7 @@
                     <label for="iqninput" class="control-label">IQN:</label>
                     <br />
                     <br />
-                    <input class="btn btn-primary" type="submit" value="Add" onclick="addtarget()"/>
+                    <button class="btn btn-primary" type='submit' id="addtargetbutton">Add</button>
                 </div>
                 <div class="col-sm-11">
                     <input class="form-control focusedInput" type="text" value="<?php echo $data ?>" id="iqninput" required/>
