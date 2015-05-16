@@ -41,6 +41,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Delete lun: Display if target is in use
 - [ ] Delete target: Display if target is in use
 - [ ] Delete target: Checkbox to force deletion, even if in use
+- [ ] Remove html onclick elements
 
 ## Planned features
 - [ ] Add lvextend, lvremove, lvrename features
