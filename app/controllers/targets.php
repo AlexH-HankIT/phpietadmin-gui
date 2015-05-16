@@ -34,7 +34,7 @@
                     if ($return != 0) {
                         $this->view('message', "Error - Could not add target " . $_POST['name'] . ". Server said: $return[0]");
                     } else {
-                        $line = "Target " . $_POST['name'] . "\n";
+                        $line = "\nTarget " . $_POST['name'] . "\n";
                         $this->std->add_line_to_file($line, $this->database->get_config('ietd_config_file'));
                         $this->view('message', "Success");
                     }
