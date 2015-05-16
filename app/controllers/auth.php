@@ -7,15 +7,15 @@
         public function login() {
             if (isset($_POST['username']) && isset($_POST['password'])) {
                 // Create pw hash
-                $PWHASH = hash('sha256', $_POST['password']);
+                $pwhash = hash('sha256', $_POST['password']);
 
                 // Save username and hash in session var
                 $_SESSION['username'] = $_POST['username'];
-                $_SESSION['password'] = $PWHASH;
+                $_SESSION['password'] = $pwhash ;
 
                 // Write username and hash to session object
                 $this->session->setUsername($_POST['username']);
-                $this->session->setPassword($PWHASH);
+                $this->session->setPassword($pwhash );
 
                 if($this->session->check()) {
                     header("Location: /phpietadmin/home");
