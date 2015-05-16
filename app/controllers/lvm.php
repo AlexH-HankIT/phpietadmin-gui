@@ -72,29 +72,28 @@
             $this->view('header');
             $this->view('menu');
 
-            $data = $this->lvm->get_all_logical_volumes();
-
-            if ($data == 3) {
-                $this->view('message', "Error - No logical volumes available");
+            if (isset($_POST['target']) && !empty($_POST['target'])) {
+                $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvremove') . ' -f ' . $_POST['target']);
+                if ($return != 0) {
+                    $this->view('message', "Error - Cannot delete logical volume " . $_POST['target']);
+                } else {
+                    $this->view('message', "Success");
+                }
             } else {
-                $data = $this->lvm->get_unused_logical_volumes($data[2]);
-                if ($data == 2) {
+                $data = $this->lvm->get_all_logical_volumes();
+
+                if ($data == 3) {
                     $this->view('message', "Error - No logical volumes available");
                 } else {
-                    if (isset($_POST['volumes'])) {
-                        $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvremove') . ' -f ' . $_POST['volumes']);
-
-                        if ($return != 0) {
-                            $this->view('message', "Error - Cannot delete logical volume " . $_POST['volumes']);
-                        } else {
-                            $this->view('message', "Success");
-                        }
+                    $data = $this->lvm->get_unused_logical_volumes($data[2]);
+                    if ($data == 2) {
+                        $this->view('message', "Error - No logical volumes available");
                     } else {
-                        $this->view('lvm/delete', $data);
-                    }
+                            $this->view('lvm/delete', $data);
+                        }
                 }
+                $this->view('footer', $this->std->get_service_status());
             }
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function extend() {

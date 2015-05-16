@@ -66,25 +66,6 @@ function reloadfooter() {
     }
 }
 
-function validatedeletetarget() {
-    if(_('targetdelete').value == _("default").value) {
-        alert('Error - Please select a target!');
-        return false;
-    } else {
-        var data = {
-            "target": $('#targetdelete').find('option:selected').val()
-        };
-
-        request = doajax("/phpietadmin/targets/deletetarget", data);
-
-        request.done(function() {
-            if (request.readyState == 4 && request.status == 200) {
-                _("targetdeletecontent").innerHTML = request.responseText;
-            }
-        });
-    }
-}
-
 function validatemaplun() {
     if(_('target').value == _("default").value) {
         alert('Error - Please select a target!');
@@ -127,6 +108,25 @@ function addtarget() {
         request.done(function() {
             if (request.readyState == 4 && request.status == 200) {
                 _("addtargetinput").innerHTML = request.responseText;
+            }
+        });
+    }
+}
+
+function validatedeletetarget() {
+    if(_('targetdelete').value == _("default").value) {
+        alert('Error - Please select a target!');
+        return false;
+    } else {
+        var data = {
+            "target": $('#targetdelete').find('option:selected').val()
+        };
+
+        request = doajax("/phpietadmin/targets/deletetarget", data);
+
+        request.done(function() {
+            if (request.readyState == 4 && request.status == 200) {
+                _("targetdeletecontent").innerHTML = request.responseText;
             }
         });
     }

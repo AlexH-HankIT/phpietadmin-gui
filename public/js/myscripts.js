@@ -100,6 +100,27 @@ $(function() {
     });
 });
 
+
+$(function() {
+    $(document).on('click', '#logicalvolumedeletebutton', function(){
+        if($('#logicalvolumedeleteselection').find('option:selected').val() == $("#default").val()) {
+            alert('Error - Please select a volume!');
+        } else {
+            var data = {
+                "target": $('#logicalvolumedeleteselection').find('option:selected').val()
+            };
+
+            request = doajax("/phpietadmin/lvm/delete", data);
+
+            request.done(function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    _("logicalvolumedeletecontent").innerHTML = request.responseText;
+                }
+            });
+        }
+    });
+});
+
 /*
  * Configuration menu
  */
