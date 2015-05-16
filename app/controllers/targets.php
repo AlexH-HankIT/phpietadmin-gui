@@ -51,20 +51,24 @@
             $data = $this->lvm->get_all_logical_volumes();
 
             if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['path'])) {
-                $TID = $this->ietadd->get_tid($_POST['target']);
-                $LUN = $this->ietadd->get_next_lun($_POST['target']);
-                $return = $this->ietadd->check_path_already_in_use($_POST['path']);
-                if ($return != 0) {
-                    $this->view('message', "Error - The path " . $_POST['path'] . " is already in use");
-                } else {
-                    $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=" . $TID . " --lun=" . $LUN . " --params Path=" . $_POST['path'] . ",Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode']);
+                if (file_exists($_POST['path'])) {
+                    $TID = $this->ietadd->get_tid($_POST['target']);
+                    $LUN = $this->ietadd->get_next_lun($_POST['target']);
+                    $return = $this->ietadd->check_path_already_in_use($_POST['path']);
                     if ($return != 0) {
-                        $this->view('message', "Error - Could not add lun to target " . $_POST['target'] . " Server said:" . $return[0]);
+                        $this->view('message', "Error - The path " . $_POST['path'] . " is already in use");
                     } else {
-                        $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";
-                        $this->std->addlineafterpattern("Target " . $_POST['target'], $this->database->get_config('ietd_config_file'), $line);
-                        $this->view('message', "Success");
+                        $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=" . $TID . " --lun=" . $LUN . " --params Path=" . $_POST['path'] . ",Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode']);
+                        if ($return != 0) {
+                            $this->view('message', "Error - Could not add lun to target " . $_POST['target'] . " Server said:" . $return[0]);
+                        } else {
+                            $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";
+                            $this->std->addlineafterpattern("Target " . $_POST['target'], $this->database->get_config('ietd_config_file'), $line);
+                            $this->view('message', "Success");
+                        }
                     }
+                } else {
+                    $this->view('message', "The file " . $_POST['path'] . " was not found!");
                 }
             } else if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['pathtoblockdevice'])) {
                 // handle manual selection here
@@ -109,24 +113,29 @@
                 // Display page for ajax request
                 $this->view('targets/deletelun02', $paths);
             } else if (isset($_POST['iqn']) && isset($_POST['lun']) && isset($_POST['path'])) {
-                // Delete lun from daemon
-                $tid = $this->ietadd->get_tid($_POST['iqn']);
-                $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid . " --lun=" . $_POST['lun']);
+                if (file_exists($_POST['path'])) {
 
-                if ($return != 0) {
-                    $this->view('message', "Error - Could not delete lun " . $_POST['lun'] . " from target " . $_POST['iqn'] . " Server said:" . $return[0]);
-                } else {
-                    foreach ($data as $value) {
-                        if (strcmp($value[0]['name'], $_POST['iqn']) === 0) {
-                            $_POST['type'] = $value[1]['iotype'];
-                            $_POST['mode'] = $value[1]['iomode'];
+                    // Delete lun from daemon
+                    $tid = $this->ietadd->get_tid($_POST['iqn']);
+                    $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid . " --lun=" . $_POST['lun']);
+
+                    if ($return != 0) {
+                        $this->view('message', "Error - Could not delete lun " . $_POST['lun'] . " from target " . $_POST['iqn'] . " Server said:" . $return[0]);
+                    } else {
+                        foreach ($data as $value) {
+                            if (strcmp($value[0]['name'], $_POST['iqn']) === 0) {
+                                $_POST['type'] = $value[1]['iotype'];
+                                $_POST['mode'] = $value[1]['iomode'];
+                            }
                         }
+
+                        $line = "Lun " . $_POST['lun'] . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";;
+                        $this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
+
+                        $this->view('message', "Success");
                     }
-
-                    $line = "Lun " . $_POST['lun'] . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";;
-                    $this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
-
-                    $this->view('message', "Success");
+                } else {
+                    $this->view('message', "The file " . $_POST['path'] . " was not found!");
                 }
             } else {
                 $this->view('header');
