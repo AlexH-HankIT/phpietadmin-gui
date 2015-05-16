@@ -1,11 +1,23 @@
-// Used in views/targets/addtarget.php
-// Validates the iqn input field
-$(function () {
-    // Save default input for later restore
-    var $select = $("#iqninput");
-    var data = $select.val();
+/* Docuemt ready open */
+$(function() {
+    /* Selectors start */
+    var iqninput = $("#iqninput");
+    var ietpermissiontargetselection = $('#ietpermissiontargetselection');
+    var ietpermissiontargettable = $('#ietpermissiontargettable');
+    var maplun = $('#maplunmanuelinput');
+    var autoselection = $("#maplunautoselection");
+    var sel = $('#logicalvolumedeleteselection');
+    var deleteluniqnselection = $('#deleteluniqnselection');
 
-    $select.keydown( function(e) {
+    /* Selectors end */
+
+
+    /* Used in views/targets/addtarget.php
+       Validates the iqn input field
+       Save default input for later restore */
+    var data = iqninput.val();
+
+    iqninput.keydown( function(e) {
         // Prevent default data from being deleted
         var oldvalue=$(this).val();
         var field=this;
@@ -26,23 +38,18 @@ $(function () {
             e.preventDefault();
         }
     });
-});
 
-// Focus the iqninput in views/targets/addtarget.php when the site is loaded
-$(function () {
-    var input = $('#iqninput');
-    input.focus();
-    var $thisVal = input.val();
-    input.val('').val($thisVal);
+    /* Focus the iqninput in views/targets/addtarget.php when the site is loaded */
+    iqninput.focus();
+    var $thisVal = iqninput.val();
+    iqninput.val('').val($thisVal);
 
-    // remove error if field is clicked
-    input.click(function () {
-        input.removeClass("focusedInputerror");
+    /* remove error if field is clicked */
+    iqninput.click(function () {
+        iqninput.removeClass("focusedInputerror");
     });
-});
 
-// Select active menu element
-$(function () {
+    // Select active menu element
     var path = window.location.pathname;
     path = path.replace(/\/$/, "");
     path = decodeURIComponent(path);
@@ -51,16 +58,13 @@ $(function () {
         var href = $(this).attr('href');
         if (path.substring(0, href.length) === href) {
             $(this).closest('li').addClass('active');
+            $(this).closest('li').parents().addClass('active');
         }
     });
-});
 
-$(function () {
-    ietpermissiontargetselection = $('#ietpermissiontargetselection');
-    ietpermissiontargettable = $('#ietpermissiontargettable');
 
+    /* Used in /phpietadmin/overview/initiators */
     ietpermissiontargetselection.on('change', function () {
-
         if (ietpermissiontargetselection.find('option:selected').val() == "default") {
             ietpermissiontargettable.hide();
         } else {
@@ -80,14 +84,9 @@ $(function () {
             });
         }
     });
-});
 
-// shows/hides the manual input in views/targets/mapulun.php
-$(function() {
-    maplun = $('#maplunmanuelinput');
-    autoselection = $("#maplunautoselection");
+    /* shows/hides the manual input in views/targets/mapulun.php */
     maplun.hide();
-
     $("#check").change(function() {
         if(maplun.is(':hidden')) {
             maplun.attr("required");
@@ -98,20 +97,18 @@ $(function() {
             maplun.hide();
         }
     });
-});
 
-//Usesd in views/target/addtarget.php
-$(function() {
+    /* Used in views/target/addtarget.php */
     $(document).on('click', '#addtargetbutton', function(){
-        var input = $('#iqninput');
+
         var def = $('#defaultiqn').val();
 
-        if (input.val() == def) {
-            input.addClass("focusedInputerror");
+        if (iqninput.val() == def) {
+            iqninput.addClass("focusedInputerror");
             return false;
         } else {
             var data = {
-                "name": input.val()
+                "name": iqninput.val()
             };
 
             doajax("/phpietadmin/targets/addtarget", data);
@@ -123,12 +120,10 @@ $(function() {
             });
         }
     });
-});
 
-// Used in views/lvm/delete.php
-$(function() {
+    /* Used in views/lvm/delete.php */
     $(document).on('click', '#logicalvolumedeletebutton', function(){
-        sel = $('#logicalvolumedeleteselection');
+
 
         if(sel.find('option:selected').val() == $("#default").val()) {
             alert('Error - Please select a volume!');
@@ -146,55 +141,46 @@ $(function() {
             });
         }
     });
-});
 
-/*
- * Configuration menu
- */
-// Configuration menu enables the right data
-$(document).on('click', '#config-menu a', function(){
-    if( $('span', this).hasClass('glyphicon-pencil') ) {
-        input = $(this).prev();
-        input.removeAttr("disabled");
-        $('span', this).removeClass("glyphicon-pencil");
-        $('span', this).addClass("glyphicon-ok");
-    } else {
-        clicked = $(this);
-        option = clicked.attr("href").substring(1);
-        value = clicked.prev().val();
-        $.ajax({url: "/phpietadmin/config/edit?option=" + option + "&value=" + value, success: function(result){
-            if (result.indexOf("Success")  >= 0) {
-                clicked.next('.bestaetigung').removeClass("label-danger");
-                clicked.next('.bestaetigung').addClass("label-success");
-                clicked.next('.bestaetigung').text("Success");
-                clicked.next('.bestaetigung').show(500);
-                clicked.next('.bestaetigung').delay(1000).hide(0);
-                input = clicked.prev();
-                input.prop('disabled', true);
-                $('span', clicked).removeClass("glyphicon-ok");
-                $('span', clicked).addClass("glyphicon-pencil");
-            } else {
-                clicked.next('.bestaetigung').removeClass("label-success");
-                clicked.next('.bestaetigung').addClass("label-danger");
-                clicked.next('.bestaetigung').text("Failed");
-                clicked.next('.bestaetigung').show(500);
-                clicked.next('.bestaetigung').delay(1000).hide(0);
+    /* Configuration menu */
+    $(document).on('click', '#config-menu a', function(){
+        if( $('span', this).hasClass('glyphicon-pencil') ) {
+            input = $(this).prev();
+            input.removeAttr("disabled");
+            $('span', this).removeClass("glyphicon-pencil");
+            $('span', this).addClass("glyphicon-ok");
+        } else {
+            clicked = $(this);
+            option = clicked.attr("href").substring(1);
+            value = clicked.prev().val();
+            $.ajax({url: "/phpietadmin/config/edit?option=" + option + "&value=" + value, success: function(result){
+                if (result.indexOf("Success")  >= 0) {
+                    clicked.next('.bestaetigung').removeClass("label-danger");
+                    clicked.next('.bestaetigung').addClass("label-success");
+                    clicked.next('.bestaetigung').text("Success");
+                    clicked.next('.bestaetigung').show(500);
+                    clicked.next('.bestaetigung').delay(1000).hide(0);
+                    input = clicked.prev();
+                    input.prop('disabled', true);
+                    $('span', clicked).removeClass("glyphicon-ok");
+                    $('span', clicked).addClass("glyphicon-pencil");
+                } else {
+                    clicked.next('.bestaetigung').removeClass("label-success");
+                    clicked.next('.bestaetigung').addClass("label-danger");
+                    clicked.next('.bestaetigung').text("Failed");
+                    clicked.next('.bestaetigung').show(500);
+                    clicked.next('.bestaetigung').delay(1000).hide(0);
+                }
             }
+            })
         }
-        })
-    }
-});
+    });
 
-// Updates footer in case ietd is stopped or started
-$(function() {
+    // Updates footer in case ietd is stopped or started
     setInterval(reloadfooter, (5 * 1000));
-});
 
-// ajax requests for deletelun
-$(function() {
-    $('#deleteluniqnselection').on('change', function () {
-        deleteluniqnselection = $('#deleteluniqnselection');
-
+    // ajax requests for deletelun
+    deleteluniqnselection.on('change', function () {
         if (deleteluniqnselection.find('option:selected').val() != "default") {
             var data = {
                 "iqn": deleteluniqnselection.find('option:selected').val()
@@ -217,4 +203,6 @@ $(function() {
             $('#deletelunluns').hide();
         }
     });
+
+/* Document ready close */
 });

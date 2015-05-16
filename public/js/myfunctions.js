@@ -112,7 +112,7 @@ function validatedeletetarget() {
 
 // ajax request
 function doajax(url, data) {
-    // not every request contains data
+    /* not every request contains data */
     if (typeof data === 'undefined') {
         return request = $.ajax({
             url: url,
