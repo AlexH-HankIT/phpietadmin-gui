@@ -46,6 +46,26 @@
             return $data2;
         }
 
+        public function delete_object($id) {
+            $data = $this->prepare('DELETE FROM objects where id=:id');
+            $data->bindValue('id', $id, SQLITE3_INTEGER);
+            $data->execute();
+            return $this->return_last_error();
+        }
+
+        public function get_all_objects() {
+            $query = $this->prepare('select objects.id as objectid, objects.name as name, objects.value, types.value as type from objects, types where objects.type_id=types.type_id');
+            $query = $query->execute();
+
+            $counter=0;
+            while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+                $data[$counter] = $result;
+                $counter++;
+            }
+
+            return $data;
+        }
+
         public function __destruct() {
             $this->close();
         }
