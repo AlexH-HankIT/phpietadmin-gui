@@ -27,7 +27,8 @@ DROP TABLE IF EXISTS objects;
 CREATE TABLE objects(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   type_id INTEGER NOT NULL,
-  value varchar(50) NOT NULL
+  value varchar(50) NOT NULL,
+  name varchar(50) NOT NULL
 );
 
 DROP TABLE IF EXISTS types;
@@ -40,6 +41,7 @@ INSERT INTO config (option, optioningui, ispath, value, description, category) V
     ('iqn', 'IQN', 0, 'iqn.2014-12.com.example.iscsi', "Names of the iscsi targets", 1),
     ('proc_sessions', '/proc session', 1, '/proc/net/iet/session', "Path to the IET sessions file", 1),
     ('proc_volumes', '/proc volume', 1, '/proc/net/iet/volume', "Path to the IET volumes file", 1),
+    ('proc_iet', '/proc iet dir', 1, 'proc/net/iet', 'Path to the IET directory', 1),
     ('ietd_config_file', 'IET config file', 1, '/etc/iet/ietd.conf', "Path to the IET config file", 1),
     ('ietd_init_allow', 'IET initiator allow', 1, '/etc/iet/initiators.allow', "Path to the IET initiators allow file", 1),
     ('ietd_target_allow', 'IET target allow', 1, '/etc/iet/targets.allow', "Path to the IET targets allow file", 1),
