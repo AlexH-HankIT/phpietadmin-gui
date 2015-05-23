@@ -2,15 +2,7 @@
     class Service extends Controller {
         public function __construct() {
             $this->create_models();
-            $this->session->setUsername($_SESSION['username']);
-            $this->session->setPassword($_SESSION['password']);
-
-            // Check if user is logged in
-            if (!$this->session->check()) {
-                header("Location: /phpietadmin/auth/login");
-                // Die in case browser ignores header redirect
-                die();
-            }
+            $this->check_loggedin($this->session);
         }
 
         public function index() {
