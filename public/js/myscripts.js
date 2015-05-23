@@ -11,6 +11,34 @@ $(function() {
 
     /* Selectors end */
 
+    /* Menu */
+    $('#menuhome').qtip({
+        content: {
+            text: 'Home'
+        },
+        style: {
+            classes: 'qtip-youtube'
+        }
+    });
+
+    $('#menuconfig').qtip({
+        content: {
+            text: 'Config'
+        },
+        style: {
+            classes: 'qtip-youtube'
+        }
+    });
+
+    $('#menulogout').qtip({
+        content: {
+            text: 'Logout'
+        },
+        style: {
+            classes: 'qtip-youtube'
+        }
+    });
+
 
     /* Used in views/targets/addtarget.php
        Validates the iqn input field
@@ -121,10 +149,70 @@ $(function() {
         }
     });
 
+
+    /* Used in views/config/table.php */
+    $(document).on('click', '#addobjectrowbutton', function() {
+        $('#addobjectstbody').append(   '<tr class="newrow">' +
+                                        '<td><input id="check" type="checkbox" value="uc" name="Show"></td>' +
+                                        '<td></td>' +
+                                        '<td>' +
+                                        '<select name="target" id="target">' +
+                                        '<option id="default">Select type</option>' +
+                                        '<option>hostv4</option>' +
+                                        '<option>hostv6</option>' +
+                                        '<option>network</option>' +
+                                        '<option>iqn</option>' +
+                                        '<option>ALL</option>' +
+                                        '<option>regex</option>' +
+                                        '</select>' +
+                                        '</td>' +
+                                        '<td><input id="objectsname" type="text" name="type" placeholder="Meaningful name..."></td>' +
+                                        '<td><input id="objectsname" type="text" name="type" placeholder="Your value..."></td>'  +
+                                        '<td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>' +
+                                        '<td><a href="#" class="saveobjectrow"><span class="glyphicon glyphicon-save" aria-hidden="true"></span></a></td>' +
+                                        '</tr>'
+        );
+    });
+
+    $(document).on('click', '.deleteobjectrow', function() {
+        var sel = $(this).closest('tr');
+
+        if (sel.hasClass('newrow')) {
+            sel.remove();
+        } else {
+            var id = sel.find('.id').text();
+            console.log(id);
+
+            var data = {
+                "id": id
+            };
+
+            request = doajax("/phpietadmin/objects/delete", data);
+
+            request.done(function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    if (request.responseText == "Success") {
+                        alert("Success")
+                        sel.remove();
+                    } else if (request.responseText == "Failed") {
+                        alert("Failed");
+                    } else {
+                        alert("Unkown");
+                    }
+
+                } else {
+                    alert("Failed");
+                }
+
+
+            });
+        }
+    });
+
+
+
     /* Used in views/lvm/delete.php */
     $(document).on('click', '#logicalvolumedeletebutton', function(){
-
-
         if(sel.find('option:selected').val() == $("#default").val()) {
             alert('Error - Please select a volume!');
         } else {
