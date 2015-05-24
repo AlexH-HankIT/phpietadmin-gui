@@ -17,7 +17,7 @@
 
                 <div id="maplunmanuelinput">
                     <p>
-                        Path to block device:<input class="form-control" type="text" value="/dev/" name="pathtoblockdevice" id="pathtoblockdevice"/>
+                        <input class="form-control" type="text" placeholder="Path to block device..." name="pathtoblockdevice" id="pathtoblockdevice"/>
                     </p>
                 </div>
 
