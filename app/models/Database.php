@@ -66,6 +66,15 @@
             return $data;
         }
 
+        public function add_object($type, $name, $value) {
+            $query = $this->prepare('INSERT INTO objects (type_id, value, name) VALUES ((SELECT type_id FROM types WHERE value=:type), :value, :name)');
+            $query->bindValue('type', $type, SQLITE3_TEXT);
+            $query->bindValue('name', $name, SQLITE3_TEXT);
+            $query->bindValue('value', $value, SQLITE3_TEXT);
+            $query->execute();
+            return $this->return_last_error();
+        }
+
         public function __destruct() {
             $this->close();
         }
