@@ -11,6 +11,7 @@
         public $session;
         public $lvm;
         public $ietpermissions;
+        public $objects;
 
         public function create_models() {
             $this->database = $this->model('Database');
@@ -23,6 +24,7 @@
             $this->std = $this->model('Std');
             $this->lvm = $this->model('Lvmdisplay');
             $this->ietpermissions = $this->model('Ietpermissions');
+            $this->objects = $this->model('Objects');
         }
 
         public function check_loggedin($session) {
