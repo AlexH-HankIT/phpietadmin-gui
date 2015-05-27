@@ -1,24 +1,16 @@
 <?php
     class objects extends Controller {
-        public function __construct() {
-            $this->create_models();
-            $this->check_loggedin($this->session);
-        }
-
         public function index() {
-            $this->view('header');
-            $this->view('menu');
-
             $data['type'] = $this->database->get_object_types();
             $data['objects'] = $this->database->get_all_objects();
 
             $this->view('objects/table', $data);
-
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function add() {
-
+            if (isset($_POST['type']) && isset($_POST['name']) && isset($_POST['value'])) {
+                $this->database->add_object($_POST['type'], $_POST['name'], $_POST['value']);
+            }
         }
 
         public function delete() {
@@ -31,12 +23,31 @@
                     echo "Success";
                 }
             } else {
-                echo "Nothing to do";
+                echo "Can't do anything!";
             }
         }
 
         public function edit() {
 
+        }
+
+        public function checkvalueexists() {
+            if (isset($_POST['check']) && $_POST['check'] == "duplicated" && isset($_POST['value'])) {
+                $data = $this->database->get_all_object_values();
+
+
+
+                if (is_array($data)) {
+                    $result = array_search($_POST['value'], $data);
+                    if (!$result) {
+                        echo "false";
+                    } else {
+                        echo "true";
+                    }
+                } else {
+                    echo "true";
+                }
+            }
         }
     }
 ?>

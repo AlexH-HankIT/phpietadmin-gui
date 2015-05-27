@@ -156,6 +156,7 @@
             return $a_initiators2;
         }
 
+        /* Obsolete  -->*/
         public function write_allow_rule($post, $array) {
             if(!is_writable($this->database->get_config('ietd_init_allow'))) {
                 return 1;
@@ -176,10 +177,99 @@
                 $this->std->deleteLineInFile($this->database->get_config('ietd_init_allow'), "$NAME");
             }
         }
+        /* <-- Obsolete */
 
         public function get_volume_names($data) {
             preg_match_all("/name:(.*)/", $data, $a_name);
             return $a_name[1];
+        }
+
+        public function delete_object_from_iqn($iqn, $stringtodelete, $file) {
+            if (!is_writeable($file)) {
+                return 1;
+            } else {
+                // Read data in array
+                $data = file($file);
+
+                foreach ($data as $key => $value) {
+                    if (strpos($value, '#') !== false) {
+                        true;
+                    } else {
+                        if (strpos($value, $iqn) !== false) {
+                            $strtodeletepo = strpos($value, $stringtodelete);
+                            if ($strtodeletepo !== false) {
+                                $strtodeletelen = strlen($stringtodelete);
+
+                                // If the $stringtodelete isn't the last, we have to delete a space and a comma after the string ended
+                                if ($value[$strtodeletepo + $strtodeletelen] == ',') {
+                                    $temp = substr_replace($value, '', $strtodeletepo, $strtodeletelen + 2);
+                                    $data[$key] = $temp;
+                                } else {
+                                    // If the string is the last, we have to remove the previous space and comma
+                                    $temp = substr_replace($value, '', $strtodeletepo - 2, $strtodeletelen + 2);
+                                    $data[$key] = $temp;
+                                }
+
+                                // If iqn has the same length than value, there is only the iqn in this line
+                                // therefore we just delete it
+                                if (strlen($iqn) == strlen($temp)) {
+                                    unset($data[$key]);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Insert a newline at the end to prevent some issues
+                if (end($data) !== "\n") {
+                    array_push($data, "\n");
+                }
+
+                // Create string and write back
+                $data = implode($data);
+                file_put_contents($file, $data);
+
+                return 0;
+            }
+        }
+
+        public function add_object_to_iqn($iqn, $stringtoadd, $file) {
+            if (!is_writeable($file)) {
+                return 1;
+            } else {
+                // Read data in array
+                $data = file($file);
+
+                if (!$this->std->array_find($iqn, $data)) {
+                    if (end($data) == "\n") {
+                        // Last element is a newline, delete it and add rule
+                        array_pop($data);
+                        array_push($data, $iqn . " " . $stringtoadd . "\n");
+                    } else {
+                        array_push($data, $iqn . " " . $stringtoadd . "\n");
+                    }
+                } else {
+                    foreach ($data as $key => $value) {
+                        if (strpos($value, '#') !== false) {
+                            true;
+                        } else {
+                            // If iqn is there, we have to add a object to it
+                            if (strpos($value, $iqn) !== false) {
+                                $temp = trim(preg_replace('/\s\s+/', ' ', $value));
+                                $temp .= ", " . $stringtoadd . "\n";
+                                $data[$key] = $temp;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Create string and write back
+            $data = implode($data);
+
+            file_put_contents($file, $data);
+
+            return 0;
         }
     }
 ?>

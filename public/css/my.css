@@ -28,9 +28,17 @@ body {
 }
 
 .focusedInputerror {
-    border-color: red;
-    outline: 0;
-    outline: thin dotted \9;
-    -moz-box-shadow: 0 0 8px red;
-    box-shadow: 0 0 8px red !important;
+    box-shadow: 0 0 1.5px 1px red;
+}
+
+li {
+    list-style-type: none;
+}
+
+.green {
+    color: #5cb85c;
+}
+
+.red {
+    color: #d9534f;
 }

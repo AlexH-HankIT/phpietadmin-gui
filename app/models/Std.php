@@ -62,5 +62,24 @@
             }
             return $data;
         }
+
+        public function IsXHttpRequest() {
+            if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // From here: https://gist.github.com/branneman/951847
+        // Thanks to branneman
+        public function array_find($needle, array $haystack) {
+            foreach ($haystack as $key => $value) {
+                if (false !== stripos($value, $needle)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 ?>

@@ -2,6 +2,10 @@ function _(str) {
     return document.getElementById(str)
 }
 
+function validateipv4(ipv4) {
+    return (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipv4))
+}
+
 function send_deletelun() {
     $(function () {
         deleteluniqnselection = $('#deleteluniqnselection');
@@ -140,4 +144,37 @@ function showlvinput(str) {
             _("lv").innerHTML = request.responseText;
         }
     });
+}
+
+function validateipv4network (net) {
+// Trennen von Netz-IP und Subnetmask
+    net = net.split("/");
+    // Netzwerk-IP
+    netip = net[0];
+    // Subnetmask
+    mask = net[1];
+    // Segmente aufteilen
+    seg = netip.split("\.");
+    // Hostanteil
+    hostanteil = 32-mask;
+    // Hostanteil im letzten Segment
+    hostanteilLetztesSegment = hostanteil%8;
+    // Hosts im letzten Segment
+    hostsLetztesSegment = Math.pow(2, hostanteilLetztesSegment);
+    // Auswahl Segment
+    auswahlSeg = parseInt(mask/8);
+
+    if( seg[auswahlSeg]%hostsLetztesSegment == 0 ) {
+        // Alle Segmente hinter der Mask muessen Null sein
+        allNull = true;
+        for (var i=3; i > auswahlSeg; i--) {
+            if( seg[i] != 0 ) {
+                allNull = false;
+            }
+        }
+        return allNull;
+    }
+    else {
+        return false;
+    }
 }
