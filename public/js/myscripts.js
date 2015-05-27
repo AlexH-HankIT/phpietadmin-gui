@@ -274,6 +274,7 @@ $(function() {
         }
     });
 
+    /* Used in views/objects/table.php */
     $(document).on('click', '.saveobjectrow', function() {
         var thisrow = $(this).closest("tr");
 
@@ -350,6 +351,8 @@ $(function() {
             });
         }
     });
+
+    $('#objectstable').filterTable({minRows:0});
 
     $(document).on('focus', '.objectvalue', function() {
         objectvalue = $(".objectvalue");

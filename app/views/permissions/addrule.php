@@ -5,7 +5,6 @@
 </div>
 
 <div class = "container">
-    <div class = "jumbotron">
         <select name="target" id="targetselection" class="form-control">
             <option id="default">Select target...</option>
             <?php foreach ($data['targets'] as $value) { ?>
@@ -34,7 +33,7 @@
         <br />
         <br />
 
-        <table class="table table-bordered">
+        <table id="objectstable" class="table table-bordered">
             <thead>
                 <tr>
                     <th><span class="glyphicon glyphicon glyphicon-ok green"></span></th>
@@ -56,5 +55,4 @@
                 <?php } ?>
             </tbody>
         </table>
-    </div>
 </div>
