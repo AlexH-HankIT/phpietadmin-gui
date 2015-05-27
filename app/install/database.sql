@@ -34,6 +34,7 @@ CREATE TABLE objects(
 DROP TABLE IF EXISTS types;
 CREATE TABLE types(
   type_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  display_name varchar(10) NOT NULL,
   value varchar(10) NOT NULL
 );
 
@@ -45,6 +46,7 @@ INSERT INTO config (option, optioningui, ispath, value, description, category) V
     ('ietd_config_file', 'IET config file', 1, '/etc/iet/ietd.conf', "Path to the IET config file", 1),
     ('ietd_init_allow', 'IET initiator allow', 1, '/etc/iet/initiators.allow', "Path to the IET initiators allow file", 1),
     ('ietd_target_allow', 'IET target allow', 1, '/etc/iet/targets.allow', "Path to the IET targets allow file", 1),
+    ('ietd_init_deny', 'IET initiator deny', 1, '/etc/iet/initiators.deny', "Path to the IET initiators deny file", 1),
     ('ietadm', 'ietadm bin', 1, '/usr/sbin/ietadm', "Path to the IET admin tool", 1),
     ('servicename', 'servicename', 0, 'iscsitarget', "Name of the IET service", 1),
     ('lvs', 'lvs bin', 1, '/sbin/lvs', "Path to the lvs binary", 2),
@@ -64,10 +66,14 @@ INSERT INTO category (category) VALUES
     ('lvm'),
     ('misc');
 
-INSERT INTO types (value) VALUES
-  ('hostv4'),
-  ('hostv6'),
-  ('network'),
-  ('iqn'),
-  ('ALL'),
-  ('regex');
+INSERT INTO types (value, display_name) VALUES
+  ('hostv4', 'IPv4 Host'),
+  ('hostv6', 'IPv6 Host'),
+  ('networkv4', 'IPv4 Network'),
+  ('networkv6', 'IPv6 Network'),
+  ('iqn', 'IQN'),
+  ('all', 'ALL'),
+  ('regex', 'Regex');
+
+INSERT INTO objects (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from types where value='all'));
+
