@@ -1,30 +1,40 @@
-<div id="addtargetinput" class="container">
+<div class="container">
     <ol class="breadcrumb">
         <li class="active">Dashboard</li>
     </ol>
+
     <div class="row">
-        <div class="col-md-6">
-            services mit start stop
+
+        <div class="col-xs-4">
+
         </div>
-        <div class="col-md-6">
-            interfaces
+
+        <div class="col-xs-4">
+
+            .col-xs-12
+
         </div>
+
+        <div class="col-xs-4">
+
+            .col-xs-12
+
+        </div>
+
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            eingeloggte nutzer
-            uptime
-            cpu usage
-            cpu type
-            distribution
-            kernel version
-        </div>
-        <div class="col-md-6">
-            netzwerk usage
-        </div>
-    </div>
+
 </div>
 
+
+<!--eingeloggte nutzer
+uptime
+cpu usage
+cpu type
+distribution
+kernel version
+services mit start stop
+interfaces
+netzwerk usage
 CPU Model
 CPU Cores
 Memory Usage
@@ -39,4 +49,4 @@ apache2
 rsyslog
 drbd
 corosync
-pacemaker
+pacemaker-->

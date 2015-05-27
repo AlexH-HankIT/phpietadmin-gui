@@ -43,6 +43,8 @@
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Permissions <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadmin/objects/index'>Objects</a></li>
+                        <li><a href='/phpietadmin/permission/addrule'>Add rule</a></li>
+                        <li><a href='/phpietadmin/permission/deleterule'>Delete rule</a></li>
                         <!--<li><a href='/phpietadmin/permission/addinitiator'>Add initiator</a></li>
                         <li><a href='/phpietadmin/permission/deleteinitiator'>Delete initiator</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Add user (BUGGY)</a></li>-->

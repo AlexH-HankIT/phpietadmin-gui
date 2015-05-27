@@ -309,7 +309,6 @@ $(function() {
 
             request.done(function () {
                 if (request.readyState == 4 && request.status == 200) {
-                    console.log(request.responseText);
                     if (request.responseText == "false") {
                         if (type == "hostv4" && !validateipv4(value)) {
                             thisrow.find(".objectvalue").addClass("focusedInputerror");
@@ -352,7 +351,7 @@ $(function() {
         }
     });
 
-    $('#objectstable').filterTable({minRows:0});
+    $('.searchabletable').filterTable({minRows:0});
 
     $(document).on('focus', '.objectvalue', function() {
         objectvalue = $(".objectvalue");
@@ -415,6 +414,107 @@ $(function() {
             }
         }
     });
+
+    /* Used in views/permissions/deleterule.php */
+    $(document).on('change', '#targetselection', function() {
+        var selector_targetselection = $('#targetselection');
+        var iqn = selector_targetselection.find("option:selected").val();
+        var ruletype = $("input[name='deleteruletype']:checked").val();
+        var defaultvalue = selector_targetselection.find('#default').val();
+
+        if (iqn !== defaultvalue) {
+            var data = {
+                "iqn": iqn,
+                "ruletype": ruletype
+            };
+
+            request = doajax("/phpietadmin/permission/deleterule", data);
+
+            request.done(function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    if (request.responseText == "false") {
+                        alert("No rules set for this target!");
+                        selector_targetselection.val('default');
+                        $('#deleteruletable').html('');
+                    } else {
+                        $('#deleteruletable').html(request.responseText);
+                    }
+                }
+            });
+        } else {
+            $('#deleteruletable').html('');
+        }
+    });
+
+    $(document).on('change', 'input[name="deleteruletype"]', function(){
+        var selector_targetselection = $('#targetselection');
+        var iqn = selector_targetselection.find("option:selected").val();
+        var ruletype = $("input[name='deleteruletype']:checked").val();
+        var defaultvalue = selector_targetselection.find('#default').val();
+
+        if (iqn !== defaultvalue) {
+            var data = {
+                "iqn": iqn,
+                "ruletype": ruletype
+            };
+
+            request = doajax("/phpietadmin/permission/deleterule", data);
+
+            request.done(function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    if (request.responseText == "false") {
+                        alert("No rules set for this target!");
+                        selector_targetselection.val('default');
+                        $('#deleteruletable').html('');
+                    } else {
+                        $('#deleteruletable').html(request.responseText);
+                    }
+                }
+            });
+        } else {
+            $('#deleteruletable').html('');
+        }
+    });
+
+    $(document).on('click', '#deleterulebutton', function(){
+        var selector_targetselection = $('#targetselection');
+        var iqn = selector_targetselection.find("option:selected").val();
+        var ruletype = $("input[name='deleteruletype']:checked").val();
+        var defaultvalue = selector_targetselection.find('#default').val();
+
+        if (iqn !== defaultvalue) {
+            var deleteobjectradio = $("input[name='deleteobjectradio']:checked").closest("tr").find('.objectvalue').text()
+
+            if (deleteobjectradio == "") {
+                alert("Please select a object/orphan");
+            } else {
+
+                var data = {
+                    "iqn": iqn,
+                    "value": deleteobjectradio,
+                    "ruletype": ruletype
+                };
+
+                request = doajax("/phpietadmin/permission/deleterule", data);
+
+                request.done(function () {
+                    if (request.readyState == 4 && request.status == 200) {
+                        if (request.responseText == "Success") {
+                            alert("Success");
+                            location.reload();
+                        } else if (request.responseText == "Failed") {
+                            alert("Failed");
+                        } else {
+                            alert("Unkown");
+                        }
+                    } else {
+                        alert("Failed");
+                    }
+                });
+            }
+        }
+    });
+
 
     /* Used in views/lvm/delete.php */
     $(document).on('click', '#logicalvolumedeletebutton', function(){

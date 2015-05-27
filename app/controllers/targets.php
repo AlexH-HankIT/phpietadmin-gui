@@ -1,10 +1,5 @@
 <?php
     class targets extends controller {
-        public function __construct() {
-            $this->create_models();
-            $this->check_logged_in_service_running($this->session);
-        }
-
         public function addtarget() {
             if (isset($_POST['name'])) {
                 $return = $this->ietadd->check_target_name_already_in_use($_POST['name']);
@@ -21,10 +16,7 @@
                     }
                 }
             } else {
-                $this->view('header');
-                $this->view('menu');
                 $this->view('targets/addtarget', $this->database->get_config('iqn') . ":");
-                $this->view('footer', $this->std->get_service_status());
             }
         }
 
@@ -54,8 +46,6 @@
             } else if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['pathtoblockdevice'])) {
                 // handle manual selection here
             } else {
-                $this->view('header');
-                $this->view('menu');
                 if ($data == 3) {
                     $this->view('message', "Error - No logical volumes found!");
                 } else {
@@ -69,12 +59,10 @@
                         if ($data == 4) {
                             $this->view('message', "Error - No targets found");
                         } else {
-                            $this->view('header');
                             $this->view('targets/maplun', $data);
                         }
                     }
                 }
-                $this->view('footer', $this->std->get_service_status());
             }
         }
 
@@ -119,9 +107,6 @@
                     $this->view('message', "The file " . $_POST['path'] . " was not found!");
                 }
             } else {
-                $this->view('header');
-                $this->view('menu');
-
                 $data = $this->ietadd->get_targets_with_lun();
 
                 if (empty($data)) {
@@ -135,14 +120,10 @@
                     }
                     $this->view('targets/deletelun01', $targets);
                 }
-                $this->view('footer', $this->std->get_service_status());
             }
         }
 
         public function deletetarget() {
-            $this->view('header');
-            $this->view('menu');
-
             if (isset($_POST['target'])) {
                 $tid = $this->ietadd->get_tid($_POST['target']);
                 $command = $this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid;
@@ -164,7 +145,6 @@
                     $this->view('targets/deletetarget', $data);
                 }
             }
-            $this->view('footer', $this->std->get_service_status());
         }
     }
 ?>

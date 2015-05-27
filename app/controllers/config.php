@@ -1,10 +1,5 @@
 <?php
     class config extends Controller {
-        public function __construct() {
-            $this->create_models();
-            $this->check_loggedin($this->session);
-        }
-
         public function fetchdata($result) {
             $counter=0;
             while ($row = $result->fetchArray(SQLITE3_NUM)) {
@@ -16,16 +11,11 @@
         }
 
         public function index() {
-            $this->view('header');
-            $this->view('menu');
             $this->view('config/menu');
             $this->view('message', "Please select a category");
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function lvm() {
-            $this->view('header');
-            $this->view('menu');
             $this->view('config/menu');
 
             $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=2');
@@ -33,26 +23,18 @@
             $data=$this->fetchdata($result);
 
             $this->view('config/configtable', $data);
-
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function iet() {
-            $this->view('header');
-            $this->view('menu');
             $this->view('config/menu');
 
             $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=1');
 
             $data=$this->fetchdata($result);
             $this->view('config/configtable', $data);
-
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function misc() {
-            $this->view('header');
-            $this->view('menu');
             $this->view('config/menu');
 
             $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=3');
@@ -60,14 +42,10 @@
             $data=$this->fetchdata($result);
             $this->view('config/configtable', $data);
 
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function users() {
-            $this->view('header');
-            $this->view('menu');
 
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function edit() {

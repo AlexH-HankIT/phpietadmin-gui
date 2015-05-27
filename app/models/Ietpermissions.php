@@ -76,7 +76,6 @@
             }
         }
 
-
         public function get_allow($file) {
             if (file_exists($file)) {
                 // Read data in var
@@ -156,7 +155,7 @@
             return $a_initiators2;
         }
 
-        /* Obsolete  -->*/
+        /* Obsolete  -->
         public function write_allow_rule($post, $array) {
             if(!is_writable($this->database->get_config('ietd_init_allow'))) {
                 return 1;
@@ -177,7 +176,7 @@
                 $this->std->deleteLineInFile($this->database->get_config('ietd_init_allow'), "$NAME");
             }
         }
-        /* <-- Obsolete */
+         <-- Obsolete */
 
         public function get_volume_names($data) {
             preg_match_all("/name:(.*)/", $data, $a_name);

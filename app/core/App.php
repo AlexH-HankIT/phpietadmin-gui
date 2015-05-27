@@ -1,7 +1,9 @@
 <?php
     Class App {
 
-        protected $controller = 'home';
+        protected $controller;
+
+        protected $controllername = 'home';
 
         protected $method = 'index';
 
@@ -11,13 +13,20 @@
             $url = $this->parseUrl();
 
             if(file_exists("../app/controllers/" .  $url[0] . ".php")) {
-                $this->controller = $url[0];
+                $this->controllername = $url[0];
                 unset($url[0]);
             }
 
-            require_once '../app/controllers/' . $this->controller . '.php';
+            require_once '../app/controllers/' . $this->controllername . '.php';
 
-            $this->controller = new $this->controller;
+            $this->controller = new $this->controllername;
+            $this->controller->create_models();
+
+            if ($this->controllername == "targets") {
+                $this->controller->check_logged_in_service_running($this->controller->session);
+            } else if ($this->controllername !== "auth") {
+                $this->controller->check_loggedin($this->controller->session);
+            }
 
             if(isset($url[1])) {
                 if(method_exists($this->controller, $url[1])) {
@@ -31,7 +40,18 @@
 
             $this->params = $url ? array_values($url) : [];
 
+            // If request is no ajax, display header, menu and footer
+            if (!$this->controller->std->IsXHttpRequest() && $this->controllername !== "auth") {
+                $this->controller->view('header');
+                $this->controller->view('menu');
+            }
+
             call_user_func_array([$this->controller, $this->method], $this->params);
+
+            if (!$this->controller->std->IsXHttpRequest() && $this->controllername !== "auth") {
+                $this->controller->view('footer', $this->controller->std->get_service_status());
+
+            }
         }
 
         public function parseUrl() {

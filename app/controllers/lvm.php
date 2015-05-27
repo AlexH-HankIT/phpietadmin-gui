@@ -1,23 +1,13 @@
 <?php
     class Lvm extends Controller {
-        public function __construct() {
-            $this->create_models();
-            $this->check_loggedin($this->session);
-        }
-
         public function index() {
-                $this->view('header');
-                $this->view('menu');
-                $this->view('footer', $this->std->get_service_status());
+
         }
 
         public function add(){
             if (!empty($_POST['vg'])) {
                 if (isset($_POST['name']) && isset($_POST['size']) && isset($_POST['vg'])) {
                     $return = $this->lvm->check_logical_volume_exists_in_vg($_POST['name'], $_POST['vg']);
-
-                    $this->view('header');
-                    $this->view('menu');
 
                     if ($return) {
                         $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvcreate') . ' -L ' . $_POST['size'] . 'G -n' . $_POST['name'] . " " . $_POST['vg']);
@@ -30,9 +20,6 @@
                     } else {
                         $this->view('message', "The logical volume " . $_POST['name'] . " already exists!");
                     }
-
-                    $data = $this->std->get_service_status();
-                    $this->view('footer', $data);
                 } else {
                     $data = $this->lvm->get_lvm_data("vgs", $_POST['vg']);
 
@@ -45,9 +32,6 @@
                     }
                 }
             } else {
-                $this->view('header');
-                $this->view('menu');
-
                 $data = $this->lvm->get_volume_groups();
 
                 if ($data == 3) {
@@ -55,15 +39,10 @@
                 } else {
                     $this->view('vginput', $data);
                 }
-
-                $this->view('footer', $this->std->get_service_status());
             }
         }
 
         public function delete() {
-            $this->view('header');
-            $this->view('menu');
-
             if (isset($_POST['target']) && !empty($_POST['target'])) {
                 $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvremove') . ' -f ' . $_POST['target']);
                 if ($return != 0) {
@@ -84,14 +63,10 @@
                             $this->view('lvm/delete', $data);
                         }
                 }
-                $this->view('footer', $this->std->get_service_status());
             }
         }
 
         public function extend() {
-            $this->view('header');
-            $this->view('menu');
-
             /*
              * list logical volumes
              * if volume is in use:
@@ -109,8 +84,6 @@
                 print_r($this->lvm->get_used_logical_volumes($data));
                 echo "</pre>";
             }
-
-            $this->view('footer', $this->std->get_service_status());
         }
 
         public function shrink() {

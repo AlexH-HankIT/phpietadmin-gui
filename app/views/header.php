@@ -15,6 +15,7 @@
     <!--<script type="text/javascript" src=/phpietadmin/js/jquery.input-ip-address-control.js></script>-->
     <script type="text/javascript" src=/phpietadmin/js/jquery.qtip.min.js></script>
     <script type="text/javascript" src=/phpietadmin/js/imagesloaded.pkg.min.js></script>
+    <script type="text/javascript" src=/phpietadmin/js/jquery.filtertable.min.js></script>
     <script type="text/javascript" src=/phpietadmin/js/myfunctions.js></script>
     <script type="text/javascript" src=/phpietadmin/js/myscripts.js></script>
 </head>

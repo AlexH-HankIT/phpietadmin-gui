@@ -1,9 +1,5 @@
 <?php
     class Auth extends Controller {
-        public function __construct() {
-            $this->create_models();
-        }
-
         public function login() {
             if (isset($_POST['username']) && isset($_POST['password'])) {
                 // Create pw hash

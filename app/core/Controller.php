@@ -11,7 +11,6 @@
         public $session;
         public $lvm;
         public $ietpermissions;
-        public $objects;
 
         public function create_models() {
             $this->database = $this->model('Database');
@@ -24,40 +23,44 @@
             $this->std = $this->model('Std');
             $this->lvm = $this->model('Lvmdisplay');
             $this->ietpermissions = $this->model('Ietpermissions');
-            $this->objects = $this->model('Objects');
         }
 
         public function check_loggedin($session) {
-            $session->setUsername($_SESSION['username']);
-            $session->setPassword($_SESSION['password']);
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                $session->setUsername($_SESSION['username']);
+                $session->setPassword($_SESSION['password']);
 
-            // Check if user is logged in
-            if (!$session->check()) {
+                // Check if user is logged in
+                if (!$session->check()) {
+                    header("Location: /phpietadmin/auth/login");
+                    // Die in case browser ignores header redirect
+                    die();
+                }
+            } else {
                 header("Location: /phpietadmin/auth/login");
-                // Die in case browser ignores header redirect
-                die();
             }
         }
 
         public function check_logged_in_service_running($session) {
-            $session->setUsername($_SESSION['username']);
-            $session->setPassword($_SESSION['password']);
+            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+                $session->setUsername($_SESSION['username']);
+                $session->setPassword($_SESSION['password']);
 
-            // Check if user is logged in
-            if (!$session->check()) {
-                header("Location: /phpietadmin/auth/login");
-                // Die in case browser ignores header redirect
-                die();
-            } else {
-                // Check if ietd service is running
-                $data = $this->std->get_service_status();
-                if ($data[1] ==! 0) {
-                    $this->view('header');
-                    $this->view('menu');
-                    $this->view('message', "Error - ietd service is not running!");
-                    $this->view('footer', $data);
+                // Check if user is logged in
+                if (!$session->check()) {
+                    header("Location: /phpietadmin/auth/login");
+                    // Die in case browser ignores header redirect
                     die();
+                } else {
+                    // Check if ietd service is running
+                    $data = $this->std->get_service_status();
+                    if ($data[1] ==! 0) {
+                        $this->view('message', "Error - ietd service is not running!");
+                        die();
+                    }
                 }
+            } else {
+                header("Location: /phpietadmin/auth/login");
             }
         }
 

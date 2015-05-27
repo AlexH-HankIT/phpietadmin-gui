@@ -53,8 +53,43 @@
             return $this->return_last_error();
         }
 
+        public function get_object_value($id) {
+            $query = $this->prepare('SELECT value from objects where id=:id');
+            $query->bindValue('id', $id, SQLITE3_INTEGER);
+            $query = $query->execute();
+            $result = $query->fetchArray();
+            return $result['value'];
+        }
+
+        public function get_object_by_value($value) {
+            $query = $this->prepare('SELECT objects.id, objects.value, objects.name, types.value as type from objects, types where objects.type_id = types.type_id and objects.value=:value');
+            $query->bindValue('value', $value, SQLITE3_TEXT);
+            $query = $query->execute();
+            return $query->fetchArray(SQLITE3_ASSOC);
+        }
+
+        public function get_all_object_values() {
+            $query = $this->prepare('SELECT value from objects');
+            $query = $query->execute();
+            $counter=0;
+            while ($result = $query->fetchArray(SQLITE3_NUM)) {
+                $data[$counter] = $result;
+                $counter++;
+            }
+            if (isset($data) && !empty($data)) {
+                $counter=0;
+                foreach ($data as $value) {
+                    $objects[$counter] = $value[0];
+                    $counter++;
+                }
+                return $objects;
+            } else {
+                return 0;
+            }
+        }
+
         public function get_all_objects() {
-            $query = $this->prepare('select objects.id as objectid, objects.name as name, objects.value, types.value as type from objects, types where objects.type_id=types.type_id');
+            $query = $this->prepare('select objects.id as objectid, objects.name as name, objects.value, types.display_name as type from objects, types where objects.type_id=types.type_id');
             $query = $query->execute();
 
             $counter=0;

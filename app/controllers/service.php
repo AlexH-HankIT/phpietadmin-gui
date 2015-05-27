@@ -1,14 +1,6 @@
 <?php
     class Service extends Controller {
-        public function __construct() {
-            $this->create_models();
-            $this->check_loggedin($this->session);
-        }
-
         public function index() {
-            $this->view('header');
-            $this->view('menu');
-
             if (isset($_POST['start'])) {
                 $output = shell_exec($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . $this->database->get_config('servicename') . " start");
             } else if (isset($_POST['stop'])) {
@@ -30,9 +22,6 @@
             } else {
                 $this->view('message', "Service is running!");
             }
-
-
-            $this->view('footer', $return);
         }
 
         public function status() {
