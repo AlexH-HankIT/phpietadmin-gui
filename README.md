@@ -46,7 +46,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 ## Planned features
 - [ ] Add lvextend, lvremove, lvrename features
 - [ ] Lvm snapshots
-- [ ] Allow->Target->Add/Delete
+- [x] Allow->Target->Add/Delete
 - [ ] Software raid status
 - [ ] Exclude volume group
 - [x] Add multiple luns to one target
