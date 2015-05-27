@@ -60,7 +60,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
 - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
-- [ ] Add objects menu for allow rules (host, network, iqn)
+- [x] Add objects menu for allow rules (host, network, iqn)
 
 Items are completely random ;-)
 
