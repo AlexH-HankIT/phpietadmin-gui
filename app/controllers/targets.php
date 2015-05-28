@@ -4,15 +4,24 @@
             if (isset($_POST['name'])) {
                 $return = $this->ietadd->check_target_name_already_in_use($_POST['name']);
                 if ($return == 4) {
-                    $this->view('message', "Error - The name " . $_POST['name'] . " is already taken!");
+                    echo 'Error - The name ' . $_POST['name'] .  ' is already taken!';
                 } else {
                     $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=0 --params Name=" . $_POST['name']);
                     if ($return != 0) {
-                        $this->view('message', "Error - Could not add target " . $_POST['name'] . ". Server said: $return[0]");
+                        echo 'Error - Could not add target ' . $_POST['name'] . '. Server said: ' . $return[0];
                     } else {
-                        $line = "\nTarget " . $_POST['name'] . "\n";
-                        $this->std->add_line_to_file($line, $this->database->get_config('ietd_config_file'));
-                        $this->view('message', "Success");
+                        $return = $this->ietadd->add_iqn_to_file($_POST['name'], $this->database->get_config('ietd_config_file'));
+                        if ($return !== 0) {
+                            if ($return == 1 ) {
+                                echo 'The target was added to the daemon, but not to the config file, because it\'s read only.';
+                            } else if ($return == 4) {
+                                echo 'The target was added to the daemon, but not to the config file, because it was already there.';
+                            } else {
+                                echo 'The target was added to the daemon, but not to the config file. Reason is unkown.';
+                            }
+                        } else {
+                            echo 'Success';
+                        }
                     }
                 }
             } else {
@@ -29,15 +38,27 @@
                     $LUN = $this->ietadd->get_next_lun($_POST['target']);
                     $return = $this->ietadd->check_path_already_in_use($_POST['path']);
                     if ($return != 0) {
-                        $this->view('message', "Error - The path " . $_POST['path'] . " is already in use");
+                        echo 'Error - The path '  . $_POST['path'] . ' is already in use';
                     } else {
                         $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=" . $TID . " --lun=" . $LUN . " --params Path=" . $_POST['path'] . ",Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode']);
                         if ($return != 0) {
-                            $this->view('message', "Error - Could not add lun to target " . $_POST['target'] . " Server said:" . $return[0]);
+                            echo 'Error - Could not add lun to target ' .  $_POST['target'] . ' Server said: ' . $return[0];
                         } else {
-                            $line = "Lun " . $LUN . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";
-                            $this->std->addlineafterpattern("Target " . $_POST['target'], $this->database->get_config('ietd_config_file'), $line);
-                            $this->view('message', "Success");
+                            $option = 'Lun ' . $LUN . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path'];
+
+                            $return = $this->ietadd->add_option_to_iqn_in_file($_POST['target'], $this->database->get_config('ietd_config_file'), $option);
+
+                            if ($return !== 0) {
+                                if ($return == 1) {
+                                    echo 'The lun was added to the daemon, but not to the config file, because it\'s read only.';
+                                } else if ($return == 3) {
+                                    echo 'The lun was added to the daemon, but not to the config file, because the target isn\'t there..';
+                                } else {
+                                    echo 'The lun was added to the daemon, but not to the config file. Reason is unkown.';
+                                }
+                            } else {
+                                echo "Success";
+                            }
                         }
                     }
                 } else {

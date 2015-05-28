@@ -89,7 +89,8 @@ function validatemaplun() {
 
         request.done(function() {
             if (request.readyState == 4 && request.status == 200) {
-                _("mapluncontent").innerHTML = request.responseText;
+                alert(request.responseText);
+                location.reload();
             }
         });
     }

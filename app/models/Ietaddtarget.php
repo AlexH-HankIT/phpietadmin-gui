@@ -132,6 +132,53 @@
             }
         }
 
+        public function add_option_to_iqn_in_file($iqn, $file, $option) {
+            /*
+                'Normal' options are added after a specific target definition
+                This function looks for the target and adds the option one line after the match to the file
+                Newlines are handled!
+                No duplication checks here, because the same option can be configured for multiple targets
+                This function will delete all comments!
+            */
+
+            if (!is_writeable($file)) {
+                return 1;
+            } else {
+                // Read data in array
+                $data = file($file);
+
+                // Delete all comments from file
+                foreach ($data as $key => $value) {
+                    if ($value[0] == '#') {
+                        unset($data[$key]);
+                    }
+                }
+
+                // Search for the line containing the iqn
+                $key = array_search('Target ' . $iqn . "\n", $data);
+
+                // If key is false, the iqn doesn't exist
+                if (!$key) {
+                    return 3;
+                } else {
+                    // Add the option to the array, one line after the match
+                    // The other indexes will be correct automatically
+                    array_splice($data, $key+1, 0, $option . "\n");
+                }
+
+                // Create string
+                $data = implode($data);
+
+                // Delete all empty lines from string
+                $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
+
+                // Write content back
+                file_put_contents($file, $data);
+
+                return 0;
+            }
+        }
+
 
         /* --------------------------------------------------------------------------------------------------------------------------------------------
 
