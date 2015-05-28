@@ -76,6 +76,62 @@
 
         -----------------------------------------------------------------------------------------------------------------------------------------------*/
 
+        public function add_iqn_to_file($iqn, $file) {
+            /*
+                This function appends a target to the config file
+                Newlines and duplications are handled!
+                This function will delete all comments!
+            */
+
+            if (!is_writeable($file)) {
+                return 1;
+            } else {
+                // Add "Target" keyoword to the iqn
+                $iqn = 'Target ' . $iqn . "\n";
+
+                // Read file in array
+                $data = file($file);
+
+                // Delete all comments from file
+                foreach ($data as $key => $value) {
+                    if ($value[0] == '#') {
+                        unset($data[$key]);
+                    }
+                }
+
+                // Check if $option already exists
+                $key = array_search($iqn, $data);
+
+                // If $key is a integer, the option already exists
+                if (!is_int($key)) {
+                    // If last line is empty, replace it
+                    if (end($data) == "\n") {
+                        // Delete last array element
+                        array_pop($data);
+
+                        // Add data
+                        array_push($data, $iqn);
+                    } else {
+                        // Add data
+                        array_push($data, $iqn);
+                    }
+
+                    // Create string from array
+                    $data = implode($data);
+
+                    // Delete all empty lines from string
+                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
+
+                    // Write content back
+                    file_put_contents($file, $data);
+
+                    return 0;
+                } else {
+                    return 4;
+                }
+            }
+        }
+
 
         /* --------------------------------------------------------------------------------------------------------------------------------------------
 
