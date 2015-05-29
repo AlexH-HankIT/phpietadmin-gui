@@ -32,7 +32,7 @@
                 $data['objects'] = $this->database->get_all_objects();
                 $data['targets'] = $this->ietadd->get_targets();
 
-                if ($data['targets'] !== 0) {
+                if ($data['targets'] == 3) {
                     $this->view('message', "Error - No targets available!");
                 } else {
                     $this->view('permissions/addrule', $data);
@@ -108,7 +108,7 @@
             } else {
                 $data['targets'] = $this->ietadd->get_targets();
 
-                if ($data['targets'] !== 0) {
+                if ($data['targets'] == 3) {
                     $this->view('message', "Error - No targets available!");
                 } else {
                     $this->view('permissions/deleterule', $data);
