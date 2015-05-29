@@ -106,7 +106,7 @@
             $data = $ietaddtarget->get_proc_volume_content();
 
             // Abort if no data is returned
-            if (is_int($data)) {
+            if (is_int($data) or empty($data)) {
                 return $data;
             }
 
