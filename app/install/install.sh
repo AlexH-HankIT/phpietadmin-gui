@@ -24,12 +24,12 @@ touch /etc/iet/initiators.deny
 echo "ALL ALL" >> /etc/iet/initiators.deny
 
 # Create sudoers file
-sudoers_file = /etc/sudoers.d/phpietadmin
+sudoers_file = "/etc/sudoers.d/phpietadmin"
 if [ -f $sudoers_file ]; then
     rm $sudoers_file
 fi
 
-cat > /etc/sudoers.d/phpietadmin << "EOF"
+cat > $sudoers_file << "EOF"
     www-data ALL=NOPASSWD: /usr/sbin/service iscsitarget *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce
 EOF
 
