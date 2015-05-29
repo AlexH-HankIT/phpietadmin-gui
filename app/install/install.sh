@@ -43,7 +43,7 @@ chmod 660 ../config.db
 read -s -p "Enter password for user admin: " pass
 
 # Create sha2 hash
-hash=$(echo -n $pass | sha256sum)
+hash=$(echo -n $pass | sha256sum | head -c 64)
 
 # Write password to database
 sqlite3 ../config.db "INSERT INTO user (username, password) values (\"admin\", \"$hash\");"
