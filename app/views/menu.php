@@ -24,8 +24,8 @@
                         <li><a href='/phpietadmin/overview/pv'>Physical volumes</a></li>
                         <li><a href='/phpietadmin/overview/vg'>Volume groups</a></li>
                         <li><a href='/phpietadmin/overview/lv'>Logical volumes</a></li>
-                        <li><a href='/phpietadmin/overview/initiators'>Initiator permissions</a></li>
-                        <li><a href='/phpietadmin/overview/targets'>Target permissions</a></li>
+                        <!--<li><a href='/phpietadmin/overview/initiators'>Initiator permissions</a></li>
+                        <li><a href='/phpietadmin/overview/targets'>Target permissions</a></li>-->
                     </ul>
                 </li>
 
