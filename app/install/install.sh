@@ -29,7 +29,7 @@ if [ -f $sudoers_file ]; then
     rm $sudoers_file
 fi
 
-cat > $sudoers_file << "EOF"
+cat > /etc/sudoers.d/phpietadmin << "EOF"
     www-data ALL=NOPASSWD: /usr/sbin/service iscsitarget *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce
 EOF
 
