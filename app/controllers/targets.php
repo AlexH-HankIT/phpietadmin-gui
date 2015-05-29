@@ -65,6 +65,7 @@
                     $this->view('message', "The file " . $_POST['path'] . " was not found!");
                 }
             } else if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['pathtoblockdevice'])) {
+                print_r($_POST);
                 // handle manual selection here
             } else {
                 if ($data == 3) {
@@ -104,7 +105,6 @@
                 $this->view('targets/deletelun02', $paths);
             } else if (isset($_POST['iqn']) && isset($_POST['lun']) && isset($_POST['path'])) {
                 if (file_exists($_POST['path'])) {
-
                     // Delete lun from daemon
                     $tid = $this->ietadd->get_tid($_POST['iqn']);
                     $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid . " --lun=" . $_POST['lun']);
@@ -128,10 +128,6 @@
                         } else {
                             $this->view('message', "Success");
                         }
-
-                        //$this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
-
-
                     }
                 } else {
                     $this->view('message', "The file " . $_POST['path'] . " was not found!");
@@ -173,7 +169,16 @@
                             $this->view('message', "Unknown error!");
                         }
                     } else {
-                        $this->view('message', "Success");
+                        // Delete the rules of this iqn
+                        $val[0] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_init_allow'));
+                        $val[1] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_target_allow'));
+                        $val[2] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_init_deny'));
+
+                        if ($val[0] !== 0 or $val[1] !== 0 or $val[2] !== 0) {
+                            $this->view('message', "The target was deleted from the daemon and the config file, but i could not delete the access rules. Please do this manually!");
+                        } else {
+                            $this->view('message', "Success");
+                        }
                     }
                 }
             } else {

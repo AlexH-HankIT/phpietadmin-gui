@@ -155,29 +155,6 @@
             return $a_initiators2;
         }
 
-        /* Obsolete  -->
-        public function write_allow_rule($post, $array) {
-            if(!is_writable($this->database->get_config('ietd_init_allow'))) {
-                return 1;
-            } else {
-                $d = $post - 1;
-                $NAME = $array[$d];
-                $current = "\n$NAME $_POST[ip]\n";
-                file_put_contents($this->database->get_config('ietd_init_allow'), $current, FILE_APPEND | LOCK_EX);
-            }
-        }
-
-        public function delete_allow_rule($a_initiators2) {
-            if(!is_writable($this->database->get_config('ietd_init_allow'))) {
-                return 1;
-            } else {
-                $d = $_POST['IQNs2'] - 1;
-                $NAME = $a_initiators2[$d];
-                $this->std->deleteLineInFile($this->database->get_config('ietd_init_allow'), "$NAME");
-            }
-        }
-         <-- Obsolete */
-
         public function get_volume_names($data) {
             preg_match_all("/name:(.*)/", $data, $a_name);
             return $a_name[1];

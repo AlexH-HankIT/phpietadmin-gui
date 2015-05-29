@@ -59,37 +59,5 @@ class Overview extends Controller {
             $this->view('table', $data);
         }
     }
-
-    /*public function initiators() {
-        if (isset($_POST['iqn'])) {
-            $data = $this->ietpermissions->get_iet_allow($this->database->get_config('ietd_init_allow'), $_POST['iqn']);
-            $this->view('ietpermissions02', $data[0]);
-
-        } else {
-            $data = $this->ietpermissions->get_iet_allow($this->database->get_config('ietd_init_allow'));
-
-            if (empty($data[1])) {
-                $this->view('message', "Error - The iet initiator permissions file was not found or is empty!");
-            } else {
-                $this->view('ietpermissions01', $data[1]);
-            }
-        }
-    }
-
-
-    public function targets() {
-        if (isset($_POST['iqn'])) {
-            $data = $this->ietpermissions->get_iet_allow($this->database->get_config('ietd_target_allow'), $_POST['iqn']);
-            $this->view('ietpermissions02', $data[0]);
-        } else {
-            $data = $this->ietpermissions->get_iet_allow($this->database->get_config('ietd_target_allow'));
-
-            if (empty($data[1])) {
-                $this->view('message', "Error - The iet targets permissions file was not found or is empty!");
-            } else {
-                $this->view('ietpermissions01', $data[1]);
-            }
-        }
-    }*/
 }
 ?>

@@ -45,7 +45,6 @@
         }
 
         private function exec_lsblk() {
-
             // We use shell exec, since we don't care about the return value
             return shell_exec($this->database->get_config('sudo') . " " . $this->database->get_config('lsblk') . " -rn");
         }

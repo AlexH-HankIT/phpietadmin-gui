@@ -183,6 +183,40 @@
                 }
             }
         }
+
+        public function delete_iqn_from_allow_file($iqn, $file) {
+            if (!is_writeable($file)) {
+                return 1;
+            } else {
+                // Read data in array
+                $data = file($file);
+
+                require_once 'Std.php';
+                $std = new Std;
+
+                if ($std->array_find($iqn, $data)) {
+                    foreach ($data as $key => $value) {
+                        if (strpos($value, '#') !== true) {
+                            if (strpos($value, $iqn) !== false) {
+                                // Unset line containing iqn
+                                unset($data[$key]);
+                            }
+                        }
+                    }
+
+                    // Create string from array
+                    $data = implode($data);
+
+                    // Delete all empty lines from string
+                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
+
+                    // Write content back
+                    file_put_contents($file, $data);
+
+                }
+                return 0;
+            }
+        }
     }
 
 ?>

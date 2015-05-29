@@ -15,11 +15,11 @@
                 </p>
                 <br />
 
-                <div id="maplunmanuelinput">
+                <!--<div id="maplunmanuelinput">
                     <p>
                         <input class="form-control" type="text" placeholder="Path to block device..." name="pathtoblockdevice" id="pathtoblockdevice"/>
                     </p>
-                </div>
+                </div>-->
 
                 <div id="maplunautoselection">
                     <p>
@@ -31,31 +31,31 @@
                         </select>
                     </p>
                 </div>
-                <p><span style="font-size:smaller;"><input id="check" type="checkbox" value="uc" name="Show"> Manual input</span></p>
+            <!--<p><span style="font-size:smaller;"><input id="check" type="checkbox" value="uc" name="Show"> Manual input</span></p>-->
 
-                <br />
+            <br />
 
-                <div class = "row">
-                    <div class = "col-md-6">
-                        <p>
-                            Type:
-                            <select name="type" id="type" multiple class="form-control">
-                                <option value="fileio">fileio</option>
-                                <option selected value="blockio">blockio</option>
-                            </select>
-                        </p>
-                    </div>
-                    <div class = "col-md-6">
-                        <p>
-                            Mode:
-                            <select name="mode" id="mode" multiple class="form-control">
-                                <option selected value="wt" >Write through</option>
-                                <option value="ro" >Read only</option>
-                            </select>
-                        </p>
-                    </div>
+            <div class = "row">
+                <div class = "col-md-6">
+                    <p>
+                        Type:
+                        <select name="type" id="type" multiple class="form-control">
+                            <option value="fileio">fileio</option>
+                            <option selected value="blockio">blockio</option>
+                        </select>
+                    </p>
                 </div>
-                <p><input class="btn btn-primary" type="submit" value="Map" onclick="return validatemaplun();"/></p>
-        </div>
+                <div class = "col-md-6">
+                    <p>
+                        Mode:
+                        <select name="mode" id="mode" multiple class="form-control">
+                            <option selected value="wt" >Write through</option>
+                            <option value="ro" >Read only</option>
+                        </select>
+                    </p>
+                </div>
+            </div>
+            <p><input class="btn btn-primary" type="submit" value="Map" onclick="return validatemaplun();"/></p>
     </div>
+</div>
 </div>
