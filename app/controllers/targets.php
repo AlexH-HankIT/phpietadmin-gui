@@ -77,7 +77,7 @@
                         $data['logicalvolumes'] = $data;
                         $data['targets'] = $this->ietadd->get_targets();
 
-                        if ($data == 4) {
+                        if ($data['targets'] == 3) {
                             $this->view('message', "Error - No targets found");
                         } else {
                             $this->view('targets/maplun', $data);
