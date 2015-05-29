@@ -15,7 +15,7 @@ EOF
 # Set permissions for the iet config files and phpietadmin dir
 chown -R www-data:www-data /usr/share/phpietadmin
 chown -R root:www-data /etc/iet
-chmod -R 660 /etc/iet
+chmod -R 770 /etc/iet
 
 # Enable mods
 a2enmod rewrite
