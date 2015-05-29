@@ -94,7 +94,7 @@
 
                 // Delete all comments from file
                 foreach ($data as $key => $value) {
-                    if ($value[0] == '#') {
+                    if (strpos($value,'#') !== false) {
                         unset($data[$key]);
                     }
                 }
@@ -149,7 +149,7 @@
 
                 // Delete all comments from file
                 foreach ($data as $key => $value) {
-                    if ($value[0] == '#') {
+                    if (strpos($value,'#') !== false) {
                         unset($data[$key]);
                     }
                 }
@@ -195,7 +195,7 @@
 
                 // Delete all comments from file
                 foreach ($data as $key => $value) {
-                    if ($value[0] == '#') {
+                    if (strpos($value,'#') !== false) {
                         unset($data[$key]);
                     }
                 }
