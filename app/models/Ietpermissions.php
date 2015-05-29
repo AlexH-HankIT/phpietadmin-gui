@@ -224,8 +224,13 @@
                     array_push($data, "\n");
                 }
 
-                // Create string and write back
+                // Create string
                 $data = implode($data);
+
+                // Delete all empty lines from string
+                $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
+
+                // Write back
                 file_put_contents($file, $data);
 
                 return 0;
@@ -263,9 +268,13 @@
                 }
             }
 
-            // Create string and write back
+            // Create string
             $data = implode($data);
 
+            // Delete all empty lines from string
+            $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
+
+            // Write back
             file_put_contents($file, $data);
 
             return 0;

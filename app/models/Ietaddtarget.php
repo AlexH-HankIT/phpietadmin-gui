@@ -158,7 +158,7 @@
                 $key = array_search('Target ' . $iqn . "\n", $data);
 
                 // If key is false, the iqn doesn't exist
-                if (!$key) {
+                if (!is_int($key)) {
                     return 3;
                 } else {
                     // Add the option to the array, one line after the match
@@ -176,6 +176,51 @@
                 file_put_contents($file, $data);
 
                 return 0;
+            }
+        }
+
+        public function add_global_option_to_file($file, $option) {
+        /*
+            This function adds a global option to the config file
+            Global options are inserted before any target definitions
+            Newlines and duplications are handled!
+            This function will delete all comments!
+        */
+
+            if (!is_writeable($file)) {
+                return 1;
+            } else {
+                // Read data in array
+                $data = file($file);
+
+                // Delete all comments from file
+                foreach ($data as $key => $value) {
+                    if ($value[0] == '#') {
+                        unset($data[$key]);
+                    }
+                }
+
+                // Check if $option already exists
+                $key = array_search($option . "\n", $data);
+
+                // If $key is a integer, the option already exists
+                if (!is_int($key)) {
+                    // Add option as first index, other indexes will be corrected
+                    array_unshift($data, $option . "\n");
+
+                    // Create string
+                    $data = implode($data);
+
+                    // Delete all empty lines from string
+                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
+
+                    // Write data back
+                    file_put_contents($file, $data);
+
+                    return 0;
+                } else {
+                    return 4;
+                }
             }
         }
 
@@ -205,7 +250,7 @@
             if (file_exists($file)) {
                 return file_get_contents($this->database->get_config('proc_volumes'));
             } else {
-             return 2;
+                return 2;
             }
         }
 

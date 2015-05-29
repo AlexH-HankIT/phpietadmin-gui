@@ -40,16 +40,25 @@
                 </li>
 
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Permissions <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Rules <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadmin/objects/index'>Objects</a></li>
                         <li><a href='/phpietadmin/permission/addrule'>Add rule</a></li>
                         <li><a href='/phpietadmin/permission/deleterule'>Delete rule</a></li>
-                        <!--<li><a href='/phpietadmin/permission/addinitiator'>Add initiator</a></li>
-                        <li><a href='/phpietadmin/permission/deleteinitiator'>Delete initiator</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Add user (BUGGY)</a></li>-->
                     </ul>
                 </li>
+
+                <!--<li class = "dropdown">
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Users <b class = "caret"></b></a>
+                    <ul class = "dropdown-menu">
+                        <li><a href='/phpietadmin/permission/deleterule'>Create Users</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Add user to target</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Delete user from target</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Add global user</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Delete global user</a></li>
+                        incoming und outgoing user nicht vergessen...
+                    </ul>
+                </li>-->
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">LVM <b class = "caret"></b></a>

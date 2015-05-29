@@ -119,10 +119,19 @@
                             }
                         }
 
-                        $line = "Lun " . $_POST['lun'] . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'] . "\n";;
-                        $this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
+                        $line = "Lun " . $_POST['lun'] . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'];
 
-                        $this->view('message', "Success");
+                        $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $line, $this->database->get_config('ietd_config_file'));
+
+                        if ($return !== 0) {
+                            $this->view('message', "Error - Lun wasn't defined in the config file!");
+                        } else {
+                            $this->view('message', "Success");
+                        }
+
+                        //$this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
+
+
                     }
                 } else {
                     $this->view('message', "The file " . $_POST['path'] . " was not found!");
@@ -153,9 +162,19 @@
                 if ($return != 0) {
                     $this->view('message', "Error - Could not delete target " . $_POST['iqn'] . " Server said:" . $return[0]);
                 } else {
-                    $line = "Target " . $_POST['target'];
-                    $this->std->deletelineinfile($this->database->get_config('ietd_config_file'), $line);
-                    $this->view('message', "Success");
+                    $return = $this->ietdelete->delete_iqn_from_config_file($_POST['target'], $this->database->get_config('ietd_config_file'));
+
+                    if ($return !== 0) {
+                        if ($return == 1) {
+                            $this->view('message', "Error - The iet config file is read-only");
+                        } else if ($return == 3) {
+                            $this->view('message', "Error - The target was not deleted, because is wasn't there");
+                        } else {
+                            $this->view('message', "Unknown error!");
+                        }
+                    } else {
+                        $this->view('message', "Success");
+                    }
                 }
             } else {
                 $data = $this->ietadd->get_targets_without_luns();

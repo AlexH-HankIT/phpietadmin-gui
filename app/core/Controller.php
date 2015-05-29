@@ -11,6 +11,7 @@
         public $session;
         public $lvm;
         public $ietpermissions;
+        public $ietdelete;
 
         public function create_models() {
             $this->database = $this->model('Database');
@@ -23,6 +24,7 @@
             $this->std = $this->model('Std');
             $this->lvm = $this->model('Lvmdisplay');
             $this->ietpermissions = $this->model('Ietpermissions');
+            $this->ietdelete = $this->model('Ietdelete');
         }
 
         public function check_loggedin($session) {
@@ -54,8 +56,11 @@
                 } else {
                     // Check if ietd service is running
                     $data = $this->std->get_service_status();
-                    if ($data[1] ==! 0) {
+                    if ($data[1] !== 0) {
+                        $this->view('header');
+                        $this->view('menu');
                         $this->view('message', "Error - ietd service is not running!");
+                        $this->view('footer', $data);
                         die();
                     }
                 }

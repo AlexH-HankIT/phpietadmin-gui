@@ -36,7 +36,7 @@
             return $return;
         }
 
-        public function addlineafterpattern($pattern, $file, $data) {
+        /*public function addlineafterpattern($pattern, $file, $data) {
             $lines = file( $file , FILE_IGNORE_NEW_LINES );
             $key = array_search($pattern, $lines);
             $lines[$key] .= "\n" . $data;
@@ -51,7 +51,7 @@
             } else {
                 file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
             }
-        }
+        }*/
 
         public function explode_array_by_space($array) {
             // Explode arrays by space
@@ -73,6 +73,7 @@
 
         // From here: https://gist.github.com/branneman/951847
         // Thanks to branneman
+        // array_search function with partial match
         public function array_find($needle, array $haystack) {
             foreach ($haystack as $key => $value) {
                 if (false !== stripos($value, $needle)) {

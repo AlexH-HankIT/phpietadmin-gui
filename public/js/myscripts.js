@@ -130,11 +130,12 @@ $(function() {
                 "name": def + iqninput.val()
             };
 
-            doajax("/phpietadmin/targets/addtarget", data);
+            request = doajax("/phpietadmin/targets/addtarget", data);
 
             request.done(function() {
                 if (request.readyState == 4 && request.status == 200) {
-                    $('#addtargetinput').html(request.responseText);
+                    alert(request.responseText);
+                    location.reload();
                 }
             });
         }
