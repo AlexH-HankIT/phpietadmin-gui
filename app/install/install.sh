@@ -68,7 +68,7 @@ do
     echo
     read -s -p "Please enter password for user admin again: " password2
     echo
-    [ "$password" = "$password2" ] && break
+    [ "$password" == "$password2" ] && break
     echo "Please try again"
 done
 
