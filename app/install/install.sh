@@ -4,8 +4,12 @@
 apt-get update
 apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-3.2.0-4-amd64 sqlite3 php5-sqlite
 
-# Create files
+# Create initiator deny file
 touch /etc/iet/initiators.deny
+
+# If the deny file exists and is empty, it will allow all initiators
+# We deny all, and allow them via the initiators.allow file
+echo "ALL ALL" >> /etc/iet/initiators.deny
 
 # Create sudoers file
 cat > /etc/sudoers.d/phpietadmin << "EOF"
