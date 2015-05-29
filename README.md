@@ -2,7 +2,7 @@
 Webinterface to control the iet daemon written in php using mvc pattern.
 
 ## Docs
-https://github.com/MrCrankHank/phpietadmin/wiki/Installation-v02
+https://github.com/MrCrankHank/phpietadmin/wiki/Installation-v03
 
 ## Screens
 https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
