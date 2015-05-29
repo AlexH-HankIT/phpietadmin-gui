@@ -24,7 +24,7 @@ touch /etc/iet/initiators.deny
 echo "ALL ALL" >> /etc/iet/initiators.deny
 
 # Create sudoers file
-sudoers_file = "/etc/sudoers.d/phpietadmin"
+sudoers_file="/etc/sudoers.d/phpietadmin"
 if [ -f $sudoers_file ]; then
     rm $sudoers_file
 fi
