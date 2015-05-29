@@ -8,12 +8,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Installation-v03
 https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 
 ## Features
-- [x] Overview about disks, iet volumes, iet sessions, all typs of lvm volumes, initiator and target permissions
-- [x] Add/Delete iSCSI targets
-- [x] Add/Delete initiator allow
-- [x] Add/Delete logical lvm volumes
-- [x] Start/Stop/Restart iet service
-- [x] Auth via php sessions
+Take a look at the github releases for detailed information about the features.
 
 ## ToDo
 - [x] Complete switch to mvc
