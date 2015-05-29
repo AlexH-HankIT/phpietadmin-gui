@@ -66,7 +66,7 @@ while true
 do
     read -s -p "Please enter password for user admin: " password
     echo
-    read -s -p "Please enter password for user admin: " password2
+    read -s -p "Please enter password for user admin again: " password2
     echo
     [ "$password" = "$password2" ] && break
     echo "Please try again"
