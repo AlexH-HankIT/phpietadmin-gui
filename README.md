@@ -23,21 +23,20 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
 - [x] Handle duplicated names of logical volumes
 - [x] Output error messages from exec
 - [x] Show all available lvm volumes in one dropdown menu (targets add)
-- [x] Delete all permissions of target if it is deleted
+- [ ] Delete all permissions of target if it is deleted
 - [x] Use ajax for post requests
 - [ ] Add php sessions timeout
+- [ ] Check if user 'admin' is already logged in
 - [x] Add service running/not running to footer
 - [x] Add console output to service menu
 - [x] Write installation documentation
 - [x] Create screenshots
 - [ ] Document the features
-- [ ] Don't reload menu and footer
 - [x] Dropdown for fileio or blockio
 - [x] Dropdown for mode (write through/read only)
 - [ ] Handle no PV/VG/LV error
 - [x] Handle multiple sessions for one target
 - [x] Handle multiple luns for one target
-- [ ] Delete all comments from config file, when installing (User warning)
 - [ ] Delete lun: Display if target is in use
 - [ ] Delete target: Display if target is in use
 - [ ] Delete target: Checkbox to force deletion, even if in use
