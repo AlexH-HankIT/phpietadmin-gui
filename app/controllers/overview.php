@@ -60,7 +60,7 @@ class Overview extends Controller {
         }
     }
 
-    public function initiators() {
+    /*public function initiators() {
         if (isset($_POST['iqn'])) {
             $data = $this->ietpermissions->get_iet_allow($this->database->get_config('ietd_init_allow'), $_POST['iqn']);
             $this->view('ietpermissions02', $data[0]);
@@ -90,6 +90,6 @@ class Overview extends Controller {
                 $this->view('ietpermissions01', $data[1]);
             }
         }
-    }
+    }*/
 }
 ?>
