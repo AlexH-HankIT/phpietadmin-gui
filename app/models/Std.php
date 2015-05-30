@@ -1,6 +1,7 @@
 <?php
     class Std {
         public function exec_and_return($command) {
+            $command = escapeshellcmd($command);
             exec($command . " 2>&1", $status, $result);
 
             if ($result != 0) {
