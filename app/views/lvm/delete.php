@@ -13,9 +13,8 @@
                     <option value="<?=$data[$i]?>"> <?=$data[$i]?> </option>
                 <?php } ?>
             </select>
-            <br />
-            <button class="btn btn-primary" type='submit' id='logicalvolumedeletebutton'>Delete</button>
-        </p>
+        <p>
+        <p>Only unused volumes are displayed!</p>
+        <button class="btn btn-danger" type='submit' id='logicalvolumedeletebutton'>Delete</button>
     </div>
-    <p>Hint: Only volumes which are not used by the iscsitarget daemon are displayed</p>
 </div>
