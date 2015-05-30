@@ -46,7 +46,8 @@
 
         private function exec_lsblk() {
             // We use shell exec, since we don't care about the return value
-            return shell_exec($this->database->get_config('sudo') . " " . $this->database->get_config('lsblk') . " -rn");
+            $command = escapeshellcmd($this->database->get_config('sudo') . " " . $this->database->get_config('lsblk') . " -rn");
+            return shell_exec($command);
         }
 
         public function get_disks() {
