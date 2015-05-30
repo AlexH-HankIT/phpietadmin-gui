@@ -60,8 +60,8 @@
                     if ($data == 2) {
                         $this->view('message', "Error - No logical volumes available");
                     } else {
-                            $this->view('lvm/delete', $data);
-                        }
+                        $this->view('lvm/delete', $data);
+                    }
                 }
             }
         }
