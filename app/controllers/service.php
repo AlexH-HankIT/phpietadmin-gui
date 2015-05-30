@@ -2,14 +2,15 @@
     class Service extends Controller {
         public function index() {
             if (isset($_POST['start'])) {
-                $output = shell_exec($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . $this->database->get_config('servicename') . " start");
+                $command = escapeshellcmd($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . $this->database->get_config('servicename') . " start");
             } else if (isset($_POST['stop'])) {
-                $output = shell_exec($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . $this->database->get_config('servicename') . " stop");
+                $command = escapeshellcmd($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . $this->database->get_config('servicename') . " stop");
             } else if (isset($_POST['restart'])) {
-                $output = shell_exec($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . $this->database->get_config('servicename') . " restart");
+                $command = escapeshellcmd($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . $this->database->get_config('servicename') . " restart");
             }
 
-            if (!empty($output)) {
+            if (isset($command) && !empty($command)) {
+                $output = shell_exec($command);
                 $this->view('service', $output);
             } else {
                 $this->view('service');
