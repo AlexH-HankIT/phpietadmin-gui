@@ -29,8 +29,8 @@
             } elseif ($bin == 'vgs') {
                 $bin = $this->database->get_config('vgs');
                 $table = array(
-                    0 => "PV",
-                    1 => "VG",
+                    0 => "VG",
+                    1 => "PV",
                     2 => "LV",
                     3 => "SN",
                     4 => "Attr",
