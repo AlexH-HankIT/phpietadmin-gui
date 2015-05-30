@@ -22,7 +22,6 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Delete target: Display if target is in use
 - [ ] Delete target: Checkbox to force deletion, even if in use
 - [ ] Remove html onclick elements
-- [ ] Check if user is already logged in
 
 ## Planned features
 - [ ] Add lvextend, lvremove, lvrename features
