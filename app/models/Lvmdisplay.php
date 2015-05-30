@@ -54,9 +54,11 @@
             // Read output from shell in var
             // Use specific name if supplied
             if ($name == "str") {
-                $var = shell_exec($this->database->get_config('sudo') . " " . $bin . " --noheadings --units g");
+                $command = escapeshellcmd($this->database->get_config('sudo') . " " . $bin . " --noheadings --units g");
+                $var = shell_exec($command);
             } else {
-                $var = shell_exec($this->database->get_config('sudo') . " " . $bin . " --noheadings --units g " . $name);
+                $command = escapeshellcmd($this->database->get_config('sudo') . " " . $bin . " --noheadings --units g " . $name);
+                $var = shell_exec($command);
             }
 
             // Explode string by line
@@ -81,7 +83,8 @@
         }
 
         public function get_volume_groups() {
-            $vg = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('vgs') . " --rows --noheadings");
+            $command = escapeshellcmd($this->database->get_config('sudo') . " " .  $this->database->get_config('vgs') . " --rows --noheadings");
+            $vg = shell_exec($command);
 
             // Take only first line, since it contains the names of all groups
             $vg = strtok($vg, "\n");
@@ -101,13 +104,14 @@
         }
 
         public function get_all_logical_volumes() {
-            $lv = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g ");
+            $command = escapeshellcmd($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g");
+            $lv = shell_exec($command);
 
             $lv = explode("\n", $lv);
             $count = count($lv) - 1;
 
             for ($i = 0; $i < $count; $i++) {
-                $lv = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g ");
+                $lv = shell_exec($command);
                 $lv_out = explode("\n", $lv);
                 $lv_out = explode(" ", $lv_out[$i]);
                 $lv_out = array_filter($lv_out, 'strlen');
@@ -141,7 +145,8 @@
         }
 
         public function get_logical_volumes($vgroup) {
-            $lv = shell_exec($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g " . $vgroup);
+            $command = escapeshellcmd($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g " . $vgroup);
+            $lv = shell_exec($command);
 
             $lv_out = explode("\n", $lv);
             $count = count($lv_out) - 1;
