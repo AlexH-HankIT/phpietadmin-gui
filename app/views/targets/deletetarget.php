@@ -10,6 +10,6 @@
                 <?php } ?>
             </select>
             <br />
-            <input class="btn btn-primary" type="submit" value="Delete" onclick="return validatedeletetarget()">
+            <input class="btn btn-danger" type="submit" value="Delete" onclick="return validatedeletetarget()">
     </div>
 </div>
