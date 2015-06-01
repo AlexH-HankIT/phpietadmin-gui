@@ -7,7 +7,9 @@
         <form method="post">
             <select name="iqn" id="iqn" class="form-control">
                 <option id="default">Select...</option>
-                <?php for ($i = 0; $i < count($data[1]); $i++) { echo '<option value=' . $data[1][$i] . '>' . $data[1][$i] . '</option>'; } ?>
+                <?php foreach ($data[1] as $row) { ?>
+                    <option value="<?php echo htmlspecialchars($row); ?>"><?php echo htmlspecialchars($row); ?></option>
+                <?php } ?>
             </select>
             <br />
 

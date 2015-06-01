@@ -1,8 +1,8 @@
 <p>
     <select id="deletelunlunselection" class="form-control">
         <?php foreach ($data as $value) { ?>
-            <option id="lun" value="<?php echo $value['lun'] ?>"><?php echo $value['lun'] . ' ' .$value['path'] ?></option>
-            <option id="path" style="display:none;" value="<?php echo $value['path'] ?>"></option>
+            <option id="lun" value="<?php echo htmlspecialchars($value['lun']) ?>"><?php echo htmlspecialchars($value['lun']) . ' ' . htmlspecialchars($value['path']); ?></option>
+            <option id="path" style="display:none;" value="<?php echo htmlspecialchars($value['path']); ?>"></option>
         <?php } ?>
     </select>
 </p>

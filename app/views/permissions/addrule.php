@@ -11,7 +11,7 @@
                 <select name="target" id="targetselection" class="form-control">
                     <option id="default">Select target...</option>
                     <?php foreach ($data['targets'] as $value) { ?>
-                        <option value="<?php echo $value ?>"> <?php echo $value ?> </option>
+                        <option value="<?php echo htmlspecialchars($value); ?>"> <?php echo htmlspecialchars($value); ?> </option>
                     <?php } ?>
                 </select>
             </div>
@@ -56,10 +56,10 @@
         <?php foreach ($data['objects'] as $value ) { ?>
             <tr>
                 <td><input type="Radio" name="objectradio"/></td>
-                <td class="objectid" hidden><?php echo $value['objectid'] ?></td>
-                <td><?php echo $value['type'] ?></td>
-                <td><?php echo $value['name'] ?></td>
-                <td><?php echo $value['value'] ?></td>
+                <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
+                <td><?php echo htmlspecialchars($value['type']); ?></td>
+                <td><?php echo htmlspecialchars($value['name']); ?></td>
+                <td><?php echo htmlspecialchars($value['value']); ?></td>
             </tr>
         <?php } ?>
         </tbody>

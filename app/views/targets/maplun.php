@@ -9,7 +9,7 @@
                     <select name="target" id="target" class="form-control">
                         <option id="default">Select target</option>
                         <?php foreach ($data['targets'] as $value) { ?>
-                            <option value="<?=$value?>"> <?=$value?> </option>
+                            <option value="<?php echo htmlspecialchars($value) ?>"> <?php echo htmlspecialchars($value) ?> </option>
                         <?php } ?>
                     </select>
                 </p>
@@ -26,7 +26,7 @@
                         <select name="path" id="logicalvolume" class="form-control">
                             <option id="default">Select logical volume</option>
                             <?php foreach ($data['logicalvolumes'] as $value) { ?>
-                                <option value="<?=$value?>"> <?=$value?> </option>
+                                <option value="<?php echo htmlspecialchars($value) ?>"> <?php echo htmlspecialchars($value) ?> </option>
                             <?php } ?>
                         </select>
                     </p>

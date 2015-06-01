@@ -19,10 +19,10 @@
         <tbody id="addobjectstbody">
             <?php foreach ($data['objects'] as $objects) { ?>
                 <tr>
-                    <td hidden class="id"><?php echo $objects['objectid'] ?></td>
-                    <td class="type"><?php echo $objects['type'] ?></td>
-                    <td class="objectname"><?php echo $objects['name'] ?></td>
-                    <td class="objectvalue"><?php echo $objects['value'] ?></td>
+                    <td hidden class="id"><?php echo htmlspecialchars($objects['objectid']); ?></td>
+                    <td class="type"><?php echo htmlspecialchars($objects['type']); ?></td>
+                    <td class="objectname"><?php echo htmlspecialchars($objects['name']); ?></td>
+                    <td class="objectvalue"><?php echo htmlspecialchars($objects['value']); ?></td>
                     <td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
                     <td><!--<a href="#" class="editobjectrow"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>--></td>
                 </tr>

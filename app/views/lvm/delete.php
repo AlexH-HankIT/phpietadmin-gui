@@ -9,8 +9,8 @@
         <p>
             <select id="logicalvolumedeleteselection" class="form-control">
                 <option id="default">Select...</option>
-                <?php for ($i = 0; $i < count($data); $i++) { ?>
-                    <option value="<?=$data[$i]?>"> <?=$data[$i]?> </option>
+                <?php foreach ($data as $row) { ?>
+                    <option value="<?php echo htmlspecialchars($row); ?>"> <?php echo htmlspecialchars($row); ?> </option>
                 <?php } ?>
             </select>
         <p>

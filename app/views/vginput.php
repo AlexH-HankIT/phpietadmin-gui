@@ -5,8 +5,8 @@
     <div id = 'vginput' class = "jumbotron">
         <form method="post">
             <select name="vg_post" multiple class="form-control" onchange="showlvinput(this.value)">
-                <?php for ($i = 0; $i < count($data); $i++) { ?>
-                    <option value="<?php echo $data[$i]?>"> <?php echo $data[$i]?> </option>
+                <?php foreach ($data as $row) { ?>
+                    <option value="<?php echo htmlspecialchars($row); ?>"> <?php echo htmlspecialchars($row); ?> </option>
                 <?php } ?>
             </select>
             <br />

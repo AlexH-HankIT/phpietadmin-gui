@@ -4,11 +4,11 @@
     </ol>
 
     <!-- Hidden field to save default iqn -->
-    <input value="<?php echo $data ?>" id="defaultiqn" type="hidden"/>
+    <input value="<?php echo htmlspecialchars($data); ?>" id="defaultiqn" type="hidden"/>
 
     <div class = "jumbotron">
         <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1"><?php echo $data ?></span>
+            <span class="input-group-addon" id="basic-addon1"><?php echo htmlspecialchars($data); ?></span>
             <input class="form-control focusedInput" type="text" id="iqninput" required/>
         </div>
         <br />

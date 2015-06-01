@@ -11,7 +11,7 @@
     </div>
     <?php if (!empty($data)) { ?>
     <div class = "jumbotron">
-            <p> <?php printf($data) ?></p>
+            <p> <?php printf(htmlspecialchars($data)) ?></p>
     </div>
     <?php } ?>
 </div>

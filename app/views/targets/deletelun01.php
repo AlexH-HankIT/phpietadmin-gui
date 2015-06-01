@@ -8,7 +8,7 @@
                 <select id="deleteluniqnselection" class="form-control">
                     <option value="default" id="default">Select target</option>
                     <?php foreach ($data as $value) { ?>
-                        <option value="<?php echo $value ?>"><?php echo $value ?></option>
+                        <option value="<?php echo htmlspecialchars($value); ?>"><?php echo htmlspecialchars($value); ?></option>
                     <?php } ?>
                 </select>
             </p>

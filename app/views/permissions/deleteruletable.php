@@ -22,10 +22,10 @@
                     <?php foreach ($data['deleteruleobjectstable'] as $row) { ?>
                         <tr>
                             <td><input type="Radio" name="deleteobjectradio"/></td>
-                            <td class="objectid" hidden><?php echo $row['id'] ?></td>
-                            <td><?php echo $row['type'] ?></td>
-                            <td><?php echo $row['name'] ?></td>
-                            <td class="objectvalue"><?php echo $row['value'] ?></td>
+                            <td class="objectid" hidden><?php echo htmlspecialchars($row['id']); ?></td>
+                            <td><?php echo htmlspecialchars($row['type']); ?></td>
+                            <td><?php echo htmlspecialchars($row['name']); ?></td>
+                            <td class="objectvalue"><?php echo htmlspecialchars($row['value']); ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -50,7 +50,7 @@
                     <?php foreach ($data['deleteruleorphanedtable'] as $row) { ?>
                         <tr>
                             <td><input type="Radio" name="deleteobjectradio"/></td>
-                            <td class="objectvalue"><?php echo $row ?></td>
+                            <td class="objectvalue"><?php echo htmlspecialchars($row); ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
