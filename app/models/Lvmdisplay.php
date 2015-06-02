@@ -111,9 +111,9 @@
             $count = count($lv) - 1;
 
             for ($i = 0; $i < $count; $i++) {
-                $lv = shell_exec($command);
-                $lv_out = explode("\n", $lv);
-                $lv_out = explode(" ", $lv_out[$i]);
+                //$lv = shell_exec($command);
+                //$lv_out = explode("\n", $lv);
+                $lv_out = explode(" ", $lv[$i]);
                 $lv_out = array_filter($lv_out, 'strlen');
                 $lvs2[$i] = array_slice($lv_out, 0);
             }
@@ -152,7 +152,7 @@
             $count = count($lv_out) - 1;
 
             for ($i = 0; $i < $count; $i++) {
-                $lv_out = explode("\n", $lv);
+                //$lv_out = explode("\n", $lv);
                 $lv_out = explode(" ", $lv_out[$i]);
                 $lv_out = array_filter($lv_out, 'strlen');
                 $lvs2[$i] = array_slice($lv_out, 0);
