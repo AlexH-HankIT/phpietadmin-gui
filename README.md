@@ -49,7 +49,8 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
 - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
-- [ ] Support nfs
+- [ ] Support for nfs
+- [ ] Support for apcupsd
 
 Items are completely random ;-)
 
