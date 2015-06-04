@@ -36,9 +36,14 @@ Take a look at the github releases for detailed information about the features.
 
 ## Planned features
 In version 0.4:
-   - [ ] Add incoming user authentication for target
-   - [ ] Add incoming global user authentication
-   - [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
+- [ ] Add incoming user authentication for target
+- [ ] Add incoming global user authentication
+- [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
+- [x] Delete initiators.deny since it's deprecated
+- [ ] Use require.js to organize javascript files
+- [ ] Create install and update documentation
+- [ ] Support for Jessie
+- [ ] Add version check
 
 More:
 - [ ] Add lvextend, lvremove, lvrename features
