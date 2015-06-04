@@ -37,15 +37,18 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Remove html onclick elements
 
 ## Planned features
+In version 0.4:
+   - [ ] Add incoming user authentication for target
+   - [ ] Add incoming global user authentication
+   - [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
+
+More:
 - [ ] Add lvextend, lvremove, lvrename features
 - [ ] Lvm snapshots
 - [ ] Software raid status
 - [ ] Exclude volume group
 - [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
-- [ ] Add incoming user authentication for target
-- [ ] Add incoming global user authentication
 - [ ] Add delete button to sessions
-- [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
 - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
