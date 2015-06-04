@@ -4,7 +4,6 @@
 # This the installation script for phpietadmin
 # Nothing spectacular, only basics covered
 # Could use some more error handling
-# Apache configuration will probably only work on apache2.2
 #
 
 function usage() {
@@ -60,8 +59,15 @@ EOF
     sed -i '/ALL ALL/d' /etc/iet/initiators.allow
 
     # Configure apache
-    sed -i 's/None/all/g' /etc/apache2/sites-enabled/000-default
-    echo "Alias /phpietadmin /usr/share/phpietadmin/public/" >> /etc/apache2/sites-enabled/000-default
+    if [ -f "/etc/apache2/sites-enabled/000-default" ]; then
+        # Wheezy
+        sed -i 's/None/all/g' /etc/apache2/sites-enabled/000-default
+        echo "Alias /phpietadmin /usr/share/phpietadmin/public/" >> /etc/apache2/sites-enabled/000-default
+    elif [ -f "/etc/apache2/sites-enabled/000-default.conf" ]; then
+        # Jessie
+        sed -i 's/None/all/g' /etc/apache2/sites-enabled/000-default.conf
+        echo "Alias /phpietadmin /usr/share/phpietadmin/public/" >> /etc/apache2/sites-enabled/000-default.conf
+    fi
 
     # Restart services
     service iscsitarget restart
