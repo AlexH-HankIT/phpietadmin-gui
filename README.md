@@ -28,7 +28,6 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Don't display targets in use for permission deletion
 - [ ] Add php sessions timeout
 - [ ] Check if user 'admin' is already logged in
-- [ ] Document the features
 - [ ] Handle no PV/VG/LV error
 - [ ] Delete lun: Display if target is in use
 - [ ] Delete target: Display if target is in use
