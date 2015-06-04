@@ -38,6 +38,13 @@ CREATE TABLE types(
   value varchar(10) NOT NULL
 );
 
+DROP TABLE IF EXISTS phpietadmin;
+CREATE TABLE phpietadmin(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  option varchar(50) NOT NULL,
+  value varchar(50) NOT NULL
+);
+
 INSERT INTO config (option, optioningui, ispath, value, description, category) VALUES
     ('iqn', 'IQN', 0, 'iqn.2014-12.com.example.iscsi', "Names of the iscsi targets", 1),
     ('proc_sessions', '/proc session', 1, '/proc/net/iet/session', "Path to the IET sessions file", 1),
@@ -73,6 +80,8 @@ INSERT INTO types (value, display_name) VALUES
   ('iqn', 'IQN'),
   ('all', 'ALL'),
   ('regex', 'Regex');
+
+INSERT INTO phpietadmin (option, value) VALUES ('version', 'v0.4');
 
 INSERT INTO objects (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from types where value='all'));
 
