@@ -26,7 +26,6 @@ Take a look at the github releases for detailed information about the features.
 ## ToDo
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
 - [ ] Don't display targets in use for permission deletion
-- [x] Delete all permissions of target if it is deleted
 - [ ] Add php sessions timeout
 - [ ] Check if user 'admin' is already logged in
 - [ ] Document the features
