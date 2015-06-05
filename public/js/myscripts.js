@@ -182,8 +182,24 @@ $(function() {
 
             request.done(function() {
                 if (request.readyState == 4 && request.status == 200) {
-                    alert(request.responseText);
-                    location.reload();
+                    if (request.responseText == "Success") {
+                        swal({
+                                title: 'Success',
+                                type: 'success'
+                            },
+                            function () {
+                                location.reload();
+                            });
+                    } else {
+                        swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: request.responseText
+                            },
+                            function () {
+                                location.reload();
+                            });
+                    }
                 }
             });
         }
@@ -375,15 +391,29 @@ $(function() {
                 request.done(function () {
                     if (request.readyState == 4 && request.status == 200) {
                         if (request.responseText == "Success") {
-                            alert("Success");
-                            sel.remove();
-                        } else if (request.responseText == "Failed") {
-                            alert("Failed");
-                        } else {
-                            alert("Unkown");
-                        }
+                            swal({
+                                    title: 'Success',
+                                    type: 'success'
+                                },
+                                function () {
+                                    sel.remove();
+                                });
+                            } else {
+                                swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: request.responseText
+                                    },
+                                    function () {
+                                        sel.remove();
+                                    });
+                            }
                     } else {
-                        alert("Failed");
+                        swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: request.responseText
+                        });
                     }
                 });
             }
@@ -475,15 +505,26 @@ $(function() {
                 request.done(function () {
                     if (request.readyState == 4 && request.status == 200) {
                         if (request.responseText == "Success") {
-                            alert("Success");
-                            location.reload();
-                        } else if (request.responseText == "Failed") {
-                            alert("Failed");
+                            swal({
+                                    title: 'Success',
+                                    type: 'success'
+                                },
+                                function () {
+                                    sel.remove();
+                                });
                         } else {
-                            alert("Unkown");
+                            swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: request.responseText
+                            });
                         }
                     } else {
-                        alert("Failed");
+                        swal({
+                            title: 'Error',
+                            type: 'error',
+                            text: request.responseText
+                        });
                     }
                 });
             }
