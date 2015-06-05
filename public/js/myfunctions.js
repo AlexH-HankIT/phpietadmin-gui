@@ -72,10 +72,10 @@ function reloadfooter() {
 
 function validatemaplun() {
     if(_('target').value == _("default").value) {
-        alert('Error - Please select a target!');
+        sweetAlert("Error", "Please select a target!", "error");
         return false;
     } else if (_('logicalvolume').value == _("default").value) {
-        alert('Error - Please select a volume!');
+        sweetAlert("Error", "Please select a volume!", "error");
         return false;
     } else {
         var data = {
@@ -89,8 +89,24 @@ function validatemaplun() {
 
         request.done(function() {
             if (request.readyState == 4 && request.status == 200) {
-                alert(request.responseText);
-                location.reload();
+                if (request.responseText == 'Success') {
+                    swal({
+                            title: 'Success',
+                            type: 'success'
+                        },
+                        function () {
+                            location.reload();
+                        });
+                } else {
+                    swal({
+                            title: 'Error',
+                            type: 'error',
+                            text: request.responseText
+                        },
+                        function () {
+                            location.reload();
+                        });
+                }
             }
         });
     }
