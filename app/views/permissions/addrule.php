@@ -31,9 +31,6 @@
             <div class="col-md-1">
                 <div id="addallowrulebutton" class="col-md-1"><button type="button" class="btn btn-success">Allow</button></div>
             </div>
-            <div class="col-md-1">
-                <div id="adddenyrulebutton" class="col-md-1"><button type="button" class="btn btn-danger">Deny</button></div>
-            </div>
         </div>
     </div>
 </div>

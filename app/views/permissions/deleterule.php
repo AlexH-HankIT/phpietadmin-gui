@@ -23,10 +23,6 @@
                     </label>
 
                     <label class="btn btn-default">
-                        <input type="Radio" name="deleteruletype" value="initiators.deny"/> Initiators deny
-                    </label>
-
-                    <label class="btn btn-default">
                         <input type="Radio" name="deleteruletype" value="targets.allow" /> Targets allow
                     </label>
                 </div>

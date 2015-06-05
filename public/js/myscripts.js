@@ -134,10 +134,26 @@ $(function() {
 
             request.done(function() {
                 if (request.readyState == 4 && request.status == 200) {
-                    alert(request.responseText);
-                    location.reload();
+                    if (request.responseText == 'Success') {
+                        swal({
+                                title: 'Success',
+                                type: 'success'
+                            },
+                            function () {
+                                location.reload();
+                            });
+                    } else {
+                        swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: request.responseText
+                            },
+                            function () {
+                                location.reload();
+                            });
+                    }
                 }
-            });
+            })
         }
     });
 
@@ -159,7 +175,6 @@ $(function() {
             var data = {
                 "iqn": iqn,
                 "type": type,
-                "ruletype": 'allow',
                 "id": id
             };
 
@@ -174,48 +189,7 @@ $(function() {
         }
     });
 
-    $(document).on('change', 'input[name="type"]', function(){
-        var type = $("input[name='type']:checked").val();
-        if (type == "target") {
-            $("#adddenyrulebutton").hide();
-        } else if (type == "initiator") {
-            $("#adddenyrulebutton").show();
-        }
-    });
-
-    $(document).on('click', '#adddenyrulebutton', function(){
-        var selector_targetselection = $('#targetselection');
-
-        var iqn = selector_targetselection.find("option:selected").val();
-        var defaultvalue = selector_targetselection.find('#default').val();
-
-        if (iqn == defaultvalue) {
-            alert("Please select a iqn!");
-        } else if (!$("input[name='objectradio']:checked").val()) {
-            alert('Please select a object!');
-        } else {
-            var id = $("input[name='objectradio']:checked").closest('tr').find('.objectid').text();
-            var type = $("input[name='type']:checked").val();
-
-            var data = {
-                "iqn": iqn,
-                "type": type,
-                "ruletype": 'deny',
-                "id": id
-            };
-
-            request = doajax("/phpietadmin/permission/addrule", data);
-            request.done(function() {
-                if (request.readyState == 4 && request.status == 200) {
-                    alert(request.responseText);
-                    location.reload();
-                }
-            });
-        }
-    });
-
-
-    /* Used in views/config/table.php */
+    /* Used in views/config/objecttable.php */
     $(document).on('click', '#addobjectrowbutton', function() {
         $('#addobjectstbody').append(
             '<tr  class="newrow">' +
@@ -275,7 +249,7 @@ $(function() {
         }
     });
 
-    /* Used in views/objects/table.php */
+    /* Used in views/objects/objecttable.php */
     $(document).on('click', '.saveobjectrow', function() {
         var thisrow = $(this).closest("tr");
 
