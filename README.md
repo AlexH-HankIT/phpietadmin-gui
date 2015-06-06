@@ -32,18 +32,18 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Delete lun: Display if target is in use
 - [ ] Delete target: Display if target is in use
 - [ ] Delete target: Checkbox to force deletion, even if in use
-- [ ] Remove html onclick elements
+- [x] Remove html onclick elements
 
 ## Planned features
 In version 0.4:
 - [ ] Add incoming user authentication for target
 - [ ] Add incoming global user authentication
-- [ ] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
+- [x] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
 - [x] Delete initiators.deny since it's deprecated
-- [ ] Use require.js to organize javascript files
+- [x] Use require.js to organize javascript files
 - [ ] Create install and update documentation
 - [ ] Support for Jessie
-- [ ] Add version check
+- [x] Add version check
 - [ ] Add targets without session to Overview/ietsessions
 
 More:
