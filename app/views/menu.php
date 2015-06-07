@@ -49,12 +49,11 @@
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Users <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadmin/users'>Create Users</a></li>
+                        <li><a href='/phpietadmin/ietusers'>Users</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Add user to target</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Delete user from target</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Add global user</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Delete global user</a></li>
-                        <!--incoming und outgoing user nicht vergessen...-->
                     </ul>
                 </li>
 

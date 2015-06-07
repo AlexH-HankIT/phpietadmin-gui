@@ -313,20 +313,31 @@
             unset($ietsessions[0]);
             unset($ietsessions['title']);
 
-            // Extract targets with no connections and with (possibly) luns attachted
-            $counter=0;
-            foreach ($ietsessions as $value) {
-                foreach ($value as $values) {
-                    if (isset($values['tid'])) {
-                        $targets_without_connection[$counter] = $values['name'];
+            if (is_array($ietsessions)) {
+                // Extract targets with no connections and with (possibly) luns attachted
+                $counter=0;
+                foreach ($ietsessions as $value) {
+                    foreach ($value as $values) {
+                        if (isset($values['tid'])) {
+                            $targets_without_connection[$counter] = $values['name'];
+                        }
+                        $counter++;
                     }
-                    $counter++;
                 }
+            } else {
+                $targets_without_connection = '';
             }
 
-            $data = array_intersect($targets_without_connection, $targets_without_luns);
-
-            return $data;
+            if (is_array($targets_without_luns) && is_array($targets_without_connection)) {
+                $data = array_intersect($targets_without_connection, $targets_without_luns);
+                return $data;
+            } else {
+                if (is_array($targets_without_luns)) {
+                    return $targets_without_luns;
+                } else {
+                    return 3;
+                }
+            }
         }
 
         public function check_path_already_in_use($path) {

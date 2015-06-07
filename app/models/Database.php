@@ -115,6 +115,61 @@
             return $this->return_last_error();
         }
 
+        public function get_all_users() {
+            $query = $this->prepare('SELECT id, type, username, password FROM ietusers');
+            $query = $query->execute();
+
+            $counter=0;
+            while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+                $data[$counter] = $result;
+                $counter++;
+            }
+
+            if (!empty($data)) {
+                return $data;
+            } else {
+                return 3;
+            }
+        }
+
+        public function get_all_usernames() {
+            $query = $this->prepare('SELECT username FROM ietusers');
+            $query = $query->execute();
+
+            $counter=0;
+            while ($result = $query->fetchArray(SQLITE3_NUM)) {
+                $data[$counter] = $result;
+                $counter++;
+            }
+
+            if (isset($data) && !empty($data)) {
+                $counter=0;
+                foreach ($data as $value) {
+                    $objects[$counter] = $value[0];
+                    $counter++;
+                }
+                return $objects;
+            } else {
+                return 3;
+            }
+        }
+
+        public function add_ietuser($type, $username, $password) {
+            $query = $this->prepare('INSERT INTO ietusers (type, username, password) VALUES (:type, :username, :password)');
+            $query->bindValue('type', $type, SQLITE3_TEXT);
+            $query->bindValue('username', $username, SQLITE3_TEXT);
+            $query->bindValue('password', $password, SQLITE3_TEXT);
+            $query->execute();
+            return $this->return_last_error();
+        }
+
+        public function delete_ietuser($id) {
+            $data = $this->prepare('DELETE FROM ietusers where id=:id');
+            $data->bindValue('id', $id, SQLITE3_INTEGER);
+            $data->execute();
+            return $this->return_last_error();
+        }
+
         public function __destruct() {
             $this->close();
         }

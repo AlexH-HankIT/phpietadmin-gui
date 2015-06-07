@@ -27,17 +27,13 @@
             }
         }
 
-        public function edit() {
-
-        }
-
         public function checkvalueexists() {
             if (isset($_POST['check']) && $_POST['check'] == "duplicated" && isset($_POST['value'])) {
                 $data = $this->database->get_all_object_values();
 
                 if (is_array($data)) {
                     $result = array_search($_POST['value'], $data);
-                    if (!$result) {
+                    if ($result === false) {
                         echo "false";
                     } else {
                         echo "true";
