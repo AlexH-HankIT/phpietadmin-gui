@@ -1,5 +1,14 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     $(function() {
+        $('#logicalvolumedeletebutton').qtip({
+            content: {
+                text: 'Only unused volumes are displayed!'
+            },
+            style: {
+                classes: 'qtip-youtube'
+            }
+        });
+
         var sel = $('#logicalvolumedeleteselection');
 
         $(document).on('click', '#logicalvolumedeletebutton', function(){

@@ -306,6 +306,29 @@
             }
         }
 
+        public function get_targets_without_luns_or_connections($ietsessions) {
+            $targets_without_luns = $this->get_targets_without_luns();
+
+            // Delete not needed data
+            unset($ietsessions[0]);
+            unset($ietsessions['title']);
+
+            // Extract targets with no connections and with (possibly) luns attachted
+            $counter=0;
+            foreach ($ietsessions as $value) {
+                foreach ($value as $values) {
+                    if (isset($values['tid'])) {
+                        $targets_without_connection[$counter] = $values['name'];
+                    }
+                    $counter++;
+                }
+            }
+
+            $data = array_intersect($targets_without_connection, $targets_without_luns);
+
+            return $data;
+        }
+
         public function check_path_already_in_use($path) {
             $volumes = $this->get_proc_volume_content();
 

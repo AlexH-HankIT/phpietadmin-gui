@@ -164,7 +164,7 @@
                         if ($return == 1) {
                             echo 'The iet config file is read-only';
                         } else if ($return == 3) {
-                            echo 'Error - The target was not deleted, because is wasn\'t there';
+                            echo 'The target was not deleted, because is wasn\'t there';
                         } else {
                             echo 'Unknown';
                         }
@@ -181,7 +181,7 @@
                     }
                 }
             } else {
-                $data = $this->ietadd->get_targets_without_luns();
+                $data = $this->ietadd->get_targets_without_luns_or_connections($this->ietsessions->getIetSessions());
 
                 if ($data == 3) {
                     $this->view('message', "Error - No targets found");

@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-1">
-                <div id="addallowrulebutton" class="col-md-1"><button type="button" class="btn btn-success">Allow</button></div>
+                <div id="addallowrulebutton" class="col-md-1"><button type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Allow</button></div>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
         </thead>
 
         <tbody id="objectselection">
-        <?php if (is_array($data['objects'])) { ?>}
+        <?php if (is_array($data['objects'])) { ?>
             <?php foreach ($data['objects'] as $value ) { ?>
                 <tr>
                     <td><input type="Radio" name="objectradio"/></td>

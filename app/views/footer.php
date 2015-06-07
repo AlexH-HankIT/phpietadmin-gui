@@ -5,9 +5,9 @@
             <div class='col-sm-5'>
                 <div id='ietdstatus'>
                     <?php if ($data[1] == 0) { ?>
-                        <a class = 'navbar-btn btn-success btn'>ietd running</a>
+                        <a class = 'navbar-btn btn-success btn'><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> ietd running</a>
                     <?php } else { ?>
-                        <a class = 'navbar-btn btn-danger btn'>ietd not running</a>
+                        <a class = 'navbar-btn btn-danger btn'><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> ietd not running</a>
                     <?php } ?>
                 </div>
             </div>

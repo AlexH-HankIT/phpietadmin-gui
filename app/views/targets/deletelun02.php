@@ -7,6 +7,4 @@
         <?php } ?>
     </select>
 </p>
-<p>
-    <input id="deletelunbutton" class="btn btn-danger" type="submit" value="Delete">
-</p>
+<button id="deletelunbutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>

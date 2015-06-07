@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-1">
-                <div id="deleterulebutton" class="col-md-1"><button type="button" class="btn btn-danger">Delete</button></div>
+                <div id="deleterulebutton" class="col-md-1"><button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button></div>
             </div>
         </div>
     </div>

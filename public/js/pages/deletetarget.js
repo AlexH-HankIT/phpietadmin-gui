@@ -1,5 +1,14 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     $(function() {
+        $('#deletetargetbutton').qtip({
+            content: {
+                text: 'Only unused targets without any connections or luns are displayed!'
+            },
+            style: {
+                classes: 'qtip-youtube'
+            }
+        });
+
         $(document).on('click', '#deletetargetbutton', function() {
             var targetdelete = $('#targetdelete');
 

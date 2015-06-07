@@ -14,8 +14,7 @@
                 <?php } ?>
             </select>
         <p>
-        <p>Only unused volumes are displayed!</p>
-        <button class="btn btn-danger" type='submit' id='logicalvolumedeletebutton'>Delete</button>
+        <button id="logicalvolumedeletebutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
     </div>
 </div>
 
