@@ -55,7 +55,13 @@
                     </p>
                 </div>
             </div>
-            <p><input class="btn btn-primary" type="submit" value="Map" onclick="return validatemaplun();"/></p>
+            <p><input id="maplunbutton" class="btn btn-primary" type="submit" value="Map"/></p>
     </div>
 </div>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/maplun']);
+    });
+</script>

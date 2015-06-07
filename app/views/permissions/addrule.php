@@ -50,15 +50,23 @@
         </thead>
 
         <tbody id="objectselection">
-        <?php foreach ($data['objects'] as $value ) { ?>
-            <tr>
-                <td><input type="Radio" name="objectradio"/></td>
-                <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
-                <td><?php echo htmlspecialchars($value['type']); ?></td>
-                <td><?php echo htmlspecialchars($value['name']); ?></td>
-                <td><?php echo htmlspecialchars($value['value']); ?></td>
-            </tr>
+        <?php if (is_array($data['objects'])) { ?>}
+            <?php foreach ($data['objects'] as $value ) { ?>
+                <tr>
+                    <td><input type="Radio" name="objectradio"/></td>
+                    <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
+                    <td><?php echo htmlspecialchars($value['type']); ?></td>
+                    <td><?php echo htmlspecialchars($value['name']); ?></td>
+                    <td><?php echo htmlspecialchars($value['value']); ?></td>
+                </tr>
+            <?php } ?>
         <?php } ?>
         </tbody>
     </table>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/addrule']);
+    });
+</script>

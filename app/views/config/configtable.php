@@ -17,3 +17,9 @@
         </table>
     </div>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/configtable']);
+    });
+</script>

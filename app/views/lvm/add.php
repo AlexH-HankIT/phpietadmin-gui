@@ -1,35 +1,39 @@
+<!-- Inserted via ajax -->
+
+<!-- Hidden fields to store some data -->
+<span id="volumegroup" hidden><?php echo htmlspecialchars($_POST['vg']); ?></span>
+<span id="freesize" hidden><?php echo htmlspecialchars($data); ?></span>
+
 <div class = "container">
     <div class = "jumbotron" id="lvmadd">
-        <form method="post">
-            <table class = "table borderless">
-                <input type="hidden" name="vg" value="<?php echo htmlspecialchars($_POST['vg']); ?>">
-                <tr>
-                    <p>
+        <table class = "table borderless">
+            <tr>
+                <p>
                     <td>Name:</td>
-                    <td><input type="text" name="name" id="name" class="form-control" required/></td>
-                    </p>
-                </tr>
-                <tr>
-                    <p>
+                    <td><input type="text" id="nameinput" class="form-control"/></td>
+                </p>
+            </tr>
+            <tr>
+                <p>
                     <td>Size in GB:</td>
                     <td>
-                        <input id="sizefield" type="text" name="sizefield" value="1" oninput="validatelvinput(this.value, <?php echo htmlspecialchars($data); ?>)" class="form-control "/>
+                        <input id="sizefield" type="text" value="1" class="form-control"/>
                     </td>
                     <td>
-                        <input id="rangeinput" type="range" min="1" max="<?php echo $data ?>" value="1" name="size" step="1" oninput="validatelvinput(this.value, <?php echo htmlspecialchars($data); ?>); updateTextInput(this.value)" class="form-control"/>
-                        <span id="range">1</span>
+                        <!-- Insert max value using jquery -->
+                        <input id="rangeinput" type="range" min="1" max="" value="1" step="1" class="form-control"/>
                     </td>
-                    </p>
-                </tr>
-                <tr>
-                    <td>
-                        (max <?php echo htmlspecialchars($data); ?>G)
-                    </td>
-                </tr>
-            </table>
-            <br />
-        <button class="btn btn-primary" type='submit' value=<?php echo htmlspecialchars($_POST['vg']); ?> onclick="">Create</button>
-        </form>
+                </p>
+            </tr>
+            <tr>
+                <td>
+                    <!-- Insert max value using jquery -->
+                    (max <span id="maxvalue"></span>G)
+                </td>
+            </tr>
+        </table>
+        <br />
+        <button id="createvolumebutton" class="btn btn-primary" type='submit'>Create</button>
     <br>
     </div>
 </div>

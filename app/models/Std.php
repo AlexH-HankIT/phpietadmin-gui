@@ -1,5 +1,34 @@
 <?php
     class Std {
+        public function get_dashboard_data() {
+            $data['hostname'] = file_get_contents('/etc/hostname');
+            $data['phpietadminversion'] = file_get_contents('/usr/share/phpietadmin/version');
+            $data['distribution'] = shell_exec('lsb_release -sd');
+
+            $hwdata = file('/proc/cpuinfo');
+            $hwdata[4] = str_replace("model", '', $hwdata[4]);
+            $hwdata[4] = str_replace("name", '', $hwdata[4]);
+            $data['cpu'] = str_replace(":", '', $hwdata[4]);
+
+            $data['uptime'] = shell_exec('uptime -p');
+            $data['systemstart'] = shell_exec('uptime -s');
+
+            preg_match('/load average: (.*)/', shell_exec('uptime'), $matches);
+            $data['currentload'] = $matches[1];
+
+            $mem = file('/proc/meminfo');
+            preg_match('/[0-9]+/', $mem[0], $matches);
+            $data['memtotal'] = intval($matches[0] / 1024);
+
+            preg_match('/[0-9]+/', $mem[1], $matches);
+            $data['memused'] = intval($matches[0] / 1024);
+
+            $data['systemtime'] = shell_exec('date');
+            $data['kernel'] = shell_exec('uname -r');
+
+            return $data;
+        }
+
         public function exec_and_return($command) {
             $command = escapeshellcmd($command);
             exec($command . " 2>&1", $status, $result);

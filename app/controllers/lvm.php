@@ -13,12 +13,12 @@
                         $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvcreate') . ' -L ' . $_POST['size'] . 'G -n' . $_POST['name'] . " " . $_POST['vg']);
 
                         if ($return != 0) {
-                            $this->view('message', "Error - Could not add the logical volume " . $_POST['name'] . ". Server said: $return[0]");
+                            echo 'Could not add the logical volume ' . $_POST['name'] . '. Server said: ' . $return[0];
                         } else {
-                            $this->view('message', "Success");
+                            echo "Success";
                         }
                     } else {
-                        $this->view('message', "The logical volume " . $_POST['name'] . " already exists!");
+                        echo 'The logical volume ' . $_POST['name'] . ' already exists!';
                     }
                 } else {
                     $data = $this->lvm->get_lvm_data("vgs", $_POST['vg']);
@@ -37,7 +37,7 @@
                 if ($data == 3) {
                     $this->view('message', "Error - Can't display the volumes groups");
                 } else {
-                    $this->view('vginput', $data);
+                    $this->view('lvm/vginput', $data);
                 }
             }
         }
@@ -46,13 +46,12 @@
             if (isset($_POST['target']) && !empty($_POST['target'])) {
                 $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvremove') . ' -f ' . $_POST['target']);
                 if ($return != 0) {
-                    $this->view('message', "Error - Cannot delete logical volume " . $_POST['target']);
+                    echo 'Error - Cannot delete logical volume ' . $_POST['target'];
                 } else {
-                    $this->view('message', "Success");
+                    echo 'Success';
                 }
             } else {
                 $data = $this->lvm->get_all_logical_volumes();
-
                 if ($data == 3) {
                     $this->view('message', "Error - No logical volumes available");
                 } else {

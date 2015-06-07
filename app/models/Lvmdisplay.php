@@ -146,23 +146,46 @@
 
         public function get_logical_volumes($vgroup) {
             $command = escapeshellcmd($this->database->get_config('sudo') . " " .  $this->database->get_config('lvs') . " --noheadings --units g " . $vgroup);
-            $lv = shell_exec($command);
+            $data = shell_exec($command);
 
-            $lv_out = explode("\n", $lv);
-            $count = count($lv_out) - 1;
+            // If data is empty return 3
+            if (empty($data)) {
+                return 3;
+            } else {
+                // Explode string by line and create array
+                $data = array_filter(explode("\n", $data));
+                $counter = 0;
+                foreach ($data as $value) {
+                    // Loop through the array and explode by space
+                    $volumes[$counter] = explode(" ", $value);
+                    // Filter empty values and create array
+                    $volumes[$counter] = array_values(array_filter($volumes[$counter], 'strlen'));
+                    $counter++;
+                }
+                return $volumes;
+            }
 
+
+
+            /*$lv_out = array_filter(explode("\n", $lv));
+
+            print_r($lv_out);
+
+            $count = count($lv_out);
             for ($i = 0; $i < $count; $i++) {
                 //$lv_out = explode("\n", $lv);
                 $lv_out = explode(" ", $lv_out[$i]);
                 $lv_out = array_filter($lv_out, 'strlen');
                 $lvs2[$i] = array_slice($lv_out, 0);
-            }
+            }*/
 
-            if (!empty($lvs2)) {
+
+
+            /*if (!empty($lvs2)) {
                 return $lvs2;
             } else {
-                return 3;
-            }
+
+            }*/
         }
 
         public function get_logical_volumes_with_table($vgroup) {

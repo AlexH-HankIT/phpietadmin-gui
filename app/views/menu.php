@@ -13,7 +13,7 @@
             <ul class = "nav navbar-nav navbar-right">
 
                 <li><a id="menuhome" href='/phpietadmin/home'><span class="glyphicon glyphicon-home"></span></a></li>
-                <!--<li><a href='/phpietadmin/dashboard'>Dashboard</a></li>-->
+                <li><a href='/phpietadmin/dashboard'> Dashboard</a></li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Overview <b class = "caret"></b></a>
@@ -24,8 +24,6 @@
                         <li><a href='/phpietadmin/overview/pv'>Physical volumes</a></li>
                         <li><a href='/phpietadmin/overview/vg'>Volume groups</a></li>
                         <li><a href='/phpietadmin/overview/lv'>Logical volumes</a></li>
-                        <!--<li><a href='/phpietadmin/overview/initiators'>Initiator permissions</a></li>
-                        <li><a href='/phpietadmin/overview/targets'>Target permissions</a></li>-->
                     </ul>
                 </li>
 
@@ -42,23 +40,23 @@
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Rules <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadmin/objects/index'>Objects</a></li>
+                        <li><a href='/phpietadmin/objects'>Objects</a></li>
                         <li><a href='/phpietadmin/permission/addrule'>Add rule</a></li>
                         <li><a href='/phpietadmin/permission/deleterule'>Delete rule</a></li>
                     </ul>
                 </li>
 
-                <!--<li class = "dropdown">
+                <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Users <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a href='/phpietadmin/permission/deleterule'>Create Users</a></li>
+                        <li><a href='/phpietadmin/users'>Create Users</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Add user to target</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Delete user from target</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Add global user</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Delete global user</a></li>
-                        incoming und outgoing user nicht vergessen...
+                        <!--incoming und outgoing user nicht vergessen...-->
                     </ul>
-                </li>-->
+                </li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">LVM <b class = "caret"></b></a>

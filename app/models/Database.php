@@ -98,7 +98,12 @@
                 $counter++;
             }
 
-            return $data;
+            if (!empty($data)) {
+                return $data;
+            } else {
+                return 3;
+            }
+
         }
 
         public function add_object($type, $name, $value) {

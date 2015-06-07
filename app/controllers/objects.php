@@ -4,7 +4,7 @@
             $data['type'] = $this->database->get_object_types();
             $data['objects'] = $this->database->get_all_objects();
 
-            $this->view('objects/table', $data);
+            $this->view('objecttable', $data);
         }
 
         public function add() {
@@ -35,8 +35,6 @@
             if (isset($_POST['check']) && $_POST['check'] == "duplicated" && isset($_POST['value'])) {
                 $data = $this->database->get_all_object_values();
 
-
-
                 if (is_array($data)) {
                     $result = array_search($_POST['value'], $data);
                     if (!$result) {
@@ -45,7 +43,7 @@
                         echo "true";
                     }
                 } else {
-                    echo "true";
+                    echo "false";
                 }
             }
         }

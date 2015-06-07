@@ -17,6 +17,7 @@
         </thead>
 
         <tbody id="addobjectstbody">
+        <?php if (is_array($data['objects'])) { ?>
             <?php foreach ($data['objects'] as $objects) { ?>
                 <tr>
                     <td hidden class="id"><?php echo htmlspecialchars($objects['objectid']); ?></td>
@@ -27,6 +28,13 @@
                     <td><!--<a href="#" class="editobjectrow"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>--></td>
                 </tr>
             <?php } ?>
+        <?php } ?>
         </tbody>
     </table>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/objecttable']);
+    });
+</script>

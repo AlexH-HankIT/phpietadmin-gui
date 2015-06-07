@@ -18,3 +18,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/deletelun']);
+    });
+</script>

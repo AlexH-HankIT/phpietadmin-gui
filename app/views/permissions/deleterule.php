@@ -36,3 +36,9 @@
 
     <div id="deleteruletable"></div>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/deleterule']);
+    });
+</script>

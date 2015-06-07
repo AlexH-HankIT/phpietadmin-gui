@@ -52,53 +52,63 @@
             foreach ($data2 as $value) {
                 // All arrays with less than two rows don't contain interesting data
                 if (count($value) > 2) {
-                    $sessions[$counter] = $value;
+                    $sessions['with'][$counter] = $value;
+                } else {
+                    $sessions['without'][$counter] = $value;
                 }
                 $counter++;
             }
 
-            // Abort and return if file is empty
-            if (empty($sessions)) {
-                return 2;
-            }
+            if (isset($sessions['with'])) {
+                $counter=0;
+                foreach ($sessions['with'] as $value) {
+                    // No regex here, because explode() already deleted 'tid'
+                    $var[$counter][0]['tid'] = $value[0];
 
+                    preg_match("/name:(.*)/", $value[1], $result);
+                    $var[$counter][0]['name'] = $result[1];
 
-            $counter=0;
-            foreach ($sessions as $value) {
-                // No regex here, because explode() already deleted 'tid'
-                $var[$counter][0]['tid'] = $value[0];
+                    for ($i=2; $i < count($value); $i=$i+7) {
+                        preg_match("/sid:(.*)/", $value[$i], $result);
+                        $var[$counter][$counter+$i]['sid'] = $result[1];
 
-                preg_match("/name:(.*)/", $value[1], $result);
-                $var[$counter][0]['name'] = $result[1];
+                        preg_match("/initiator:(.*)/", $value[$i+1], $result);
+                        $var[$counter][$counter+$i]['initiator'] = $result[1];
 
-                for ($i=2; $i < count($value); $i=$i+7) {
-                    preg_match("/sid:(.*)/", $value[$i], $result);
-                    $var[$counter][$counter+$i]['sid'] = $result[1];
+                        preg_match("/cid:([0-9].*)/", $value[$i+2], $result);
+                        $var[$counter][$counter+$i]['cid'] = $result[1];
 
-                    preg_match("/initiator:(.*)/", $value[$i+1], $result);
-                    $var[$counter][$counter+$i]['initiator'] = $result[1];
+                        preg_match("/ip:(.*)/", $value[$i+3], $result);
+                        $var[$counter][$counter+$i]['ip'] = $result[1];
 
-                    preg_match("/cid:([0-9].*)/", $value[$i+2], $result);
-                    $var[$counter][$counter+$i]['cid'] = $result[1];
+                        preg_match("/state:(.*)/", $value[$i+4], $result);
+                        $var[$counter][$counter+$i]['state'] = $result[1];
 
-                    preg_match("/ip:(.*)/", $value[$i+3], $result);
-                    $var[$counter][$counter+$i]['ip'] = $result[1];
+                        preg_match("/hd:(.*)/", $value[$i+5], $result);
+                        $var[$counter][$counter+$i]['hd'] = $result[1];
 
-                    preg_match("/state:(.*)/", $value[$i+4], $result);
-                    $var[$counter][$counter+$i]['state'] = $result[1];
-
-                    preg_match("/hd:(.*)/", $value[$i+5], $result);
-                    $var[$counter][$counter+$i]['hd'] = $result[1];
-
-                    preg_match("/dd:(.*)/", $value[$i+6], $result);
-                    $var[$counter][$counter+$i]['dd'] = $result[1];
+                        preg_match("/dd:(.*)/", $value[$i+6], $result);
+                        $var[$counter][$counter+$i]['dd'] = $result[1];
+                    }
+                    $counter++;
                 }
-                $counter++;
+
+                // Correct index
+                for ($i=0; $i < count($var); $i++) {
+                    $var[$i] = array_values($var[$i]);
+                }
             }
 
-            // Correct index
-            for ($i=0; $i < count($var); $i++) {
-                $var[$i] = array_values($var[$i]);
+            if (isset($sessions['without'])) {
+                $counter=0;
+                foreach ($sessions['without'] as $value) {
+                    // No regex here, because explode() already deleted 'tid'
+                    $without[$counter]['tid'] = $value[0];
+
+                    preg_match("/name:(.*)/", $value[1], $result);
+                    $without[$counter]['name'] = $result[1];
+                    $counter++;
+                }
             }
 
             $table = array(
@@ -114,7 +124,15 @@
             );
 
             $return[0] = $table;
-            $return[1] = $var;
+
+            if (isset($var)) {
+                $return[1] = $var;
+            }
+
+            if (isset($without)) {
+                $return[2] = $without;
+            }
+
             $return['title'] = "Iet sessions";
 
             return $return;

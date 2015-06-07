@@ -15,3 +15,9 @@
         <button class="btn btn-primary" type='submit' id="addtargetbutton">Add</button>
     </div>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/addtarget']);
+    });
+</script>

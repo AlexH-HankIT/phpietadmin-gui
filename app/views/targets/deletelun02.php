@@ -1,3 +1,4 @@
+<!-- pulled via ajax -->
 <p>
     <select id="deletelunlunselection" class="form-control">
         <?php foreach ($data as $value) { ?>
@@ -7,5 +8,5 @@
     </select>
 </p>
 <p>
-    <input class="btn btn-danger" type="submit" value="Delete" onclick="send_deletelun()">
+    <input id="deletelunbutton" class="btn btn-danger" type="submit" value="Delete">
 </p>

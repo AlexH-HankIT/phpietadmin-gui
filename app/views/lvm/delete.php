@@ -18,3 +18,9 @@
         <button class="btn btn-danger" type='submit' id='logicalvolumedeletebutton'>Delete</button>
     </div>
 </div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/lvmdelete']);
+    });
+</script>

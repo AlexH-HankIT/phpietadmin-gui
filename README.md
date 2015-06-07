@@ -44,7 +44,7 @@ In version 0.4:
 - [ ] Create install and update documentation
 - [ ] Support for Jessie
 - [x] Add version check
-- [ ] Add targets without session to Overview/ietsessions
+- [x] Add targets without session to Overview/ietsessions
 
 More:
 - [ ] Add lvextend, lvremove, lvrename features
