@@ -45,6 +45,7 @@ In version 0.4:
 - [ ] Support for Jessie
 - [x] Add version check
 - [x] Add targets without session to Overview/ietsessions
+- [ ] Change password for user admin via gui
 
 More:
 - [ ] Add lvextend, lvremove, lvrename features
