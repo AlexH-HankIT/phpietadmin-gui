@@ -50,10 +50,10 @@
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Users <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadmin/ietusers'>Users</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Add user to target</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Delete user from target</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Add global user</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Delete global user</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Add user</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Delete user</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Add discovery user</a></li>
+                        <li><a href='/phpietadmin/permission/adduser'>Delete discovery user</a></li>
                     </ul>
                 </li>
 
@@ -73,6 +73,7 @@
                         <li><a href='/phpietadmin/config/iet'>IET config</a></li>
                         <li><a href='/phpietadmin/config/lvm'>LVM config</a></li>
                         <li><a href='/phpietadmin/config/misc'>Misc config</a></li>
+                        <li><a href="/phpietadmin/config/user">Login user</a></li>
                     </ul>
                 </li>
 

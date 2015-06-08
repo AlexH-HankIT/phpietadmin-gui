@@ -46,6 +46,7 @@ In version 0.4:
 - [x] Add version check
 - [x] Add targets without session to Overview/ietsessions
 - [ ] Change password for user admin via gui
+- [ ] Select multiple Objects/Users
 
 More:
 - [ ] Add lvextend, lvremove, lvrename features

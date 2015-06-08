@@ -18,6 +18,10 @@ body {
     padding-top: 70px;
 }
 
+.white-table {
+    background-color: white
+}
+
 .footer {
     position: absolute;
 }
@@ -60,10 +64,6 @@ td.alt {
     background-color: #ffc; background-color: rgba(255, 255, 0, 0.2);
 }
 
-td.dashboardoption {
-
-}
-
-th.dashboardheader {
-
+.glyphicon-20 {
+    font-size: 20px
 }

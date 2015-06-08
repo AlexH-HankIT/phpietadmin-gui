@@ -2,27 +2,65 @@
     <ol class="breadcrumb">
         <li class="active">Add user</li>
     </ol>
+</div>
 
+<div class = "container">
     <div class = "jumbotron">
-        <form method="post">
-            <select name="iqn" id="iqn" class="form-control">
-                <option id="default">Select...</option>
-                <?php foreach ($data[1] as $row) { ?>
-                    <option value="<?php echo htmlspecialchars($row); ?>"><?php echo htmlspecialchars($row); ?></option>
-                <?php } ?>
-            </select>
-            <br />
+        <div class="row">
+            <div class="col-md-6">
+                <select name="target" id="targetselection" class="form-control">
+                    <option id="default">Select target...</option>
+                    <?php foreach ($data['targets'] as $value) { ?>
+                        <option value="<?php echo htmlspecialchars($value); ?>"> <?php echo htmlspecialchars($value); ?> </option>
+                    <?php } ?>
+                </select>
+            </div>
 
-            User:
-            <input class="form-control" type="text" name="user" id="user" required/>
+            <div class="col-md-4">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="Radio" id="addusertypeincomingcheckbox" value="Incoming" checked="checked" /> Incoming
+                    </label>
+                    <label class="btn btn-default">
+                        <input id="addusertypeoutgoingcheckbox" type="Radio" value="Outgoing" /> Outgoing
+                    </label>
+                </div>
+            </div>
 
-            <br />
-
-            Password:
-            <input class="form-control" type="text" name="pass" id="pass" required/>
-
-            <br />
-            <input class="btn btn-primary" type="submit" value="Allow" onclick="return validateinputnotdefault('iqn', 'Error - Please select a target')">
-        </form>
+            <div class="col-md-1">
+                <button id="adduserbutton" type="button" class="btn btn-primary">Add</button>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class = "container">
+    <ol class="breadcrumb">
+        <li class="active">Users</li>
+    </ol>
+    <table id="addusertable" class="table table-striped searchabletable">
+        <thead>
+        <tr>
+            <th>Check</th>
+            <th>Username</th>
+        </tr>
+        </thead>
+        <?php if (is_array($data['user'])) { ?>
+            <tbody id="addusertablebody">
+                <?php foreach ($data['user'] as $row) { ?>
+                    <tr>
+                        <td hidden class="id"><?php echo htmlspecialchars($row['id']); ?></td>
+                        <td><input class="addusercheckbox" type="checkbox"/></td>
+                        <td><?php echo htmlspecialchars($row['username']); ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        <?php } ?>
+    </table>
+</div>
+
+<script>
+    require(['common'],function() {
+        require(['pages/adduser']);
+    });
+</script>

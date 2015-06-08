@@ -8,11 +8,9 @@
     <table id="addusertable" class="table table-striped searchabletable">
         <thead>
             <tr>
-                <th>Type</th>
                 <th>Username</th>
                 <th>Password</th>
-                <th>Generate</th>
-                <th><a href="#" id="adduserrowbutton"><span style="font-size: 15px" class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
+                <th><a href="#" id="adduserrowbutton"><span class="glyphicon glyphicon-plus glyphicon-20" aria-hidden="true"></span></a></th>
                 <th></th>
             </tr>
         </thead>
@@ -21,11 +19,9 @@
             <?php foreach ($data as $row) { ?>
                 <tr>
                     <td hidden class="id"><?php echo htmlspecialchars($row['id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['type']); ?></td>
                     <td><?php echo htmlspecialchars($row['username']); ?></td>
-                    <td><?php echo htmlspecialchars($row['password']); ?></td>
-                    <td></td>
-                    <td><a href="#" class="deleteuserrow"><span style="font-size: 20px" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+                    <td><span class="passwordfield"><span class="passwordfieldplaceholder"><i>Show</i></span><span class="password" hidden><?php echo htmlspecialchars($row['password']); ?></span></span></td>
+                    <td><a href="#" class="deleteuserrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
                     <td></td>
                 </tr>
             <?php } ?>

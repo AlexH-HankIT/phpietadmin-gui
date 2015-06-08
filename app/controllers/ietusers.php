@@ -24,8 +24,8 @@
         }
 
         public function addusertodb() {
-            if (isset($_POST['type']) && isset($_POST['username']) && isset($_POST['password'])) {
-                $this->database->add_ietuser($_POST['type'], $_POST['username'], $_POST['password']);
+            if (isset($_POST['username']) && isset($_POST['password'])) {
+                $this->database->add_ietuser($_POST['username'], $_POST['password']);
             }
         }
 
@@ -42,14 +42,5 @@
                 echo "Can't do anything!";
             }
         }
-
-        public function addusertotarget() {
-
-        }
-
-        public function deleteuserfromtarget() {
-
-        }
-
     }
 ?>

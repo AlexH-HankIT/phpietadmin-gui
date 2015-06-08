@@ -53,7 +53,7 @@
         <?php if (is_array($data['objects'])) { ?>
             <?php foreach ($data['objects'] as $value ) { ?>
                 <tr>
-                    <td><input type="Radio" name="objectradio"/></td>
+                    <td><input class="objectcheckbox" type="checkbox"/></td>
                     <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
                     <td><?php echo htmlspecialchars($value['type']); ?></td>
                     <td><?php echo htmlspecialchars($value['name']); ?></td>

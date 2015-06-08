@@ -11,7 +11,7 @@
                 <th>Type</th>
                 <th>Name</th>
                 <th>Value</th>
-                <th><a href="#" id="addobjectrowbutton"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></th>
+                <th><a href="#" id="addobjectrowbutton"><span class="glyphicon glyphicon-plus glyphicon-20" aria-hidden="true"></span></a></th>
                 <th></th>
             </tr>
         </thead>
@@ -24,7 +24,7 @@
                     <td class="type"><?php echo htmlspecialchars($objects['type']); ?></td>
                     <td class="objectname"><?php echo htmlspecialchars($objects['name']); ?></td>
                     <td class="objectvalue"><?php echo htmlspecialchars($objects['value']); ?></td>
-                    <td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
+                    <td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
                     <td><!--<a href="#" class="editobjectrow"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>--></td>
                 </tr>
             <?php } ?>

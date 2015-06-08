@@ -103,7 +103,6 @@
             } else {
                 return 3;
             }
-
         }
 
         public function add_object($type, $name, $value) {
@@ -116,7 +115,7 @@
         }
 
         public function get_all_users() {
-            $query = $this->prepare('SELECT id, type, username, password FROM ietusers');
+            $query = $this->prepare('SELECT id, username, password FROM ietusers');
             $query = $query->execute();
 
             $counter=0;
@@ -132,31 +131,43 @@
             }
         }
 
-        public function get_all_usernames() {
-            $query = $this->prepare('SELECT username FROM ietusers');
-            $query = $query->execute();
+        public function get_all_usernames($id = false) {
+            if (!$id) {
+                $query = $this->prepare('SELECT username from ietusers');
+                $query = $query->execute();
 
-            $counter=0;
-            while ($result = $query->fetchArray(SQLITE3_NUM)) {
-                $data[$counter] = $result;
-                $counter++;
-            }
-
-            if (isset($data) && !empty($data)) {
                 $counter=0;
-                foreach ($data as $value) {
-                    $objects[$counter] = $value[0];
+                while ($result = $query->fetchArray(SQLITE3_NUM)) {
+                    $data[$counter] = $result[0];
                     $counter++;
                 }
-                return $objects;
+
+                if (!empty($data)) {
+                    return $data;
+                } else {
+                    return 0;
+                }
             } else {
-                return 3;
+                $query = $this->prepare('SELECT id, username from ietusers');
+                $query = $query->execute();
+
+                $counter=0;
+                while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+                    $data[$counter] = $result;
+                    $counter++;
+                }
+
+                if (!empty($data)) {
+                    return $data;
+                } else {
+                    return 0;
+                }
             }
         }
 
-        public function add_ietuser($type, $username, $password) {
-            $query = $this->prepare('INSERT INTO ietusers (type, username, password) VALUES (:type, :username, :password)');
-            $query->bindValue('type', $type, SQLITE3_TEXT);
+
+        public function add_ietuser( $username, $password) {
+            $query = $this->prepare('INSERT INTO ietusers (username, password) VALUES (:username, :password)');
             $query->bindValue('username', $username, SQLITE3_TEXT);
             $query->bindValue('password', $password, SQLITE3_TEXT);
             $query->execute();

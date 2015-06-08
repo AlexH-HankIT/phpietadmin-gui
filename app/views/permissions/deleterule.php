@@ -16,14 +16,14 @@
                 </select>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default active">
-                        <input type="Radio" name="deleteruletype" value="initiators.allow" checked="checked" /> Initiators allow
+                        <input type="Radio" name="deleteruletype" value="initiators.allow" checked="checked" /> Initiators
                     </label>
 
                     <label class="btn btn-default">
-                        <input type="Radio" name="deleteruletype" value="targets.allow" /> Targets allow
+                        <input type="Radio" name="deleteruletype" value="targets.allow" /> Targets
                     </label>
                 </div>
             </div>

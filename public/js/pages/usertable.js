@@ -1,5 +1,15 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     $(function() {
+        $(document).on('mouseover', '.passwordfield', function() {
+            $(this).find('.passwordfieldplaceholder').hide();
+            $(this).find('.password').show();
+        });
+
+        $(document).on('mouseout', '.passwordfield', function() {
+            $(this).find('.passwordfieldplaceholder').show();
+            $(this).find('.password').hide();
+        });
+
         $(document).on('click', '#adduserrowbutton', function() {
             $('#adduserrowbutton').hide();
         });
@@ -57,22 +67,15 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             $('#addusertablebody').append(
                 '<tr class="newrow">' +
                 '<td>' +
-                '<select class="typeselection">' +
-                '<option>Incoming</option>' +
-                '<option>Outgoing</option>' +
-                '</select>' +
-                '</td>' +
-                '<td>' +
                 '<input class="username" type="text" placeholder="Username">' +
                 '<span class="label label-success bestaetigung">Success</span>' +
                 '</td>' +
                 '<td>' +
-                '<input class="password" type="text" placeholder="Password">' +
+                '<input class="password" type="text" placeholder="Password"><a href="#"> <span id="generatepw" class="glyphicon glyphicon-hand-left glyphicon-20" aria-hidden="true"></span></a>' +
                 '<span class="label label-success bestaetigung">Success</span>' +
                 '</td>' +
-                '<td><a href="#"><span id="generatepw" style="font-size: 20px" class="glyphicon glyphicon-hand-left" aria-hidden="true"></span></a></td>' +
-                '<td><a href="#" class="deleteuserrow"><span style="font-size: 20px" class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>' +
-                '<td><a href="#" class="saveuserrow"><span style="font-size: 20px" class="glyphicon glyphicon-save" aria-hidden="true"></span></a></td>' +
+                '<td><a href="#" class="deleteuserrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>' +
+                '<td><a href="#" class="saveuserrow"><span class="glyphicon glyphicon-save glyphicon-20" aria-hidden="true"></span></a></td>' +
                 '</tr>'
             );
 
@@ -144,8 +147,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 // Ajax data to server and reload page
                                 var data = {
                                     "username": usernameval,
-                                    "password": $('.password').val(),
-                                    "type": $('.typeselection').find("option:selected").text()
+                                    "password": $('.password').val()
                                 };
 
                                 request = mylibs.doajax('/phpietadmin/ietusers/addusertodb', data);

@@ -105,5 +105,16 @@
                 }
             }
         }
+
+        public function adduser() {
+            $data['targets'] = $this->ietadd->get_targets();
+            $data['user'] = $this->database->get_all_usernames(true);
+
+            if ($data['targets'] == 3) {
+                $this->view('message', "Error - No targets available!");
+            } else {
+                $this->view('permissions/adduser', $data);
+            }
+        }
     }
 ?>

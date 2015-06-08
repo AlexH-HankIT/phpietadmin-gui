@@ -24,9 +24,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 '<input class="objectvalue" type="text" name="value" placeholder="Your value...">' +
                 '<span class="label label-success bestaetigung">Success</span>' +
                 '</td>' +
-                '<td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>' +
+                '<td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>' +
                 '<td>' +
-                '<a href="#" class="saveobjectrow"><span class="glyphicon glyphicon-save" aria-hidden="true"></span></a>' +
+                '<a href="#" class="saveobjectrow"><span class="glyphicon glyphicon-save glyphicon-20" aria-hidden="true"></span></a>' +
                 '<span class="label label-success bestaetigung">Success</span>' +
                 '</td>' +
                 '</tr>'

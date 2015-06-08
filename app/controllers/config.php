@@ -15,6 +15,11 @@
             $this->view('message', "Please select a category");
         }
 
+        public function user() {
+            $this->view('config/menu');
+            $this->view('config/user');
+        }
+
         public function lvm() {
             $this->view('config/menu');
 

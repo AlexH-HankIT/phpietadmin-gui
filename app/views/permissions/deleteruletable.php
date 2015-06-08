@@ -21,7 +21,7 @@
                 <tbody>
                     <?php foreach ($data['deleteruleobjectstable'] as $row) { ?>
                         <tr>
-                            <td><input type="Radio" name="deleteobjectradio"/></td>
+                            <td><input class="objectdeletecheckbox" type="checkbox"/></td>
                             <td class="objectid" hidden><?php echo htmlspecialchars($row['id']); ?></td>
                             <td><?php echo htmlspecialchars($row['type']); ?></td>
                             <td><?php echo htmlspecialchars($row['name']); ?></td>

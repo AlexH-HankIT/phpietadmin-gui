@@ -8,6 +8,7 @@ requirejs.config({
         imagesloaded: 'lib/imagesloaded.pkg.min.amd',
         sweetalert: 'lib/sweetalert.min',
         mylibs: 'lib/mylibs',
+        sha256: 'lib/sha256'
     }
 });
 
