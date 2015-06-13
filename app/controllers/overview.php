@@ -41,13 +41,21 @@ class Overview extends Controller {
     public function pv() {
         $data = $this->lvm->get_lvm_data('pvs');
 
-        $this->view('table', $data);
+        if ($data == 3 ) {
+            $this->view('message', "Error - No physical volumes found!");
+        } else {
+             $this->view('table', $data);
+        }
     }
 
     public function vg() {
         $data = $this->lvm->get_lvm_data('vgs');
 
-        $this->view('table', $data);
+        if ($data == 3 ) {
+            $this->view('message', "Error - No volume groups found!");
+        } else {
+            $this->view('table', $data);
+        }
     }
 
     public function lv() {
