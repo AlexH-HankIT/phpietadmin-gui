@@ -337,7 +337,7 @@
                 $user = $this->ietdelete->get_configured_iet_users($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm'));
 
                 if ($user == 3) {
-                    $this->view('message', 'Error - No user configured!');
+                    $this->view('message', 'Error - No users configured!');
                 } else {
                     $this->view('permissions/deletedisuser', $user);
                 }
