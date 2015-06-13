@@ -335,7 +335,12 @@
                 }
             } else {
                 $user = $this->ietdelete->get_configured_iet_users($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm'));
-                $this->view('permissions/deletedisuser', $user);
+
+                if ($user == 3) {
+                    $this->view('message', 'Error - No user configured!');
+                } else {
+                    $this->view('permissions/deletedisuser', $user);
+                }
             }
         }
     }
