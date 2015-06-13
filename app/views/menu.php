@@ -12,7 +12,6 @@
         <div class = "collapse navbar-collapse navHeaderCollapse">
             <ul class = "nav navbar-nav navbar-right">
 
-                <li><a id="menuhome" href='/phpietadmin/home'><span class="glyphicon glyphicon-home"></span></a></li>
                 <li><a href='/phpietadmin/dashboard'> Dashboard</a></li>
 
                 <li class = "dropdown">
@@ -51,9 +50,9 @@
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadmin/ietusers'>Users</a></li>
                         <li><a href='/phpietadmin/permission/adduser'>Add user</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Delete user</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Add discovery user</a></li>
-                        <li><a href='/phpietadmin/permission/adduser'>Delete discovery user</a></li>
+                        <li><a href='/phpietadmin/permission/deleteuser'>Delete user</a></li>
+                        <li><a href='/phpietadmin/permission/adddisuser'>Add discovery user</a></li>
+                        <li><a href='/phpietadmin/permission/deletedisuser'>Delete discovery user</a></li>
                     </ul>
                 </li>
 

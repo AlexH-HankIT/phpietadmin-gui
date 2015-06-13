@@ -9,10 +9,10 @@
                 <li class="active">Objects</li>
             </ol>
 
-            <table class="table table-bordered searchabletable" id="deleteruleobjectstable">
+            <table class="table table-striped searchabletable" id="deleteruleobjectstable">
                 <thead>
                     <tr>
-                        <th><span class="glyphicon glyphicon glyphicon-ok green"></span></th>
+                        <th><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
                         <th>Type</th>
                         <th>Name</th>
                         <th>Value</th>
@@ -39,10 +39,10 @@
                 <li class="active">Orphans (No object available)</li>
             </ol>
 
-            <table class="table table-bordered searchabletable" id="deleteruleorphanedtable">
+            <table class="table table-striped searchabletable" id="deleteruleorphanedtable">
                 <thead>
                     <tr>
-                        <th><span class="glyphicon glyphicon glyphicon-ok green"></span></th>
+                        <th><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
                         <th>Value</th>
                     </tr>
                 </thead>

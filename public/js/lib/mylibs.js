@@ -85,7 +85,7 @@ define(function() {
             return val;
         },
         generatePassword: function()  {
-            var length = 8,
+            var length = 16,
                 charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
                 retVal = "";
             for (var i = 0, n = charset.length; i < length; ++i) {

@@ -10,7 +10,7 @@ class Overview extends Controller {
         if (!empty($data)) {
             $this->view('table', $data);
         } else {
-            $this->view('message', "Boeser Fehler");
+            $this->view('message', 'Error - No block devices available!');
         }
     }
 
@@ -18,7 +18,7 @@ class Overview extends Controller {
         $volumes = $this->ietvolumes->getIetVolumes();
 
         if ($volumes === 1 or $volumes === 2) {
-            $this->view('message', "The ietvolumes file was not found or is empty!");
+            $this->view('message', "Error - The ietvolumes file was not found or is empty!");
         } else {
             $this->view('ietvolumes', $volumes);
         }
@@ -32,7 +32,7 @@ class Overview extends Controller {
         }
 
         if ($sessions == 2 or $sessions == 1) {
-            $this->view('message', "The ietsessions file was not found or is empty!");
+            $this->view('message', "Error - The ietsessions file was not found or is empty!");
         } else {
             $this->view('ietsessions', $sessions);
         }

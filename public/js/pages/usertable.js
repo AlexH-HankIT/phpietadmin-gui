@@ -64,6 +64,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         });
 
         $(document).on('click', '#adduserrowbutton', function() {
+
             $('#addusertablebody').append(
                 '<tr class="newrow">' +
                 '<td>' +
@@ -71,7 +72,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 '<span class="label label-success bestaetigung">Success</span>' +
                 '</td>' +
                 '<td>' +
-                '<input class="password" type="text" placeholder="Password"><a href="#"> <span id="generatepw" class="glyphicon glyphicon-hand-left glyphicon-20" aria-hidden="true"></span></a>' +
+                '<a href="#"> <span id="generatepw" class="glyphicon glyphicon-hand-right glyphicon-20" aria-hidden="true"></span></a>&nbsp;&nbsp;' +
+                '<input class="password" maxlength="16" type="text" placeholder="Password">' +
                 '<span class="label label-success bestaetigung">Success</span>' +
                 '</td>' +
                 '<td><a href="#" class="deleteuserrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>' +
@@ -81,7 +83,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
             $('#generatepw').qtip({
                 content: {
-                    text: 'An eight char password containing upper and lower case letters and digits will be generated'
+                    text: 'An sixteen char password containing upper and lower case letters and digits will be generated.'
                 },
                 style: {
                     classes: 'qtip-youtube'
@@ -95,41 +97,52 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             });
 
             $(document).on('focus', '.password', function() {
-                var password = $(".password");
-                if (password.hasClass("focusedInputerror")) {
-                    password.removeClass("focusedInputerror");
+                var selpassword = $(".password");
+                if (selpassword.hasClass("focusedInputerror")) {
+                    selpassword.removeClass("focusedInputerror");
                 }
             });
 
             $(document).on('focus', '.username', function() {
-                var username = $(".username");
-                if (username.hasClass("focusedInputerror")) {
-                    username.removeClass("focusedInputerror");
+                var selusername = $(".username");
+                if (selusername.hasClass("focusedInputerror")) {
+                    selusername.removeClass("focusedInputerror");
                 }
             });
 
             $(document).on('click', '.saveuserrow', function() {
                 // Check if username and password isset
-                var selpassword = $('.password');
-                var username =  $(".username");
-                var usernameval = username.val();
+                var selpassword = $(this).closest("tr").find('.password');
+                var selpasswordval = selpassword.val();
+                var selpasswordconfirm = selpassword.next('.bestaetigung');
 
-                if (usernameval == '') {
-                    username.addClass("focusedInputerror");
-                    username.next('.bestaetigung').addClass("label-danger");
-                    username.next('.bestaetigung').text("Required");
-                    username.next('.bestaetigung').show(500);
-                    username.next('.bestaetigung').delay(2000).hide(0);
-                } else if(selpassword.val() == '') {
+                var selusername =  $(this).closest("tr").find('.username');
+                var selusernameval = selusername.val();
+                var selusernameconfirm = selusername.next('.bestaetigung');
+
+
+                if (selusernameval == '') {
+                    selusername.addClass("focusedInputerror");
+                    selusernameconfirm.addClass("label-danger");
+                    selusernameconfirm.text("Required");
+                    selusernameconfirm.show(500);
+                    selusernameconfirm.delay(2000).hide(0);
+                } else if (selpasswordval == '') {
                     selpassword.addClass("focusedInputerror");
-                    selpassword.next('.bestaetigung').addClass("label-danger");
-                    selpassword.next('.bestaetigung').text("Required");
-                    selpassword.next('.bestaetigung').show(500);
-                    selpassword.next('.bestaetigung').delay(2000).hide(0);
+                    selpasswordconfirm.addClass("label-danger");
+                    selpasswordconfirm.text("Required");
+                    selpasswordconfirm.show(500);
+                    selpasswordconfirm.delay(2000).hide(0);
+                } else if (selpasswordval.length < 12) {
+                    selpassword.addClass("focusedInputerror");
+                    selpasswordconfirm.addClass("label-danger");
+                    selpasswordconfirm.text("Min 12 chars");
+                    selpasswordconfirm.show(500);
+                    selpasswordconfirm.delay(2000).hide(0);
                 } else {
                     // Check if username already exists
                     var data = {
-                        "username": usernameval
+                        "username": selusernameval
                     };
 
                     request = mylibs.doajax('/phpietadmin/ietusers/check_username_already_in_use', data);
@@ -138,16 +151,16 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         if (request.readyState == 4 && request.status == 200) {
                             if (request.responseText == "true") {
                                 // Display bad message here because user already exists
-                                username.addClass("focusedInputerror");
-                                username.next('.bestaetigung').addClass("label-danger");
-                                username.next('.bestaetigung').text("In use!");
-                                username.next('.bestaetigung').show(500);
-                                username.next('.bestaetigung').delay(2000).hide(0);
+                                selusername.addClass("focusedInputerror");
+                                selusernameconfirm.addClass("label-danger");
+                                selusernameconfirm.text("In use!");
+                                selusernameconfirm.show(500);
+                                selusernameconfirm.delay(2000).hide(0);
                             } else {
                                 // Ajax data to server and reload page
                                 var data = {
-                                    "username": usernameval,
-                                    "password": $('.password').val()
+                                    "username": selusernameval,
+                                    "password": selpasswordval
                                 };
 
                                 request = mylibs.doajax('/phpietadmin/ietusers/addusertodb', data);
@@ -165,4 +178,3 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         });
     });
 });
-

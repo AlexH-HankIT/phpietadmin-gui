@@ -39,13 +39,13 @@
     <ol class="breadcrumb">
         <li class="active">Objects</li>
     </ol>
-    <table id="objectstable" class="table table-bordered searchabletable">
+    <table id="objectstable" class="table table-striped searchabletable">
         <thead>
         <tr>
-            <th><span class="glyphicon glyphicon glyphicon-ok green"></span></th>
-            <th>Type</th>
-            <th>Name</th>
-            <th>Value</th>
+            <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+            <th class="col-md-3">Type</th>
+            <th class="col-md-4">Name</th>
+            <th class="col-md-4">Value</th>
         </tr>
         </thead>
 
@@ -53,11 +53,11 @@
         <?php if (is_array($data['objects'])) { ?>
             <?php foreach ($data['objects'] as $value ) { ?>
                 <tr>
-                    <td><input class="objectcheckbox" type="checkbox"/></td>
                     <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
-                    <td><?php echo htmlspecialchars($value['type']); ?></td>
-                    <td><?php echo htmlspecialchars($value['name']); ?></td>
-                    <td><?php echo htmlspecialchars($value['value']); ?></td>
+                    <td class="col-md-1"><input class="objectcheckbox" type="checkbox"/></td>
+                    <td class="col-md-3"><?php echo htmlspecialchars($value['type']); ?></td>
+                    <td class="col-md-4"><?php echo htmlspecialchars($value['name']); ?></td>
+                    <td class="col-md-4"><?php echo htmlspecialchars($value['value']); ?></td>
                 </tr>
             <?php } ?>
         <?php } ?>

@@ -10,3 +10,8 @@
 
     http://manpages.ubuntu.com/manpages/trusty/man5/ietd.conf.5.html
     http://manpages.ubuntu.com/manpages/trusty/man8/ietadm.8.html
+
+
+    Known issues:
+    Lun cannot be deleted from config file if type is fileio and mode ro
+    If a user is configured as incoming user, the same username cannot be configured as outgoing user

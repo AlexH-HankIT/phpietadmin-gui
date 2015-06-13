@@ -19,10 +19,10 @@
             <div class="col-md-4">
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default active">
-                        <input type="Radio" id="addusertypeincomingcheckbox" value="Incoming" checked="checked" /> Incoming
+                        <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="Incoming" checked="checked" /> Incoming
                     </label>
                     <label class="btn btn-default">
-                        <input id="addusertypeoutgoingcheckbox" type="Radio" value="Outgoing" /> Outgoing
+                        <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="Outgoing" /> Outgoing
                     </label>
                 </div>
             </div>
@@ -41,17 +41,17 @@
     <table id="addusertable" class="table table-striped searchabletable">
         <thead>
         <tr>
-            <th>Check</th>
-            <th>Username</th>
+            <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+            <th class="col-md-11">Username</th>
         </tr>
         </thead>
         <?php if (is_array($data['user'])) { ?>
             <tbody id="addusertablebody">
                 <?php foreach ($data['user'] as $row) { ?>
                     <tr>
-                        <td hidden class="id"><?php echo htmlspecialchars($row['id']); ?></td>
-                        <td><input class="addusercheckbox" type="checkbox"/></td>
-                        <td><?php echo htmlspecialchars($row['username']); ?></td>
+                        <td hidden class="userid"><?php echo htmlspecialchars($row['id']); ?></td>
+                        <td class="col-md-1"><input class="addusercheckbox" type="checkbox"/></td>
+                        <td class="col-md-11"><?php echo htmlspecialchars($row['username']); ?></td>
                     </tr>
                 <?php } ?>
             </tbody>

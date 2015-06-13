@@ -16,7 +16,7 @@
             $this->std = new Std();
         }
 
-        function get_iet_allow($allowfile, $iqn = '') {
+        public function get_iet_allow($allowfile, $iqn = '') {
             $data = file_get_contents($allowfile);
 
             if (empty($data)) {

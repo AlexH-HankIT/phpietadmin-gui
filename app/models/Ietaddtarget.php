@@ -317,27 +317,39 @@
                 // Extract targets with no connections and with (possibly) luns attachted
                 $counter=0;
                 foreach ($ietsessions as $value) {
+
                     foreach ($value as $values) {
-                        if (isset($values['tid'])) {
-                            $targets_without_connection[$counter] = $values['name'];
+                        if (isset($values[0]['tid'])) {
+                            $targets_with_connection[$counter] = $values[0]['name'];
                         }
                         $counter++;
                     }
                 }
-            } else {
-                $targets_without_connection = '';
             }
 
-            if (is_array($targets_without_luns) && is_array($targets_without_connection)) {
-                $data = array_intersect($targets_without_connection, $targets_without_luns);
-                return $data;
-            } else {
-                if (is_array($targets_without_luns)) {
-                    return $targets_without_luns;
+            if (isset($targets_with_connection) && !empty($targets_with_connection) && is_array($targets_with_connection)) {
+                $targets = array_diff($targets_without_luns, $targets_with_connection);
+
+                if (!empty($targets)) {
+                    return $targets;
                 } else {
                     return 3;
                 }
+            } else {
+                return $targets_without_luns;
             }
+
+
+            /*if (is_array($targets_without_luns) && isset($targets_with_connection) && is_array($targets_with_connection)) {
+                $data = array_intersect($targets_with_connection, $targets_with_luns);
+                return $data;
+            } else {
+                if (is_array($targets_with_luns)) {
+                    return $targets_with_luns;
+                } else {
+                    return 3;
+                }
+            }*/
         }
 
         public function check_path_already_in_use($path) {

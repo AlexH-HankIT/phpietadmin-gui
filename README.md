@@ -31,22 +31,26 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Handle no PV/VG/LV error
 - [ ] Delete lun: Display if target is in use
 - [x] Delete target: Display if target is in use (Targets with connections aren't displayed at all)
-- [ ] Delete target: Checkbox to force deletion, even if in use
-- [x] Remove html onclick elements
+- [ ] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
 
 ## Planned features
 In version 0.4:
-- [ ] Add incoming user authentication for target
-- [ ] Add incoming global user authentication
 - [x] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
 - [x] Delete initiators.deny since it's deprecated
 - [x] Use require.js to organize javascript files
-- [ ] Create install and update documentation
-- [ ] Support for Jessie
 - [x] Add version check
 - [x] Add targets without session to Overview/ietsessions
-- [ ] Change password for user admin via gui
-- [ ] Select multiple Objects/Users
+- [x] Change password for user admin via gui
+- [x] Select multiple Objects/Users
+- [x] Delete all options with target if deleted (Except luns, target with luns cannot be deleted)
+- [x] Validate chap password length (min 12, max 16)
+- [x] Add incoming/outgoing user authentication
+- [x] Check if chap user is already added
+- [x] Check if object is already added
+- [x] Delete User: Check if it's in use
+- [x] Add incoming/outgoing discovery user authentication
+- [ ] Create install and update documentation
+- [ ] Support for Jessie (Tests...)
 
 More:
 - [ ] Add lvextend, lvremove, lvrename features

@@ -32,11 +32,21 @@
         public function deleteuserfromdb() {
             if (isset($_POST['id']) && !empty($_POST['id'])) {
                 $id = intval($_POST['id']);
-                $return = $this->database->delete_ietuser($id);
-                if ($return !== 0) {
-                    echo "Failed";
+
+                // Check if user is in use
+                $data = $this->database->get_ietuser($id);
+                $return[0] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file'), 'IncomingUser ' . $data['username']);
+                $return[1] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file'), 'OutgoingUser ' . $data['username']);
+
+                if (!$return[0] && !$return[1]) {
+                    $return = $this->database->delete_ietuser($id);
+                    if ($return !== 0) {
+                        echo "Failed";
+                    } else {
+                        echo "Success";
+                    }
                 } else {
-                    echo "Success";
+                    echo "In use!";
                 }
             } else {
                 echo "Can't do anything!";

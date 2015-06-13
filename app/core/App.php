@@ -3,7 +3,7 @@
 
         protected $controller;
 
-        protected $controllername = 'home';
+        protected $controllername = 'dashboard';
 
         protected $method = 'index';
 

@@ -1,39 +1,28 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     $(function() {
-        $(document).on('click', '#addallowrulebutton', function(){
-            var selector_targetselection = $('#targetselection');
-            var iqn = selector_targetselection.find("option:selected").val();
-            var defaultvalue = selector_targetselection.find('#default').val();
+        $(document).on('click', '#adddisuserbutton', function() {
+            var type = $("input[name='type']:checked").val();
+            var checkbox = $(".adddisusercheckbox:checked");
 
-            if (iqn == defaultvalue) {
+            // check if even one checkbox is checked
+            if (!checkbox.val()) {
                 swal({
                     title: 'Error',
                     type: 'error',
-                    text: 'Please select a iqn!'
-                });
-            } else if (!$(".objectcheckbox:checked").val()) {
-                swal({
-                    title: 'Error',
-                    type: 'error',
-                    text: 'Please select a object!'
+                    text: 'Please select a user!'
                 });
             } else {
-                var type = $("input[name='type']:checked").val();
-
-                $(".objectcheckbox:checked").each(function () {
-                    var id = $(this).closest('tr').find('.objectid').text();
-
+                checkbox.each(function () {
                     var data = {
-                        "iqn": iqn,
                         "type": type,
-                        "id": id
+                        "id": $(this).closest('tr').find('.userid').text()
                     };
 
-                    request = mylibs.doajax("/phpietadmin/permission/addrule", data);
+                    request = mylibs.doajax("/phpietadmin/permission/adddisuser", data);
 
-                    request.done(function() {
+                    request.done(function () {
                         if (request.readyState == 4 && request.status == 200) {
-                            if (request.responseText == "Success") {
+                            if (request.responseText == true) {
                                 swal({
                                         title: 'Success',
                                         type: 'success'
@@ -53,6 +42,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             }
                         }
                     });
+
                 });
             }
         });

@@ -8,11 +8,11 @@
     <table id="objectstable" class = "table table-striped searchabletable">
         <thead>
             <tr>
-                <th>Type</th>
-                <th>Name</th>
-                <th>Value</th>
-                <th><a href="#" id="addobjectrowbutton"><span class="glyphicon glyphicon-plus glyphicon-20" aria-hidden="true"></span></a></th>
-                <th></th>
+                <th class="col-md-2">Type</th>
+                <th class="col-md-4">Name</th>
+                <th class="col-md-4">Value</th>
+                <th class="col-md-1"><a href="#" id="addobjectrowbutton"><span class="glyphicon glyphicon-plus glyphicon-20" aria-hidden="true"></span></a></th>
+                <th class="col-md-1"></th>
             </tr>
         </thead>
 
@@ -21,11 +21,11 @@
             <?php foreach ($data['objects'] as $objects) { ?>
                 <tr>
                     <td hidden class="id"><?php echo htmlspecialchars($objects['objectid']); ?></td>
-                    <td class="type"><?php echo htmlspecialchars($objects['type']); ?></td>
-                    <td class="objectname"><?php echo htmlspecialchars($objects['name']); ?></td>
-                    <td class="objectvalue"><?php echo htmlspecialchars($objects['value']); ?></td>
-                    <td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
-                    <td><!--<a href="#" class="editobjectrow"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>--></td>
+                    <td class="col-md-2 type"><?php echo htmlspecialchars($objects['type']); ?></td>
+                    <td class="col-md-4 objectname"><?php echo htmlspecialchars($objects['name']); ?></td>
+                    <td class="col-md-4 objectvalue"><?php echo htmlspecialchars($objects['value']); ?></td>
+                    <td class="col-md-1"><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
+                    <td class="col-md-1"></td>
                 </tr>
             <?php } ?>
         <?php } ?>

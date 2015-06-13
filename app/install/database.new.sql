@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(50) NOT NULL,
-  password varchar(50) NOT NULL
+  password varchar(64) NOT NULL /* for sha256 hash */
 );
 
 DROP TABLE IF EXISTS objects;
@@ -81,4 +81,3 @@ INSERT INTO types (value, display_name) VALUES
   ('regex', 'Regex');
 
 INSERT INTO objects (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from types where value='all'));
-

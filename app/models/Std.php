@@ -79,5 +79,13 @@
             }
             return false;
         }
+
+        public function check_if_file_contains_value($file, $value) {
+            if (strpos(file_get_contents($file), $value) !== false) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 ?>

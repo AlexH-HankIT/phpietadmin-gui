@@ -49,8 +49,15 @@
 
         }
 
-        public function users() {
-
+        public function editloginuser() {
+            if (isset($_POST['pwhash'])) {
+                $return = $this->database->edit_login_user($_POST['pwhash']);
+                if ($return != 0) {
+                    echo "Failed";
+                } else {
+                    echo "Success";
+                }
+            }
         }
 
         public function edit() {

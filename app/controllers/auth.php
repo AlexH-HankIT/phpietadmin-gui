@@ -14,7 +14,7 @@
                 $this->session->setPassword($pwhash );
 
                 if($this->session->check()) {
-                    header("Location: /phpietadmin/home");
+                    header("Location: /phpietadmin/dashboard");
                 } else {
                     $this->view('message', 'Wrong username or password!');
                     header( "refresh:2;url=/phpietadmin/auth/login" );

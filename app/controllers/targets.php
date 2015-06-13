@@ -158,25 +158,37 @@
                 if ($return != 0) {
                     echo 'Could not delete target ' . $_POST['iqn'] . ' Server said:' . $return[0];
                 } else {
-                    $return = $this->ietdelete->delete_iqn_from_config_file($_POST['target'], $this->database->get_config('ietd_config_file'));
+                    $return = $this->ietdelete->delete_all_options_from_iqn($_POST['target'], $this->database->get_config('ietd_config_file'));
 
                     if ($return !== 0) {
                         if ($return == 1) {
                             echo 'The iet config file is read-only';
                         } else if ($return == 3) {
-                            echo 'The target was not deleted, because is wasn\'t there';
+                            echo 'The target was not deleted, because it wasn\'t there';
                         } else {
                             echo 'Unknown';
                         }
                     } else {
-                        // Delete the rules of this iqn
-                        $val[0] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_init_allow'));
-                        $val[1] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_target_allow'));
+                        $return = $this->ietdelete->delete_iqn_from_config_file($_POST['target'], $this->database->get_config('ietd_config_file'));
 
-                        if ($val[0] !== 0 or $val[1] !== 0) {
-                            echo 'The target was deleted from the daemon and the config file, but i could not delete the access rules. Please do this manually!';
+                        if ($return !== 0) {
+                            if ($return == 1) {
+                                echo 'The iet config file is read-only';
+                            } else if ($return == 3) {
+                                echo 'The target was not deleted, because it wasn\'t there';
+                            } else {
+                                echo 'Unknown';
+                            }
                         } else {
-                            echo "Success";
+                            // Delete the rules of this iqn
+                            $val[0] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_init_allow'));
+                            $val[1] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_target_allow'));
+
+                            if ($val[0] !== 0 or $val[1] !== 0) {
+                                echo 'The target was deleted from the daemon and the config file, but i could not delete the access rules. Please do this manually!';
+                            } else {
+                                echo "Success";
+                            }
                         }
                     }
                 }
