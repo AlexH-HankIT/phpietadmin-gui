@@ -85,10 +85,10 @@
                     if (isset($data)) {
                         $this->view('permissions/deleteruletable', $data);
                     } else {
-                        echo "false";
+                        $this->view('message', 'No rules set for this target!');
                     }
                 } else {
-                    echo "false";
+                    $this->view('message', 'No rules set for this target!');
                 }
             } else if (isset($_POST['iqn']) && isset($_POST['value']) && isset($_POST['ruletype'])) {
                 if ($_POST['ruletype'] == 'initiators.allow') {
@@ -192,7 +192,7 @@
                 $users = $this->ietdelete->get_configured_iet_users($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm'), $tid);
 
                 if ($users == 3) {
-                    echo false;
+                    $this->view('message', 'No users set for this target!');
                 } else {
                     $this->view('permissions/deleteusertable', $users);
                 }

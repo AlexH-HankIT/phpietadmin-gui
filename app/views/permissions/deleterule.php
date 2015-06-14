@@ -33,9 +33,9 @@
             </div>
         </div>
     </div>
-
-    <div id="deleteruletable"></div>
 </div>
+
+<div id="deleteruletable"></div>
 
 <script>
     require(['common'],function() {

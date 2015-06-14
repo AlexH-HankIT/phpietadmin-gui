@@ -17,19 +17,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
                 request.done(function () {
                     if (request.readyState == 4 && request.status == 200) {
-                        if (request.responseText == "false") {
-                            swal({
-                                    title: 'Error',
-                                    type: 'error',
-                                    text: 'No rules set for this target!'
-                                },
-                                function () {
-                                    selector_targetselection.val('default');
-                                    $('#deleteruletable').html('');
-                                });
-                        } else {
                             $('#deleteruletable').html(request.responseText);
-                        }
                     }
                 });
             } else {
@@ -53,19 +41,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
                 request.done(function () {
                     if (request.readyState == 4 && request.status == 200) {
-                        if (request.responseText == "false") {
-                            swal({
-                                    title: 'Error',
-                                    type: 'error',
-                                    text: 'No rules set for this target!'
-                                },
-                                function () {
-                                    selector_targetselection.val('default');
-                                    $('#deleteruletable').html('');
-                                });
-                        } else {
-                            $('#deleteruletable').html(request.responseText);
-                        }
+                        $('#deleteruletable').html(request.responseText);
                     }
                 });
             } else {

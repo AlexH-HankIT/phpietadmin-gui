@@ -16,15 +16,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
                 request.done(function() {
                     if (request.readyState == 4 && request.status == 200) {
-                        if (request.responseText == false) {
-                            swal({
-                                title: 'Error',
-                                type: 'error',
-                                text: 'No users set for this target!'
-                            });
-                        } else {
                             $('#deleteusertablediv').html(request.responseText);
-                        }
                     }
                 });
             } else {

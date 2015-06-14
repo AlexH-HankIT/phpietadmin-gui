@@ -4,7 +4,6 @@
     </ol>
 </div>
 
-
 <div class = "container">
     <div class = "jumbotron">
         <div class="row">
@@ -22,10 +21,10 @@
             </div>
         </div>
     </div>
-    <div id="deleteusertablediv"></div>
+
 </div>
 
-
+<div id="deleteusertablediv"></div>
 
 <script>
     require(['common'],function() {
