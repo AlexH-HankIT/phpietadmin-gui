@@ -57,6 +57,11 @@ if [ -f $DATABASE ]; then
     cd ../../
     cp -r $PWD/* $BASEDIR
 
+    # Set permissions for the iet config files and phpietadmin dir
+    chown -R www-data:www-data /usr/share/phpietadmin
+    chown -R www-data:www-data $DATABASE
+    chmod 660 $DATABASE
+
     log_message "Update complete"
 else
     log_message "Phpietadmin is not installed. Starting..."
