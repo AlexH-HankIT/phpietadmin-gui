@@ -13,7 +13,7 @@ define(['jquery', 'mylibs'], function($, mylibs) {
 
                 var versioncheck = $('#versioncheck');
 
-                if (val) {
+                if (val == true) {
                     versioncheck.addClass("label-success");
                     versioncheck.text('Up2date');
                 } else {
