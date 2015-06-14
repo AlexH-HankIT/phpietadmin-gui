@@ -30,6 +30,7 @@ BASEDIR="/usr/share/phpietadmin"
 DATABASE="$BASEDIR/app/config.db"
 BACKUPPATH="/var/backups"
 sudoers_file="/etc/sudoers.d/phpietadmin"
+date=`date +%m-%d-%y`
 
 log_message "Checking if phpietadmin is already installed..."
 if [ -f $DATABASE ]; then
@@ -41,7 +42,7 @@ if [ -f $DATABASE ]; then
 
     log_message "Creating database backup..."
     log_message "Copy $DATABASE to $BACKUPPATH"
-    cp $DATABASE $BACKUPPATH
+    cp $DATABASE $BACKUPPATH/phpietadmindb.$date.bak
     if [ $? -ne 0 ]; then
 		log_error "Could not copy the database! Aborting..."
     fi
