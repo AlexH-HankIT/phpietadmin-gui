@@ -11,11 +11,12 @@ directly to the daemon via php’s „exec“ function. This prevents any incons
 daemon live config.
 
 ## Compatibility
-Phpietadmin is tested on Debian 7. A version running on Debian 8 will be released soon.
-But it’s not limited to Debian. It should run just fine on other linux distributions.
+Phpietadmin is tested on Debian 7 and 8. But it’s not limited to Debian.
+It should run just fine on any other linux distribution.
 
 ## Docs
-https://github.com/MrCrankHank/phpietadmin/wiki/Installation-v03
+https://github.com/MrCrankHank/phpietadmin/wiki/Installation-v04
+https://github.com/MrCrankHank/phpietadmin/wiki/Update-v03-to-v04
 
 ## Screens
 https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v02
@@ -32,25 +33,6 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Delete lun: Display if target is in use
 - [x] Delete target: Display if target is in use (Targets with connections aren't displayed at all)
 - [ ] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
-
-## Planned features
-In version 0.4:
-- [x] Add dashboard (Uptime, Load, Mem Usage, Interfaces...)
-- [x] Delete initiators.deny since it's deprecated
-- [x] Use require.js to organize javascript files
-- [x] Add version check
-- [x] Add targets without session to Overview/ietsessions
-- [x] Change password for user admin via gui
-- [x] Select multiple Objects/Users
-- [x] Delete all options with target if deleted (Except luns, target with luns cannot be deleted)
-- [x] Validate chap password length (min 12, max 16)
-- [x] Add incoming/outgoing user authentication
-- [x] Check if chap user is already added
-- [x] Check if object is already added
-- [x] Delete User: Check if it's in use
-- [x] Add incoming/outgoing discovery user authentication
-- [x] Create install and update documentation
-- [ ] Support for Jessie (Tests...)
 
 More:
 - [ ] Add lvextend, lvremove, lvrename features
