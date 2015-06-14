@@ -61,7 +61,7 @@ else
     log_message "Phpietadmin is not installed. Starting..."
     log_message "Installing all necessary packages..."
     apt-get update
-    apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-$(uname -r) sqlite3 php5-sqlite lsb-release
+    apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-$(uname -r) sqlite3 php5-sqlite lsb-release lvm2
     if [ $? -ne 0 ]; then
 		log_error "Could not install the packages!"
     fi
