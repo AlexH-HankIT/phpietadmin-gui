@@ -23,12 +23,12 @@ fi
 
 # Define vars
 BASEDIR="/usr/share/phpietadmin"
-DATABASE="$BASDIR/app/config.db"
+DATABASE="$BASEDIR/app/config.db"
 BACKUPPATH="/var/backups"
 sudoers_file="/etc/sudoers.d/phpietadmin"
 
 log_message "Checking if phpietadmin is already installed..."
-if [ -d $BASEDIR ]; then
+if [ -f $DATABASE ]; then
     log_message "$BASDIR exists. Assuming already installed. Update installation..."
     apt-get install lsb-release
     if [ $? -ne 0 ]; then
@@ -37,7 +37,7 @@ if [ -d $BASEDIR ]; then
 
     log_message "Creating database backup..."
     log_message "Copy $DATABASE to $BACKUPPATH"
-    cp $DATABASE $$BACKUPPATH
+    cp $DATABASE $BACKUPPATH
     if [ $? -ne 0 ]; then
 		log_error "Could not copy the database! Aborting..."
     fi
@@ -48,6 +48,10 @@ if [ -d $BASEDIR ]; then
 		log_error "Database update failed!"
     fi
     log_message "Database updated successful!"
+
+    log_message "Starting file update..."
+    cp -r $PWD/* $BASEDIR
+
     log_message "Update complete"
 else
     log_message "Phpietadmin is not installed. Starting..."
@@ -58,15 +62,8 @@ else
 		log_error "Could not install the packages!"
     fi
 
-
     # Create sudoers file
-    if [ -f $sudoers_file ]; then
-        rm $sudoers_file
-    fi
-
-    cat > $sudoers_file << "EOF"
-        www-data ALL=NOPASSWD: /usr/sbin/service iscsitarget *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce
-EOF
+    echo "www-data ALL=NOPASSWD: /usr/sbin/service iscsitarget *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce" > $sudoers_file
 
     # Set permissions for the iet config files and phpietadmin dir
     chown -R www-data:www-data /usr/share/phpietadmin
