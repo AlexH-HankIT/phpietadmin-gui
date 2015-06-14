@@ -6,6 +6,7 @@
 # Could use some more error handling
 #
 
+NC='\e[0m'
 RED='\e[0;31m'
 BLUE='\e[34m'
 
