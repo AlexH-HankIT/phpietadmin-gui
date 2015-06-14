@@ -54,6 +54,7 @@ if [ -f $DATABASE ]; then
     log_message "Database updated successful!"
 
     log_message "Starting file update..."
+    cd ../../
     cp -r $PWD/* $BASEDIR
 
     log_message "Update complete"
