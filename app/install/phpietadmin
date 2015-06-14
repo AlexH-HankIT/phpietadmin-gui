@@ -1,0 +1,26 @@
+Alias /phpietadmin /usr/share/phpietadmin/public/
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot /var/www
+
+        <Directory /var/www/>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride all
+                Order allow,deny
+                Allow from all
+        </Directory>
+
+        <Directory /usr/share/phpietadmin>
+                AllowOverride All
+        </Directory>
+
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

@@ -6,6 +6,9 @@
 # Could use some more error handling
 #
 
+RED='\e[0;31m'
+BLUE='\e[34m'
+
 # Define log functions
 function log_message() {
 	echo -e "${BLUE}Message: ${NC}$@"
@@ -82,12 +85,12 @@ else
     # Configure apache
     if [ -f "/etc/apache2/sites-enabled/000-default" ]; then
         # Wheezy
-        sed -i 's/None/all/g' /etc/apache2/sites-enabled/000-default
-        echo "Alias /phpietadmin /usr/share/phpietadmin/public/" >> /etc/apache2/sites-enabled/000-default
+        rm "/etc/apache2/sites-enabled/000-default"
+        mv phpietadmin /etc/apache2/sites-enabled/
     elif [ -f "/etc/apache2/sites-enabled/000-default.conf" ]; then
         # Jessie
-        sed -i 's/None/all/g' /etc/apache2/sites-enabled/000-default.conf
-        echo "Alias /phpietadmin /usr/share/phpietadmin/public/" >> /etc/apache2/sites-enabled/000-default.conf
+        rm "/etc/apache2/sites-enabled/000-default.conf"
+        mv phpietadmin /etc/apache2/sites-enabled/phpietadmin.conf
     fi
 
     # Restart services
@@ -114,6 +117,9 @@ else
 
     # Write password to database
     sqlite3 $DATABASE "INSERT INTO user (username, password) values (\"admin\", \"$hash\");"
+
+    # Delete install folder
+    rm -r $BASEDIR/app/install
 
     log_message "Installation complete"
 fi
