@@ -25,7 +25,7 @@ fi
 if [ $1 == "freshinstall" ]; then
     # Install bins
     apt-get update
-    apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-3.2.0-4-amd64 sqlite3 php5-sqlite lsb-release
+    apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-$(uname -r) sqlite3 php5-sqlite lsb-release
 
     # Create sudoers file
     sudoers_file="/etc/sudoers.d/phpietadmin"
