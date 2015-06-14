@@ -49,7 +49,7 @@ In version 0.4:
 - [x] Check if object is already added
 - [x] Delete User: Check if it's in use
 - [x] Add incoming/outgoing discovery user authentication
-- [ ] Create install and update documentation
+- [x] Create install and update documentation
 - [ ] Support for Jessie (Tests...)
 
 More:
