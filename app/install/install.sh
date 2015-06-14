@@ -6,29 +6,60 @@
 # Could use some more error handling
 #
 
-function usage() {
-    echo "Usage:"
-    echo "bash /usr/share/phpietadmin/app/install/install.sh update"
-    echo "bash /usr/share/phpietadmin/app/install/install.sh freshinstall"
+# Define log functions
+function log_message() {
+	echo -e "${BLUE}Message: ${NC}$@"
 }
 
+function log_error() {
+	>&2 echo -e "${RED}Error: ${NC}$@"
+	exit 1
+}
+
+# Make sure this runs only as root!
 if [ "$(id -u)" != "0" ]; then
-   echo "Please run this script as root!" 1>&2
-   exit 1
+   log_error "Please run this script as root!"
 fi
 
-if [ -z $1 ]; then
-    usage
-    exit 1
-fi
+# Define vars
+BASEDIR="/usr/share/phpietadmin"
+DATABASE="$BASDIR/app/config.db"
+BACKUPPATH="/var/backups"
+sudoers_file="/etc/sudoers.d/phpietadmin"
 
-if [ $1 == "freshinstall" ]; then
-    # Install bins
+log_message "Checking if phpietadmin is already installed..."
+if [ -d $BASEDIR ]; then
+    log_message "$BASDIR exists. Assuming already installed. Update installation..."
+    apt-get install lsb-release
+    if [ $? -ne 0 ]; then
+		log_error "Could not install the packages!"
+    fi
+
+    log_message "Creating database backup..."
+    log_message "Copy $DATABASE to $BACKUPPATH"
+    cp $DATABASE $$BACKUPPATH
+    if [ $? -ne 0 ]; then
+		log_error "Could not copy the database! Aborting..."
+    fi
+
+    log_message "Starting database update..."
+    sqlite3 $DATABASE < database.update.sql
+    if [ $? -ne 0 ]; then
+		log_error "Database update failed!"
+    fi
+    log_message "Database updated successful!"
+    log_message "Update complete"
+else
+    log_message "Phpietadmin is not installed. Starting..."
+    log_message "Installing all necessary packages..."
     apt-get update
     apt-get install -y build-essential iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-$(uname -r) sqlite3 php5-sqlite lsb-release
+    if [ $? -ne 0 ]; then
+		log_error "Could not install the packages!"
+    fi
+
 
     # Create sudoers file
-    sudoers_file="/etc/sudoers.d/phpietadmin"
     if [ -f $sudoers_file ]; then
         rm $sudoers_file
     fi
@@ -67,11 +98,11 @@ EOF
     service apache2 restart
 
     # Create database and change permissions
-    sqlite3 ../config.db < database.new.sql
-    chown -R www-data:www-data ../config.db
-    chmod 660 ../config.db
+    sqlite3 $DATABASE < database.new.sql
+    chown -R www-data:www-data $DATABASE
+    chmod 660 $DATABASE
 
-    # Read password from database
+    # Get password
     while true; do
         read -s -p "Please enter password for user admin: " password
         echo
@@ -81,20 +112,11 @@ EOF
         echo "Please try again"
     done
 
-
     # Create sha2 hash
     hash=$(echo -n $password | sha256sum | head -c 64)
 
     # Write password to database
-    sqlite3 ../config.db "INSERT INTO user (username, password) values (\"admin\", \"$hash\");"
+    sqlite3 $DATABASE "INSERT INTO user (username, password) values (\"admin\", \"$hash\");"
 
-    echo
-    echo "Done!"
-elif [ $1 == "update" ]; then
-    apt-get install lsb-release
-
-    sqlite3 ../config.db < database.update.sql
-else
-    usage
-    exit 1
+    log_message "Installation complete"
 fi
