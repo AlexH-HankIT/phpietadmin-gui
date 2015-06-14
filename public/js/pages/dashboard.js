@@ -1,14 +1,26 @@
 define(['jquery', 'mylibs'], function($, mylibs) {
     $(function() {
-        var version = mylibs.checkversion();
-        var versioncheck = $('#versioncheck');
+        var installedversion = $('#phpietadminversion').text();
+        var request = mylibs.doajax('/phpietadmin/dashboard/get_version');
 
-        if (version) {
-            versioncheck.addClass("label-success");
-            versioncheck.text('Up2date');
-        } else {
-            versioncheck.addClass("label-danger");
-            versioncheck.text(version + ' available!');
-        }
+        request.done(function () {
+            if (request.readyState == 4 && request.status == 200) {
+                if (request.responseText == installedversion) {
+                    var val = true;
+                } else {
+                    var val = request.responseText;
+                }
+
+                var versioncheck = $('#versioncheck');
+
+                if (val) {
+                    versioncheck.addClass("label-success");
+                    versioncheck.text('Up2date');
+                } else {
+                    versioncheck.addClass("label-danger");
+                    versioncheck.text(val + ' available!');
+                }
+            }
+        });
     });
 });

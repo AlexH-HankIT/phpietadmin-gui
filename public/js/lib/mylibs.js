@@ -63,27 +63,6 @@ define(function() {
                 return false;
             }
         },
-        checkversion: function() {
-            var installedversion = $('#phpietadminversion').text();
-
-            var request = $.ajax({
-                url: '/phpietadmin/dashboard/get_version',
-                type: "post",
-                async: false
-            });
-
-            request.done(function () {
-                if (request.readyState == 4 && request.status == 200) {
-                    if (request.responseText == installedversion) {
-                        val = true;
-                    } else {
-                        val = request.responseText;
-                    }
-                }
-            });
-
-            return val;
-        },
         generatePassword: function()  {
             var length = 16,
                 charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",

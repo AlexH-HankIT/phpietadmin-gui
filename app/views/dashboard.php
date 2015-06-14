@@ -18,7 +18,11 @@
             </tr>
             <tr>
                 <td class="dashboardoption">phpietadmin version</td>
-                <td id="phpietadminversion" class="dashboardvalue"><?php echo htmlspecialchars($data['phpietadminversion']); ?><span id='versioncheck' class="label"></span></td>
+                <td id="phpietadminversion" class="dashboardvalue"><?php echo htmlspecialchars($data['phpietadminversion']); ?></td>
+            </tr>
+            <tr>
+                <td class="dashboardoption">phpietadmin version status</td>
+                <td class="dashboardvalue"><span id='versioncheck' class="label"></span></td>
             </tr>
             <tr>
                 <td class="dashboardoption">Distribution</td>
