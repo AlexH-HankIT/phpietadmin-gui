@@ -29,23 +29,26 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Don't display targets in use for permission deletion
 - [ ] Add php sessions timeout
 - [ ] Check if user 'admin' is already logged in
-- [x] Handle no PV/VG/LV error
 - [ ] Delete lun: Display if target is in use
 - [x] Delete target: Display if target is in use (Targets with connections aren't displayed at all)
 - [ ] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
 
-More:
+## Planned features
+In version 0.5:
+- [ ] Support for nfs
+- [ ] Support for apcupsd
+- [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
+- [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
 - [ ] Add lvextend, lvremove, lvrename features
 - [ ] Lvm snapshots
-- [ ] Software raid status
 - [ ] Exclude volume group
-- [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
+
+More:
+- [ ] Software raid status
 - [ ] Add delete button to sessions
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
-- [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
-- [ ] Support for nfs
-- [ ] Support for apcupsd
+
 
 Items are completely random ;-)
 
