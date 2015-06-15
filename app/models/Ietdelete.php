@@ -287,21 +287,21 @@
                                         unset($options[$i]);
                                     }
 
-
                                     $data = array_merge($data, $options);
-
-                                    // Create string
-                                    $data = implode($data);
-
-                                    // Delete all empty lines from string
-                                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-
-                                    // Write back
-                                    file_put_contents($file, $data);
-
-                                    return 0;
                                 }
                             }
+
+                            // Create string
+                            $data = implode($data);
+
+                            // Delete all empty lines from string
+                            $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
+
+                            // Write back
+                            file_put_contents($file, $data);
+
+                            return 0;
+
                         }
                     } else {
                         return 3;
