@@ -284,7 +284,7 @@
                             if ($return == 1) {
                                 echo 'The user was added to the daemon, but not to the config file, because it\'s read only.';
                             } else if ($return == 4) {
-                                echo 'User is ' . $data['username'] . ' already there!';
+                                echo 'User ' . $data['username'] . ' is already there!';
                             } else {
                                 echo 'The user was added to the daemon, but not to the config file. Reason is unkown.';
                             }
