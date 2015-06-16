@@ -5,7 +5,7 @@
         var $regex;
 
         public function __construct() {
-                $this->create_models();
+            $this->create_models();
         }
 
         private function create_models() {
@@ -94,7 +94,7 @@
 
                 // Delete all comments from file
                 foreach ($data as $key => $value) {
-                    if (strpos($value,'#') !== false) {
+                    if (strpos($value, '#') !== false) {
                         unset($data[$key]);
                     }
                 }
@@ -149,7 +149,7 @@
 
                 // Delete all comments from file
                 foreach ($data as $key => $value) {
-                    if (strpos($value,'#') !== false) {
+                    if (strpos($value, '#') !== false) {
                         unset($data[$key]);
                     }
                 }
@@ -163,7 +163,7 @@
                 } else {
                     // Add the option to the array, one line after the match
                     // The other indexes will be correct automatically
-                    array_splice($data, $key+1, 0, $option . "\n");
+                    array_splice($data, $key + 1, 0, $option . "\n");
                 }
 
                 // Create string
@@ -180,12 +180,12 @@
         }
 
         public function add_global_option_to_file($file, $option) {
-        /*
-            This function adds a global option to the config file
-            Global options are inserted before any target definitions
-            Newlines and duplications are handled!
-            This function will delete all comments!
-        */
+            /*
+                This function adds a global option to the config file
+                Global options are inserted before any target definitions
+                Newlines and duplications are handled!
+                This function will delete all comments!
+            */
 
             if (!is_writeable($file)) {
                 return 1;
@@ -195,7 +195,7 @@
 
                 // Delete all comments from file
                 foreach ($data as $key => $value) {
-                    if (strpos($value,'#') !== false) {
+                    if (strpos($value, '#') !== false) {
                         unset($data[$key]);
                     }
                 }
@@ -242,7 +242,7 @@
                 return array_values($data[1]);
             } else {
                 return $data[1] = '';
-             }
+            }
         }
 
         public function get_proc_volume_content() {
@@ -253,7 +253,6 @@
                 return 2;
             }
         }
-
 
         public function get_tid($name) {
             $volumes = $this->get_proc_volume_content();
@@ -270,7 +269,7 @@
 
             if (!empty($volumes)) {
                 $a_name = $this->parse_all_names_from_proc_volumes($volumes);
-                for ($i=0; $i < count($a_name); $i++) {
+                for ($i = 0; $i < count($a_name); $i++) {
                     $data[$i] = $a_name[$i];
                 }
                 return $data;
@@ -288,7 +287,7 @@
             } else {
 
                 // Get all target with lun in one array
-                $counter=0;
+                $counter = 0;
                 foreach ($withluns as $value) {
                     $targetswithlun[$counter] = $value[0]['name'];
                     $counter++;
@@ -300,7 +299,7 @@
 
                 if (empty($data)) {
                     return 3;
-                } else  {
+                } else {
                     return $data;
                 }
             }
@@ -315,7 +314,7 @@
 
             if (is_array($ietsessions)) {
                 // Extract targets with no connections and with (possibly) luns attachted
-                $counter=0;
+                $counter = 0;
                 foreach ($ietsessions as $value) {
 
                     foreach ($value as $values) {
@@ -379,7 +378,7 @@
 
             if (!empty($volumes)) {
                 $a_name = $this->parse_all_names_from_proc_volumes($volumes);
-                $key = array_search($name , $a_name);
+                $key = array_search($name, $a_name);
 
                 if ($a_name[$key] == $name) {
                     return 4;
@@ -404,6 +403,80 @@
                 return array_values($logicalvolumes);
             } else {
                 return array_values($logicalvolumes);
+            }
+        }
+
+        public function get_all_options_from_iqn($iqn, $file) {
+            /* This function is similar to the delete_option_from_iqn function */
+            /* But it only returns all options from the target */
+
+            if (!is_writeable($file)) {
+                return 1;
+            } else {
+                // Read data in array
+                $data = file($file);
+
+                // Create iqn line
+                $iqn = 'Target ' . $iqn . "\n";
+
+                // Get indexes of all target definitions
+                $counter = 0;
+                foreach ($data as $key => $value) {
+                    if (substr($value, 0, 6) == 'Target') {
+                        $keys[$counter] = $key;
+                        $counter++;
+                    }
+                }
+
+                // Get index of the iqn from which the option should be deleted
+                $key = array_search($iqn, $data);
+
+                if (is_int($key)) {
+                    // Get the index of the position of the next target definition
+                    $temp = array_search($key, $keys);
+
+                    if (is_int($temp)) {
+                        // If $keys[$temp+1], there is another target definitions after this one
+                        if (isset($keys[$temp + 1])) {
+                            $end = $keys[$temp + 1];
+                        } else {
+                            // If it's not set, the count of the array will be the last line
+                            $end = count($data);
+                        }
+
+                        // If key and ned have the same value, the target definition is only one line
+                        // This means there are not options to delete!
+                        if ($key + 1 == $end) {
+                            return 0;
+                        } else {
+                            // Options for $iqn are defined between $key+1 and $end-1
+                            // If they are the same, the iqn has only one option
+                            if (strcmp($data[$key + 1], $data[$end - 1]) == 0) {
+                                if (isset($data[$key + 1])) {
+                                    // return array so we can always use a loop
+                                    return array(0 => $iqn,
+                                        1 => $data[$key + 1]);
+                                } else {
+                                    return 3;
+                                }
+                            } else {
+                                // Create array with iqn options
+                                $options = array_splice($data, $key, $end - $key);
+
+                                // Position 0 contains the iqn
+                                // If there is only one option, this never gets executed
+                                // Therefore we check for index 2 to be sure
+                                if (!isset($options[2])) {
+                                    return 3;
+                                } else {
+                                    return $options;
+                                }
+                            }
+                        }
+                    } else {
+                        return 3;
+                    }
+                }
             }
         }
 
