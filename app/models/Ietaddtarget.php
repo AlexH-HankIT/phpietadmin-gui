@@ -444,6 +444,7 @@
                             $end = count($data);
                         }
 
+
                         // If key and ned have the same value, the target definition is only one line
                         // This means there are not options to delete!
                         if ($key + 1 == $end) {
@@ -454,22 +455,24 @@
                             if (strcmp($data[$key + 1], $data[$end - 1]) == 0) {
                                 if (isset($data[$key + 1])) {
                                     // return array so we can always use a loop
-                                    return array(0 => $iqn,
-                                        1 => $data[$key + 1]);
+                                    return array(0 => explode(" ", $iqn),
+                                        1 => explode(" ", $data[$key + 1]));
                                 } else {
                                     return 3;
                                 }
                             } else {
                                 // Create array with iqn options
                                 $options = array_splice($data, $key, $end - $key);
-
                                 // Position 0 contains the iqn
                                 // If there is only one option, this never gets executed
                                 // Therefore we check for index 2 to be sure
                                 if (!isset($options[2])) {
                                     return 3;
                                 } else {
-                                    return $options;
+                                    foreach ($options as $key => $value) {
+                                        $return[$key] = explode(" ", $value);
+                                    }
+                                    return $return;
                                 }
                             }
                         }
