@@ -114,8 +114,12 @@
                     } else {
                         foreach ($data as $value) {
                             if (strcmp($value[0]['name'], $_POST['iqn']) === 0) {
-                                $_POST['type'] = $value[1]['iotype'];
-                                $_POST['mode'] = $value[1]['iomode'];
+                                for ($i=1; $i < count($value); $i++) {
+                                    if (strcmp($value[$i]['path'], $_POST['path']) === 0) {
+                                        $_POST['type'] = $value[$i]['iotype'];
+                                        $_POST['mode'] = $value[$i]['iomode'];
+                                    }
+                                }
                             }
                         }
 
@@ -200,6 +204,16 @@
                 } else {
                     $this->view('targets/deletetarget', $data);
                 }
+            }
+        }
+
+        public function settings() {
+            $data['targets'] = $this->ietadd->get_targets();
+
+            if ($data['targets'] == 3) {
+                $this->view('message', "Error - No targets found");
+            } else {
+                $this->view('targets/settings', $data);
             }
         }
     }
