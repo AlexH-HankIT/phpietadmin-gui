@@ -40,13 +40,13 @@
             }
         }
 
-        public function check_loggedin($session) {
+        public function check_loggedin() {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                $session->setUsername($_SESSION['username']);
-                $session->setPassword($_SESSION['password']);
+                $this->session->setUsername($_SESSION['username']);
+                $this->session->setPassword($_SESSION['password']);
 
                 // Check if user is logged in
-                if (!$session->check()) {
+                if (!$this->session->check()) {
                     header("Location: /phpietadmin/auth/login");
                     // Die in case browser ignores header redirect
                     die();
@@ -56,13 +56,13 @@
             }
         }
 
-        public function check_logged_in_service_running($session) {
+        public function check_logged_in_service_running() {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                $session->setUsername($_SESSION['username']);
-                $session->setPassword($_SESSION['password']);
+                $this->session->setUsername($_SESSION['username']);
+                $this->session->setPassword($_SESSION['password']);
 
                 // Check if user is logged in
-                if (!$session->check()) {
+                if (!$this->session->check()) {
                     header("Location: /phpietadmin/auth/login");
                     // Die in case browser ignores header redirect
                     die();

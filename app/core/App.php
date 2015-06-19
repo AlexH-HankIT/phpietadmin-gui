@@ -23,9 +23,9 @@
             $this->controller->create_models($this->controllername);
 
             if ($this->controllername == "targets") {
-                $this->controller->check_logged_in_service_running($this->controller->session);
+                $this->controller->check_logged_in_service_running();
             } else if ($this->controllername !== "auth") {
-                $this->controller->check_loggedin($this->controller->session);
+                $this->controller->check_loggedin();
             }
 
             if(isset($url[1])) {
