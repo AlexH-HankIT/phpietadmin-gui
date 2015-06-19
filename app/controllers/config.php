@@ -61,11 +61,9 @@
         }
 
         public function edit() {
-            $database = $this->model('Database');
-
             if(isset($_GET["value"]) && isset($_GET['option'])) {
-                $data = $database->ispath($_GET['option']);
-                $code = $database->return_last_error();
+                $data = $this->database->ispath($_GET['option']);
+                $code = $this->database->return_last_error();
                 // If $code is not 0, it means, the option doesn't exist, or some other error occured
                 if ($code ==! 0) {
                     echo "Failed";
@@ -75,7 +73,7 @@
                         echo "Failed";
                     }
                 } else {
-                    $code = $database->set_config($_GET['option'], $_GET["value"]);
+                    $code = $this->database->set_config($_GET['option'], $_GET["value"]);
                     if ($code ==! 0) {
                         echo "Failed";
                     } else {
