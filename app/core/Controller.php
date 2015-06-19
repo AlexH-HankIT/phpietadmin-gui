@@ -13,18 +13,31 @@
         public $ietpermissions;
         public $ietdelete;
 
-        public function create_models() {
-            $this->database = $this->model('Database');
-            $this->disks = $this->model('Disks');
-            $this->ietadd = $this->model('Ietaddtarget');
-            $this->ietsessions = $this->model('IetSessions');
-            $this->ietvolumes = $this->model('IetVolumes');
-            $this->regex = $this->model('Regex');
-            $this->session = $this->model('Session');
+        /* This function creates all necessary models */
+        public function create_models($controller) {
+            // These models are always needed
             $this->std = $this->model('Std');
-            $this->lvm = $this->model('Lvmdisplay');
-            $this->ietpermissions = $this->model('Ietpermissions');
-            $this->ietdelete = $this->model('Ietdelete');
+            $this->session = $this->model('Session');
+            $this->database = $this->model('Database');
+
+            // Different models for specific controllers
+            if ($controller == 'overview') {
+                $this->disks = $this->model('Disks');
+                $this->ietvolumes = $this->model('IetVolumes');
+                $this->ietsessions = $this->model('IetSessions');
+                $this->lvm = $this->model('Lvmdisplay');
+            } else if ($controller == 'permission') {
+                $this->ietpermissions = $this->model('Ietpermissions');
+                $this->ietadd = $this->model('Ietaddtarget');
+                $this->ietdelete = $this->model('Ietdelete');
+            } else if ($controller == 'targets') {
+                $this->ietadd = $this->model('Ietaddtarget');
+                $this->ietdelete = $this->model('Ietdelete');
+                $this->lvm = $this->model('Lvmdisplay');
+                $this->ietsessions = $this->model('IetSessions');
+            } else if ($controller == 'lvm') {
+                $this->lvm = $this->model('Lvmdisplay');
+            }
         }
 
         public function check_loggedin($session) {

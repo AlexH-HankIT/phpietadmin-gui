@@ -20,7 +20,7 @@
             require_once '../app/controllers/' . $this->controllername . '.php';
 
             $this->controller = new $this->controllername;
-            $this->controller->create_models();
+            $this->controller->create_models($this->controllername);
 
             if ($this->controllername == "targets") {
                 $this->controller->check_logged_in_service_running($this->controller->session);
