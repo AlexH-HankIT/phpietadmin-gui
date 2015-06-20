@@ -42,6 +42,8 @@ In version 0.5:
 - [ ] Add lvextend, lvremove, lvrename features
 - [ ] Lvm snapshots
 - [ ] Exclude volume group
+- [ ] Pie Chart for volume groups
+- [ ] Iet settings configuration menu
 
 More:
 - [ ] Software raid status
