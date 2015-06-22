@@ -50,6 +50,7 @@ More:
 - [ ] Add delete button to sessions
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
+- [ ] Support for samba shares
 
 
 Items are completely random ;-)
