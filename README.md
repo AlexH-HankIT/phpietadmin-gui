@@ -44,6 +44,7 @@ In version 0.5:
 - [ ] Exclude volume group
 - [ ] Pie Chart for volume groups
 - [ ] Iet settings configuration menu
+- [ ] Shutdown/reboot via gui
 
 More:
 - [ ] Software raid status
@@ -51,6 +52,7 @@ More:
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
 - [ ] Support for samba shares
+- [ ] Show and configure network settings
 
 
 Items are completely random ;-)
