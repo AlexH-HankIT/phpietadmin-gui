@@ -26,12 +26,9 @@ Take a look at the github releases for detailed information about the features.
 
 ## ToDo
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
-- [ ] Don't display targets in use for permission deletion
 - [ ] Add php sessions timeout
 - [ ] Check if user 'admin' is already logged in
-- [ ] Delete lun: Display if target is in use
 - [x] Delete target: Display if target is in use (Targets with connections aren't displayed at all)
-- [ ] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
 
 ## Planned features
 In version 0.5:
@@ -45,15 +42,17 @@ In version 0.5:
 - [ ] Pie Chart for volume groups
 - [ ] Iet settings configuration menu
 - [ ] Shutdown/reboot via gui
+- [ ] Add delete button to sessions
+- [ ] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
+- [ ] Delete lun: Display if target is in use
+- [ ] Don't display targets in use for permission deletion
 
 More:
 - [ ] Software raid status
-- [ ] Add delete button to sessions
 - [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
 - [ ] Support for DRBD
 - [ ] Support for samba shares
 - [ ] Show and configure network settings
-
 
 Items are completely random ;-)
 
