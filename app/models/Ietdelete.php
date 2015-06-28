@@ -334,6 +334,13 @@
                 return 3;
             }
         }
+
+        public function delete_session($ietadm, $tid, $sid, $cid) {
+            require_once 'Std.php';
+            $std = new Std();
+
+            return $std->exec_and_return($ietadm . ' --op delete --tid=' . $tid . ' --sid=' . $sid . ' --cid=' . $cid);
+        }
     }
 
 ?>

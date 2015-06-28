@@ -2,7 +2,6 @@
     class Session {
         private $username;
         private $password;
-        private $last_activity;
 
         public function __construct() {
             session_start();
@@ -18,20 +17,22 @@
             $result = $result->fetchArray();
 
             if (empty($result)) {
-                return;
+                return '';
             } else {
                 return $result['password'];
             }
         }
 
         public function check() {
-            $DBPASS = $this->getPassword();
+            $pass = $this->getPassword();
 
-            if (empty($DBPASS)) {
+            if (empty($pass)) {
                 return false;
             } else {
-                if ($DBPASS === $this->password) {
+                if ($pass === $this->password) {
                     return true;
+                } else {
+                    return false;
                 }
             }
         }
@@ -44,9 +45,8 @@
             $this->password = $PASS;
         }
 
-        public function setLast_activity() {
-            $time = time();
-            $this->last_activity = $time;
+        public function setTime() {
+            $_SESSION['timestamp'] = time();
         }
     }
 ?>

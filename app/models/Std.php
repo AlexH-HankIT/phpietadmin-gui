@@ -87,5 +87,24 @@
                 return false;
             }
         }
+
+        public function recursive_array_search($needle,$haystack) {
+            foreach($haystack as $key=>$value) {
+                $current_key=$key;
+                if($needle===$value OR (is_array($value) && $this->recursive_array_search($needle,$value) !== false)) {
+                    return $current_key;
+                }
+            }
+            return false;
+        }
+
+        public function fetchdata($result) {
+            $counter=0;
+            while ($row = $result->fetchArray(SQLITE3_NUM)) {
+                $data[$counter] = $row;
+                $counter++;
+            }
+            return $data;
+        }
     }
 ?>

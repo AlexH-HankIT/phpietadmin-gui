@@ -45,7 +45,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             "type": $(this).closest('tr').find('.type').text()
                         };
 
-                        request = mylibs.doajax("/phpietadmin/permission/deleteuser", data);
+                        request = mylibs.doajax('/phpietadmin/permission/deleteuser', data);
 
                         request.done(function() {
                             if (request.readyState == 4 && request.status == 200) {
@@ -53,9 +53,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                     swal({
                                             title: 'Success',
                                             type: 'success'
-                                        },
-                                        function () {
-                                            location.reload();
                                         });
                                 } else {
                                     swal({
@@ -64,6 +61,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                         text: request.responseText
                                     });
                                 }
+                                mylibs.loadconfiguretargetbody('/phpietadmin/permission/deleteuser', iqn);
                             }
                         });
                     });

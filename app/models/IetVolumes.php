@@ -1,5 +1,7 @@
 <?php
     class IetVolumes {
+        public $regex;
+
         public function __construct() {
             $this->create_models();
         }

@@ -1,6 +1,5 @@
 <?php
     Class App {
-
         protected $controller;
 
         protected $controllername = 'dashboard';
@@ -22,10 +21,8 @@
             $this->controller = new $this->controllername;
             $this->controller->create_models($this->controllername);
 
-            if ($this->controllername == "targets") {
-                $this->controller->check_logged_in_service_running();
-            } else if ($this->controllername !== "auth") {
-                $this->controller->check_loggedin();
+            if ($this->controllername !== "auth") {
+                $this->controller->check_loggedin($this->controllername, $this->method);
             }
 
             if(isset($url[1])) {

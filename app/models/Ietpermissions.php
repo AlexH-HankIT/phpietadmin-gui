@@ -32,46 +32,50 @@
                     }
                 }
 
-                foreach ($data as $key => $value) {
-                    $data2[$key] = explode(",", $value);
-                }
-
-                $counter = 0;
-                foreach ($data2 as $value) {
-                    foreach ($value as $key => $value2) {
-                        if ($key === 0) {
-                            $teil[$counter][$key] = explode(' ', $value2);
-                        } else {
-                            $teil[$counter][$key] = $value2;
-                        }
-                    }
-                    $counter++;
-                }
-
-                $counter = 0;
-                foreach ($teil as $value) {
-                    $data3[$counter]['iqn'] = $value[0][0];
-                    $data3[$counter][0] = $value[0][1];
-
-                    for ($i = 1; count($value) > $i; $i++) {
-                        $data3[$counter][$i] = str_replace(' ', '', $value[$i]);
-                    }
-                    $counter++;
-                }
-
-                if (empty($data3)) {
+                if (empty($data)) {
                     return 3;
                 } else {
-                    if (!empty($iqn)) {
-                        foreach ($data3 as $key => $value) {
-                            if (strcmp($value['iqn'], $iqn) === 0) {
-                                $return[0] = $data3[$key];
-                            }
-                        }
+                    foreach ($data as $key => $value) {
+                        $data2[$key] = explode(",", $value);
                     }
 
-                    $return[1] = $data3;
-                    return $return;
+                    $counter = 0;
+                    foreach ($data2 as $value) {
+                        foreach ($value as $key => $value2) {
+                            if ($key === 0) {
+                                $teil[$counter][$key] = explode(' ', $value2);
+                            } else {
+                                $teil[$counter][$key] = $value2;
+                            }
+                        }
+                        $counter++;
+                    }
+
+                    $counter = 0;
+                    foreach ($teil as $value) {
+                        $data3[$counter]['iqn'] = $value[0][0];
+                        $data3[$counter][0] = $value[0][1];
+
+                        for ($i = 1; count($value) > $i; $i++) {
+                            $data3[$counter][$i] = str_replace(' ', '', $value[$i]);
+                        }
+                        $counter++;
+                    }
+
+                    if (empty($data3)) {
+                        return 3;
+                    } else {
+                        if (!empty($iqn)) {
+                            foreach ($data3 as $key => $value) {
+                                if (strcmp($value['iqn'], $iqn) === 0) {
+                                    $return[0] = $data3[$key];
+                                }
+                            }
+                        }
+
+                        $return[1] = $data3;
+                        return $return;
+                    }
                 }
             }
         }

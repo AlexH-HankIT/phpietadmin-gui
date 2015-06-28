@@ -1,30 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     $(function() {
-        /* Used in views/permissions/deleterule.php */
-        $(document).on('change', '#targetselection', function() {
-            var selector_targetselection = $('#targetselection');
-            var iqn = selector_targetselection.find("option:selected").val();
-            var ruletype = $("input[name='deleteruletype']:checked").val();
-            var defaultvalue = selector_targetselection.find('#default').val();
-
-            if (iqn !== defaultvalue) {
-                var data = {
-                    "iqn": iqn,
-                    "ruletype": ruletype
-                };
-
-                request = mylibs.doajax("/phpietadmin/permission/deleterule", data);
-
-                request.done(function () {
-                    if (request.readyState == 4 && request.status == 200) {
-                            $('#deleteruletable').html(request.responseText);
-                    }
-                });
-            } else {
-                $('#deleteruletable').html('');
-            }
-        });
-
         $(document).on('change', 'input[name="deleteruletype"]', function(){
             var selector_targetselection = $('#targetselection');
             var iqn = selector_targetselection.find("option:selected").val();
@@ -37,15 +12,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                     "ruletype": ruletype
                 };
 
-                request = mylibs.doajax("/phpietadmin/permission/deleterule", data);
-
-                request.done(function () {
-                    if (request.readyState == 4 && request.status == 200) {
-                        $('#deleteruletable').html(request.responseText);
-                    }
-                });
+                mylibs.loadconfiguretargetbody('/phpietadmin/permission/deleterule', data);
             } else {
-                $('#deleteruletable').html('');
+                $('#configuretargetbody').html('');
             }
         });
 
@@ -80,9 +49,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                     swal({
                                             title: 'Success',
                                             type: 'success'
-                                        },
-                                        function () {
-                                            location.reload();
                                         });
                                 } else {
                                     swal({
@@ -91,6 +57,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                         text: request.responseText
                                     });
                                 }
+                                var data = {
+                                    iqn: iqn,
+                                    // initiators.allow is used as default
+                                    ruletype: 'initiators.allow'
+                                };
+
+                                mylibs.loadconfiguretargetbody('/phpietadmin/permission/deleterule', data);
                             } else {
                                 swal({
                                     title: 'Error',

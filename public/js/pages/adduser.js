@@ -41,20 +41,15 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 swal({
                                         title: 'Success',
                                         type: 'success'
-                                    },
-                                    function () {
-                                        location.reload();
                                     });
                             } else {
                                 swal({
                                         title: 'Error',
                                         type: 'error',
                                         text: request.responseText
-                                    },
-                                    function () {
-                                        location.reload();
                                     });
                             }
+                            mylibs.loadconfiguretargetbody('/phpietadmin/permission/adduser', iqn);
                         }
                     });
                 });

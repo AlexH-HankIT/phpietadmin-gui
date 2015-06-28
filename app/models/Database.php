@@ -212,6 +212,27 @@
             return $this->return_last_error();
         }
 
+        public function get_iet_settings($type) {
+            // $type == 'input' || $type == 'select'
+
+            if ($type == 'input') {
+                $query = $this->prepare('SELECT option, defaultvalue, type, state, chars FROM ietsettings where type = "input"');
+                $query = $query->execute();
+
+                $counter=0;
+                while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+                    $data[$counter] = $result;
+                    $counter++;
+                }
+
+                return $data;
+            } else if ($type == 'select') {
+
+            } else {
+                return false;
+            }
+        }
+
         public function __destruct() {
             $this->close();
         }

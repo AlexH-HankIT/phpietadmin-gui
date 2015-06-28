@@ -1,9 +1,5 @@
 <?php
     class Lvm extends Controller {
-        public function index() {
-
-        }
-
         public function add(){
             if (!empty($_POST['vg'])) {
                 if (isset($_POST['name']) && isset($_POST['size']) && isset($_POST['vg'])) {

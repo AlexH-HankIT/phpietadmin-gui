@@ -47,13 +47,15 @@
         }
 
         public function deleterule() {
-            if (isset($_POST['iqn']) && isset($_POST['ruletype']) && !isset($_POST['value'])) {
-                if ($_POST['ruletype'] == 'initiators.allow') {
+            if (isset($_POST['iqn']) && !isset($_POST['value'])) {
+                if (isset($_POST['ruletype'])) {
+                    if ($_POST['ruletype'] == 'initiators.allow') {
+                        $file = $this->database->get_config('ietd_init_allow');
+                    } else if ($_POST['ruletype'] == 'targets.allow') {
+                        $file = $this->database->get_config('ietd_target_allow');
+                    }
+                } else {
                     $file = $this->database->get_config('ietd_init_allow');
-                } else if ($_POST['ruletype'] == 'initiators.deny') {
-                    $file = $this->database->get_config('ietd_init_deny');
-                } else if ($_POST['ruletype'] == 'targets.allow') {
-                    $file = $this->database->get_config('ietd_target_allow');
                 }
 
                 $data = $this->ietpermissions->get_iet_allow($file, $_POST['iqn']);
@@ -83,18 +85,20 @@
                     }
 
                     if (isset($data)) {
-                        $this->view('permissions/deleteruletable', $data);
+                        $this->view('permissions/deleterule', $data);
                     } else {
                         $this->view('message', 'No rules set for this target!');
                     }
                 } else {
                     $this->view('message', 'No rules set for this target!');
                 }
-            } else if (isset($_POST['iqn']) && isset($_POST['value']) && isset($_POST['ruletype'])) {
+            } else if (isset($_POST['iqn']) && isset($_POST['value'])) {
                 if ($_POST['ruletype'] == 'initiators.allow') {
                     $file = $this->database->get_config('ietd_init_allow');
                 } else if ($_POST['ruletype'] == 'targets.allow') {
                     $file = $this->database->get_config('ietd_target_allow');
+                } else {
+                    $file = $this->database->get_config('ietd_init_allow');
                 }
 
                 if (isset($file) && !empty($file)) {
@@ -106,14 +110,6 @@
                     }
                 } else {
                     echo "Failed";
-                }
-            } else {
-                $data['targets'] = $this->ietadd->get_targets();
-
-                if ($data['targets'] == 3) {
-                    $this->view('message', "Error - No targets available!");
-                } else {
-                    $this->view('permissions/deleterule', $data);
                 }
             }
         }
@@ -194,7 +190,7 @@
                 if ($users == 3) {
                     $this->view('message', 'No users set for this target!');
                 } else {
-                    $this->view('permissions/deleteusertable', $users);
+                    $this->view('permissions/deleteuser', $users);
                 }
             } else if(isset($_POST['user']) && isset($_POST['type']) && isset($_POST['iqn'])) {
                 // get type
@@ -232,13 +228,6 @@
                     } else {
                         echo true;
                     }
-                }
-            } else {
-                $data['targets'] = $this->ietadd->get_targets();
-                if ($data['targets'] == 3) {
-                    $this->view('message', "Error - No targets available!");
-                } else {
-                    $this->view('permissions/deleteuser', $data);
                 }
             }
         }

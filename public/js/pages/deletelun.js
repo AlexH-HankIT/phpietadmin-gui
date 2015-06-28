@@ -1,37 +1,12 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     $(function() {
-        // ajax requests for deletelun
-        deleteluniqnselection = $('#deleteluniqnselection');
-
-        deleteluniqnselection.on('change', function () {
-            if (deleteluniqnselection.find('option:selected').val() != "default") {
-                var data = {
-                    "iqn": deleteluniqnselection.find('option:selected').val()
-                };
-
-                request = mylibs.doajax("/phpietadmin/targets/deletelun", data);
-
-                request.done(function () {
-                    if (request.readyState == 4 && request.status == 200) {
-                        deletelunluns = $('#deletelunluns');
-
-                        deletelunluns.html(request.responseText);
-
-                        if(deletelunluns.is(':hidden')) {
-                            deletelunluns.show();
-                        }
-                    }
-                });
-            } else {
-                $('#deletelunluns').hide();
-            }
-        });
-
         $(document).on('click', '#deletelunbutton', function() {
             var deletelunlunselection = $('#deletelunlunselection');
+            var deleteluniqnselection = $('#deleteluniqnselection');
+            var iqn = $('#targetselection').find("option:selected").val();
 
             var data = {
-                "iqn": deleteluniqnselection.find('option:selected').val(),
+                "iqn": iqn,
                 "lun": deletelunlunselection.find('option:selected').val(),
                 "path": deletelunlunselection.find('option:selected').next().val()
             };
@@ -44,9 +19,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         swal({
                                 title: 'Success',
                                 type: 'success'
-                            },
-                            function () {
-                                location.reload();
                             });
                     } else {
                         swal({
@@ -55,6 +27,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             text: request.responseText
                         });
                     }
+                    mylibs.loadconfiguretargetbody('/phpietadmin/targets/deletelun', iqn)
                 }
             })
         });

@@ -18,6 +18,11 @@
 
 <script>
     require(['common'],function() {
-        require(['pages/addtarget']);
+        require(['pages/addtarget'],function(methods) {
+            methods.disable_special_chars();
+            methods.focus_input();
+            methods.remove_error();
+            methods.add_event_handler_addtargetbutton();
+        });
     });
 </script>

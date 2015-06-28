@@ -1,4 +1,8 @@
 <div class="container">
+    <ol class="breadcrumb">
+        <li class="active"><?php echo 'Config' ?></li>
+    </ol>
+
     <div id="config-menu">
         <table class="table">
             <tbody>

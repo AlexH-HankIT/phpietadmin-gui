@@ -14,16 +14,6 @@ requirejs.config({
 
 define(['jquery', 'qtip', 'filtertable', 'mylibs', 'bootstrap'], function($, qtip, filterTable, mylibs) {
     $(function() {
-        /* Menu mouseover tip*/
-        $('#menuhome').qtip({
-            content: {
-                text: 'Home'
-            },
-            style: {
-                classes: 'qtip-youtube'
-            }
-        });
-
         $('#menulogout').qtip({
             content: {
                 text: 'Logout'
@@ -37,9 +27,10 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'bootstrap'], function($, qti
         $('.searchabletable').filterTable({minRows:0});
 
         // Updates footer in case ietd is stopped or started
+        // it also reloads the page, if the session terminates
         setInterval(mylibs.reloadfooter, (5 * 1000));
 
-        // Select active menu element
+        /* Select active menu element
         var path = window.location.pathname;
         path = path.replace(/\/$/, "");
         path = decodeURIComponent(path);
@@ -50,6 +41,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'bootstrap'], function($, qti
                 $(this).closest('li').addClass('active');
                 $(this).closest('li').parents().addClass('active');
             }
-        });
+        });*/
     });
 });

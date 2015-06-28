@@ -14,16 +14,18 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         });*/
 
         $(document).on('click', '#maplunbutton', function(){
-            var target = $('#target');
-            var def = $("#default");
+            var targetselection =  $('#targetselection');
+            var iqn = targetselection.find("option:selected").val();
+            var defaultvalue = targetselection.find('#default').val();
+            var lunselectiondefaultval =  $('#logicalvolumedefault').val();
 
-            if(target.val() == def.val()) {
+            if(iqn == defaultvalue) {
                 sweetAlert("Error", "Please select a target!", "error");
-            } else if ($('#logicalvolume').val() == def.val()) {
+            } else if ($('#logicalvolume').find("option:selected").val() == lunselectiondefaultval) {
                 sweetAlert("Error", "Please select a volume!", "error");
             } else {
                 var data = {
-                    "target": target.val(),
+                    "target": iqn,
                     "type": $('#type').find('option:selected').val(),
                     "mode": $('#mode').find('option:selected').val(),
                     "path": $('#logicalvolume').val()
@@ -37,22 +39,16 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             swal({
                                     title: 'Success',
                                     type: 'success'
-                                },
-                                function () {
-                                    location.reload();
-                                });
+                            });
                         } else {
                             swal({
                                     title: 'Error',
                                     type: 'error',
                                     text: request.responseText
-                                },
-                                function () {
-                                    location.reload();
-                                });
+                            });
                         }
+                        mylibs.loadconfiguretargetbody('/phpietadmin/targets/maplun');
                     }
-
                 });
             }
         });

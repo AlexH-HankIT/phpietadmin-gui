@@ -1,32 +1,34 @@
 <div class = "container">
-    <ol class="breadcrumb">
-        <li class="active">Delete user</li>
-    </ol>
-</div>
-
-<div class = "container">
-    <div class = "jumbotron">
-        <div class="row">
-            <div class="col-md-11">
-                <select name="target" id="targetselection" class="form-control">
-                    <option id="default">Select target...</option>
-                    <?php foreach ($data['targets'] as $value) { ?>
-                        <option value="<?php echo htmlspecialchars($value); ?>"> <?php echo htmlspecialchars($value); ?> </option>
+    <div class="row">
+        <div class="col-md-11">
+            <table class="table table-striped searchabletable" id="deleteusertable">
+                <thead>
+                <tr>
+                    <th><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                    <th>Type</th>
+                    <th>User</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($data as $row) { ?>
+                        <tr>
+                            <td><input class="userdeletecheckbox" type="checkbox"/></td>
+                            <td class="type"><?php echo htmlspecialchars($row[0]); ?></td>
+                            <td class="user"><?php echo htmlspecialchars($row[1]); ?></td>
+                        </tr>
                     <?php } ?>
-                </select>
-            </div>
+                </tbody>
+            </table>
+        </div>
 
-            <div class="col-md-1">
-                <button id="deleteuserbutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
-            </div>
+        <div class="col-md-1">
+            <button id="deleteuserbutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
         </div>
     </div>
-
 </div>
 
-<div id="deleteusertablediv"></div>
-
 <script>
+    $('.searchabletable').filterTable({minRows:0});
     require(['common'],function() {
         require(['pages/deleteuser']);
     });

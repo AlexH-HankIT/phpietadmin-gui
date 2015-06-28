@@ -12,6 +12,7 @@
         public $lvm;
         public $ietpermissions;
         public $ietdelete;
+        public $ietsettings;
 
         /* This function creates all necessary models */
         public function create_models($controller) {
@@ -35,50 +36,55 @@
                 $this->ietdelete = $this->model('Ietdelete');
                 $this->lvm = $this->model('Lvmdisplay');
                 $this->ietsessions = $this->model('IetSessions');
+                $this->ietsettings = $this->model('Settings');
             } else if ($controller == 'lvm') {
                 $this->lvm = $this->model('Lvmdisplay');
             }
         }
 
-        public function check_loggedin() {
+        public function check_loggedin($controller, $method) {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $this->session->setUsername($_SESSION['username']);
                 $this->session->setPassword($_SESSION['password']);
+                $time_till_logout = $this->database->get_config('idle') * 60;
 
                 // Check if user is logged in
                 if (!$this->session->check()) {
-                    header("Location: /phpietadmin/auth/login");
-                    // Die in case browser ignores header redirect
-                    die();
-                }
-            } else {
-                header("Location: /phpietadmin/auth/login");
-            }
-        }
-
-        public function check_logged_in_service_running() {
-            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-                $this->session->setUsername($_SESSION['username']);
-                $this->session->setPassword($_SESSION['password']);
-
-                // Check if user is logged in
-                if (!$this->session->check()) {
-                    header("Location: /phpietadmin/auth/login");
-                    // Die in case browser ignores header redirect
-                    die();
-                } else {
-                    // Check if ietd service is running
-                    $data = $this->std->get_service_status();
-                    if ($data[1] !== 0) {
-                        $this->view('header');
-                        $this->view('menu');
-                        $this->view('message', "Error - ietd service is not running!");
-                        $this->view('footer', $data);
+                    if ($this->std->IsXHttpRequest()) {
+                        echo false;
                         die();
+                    } else {
+                        header("Location: /phpietadmin/auth/login");
+                        // Die in case browser ignores header redirect
+                        die();
+                    }
+                } elseif (time() - $_SESSION['timestamp'] > $time_till_logout) {
+                    if ($this->std->IsXHttpRequest()) {
+                        echo false;
+                        die();
+                    } else {
+                        header("Location: /phpietadmin/auth/login");
+                        // Die in case browser ignores header redirect
+                        die();
+                    }
+                } else {
+                    // Update time
+                    // Don't update if controller is service/status
+                    // A connection to this controller is always established,
+                    // even if the session is expired, but the site is still loaded
+                    if ($controller !== 'service' && $method !== 'status') {
+                        $this->session->setTime();
                     }
                 }
             } else {
-                header("Location: /phpietadmin/auth/login");
+                if ($this->std->IsXHttpRequest()) {
+                    echo false;
+                    die();
+                } else {
+                    header("Location: /phpietadmin/auth/login");
+                    // Die in case browser ignores header redirect
+                    die();
+                }
             }
         }
 

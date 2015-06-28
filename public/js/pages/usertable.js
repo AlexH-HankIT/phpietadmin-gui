@@ -64,7 +64,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         });
 
         $(document).on('click', '#adduserrowbutton', function() {
-
             $('#addusertablebody').append(
                 '<tr class="newrow">' +
                 '<td>' +

@@ -26,7 +26,7 @@ Take a look at the github releases for detailed information about the features.
 
 ## ToDo
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
-- [ ] Add php sessions timeout
+- [x] Add php sessions timeout
 - [ ] Check if user 'admin' is already logged in
 - [x] Delete target: Display if target is in use (Targets with connections aren't displayed at all)
 
@@ -42,10 +42,12 @@ In version 0.5:
 - [ ] Pie Chart for volume groups
 - [ ] Iet settings configuration menu
 - [ ] Shutdown/reboot via gui
-- [ ] Add delete button to sessions
+- [x] Add delete button to sessions
 - [ ] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
 - [ ] Delete lun: Display if target is in use
 - [ ] Don't display targets in use for permission deletion
+- [ ] Own model for exec's
+- [ ] Add up2date documentation & screenshots
 
 More:
 - [ ] Software raid status

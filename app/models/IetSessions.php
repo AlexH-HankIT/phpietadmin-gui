@@ -26,6 +26,35 @@
             }
         }
 
+        public function getIetSessionsforiqn($iqn) {
+            $data = $this->getIetSessions();
+
+            // index 1 contains all targets with sessions
+            if (isset($data[1])) {
+                // look for the iqn
+                foreach ($data[1] as $key => $value) {
+                    if ($value[0]['name'] == $iqn) {
+                        $index = $key;
+                        break;
+                    }
+                }
+
+                // delete iqn from table
+                unset($data[0][0]);
+
+                // return array with searched iqn
+                if (isset($index)) {
+                    return array(0 => $data[1][$index],
+                                // index 0 contains the table header
+                                1 => $data[0]);
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
         public function getIetSessions() {
             // Read content
             $data = $this->getProcSessions();

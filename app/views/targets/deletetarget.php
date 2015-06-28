@@ -1,18 +1,34 @@
-<div id="targetdeletecontent"  class = "container">
-    <ol class="breadcrumb">
-        <li class="active">Delete target</li>
-    </ol>
+<div class="container">
     <div class="jumbotron">
         <div class="row">
-        <select id="targetdelete" class="form-control">
-            <option id="default">Select a target to delete</option>
-            <?php foreach ($data as $value) { ?>
-                <option value="<?php echo htmlspecialchars($value); ?>"><?php echo htmlspecialchars($value); ?></option>
-            <?php } ?>
-            </select>
+            <label>
+                <input type="radio" name="lundeletion" checked/>
+                Detach LUN(s)
+            </label>
+            (No data will be deleted)
         </div>
-        <br />
-        <div class="row">
+        <div class="row top-buffer">
+            <label>
+                <input type="radio" name="lundeletion"/>
+                Delete attached LUN(s)
+            </label>
+            (LVM only, data will be deleted!)
+        </div>
+        <div class="row top-buffer">
+            <label>
+                <input type="checkbox" checked/>
+                Delete acl
+            </label>
+            from initiator allow and target allow
+        </div>
+        <div class="row top-buffer">
+            <label>
+                <input type="checkbox" />
+                Force
+            </label>
+            (Delete even if in use, requires 'Delete allow rules')
+        </div>
+        <div class="row top-buffer">
             <button id="deletetargetbutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
         </div>
     </div>

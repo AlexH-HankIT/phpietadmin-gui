@@ -7,17 +7,20 @@
 
                 // Save username and hash in session var
                 $_SESSION['username'] = $_POST['username'];
-                $_SESSION['password'] = $pwhash ;
+                $_SESSION['password'] = $pwhash;
 
                 // Write username and hash to session object
                 $this->session->setUsername($_POST['username']);
                 $this->session->setPassword($pwhash );
+                $this->session->setTime();
 
                 if($this->session->check()) {
-                    header("Location: /phpietadmin/dashboard");
+                    header("Location: /phpietadmin");
+                    die();
                 } else {
                     $this->view('message', 'Wrong username or password!');
                     header( "refresh:2;url=/phpietadmin/auth/login" );
+                    die();
                 }
             } else {
                 $this->view('header', "login");
@@ -33,9 +36,11 @@
                     session_unset();
                     session_destroy();
                     header("Location: /phpietadmin/auth/login");
+                    die();
                 }
             } else {
                 header("Location: /phpietadmin/auth/login");
+                die();
             }
         }
     }
