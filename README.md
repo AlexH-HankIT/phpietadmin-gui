@@ -70,6 +70,8 @@ More:
 - [ ] Add lvextend, lvremove, lvrename features
 - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
 - [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
+- [ ] HDD temp
+- [ ] Smart data
 
 Items are completely random ;-)
 
