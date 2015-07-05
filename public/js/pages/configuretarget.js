@@ -1,37 +1,49 @@
-define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
+define(['jquery', 'mylibs'], function ($, mylibs) {
     var Methods;
-    var targetselection = $('#targetselection');
 
     return Methods = {
         hide_menu: function () {
-            $('#configuretargetmenu').hide();
+            $(document).ready(function() {
+                $('#configuretargetmenu').hide();
+            });
         },
         add_event_handler_targetselection: function () {
-            $(document).on('change', '#targetselection', function () {
-                var defaultvalue = targetselection.find('#default').val();
-                var iqn = targetselection.find("option:selected").val();
-                var configuretargetmenu = $('#configuretargetmenu');
+            $(document).ready(function(){
+            var targetselection = $('#targetselection');
 
-                // display menu
-                configuretargetmenu.show();
+            $(document).off('change', '#targetselection');
+                $(document).on('change', '#targetselection', function () {
+                    var defaultvalue = targetselection.find('#default').val();
+                    var iqn = targetselection.find("option:selected").val();
+                    var configuretargetmenu = $('#configuretargetmenu');
 
-                if (iqn !== defaultvalue) {
-                    mylibs.loadconfiguretargetbody($('#configuretargetlunsadd'), '/phpietadmin/targets/maplun')
-                } else {
-                    $('#configuretargetbody').html('');
-                    configuretargetmenu.hide();
-                }
+                    // display menu
+                    configuretargetmenu.show();
+
+                    if (iqn !== defaultvalue) {
+                        mylibs.loadconfiguretargetbody('targets/maplun', '', $('#configuretargetlunsadd'))
+                    } else {
+                        $('#configuretargetbody').html('');
+                        configuretargetmenu.hide();
+                    }
+                });
             });
         },
         add_event_handler_configuretargetnodata: function () {
-            $(document).on('click', '.configuretargetnodata', function () {
-                mylibs.loadconfiguretargetbody($(this), '/phpietadmin/' + $(this).attr('name'))
+            $(document).ready(function(){
+                $(document).off('click', '.configuretargetnodata');
+                $(document).on('click', '.configuretargetnodata', function () {
+                    mylibs.loadconfiguretargetbody($(this).attr('name'), '', $(this))
+                });
             });
         },
         add_event_handler_configuretargetiqn: function () {
-            $(document).on('click', '.configuretargetiqn', function () {
-                var iqn = targetselection.find("option:selected").val();
-                mylibs.loadconfiguretargetbody($(this), '/phpietadmin/' + $(this).attr('name'), iqn)
+            $(document).ready(function(){
+                $(document).off('click', '.configuretargetiqn');
+                $(document).on('click', '.configuretargetiqn', function () {
+                    var iqn = $('#targetselection').find("option:selected").val();
+                    mylibs.loadconfiguretargetbody($(this).attr('name'), iqn, $(this))
+                });
             });
         }
     };

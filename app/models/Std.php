@@ -40,11 +40,11 @@
             }
         }
 
-        public function get_service_status() {
+        public function get_service_status($servicename) {
             require_once 'Database.php';
             $database = new Database;
 
-            exec($database->get_config('sudo') . " " . $database->get_config('service') . " " . $database->get_config('servicename') . " status", $status, $result);
+            exec($database->get_config('sudo') . " " . $database->get_config('service') . " " . escapeshellarg($servicename) . " status", $status, $result);
             $return[0] = $status;
             $return[1] = $result;
             return $return;

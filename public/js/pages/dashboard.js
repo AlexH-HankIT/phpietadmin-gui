@@ -2,7 +2,7 @@ define(['jquery', 'mylibs'], function($, mylibs) {
     var Methods;
     return Methods = {
         checkversion: function() {
-            $(function() {
+            $(document).ready(function(){
                 var val;
                 var request = mylibs.doajax('/phpietadmin/dashboard/get_version');
 

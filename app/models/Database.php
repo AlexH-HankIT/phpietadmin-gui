@@ -212,6 +212,63 @@
             return $this->return_last_error();
         }
 
+        public function change_service($name, $option, $value) {
+            // $name: servicename
+            // $option: option to be changed
+            // $value: new value
+            if ($option == 'enabled') {
+                $query = $this->prepare('UPDATE services set enabled=:value where name = :name');
+            } else if ($option == 'name') {
+                $query = $this->prepare('UPDATE services set name=:value where name = :name');
+            } else {
+                return 1;
+            }
+
+            $query->bindValue('name', $name, SQLITE3_TEXT);
+            //$query->bindValue('option', $option, SQLITE3_TEXT);
+            $query->bindValue('value', $value, SQLITE3_TEXT);
+            $query->execute();
+            return $this->return_last_error();
+        }
+
+        public function delete_service($name) {
+            $query = $this->prepare('DELETE FROM services where name = :name');
+            $query->bindValue('name', $name, SQLITE3_TEXT);
+            $query->execute();
+            return $this->return_last_error();
+        }
+
+        public function add_service($name) {
+            $query = $this->prepare("INSERT INTO services ('name', 'enabled') VALUES (:name, 1)");
+            $query->bindValue('name', $name, SQLITE3_TEXT);
+            $query->execute();
+            return $this->return_last_error();
+        }
+
+        public function get_services($all = false) {
+            // If all is true, fetch all services
+            // else fetch only enabled ones
+            if ($all) {
+                $query = $this->prepare('SELECT name, enabled FROM services');
+            } else {
+                $query = $this->prepare('SELECT name, enabled FROM services where enabled=1');
+            }
+
+            $query = $query->execute();
+
+            $counter=0;
+            while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+                $data[$counter] = $result;
+                $counter++;
+            }
+
+            if (empty($data)) {
+                return 0;
+            } else {
+                return $data;
+            }
+        }
+
         public function get_iet_settings($type) {
             // $type == 'input' || $type == 'select'
 

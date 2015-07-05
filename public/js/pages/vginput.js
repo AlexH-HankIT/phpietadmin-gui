@@ -1,111 +1,120 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
-    $(function() {
-        $(document).on('change', '#vgselection', function(){
-            var volumegroup = $('#vgselection').find('option:selected').text();
+    var methods;
 
-            var data = {
-                "vg": volumegroup
-            };
+    return methods = {
+        add_event_handler_vgselection: function() {
+            $(document).ready(function(){
+                $(document).off('change', '#vgselection');
+                $(document).on('change', '#vgselection', function(){
+                    var volumegroup = $('#vgselection').find('option:selected').text();
 
-            request = mylibs.doajax("/phpietadmin/lvm/add", data);
+                    var data = {
+                        "vg": volumegroup
+                    };
 
-            request.done(function() {
-                if (request.readyState == 4 && request.status == 200) {
-                    // Insert logical volume selection
-                    $('#lv').html(request.responseText);
+                    request = mylibs.doajax("/phpietadmin/lvm/add", data);
 
-                    var sizefield = $('#sizefield');
-                    var rangeinput = $('#rangeinput');
-                    var nameinput = $('#nameinput');
+                    request.done(function() {
+                        if (request.readyState == 4 && request.status == 200) {
+                            // Insert logical volume selection
+                            $('#lv').html(request.responseText);
 
-                    // Focus name input field
-                    nameinput.focus();
+                            var sizefield = $('#sizefield');
+                            var rangeinput = $('#rangeinput');
+                            var nameinput = $('#nameinput');
 
-                    // Insert max value data
-                    var freesize = $('#freesize').text();
-                    $('#maxvalue').text(freesize);
-                    rangeinput.prop('max', freesize);
+                            // Focus name input field
+                            nameinput.focus();
 
-                    // oninput sizefield update slider
-                    $(document).on('input', '#sizefield', function(){
-                        var sizevalue = sizefield.val();
+                            // Insert max value data
+                            var freesize = $('#freesize').text();
+                            $('#maxvalue').text(freesize);
+                            rangeinput.prop('max', freesize);
 
-                        // Check if value is 0
-                        if (sizevalue == 0) {
-                            swal({
-                                title: 'Error',
-                                type: 'error',
-                                text: 'The size can\'t be zero!'
-                                });
-                            // Set value to one
-                            sizefield.val(1);
-                        }
+                            // oninput sizefield update slider
+                            $(document).off('input', '#sizefield');
+                            $(document).on('input', '#sizefield', function(){
+                                var sizevalue = sizefield.val();
 
-                        // Check if value is higher than max value
-                        if (sizevalue >= freesize) {
-                            swal({
-                                title: 'Error',
-                                type: 'error',
-                                text: 'The volume group ' + volumegroup + ' has only ' + freesize + ' GB left!'
+                                // Check if value is 0
+                                if (sizevalue == 0) {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'The size can\'t be zero!'
+                                    });
+                                    // Set value to one
+                                    sizefield.val(1);
+                                }
+
+                                // Check if value is higher than max value
+                                if (sizevalue >= freesize) {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'The volume group ' + volumegroup + ' has only ' + freesize + ' GB left!'
+                                    });
+                                    sizefield.val(freesize);
+                                }
+
+                                // Update slider
+                                rangeinput.val(sizevalue);
                             });
-                            sizefield.val(freesize);
-                        }
 
-                        // Update slider
-                        rangeinput.val(sizevalue);
-                    });
-
-                    // onchange slider update size field
-                    $(document).on('input', '#rangeinput', function(){
-                        var rangevalue = rangeinput.val();
-                        sizefield.val(rangevalue)
-                    });
-
-
-                    $(document).on('click', '#createvolumebutton', function(){
-                        // Check if name is not empty
-                        if (nameinput.val() == '') {
-                            swal({
-                                title: 'Error',
-                                type: 'error',
-                                text: 'Please choose a name!'
+                            // onchange slider update size field
+                            $(document).off('input', '#rangeinput');
+                            $(document).on('input', '#rangeinput', function(){
+                                var rangevalue = rangeinput.val();
+                                sizefield.val(rangevalue)
                             });
-                        } else {
-                            // ajax data to server
-                            var data = {
-                                "vg": volumegroup,
-                                "name": nameinput.val(),
-                                "size": $('#sizefield').val()
-                            };
 
-                            request = mylibs.doajax("/phpietadmin/lvm/add", data);
+                            $(document).off('click', '#createvolumebutton');
+                            $(document).on('click', '#createvolumebutton', function(){
+                                // Check if name is not empty
+                                if (nameinput.val() == '') {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'Please choose a name!'
+                                    });
+                                } else {
+                                    // ajax data to server
+                                    var data = {
+                                        "vg": volumegroup,
+                                        "name": nameinput.val(),
+                                        "size": $('#sizefield').val()
+                                    };
 
-                            request.done(function() {
-                                if (request.readyState == 4 && request.status == 200) {
-                                    if (request.responseText == "Success") {
-                                        swal({
-                                                title: 'Success',
-                                                type: 'success'
-                                            },
-                                            function () {
-                                                location.reload();
-                                            });
-                                    } else {
-                                        swal({
-                                                title: 'Error',
-                                                type: 'error',
-                                                text: request.responseText
-                                            },
-                                            function () {
-                                                nameinput.val('');
-                                            });
-                                    }
+                                    request = mylibs.doajax("/phpietadmin/lvm/add", data);
+
+                                    request.done(function() {
+                                        if (request.readyState == 4 && request.status == 200) {
+                                            if (request.responseText == "Success") {
+                                                swal({
+                                                        title: 'Success',
+                                                        type: 'success'
+                                                    },
+                                                    function () {
+                                                        location.reload();
+                                                    });
+                                            } else {
+                                                swal({
+                                                        title: 'Error',
+                                                        type: 'error',
+                                                        text: request.responseText
+                                                    },
+                                                    function () {
+                                                        nameinput.val('');
+                                                    });
+                                            }
+                                        }
+                                    });
                                 }
                             });
                         }
                     });
-                }
+                });
             });
-        });
-    });
+        }
+    };
 });

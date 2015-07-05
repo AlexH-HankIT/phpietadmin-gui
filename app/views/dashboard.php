@@ -61,31 +61,29 @@
 
         </table>
     </div>
-</div>
+    <!--
+    services mit start stop
+    interfaces
+    netzwerk usage
+    CPU Cores
+    HDD Usage
+    Network Interfaces
 
-<script>
-    require(['common'],function() {
-        require(['pages/dashboard'],function(methods) {
-            methods.checkversion();
+    Service status
+    ietd
+    cron
+    ssh
+    apache2
+    rsyslog
+    drbd
+    corosync
+    pacemaker-->
+    <script>
+        require(['common'],function() {
+            require(['pages/dashboard'],function(methods) {
+                    methods.checkversion();
+                }
+            );
         });
-    });
-</script>
-
-
-<!--
-services mit start stop
-interfaces
-netzwerk usage
-CPU Cores
-HDD Usage
-Network Interfaces
-
-Service status
-ietd
-cron
-ssh
-apache2
-rsyslog
-drbd
-corosync
-pacemaker-->
+    </script>
+</div>

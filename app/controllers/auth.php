@@ -11,11 +11,11 @@
 
                 // Write username and hash to session object
                 $this->session->setUsername($_POST['username']);
-                $this->session->setPassword($pwhash );
+                $this->session->setPassword($pwhash);
                 $this->session->setTime();
 
                 if($this->session->check()) {
-                    header("Location: /phpietadmin");
+                    header("Location: /phpietadmin/dashboard");
                     die();
                 } else {
                     $this->view('message', 'Wrong username or password!');

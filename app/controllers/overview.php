@@ -54,7 +54,7 @@ class Overview extends Controller {
         if ($data == 3 ) {
             $this->view('message', "Error - No volume groups found!");
         } else {
-            $this->view('table', $data);
+            $this->view('vgtable', $data);
         }
     }
 

@@ -353,7 +353,6 @@
 
         public function check_path_already_in_use($path) {
             $volumes = $this->get_proc_volume_content();
-
             if (!empty($volumes)) {
                 $data = $this->regex->get_all_paths_from_string($volumes);
                 if ($data == 3) {

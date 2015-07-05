@@ -9,6 +9,14 @@ CREATE TABLE ietsettings(
   othervalue1 varchar(50) DEFAULT NULL
 );
 
+DROP TABLE IF EXISTS services;
+CREATE TABLE services(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  name varchar(50),
+  enabled numeric boolean,
+  deleteable numeric boolean
+);
+
 INSERT INTO ietsettings (option, defaultvalue, type, state, chars) VALUES
     ('Alias', 'false', 'input', 1, 'all'),
     ('MaxConnections', 1, 'input', 0, 'digits'),
@@ -35,4 +43,25 @@ INSERT INTO ietsettings (option, defaultvalue, type, state, othervalue1) VALUES
   ('DataSequenceInOrder', 'Yes', 'select', 0, 'No');
 
 INSERT INTO config (option, optioningui, ispath, value, description, category) VALUES
-  ('idle', 'idle time', 0, 15, 'Time until the user is automatically logged out in minutes', 3);
+  ('idle', 'idle time', 0, 15, 'Time until the user is automatically logged out in minutes', 3),
+  ('shutdown', 'shutdown bin', 1, '/sbin/shutdown', "Path to the shutdown binary", 3);
+
+INSERT INTO services (name, enabled, deleteable) VALUES
+  ('cron', 1, 1),
+  ('ssh', 1, 1),
+  ('drbd', 0, 1),
+  ('puppet', 0, 1),
+  ('iscsitarget', 1, 1),
+  ('nfs-kernel-server', 0, 0),
+  ('nagios-nrpe-server', 0, 1),
+  ('rsyslog', 1, 1),
+  ('apache2', 1, 0),
+  ('nullmailer',0, 1),
+  ('exim4', 0, 1),
+  ('corosync', 0, 1),
+  ('pacemaker', 0, 1),
+  ('apcupsd', 0, 1),
+  ('smbd', 0, 1),
+  ('nmbd', 0, 1);
+
+DELETE FROM config where option='servicename';

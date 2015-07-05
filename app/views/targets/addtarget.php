@@ -1,28 +1,47 @@
-<div id="addtargetinput" class="container">
-    <ol class="breadcrumb">
-        <li class="active">Add target</li>
-    </ol>
+<div class='workspacedirect'>
+    <div id='addtargetinput' class='container'>
+        <!--<ol class='breadcrumb'>
+            <li class='active'>Add target</li>
+        </ol>-->
 
-    <!-- Hidden field to save default iqn -->
-    <input value="<?php echo htmlspecialchars($data); ?>" id="defaultiqn" type="hidden"/>
+        <ol class='breadcrumb'>
+            <li><a href='#'>Targets</a></li>
+            <li class='active'>Add</a></li>
+        </ol>
 
-    <div class = "jumbotron">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1"><?php echo htmlspecialchars($data); ?></span>
-            <input class="form-control focusedInput" type="text" id="iqninput" required/>
+        <!-- Hidden field to save default iqn -->
+        <input value='<?php echo htmlspecialchars($data); ?>' id='defaultiqn' type='hidden'/>
+
+        <div class='panel panel-default'>
+
+            <div class='panel-body'>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class='input-group'>
+                            <span class='input-group-addon' id='basic-addon1'><?php echo htmlspecialchars($data); ?></span>
+                            <input class='form-control focusedInput' type='text' id='iqninput' required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='panel-footer'>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <button id='addtargetbutton' class='btn btn-success'><span class='glyphicon glyphicon-plus'></span> Add</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <br />
-        <button class="btn btn-primary" type='submit' id="addtargetbutton">Add</button>
     </div>
-</div>
 
-<script>
-    require(['common'],function() {
-        require(['pages/addtarget'],function(methods) {
-            methods.disable_special_chars();
-            methods.focus_input();
-            methods.remove_error();
-            methods.add_event_handler_addtargetbutton();
+    <script>
+        require(['common'],function() {
+            require(['pages/addtarget'],function(methods) {
+                methods.disable_special_chars();
+                methods.focus_input();
+                methods.remove_error();
+                methods.add_event_handler_addtargetbutton();
+            });
         });
-    });
-</script>
+    </script>
+</div>

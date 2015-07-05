@@ -3,6 +3,7 @@ define(function() {
     return Methods = {
         // ajax request
         doajax: function(url, data) {
+            var request;
             if (typeof data === 'undefined') {
                 return request = $.ajax({
                     url: url,
@@ -17,19 +18,23 @@ define(function() {
             }
         },
         reloadfooter: function() {
-            var pathname = window.location.pathname;
+            if (window.location.pathname !== "/phpietadmin/auth/login") {
+                var data = {
+                    "servicename" : 'iscsitarget'
+                };
 
-            if (pathname !== "/phpietadmin/auth/login") {
-                request = Methods.doajax("/phpietadmin/service/status");
+                var request = Methods.doajax('/phpietadmin/service/status', data);
 
                 request.done(function () {
                     if (request.readyState == 4 && request.status == 200) {
-                        if (request.responseText == false) {
+                        if (request.responseText == 0) {
+                            $("#ietdstatus").html('<a class = "navbar-btn btn-success btn pull-left"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> ietd running</a>');
+                        } else if (request.responseText == 3) {
+                            $("#ietdstatus").html('<a class = "navbar-btn btn-danger btn pull-left"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> ietd not running</a>');
+                        } else {
                             // if response is false, we are not logged in
                             // reload the page to display the login form
                             window.location.reload();
-                        } else {
-                            $("#ietdstatus").html(request.responseText);
                         }
                     }
                 });
@@ -42,23 +47,23 @@ define(function() {
             // Trennen von Netz-IP und Subnetmask
             net = net.split("/");
             // Netzwerk-IP
-            netip = net[0];
+            var netip = net[0];
             // Subnetmask
-            mask = net[1];
+            var mask = net[1];
             // Segmente aufteilen
-            seg = netip.split("\.");
+            var seg = netip.split("\.");
             // Hostanteil
-            hostanteil = 32-mask;
+            var hostanteil = 32-mask;
             // Hostanteil im letzten Segment
-            hostanteilLetztesSegment = hostanteil%8;
+            var hostanteilLetztesSegment = hostanteil%8;
             // Hosts im letzten Segment
-            hostsLetztesSegment = Math.pow(2, hostanteilLetztesSegment);
+            var hostsLetztesSegment = Math.pow(2, hostanteilLetztesSegment);
             // Auswahl Segment
-            auswahlSeg = parseInt(mask/8);
+            var auswahlSeg = parseInt(mask/8);
 
             if( seg[auswahlSeg]%hostsLetztesSegment == 0 ) {
                 // Alle Segmente hinter der Mask muessen Null sein
-                allNull = true;
+                var allNull = true;
                 for (var i=3; i > auswahlSeg; i--) {
                     if( seg[i] != 0 ) {
                         allNull = false;
@@ -79,38 +84,117 @@ define(function() {
             }
             return retVal;
         },
-        loadconfiguretargetbody: function(clicked, url, data) {
-            if (typeof data === 'undefined') {
-                // if type is undefined, not data will be passed
-                Methods.doajax(url);
-            } else if (typeof data === 'string' ) {
-                // if type is string an array will be created an posted
-                var array = {
-                    iqn: data
-                };
+        loadconfiguretargetbody: function(url, data, clicked) {
+            var page = url.replace('/', '_');
+            url = '/phpietadmin/' + url;
+            var configuretargetbody = $('#configuretargetbody');
 
-                Methods.doajax(url, array);
+            if (clicked !== undefined && clicked != '') {
+                $('#configuretargetmenu').find('ul').children('li').removeClass('active');
+                clicked.parents('li').addClass('active');
+            }
+            if (!configuretargetbody.hasClass(page)) {
+                var request;
+                if (data === undefined) {
+                    // if type is undefined, not data will be passed
+                    request = Methods.doajax(url);
+                } else if (typeof data == 'string' ) {
+                    // if type is string an array will be created an posted
+                    var array = {
+                        iqn: data
+                    };
+
+                    request = Methods.doajax(url, array);
+                } else {
+                    // else data is already an array
+                    request = Methods.doajax(url, data);
+                }
+
+                request.done(function () {
+                    if (request.readyState == 4 && request.status == 200) {
+                        configuretargetbody.html('');
+                        configuretargetbody.html(request.responseText);
+                        configuretargetbody.removeClass();
+                        configuretargetbody.addClass(page);
+                    }
+                });
             } else {
-                // else data is already an array
-                Methods.doajax(url, data);
+                console.log('Already loaded');
+            }
+        },
+        loadworkspace: function(clicked, site) {
+            // replace the slash in site with underscore
+            // we will use this as class later
+            var page = site.replace('/', '_');
+
+            // define workspace
+            var workspace = $('#workspace');
+
+            // select menu
+            if (clicked != '') {
+                $('#mainmenu').find('ul').children('li').removeClass('active');
+                clicked.parents('li').addClass('active');
             }
 
-            request.done(function () {
-                if (request.readyState == 4 && request.status == 200) {
-                    $('#configuretargetbody').html(request.responseText);
-                    $('#configuretargetmenu').find('ul').children('li').removeClass('active');
-                    clicked.parents('li').addClass('active');
+            // load only if url is not identical
+            if(site + '#' != window.location.pathname) {
+                if (site != window.location.pathname) {
+                    var ajaxloader = $('#ajaxloader');
+                    ajaxloader.show();
+                    var request = Methods.doajax(site);
+                    request.done(function () {
+                        if (request.readyState == 4 && request.status == 200) {
+                            // change url
+                            window.history.pushState({path: site}, '', site);
+
+                            // delete previous loaded workspace
+                            workspace.html('');
+
+                            // delete workspaces, which are not loaded via ajax
+                            $('.workspacedirect').html('');
+
+                            // add new workspace
+                            workspace.html(request.responseText);
+
+                            // delete all classes from workspace
+                            workspace.removeClass();
+
+                            // add current loaded page as class to workspace
+                            workspace.addClass(page);
+                        }
+                    });
+                    ajaxloader.delay(10).hide(10);
                 }
-            });
+            }
         },
-        loadworkspace: function(clicked, url) {
-            Methods.doajax(url);
+        is_int: function(value) {
+            return (parseFloat(value) == parseInt(value)) && !isNaN(value);
+        },
+        check_service_status: function(row) {
+
+            var data = {
+                "servicename": row.text()
+            };
+
+            var request = Methods.doajax('/phpietadmin/service/status', data);
+
+            row = row.closest('tr').find('.servicestatus');
 
             request.done(function () {
                 if (request.readyState == 4 && request.status == 200) {
-                    $('#workspace').html(request.responseText);
-                    $('#mainmenu').find('ul').children('li').removeClass('active');
-                    clicked.parents('li').addClass('active');
+                    if (request.responseText != 0) {
+                        if (row.hasClass('label label-success')) {
+                            row.removeClass('label label-success')
+                        }
+                        row.text('Not running');
+                        row.addClass('label label-danger')
+                    } else {
+                        if (row.hasClass('label label-danger')) {
+                            row.removeClass('label label-danger')
+                        }
+                        row.text('Running');
+                        row.addClass('label label-success')
+                    }
                 }
             });
         }

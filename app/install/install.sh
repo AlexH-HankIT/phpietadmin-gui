@@ -54,6 +54,14 @@ if [ -f $DATABASE ]; then
     fi
     log_message "Database updated successful!"
 
+
+    log_message "Updating sudoers file..."
+    if [ -f $sudoers_file ]; then
+        rm $sudoers_file
+    fi
+
+    echo "www-data ALL=NOPASSWD: /usr/sbin/service *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce, /sbin/shutdown --reboot *, /sbin/shutdown --poweroff *" > $sudoers_file
+
     log_message "Starting file update..."
     cd ../../
     cp -r $PWD/* $BASEDIR
@@ -74,13 +82,12 @@ else
     fi
 
     # Create sudoers file
-    echo "www-data ALL=NOPASSWD: /usr/sbin/service iscsitarget *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce" > $sudoers_file
+    echo "www-data ALL=NOPASSWD: /usr/sbin/service *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce, /sbin/shutdown --reboot *, /sbin/shutdown --poweroff *" > $sudoers_file
 
     # Set permissions for the iet config files and phpietadmin dir
     chown -R www-data:www-data /usr/share/phpietadmin
     chown -R root:www-data /etc/iet
     chmod -R 770 /etc/iet
-
     # Enable mods
     a2enmod rewrite
 

@@ -102,8 +102,13 @@
                             }
                         }
                     }
-                    // Display page for ajax request
-                    $this->view('targets/deletelun', $paths);
+
+                    if (empty($paths)) {
+                        $this->view('message', "Error - No luns available");
+                    } else {
+                        // Display page for ajax request
+                        $this->view('targets/deletelun', $paths);
+                    }
                 } else if (isset($_POST['iqn']) && isset($_POST['lun']) && isset($_POST['path'])) {
                     if (file_exists($_POST['path'])) {
                         // Delete lun from daemon

@@ -46,7 +46,6 @@
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $this->session->setUsername($_SESSION['username']);
                 $this->session->setPassword($_SESSION['password']);
-                $time_till_logout = $this->database->get_config('idle') * 60;
 
                 // Check if user is logged in
                 if (!$this->session->check()) {
@@ -58,7 +57,7 @@
                         // Die in case browser ignores header redirect
                         die();
                     }
-                } elseif (time() - $_SESSION['timestamp'] > $time_till_logout) {
+                } elseif (time() - $_SESSION['timestamp'] > intval($this->database->get_config('idle') * 60)) {
                     if ($this->std->IsXHttpRequest()) {
                         echo false;
                         die();
@@ -96,5 +95,9 @@
         public function view($view, $data = []) {
             require_once '../app/views/' . $view . '.php';
         }
+
+        //public function scriptview($data = []) {
+        //    require_once '../app/views/scripts.php';
+        //}
     }
 ?>

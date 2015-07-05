@@ -30,12 +30,13 @@
                 $bin = $this->database->get_config('vgs');
                 $table = array(
                     0 => "VG",
-                    1 => "PV",
-                    2 => "LV",
-                    3 => "SN",
-                    4 => "Attr",
-                    5 => "VSize",
-                    6 => "Vfree"
+                    1 => 'Graph',
+                    2 => "PV",
+                    3 => "LV",
+                    4 => "SN",
+                    5 => "Attr",
+                    6 => "VSize",
+                    7 => "Vfree"
                 );
 
                 $data2['title'] = "Volume groups";

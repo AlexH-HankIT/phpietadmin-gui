@@ -46,7 +46,7 @@
             call_user_func_array([$this->controller, $this->method], $this->params);
 
             if (!$this->controller->std->IsXHttpRequest() && $this->controllername !== "auth") {
-                $this->controller->view('footer', $this->controller->std->get_service_status());
+                $this->controller->view('footer', $this->controller->std->get_service_status('iscsitarget'));
 
             }
         }
