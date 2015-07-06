@@ -73,10 +73,10 @@ In version 0.5:
 - [ ] htmlspecialchars for every echo
 - [ ] Display server connection status in dashboard
 - [ ] Config option for production and development
-    Production:
-        minifized html and javascript generated at the relase will be used
-    Development
-        normal versions will be used
+    * Production:
+        * minifized html and javascript generated at the relase will be used
+    * Development
+        * normal versions will be used
 
 Items are completely random ;-)
 
