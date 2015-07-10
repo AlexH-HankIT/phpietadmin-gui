@@ -54,6 +54,9 @@ Take a look at the github releases for detailed information about the features.
         * normal versions will be used
 - [ ] Login/Logout logging
 - [ ] Prevent comments from being deleted, when editing a config file
+- [ ] Backup config files
+- [ ] Menu to restore config files
+- [ ] Action logging
 
 ## Planned features and todo
 In version 0.5:
@@ -79,9 +82,6 @@ In version 0.5:
 - [ ] addslashes for every user input
 - [ ] htmlspecialchars for every echo
 - [ ] Config -> MISC -> Idle, no zeros
-- [ ] Backup config files
-- [ ] Menu to restore config files
-- [ ] Action logging
 
 Items are completely random ;-)
 
