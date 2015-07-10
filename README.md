@@ -44,9 +44,16 @@ Take a look at the github releases for detailed information about the features.
 - [ ] HDD temp
 - [ ] Smart data
 - [ ] Volume group menu (select which volume groups phpietadmin should use)
-- [ ] Save session data in database
+- [x] Save session data in database
     - [ ] Check if user 'admin' is already logged in
-- [ ] Delete session cookie when logging off
+- [x] Delete session cookie when logging off
+- [ ] Config option for production and development
+    * Production:
+        * minifized html and javascript generated at the relase will be used
+    * Development
+        * normal versions will be used
+- [ ] Login/Logout logging
+- [ ] Prevent comments from being deleted, when editing a config file
 
 ## Planned features and todo
 In version 0.5:
@@ -62,21 +69,19 @@ In version 0.5:
     - [x] Enable services with checkbox
 - [x] Set sudoer permission for service execution
 - [x] Create connection controller
-    - [ ] Add server not reachable message if connection fails (use this: https://github.com/jdfreder/pingjs/blob/master/ping.js, http://stackoverflow.com/questions/4282151/is-it-possible-to-ping-a-server-from-javascript)
+    - [x] Add server not reachable message if connection fails
     - [x] Check service/services running
-    - [ ] Check session expired
-    - [ ] Disable apache access logging for this controller (http://stackoverflow.com/questions/10002289/prevent-stop-apache-from-logging-specific-ajax-xmlhttprequests)
+    - [x] Check session expired
+    - [x] Disable apache access logging for this controller (http://stackoverflow.com/questions/10002289/prevent-stop-apache-from-logging-specific-ajax-xmlhttprequests)
 - [ ] Pie Chart for volume groups
 - [x] Add glyphicons Targets > Add/delete discovery user, Services -> overview, add
 - [ ] Check array search for correct value comparing
 - [ ] addslashes for every user input
 - [ ] htmlspecialchars for every echo
-- [ ] Display server connection status in dashboard
-- [ ] Config option for production and development
-    * Production:
-        * minifized html and javascript generated at the relase will be used
-    * Development
-        * normal versions will be used
+- [ ] Config -> MISC -> Idle, no zeros
+- [ ] Backup config files
+- [ ] Menu to restore config files
+- [ ] Action logging
 
 Items are completely random ;-)
 
