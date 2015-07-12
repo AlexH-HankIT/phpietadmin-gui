@@ -4,8 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return methods = {
         add_event_handler_adduserbutton: function () {
             $(document).ready(function () {
-                $(document).off('click', '#adduserbutton');
-                $(document).on('click', '#adduserbutton', function () {
+                $(document).once('click', '#adduserbutton', function () {
                     var selector_targetselection = $('#targetselection');
                     var iqn = selector_targetselection.find("option:selected").val();
                     var defaultvalue = selector_targetselection.find('#default').val();
@@ -37,7 +36,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                 "id": id
                             };
 
-                            request = mylibs.doajax("/phpietadmin/permission/adduser", data);
+                            var request = mylibs.doajax("/phpietadmin/permission/adduser", data);
 
                             request.done(function () {
                                 if (request.readyState == 4 && request.status == 200) {

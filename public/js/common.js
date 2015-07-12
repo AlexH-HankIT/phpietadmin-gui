@@ -9,11 +9,13 @@ requirejs.config({
         sweetalert: 'lib/sweetalert.min',
         mylibs: 'lib/mylibs',
         sha256: 'lib/sha256.min',
-        highchart: 'lib/highcharts.amd'
+        highchart: 'lib/highcharts.amd',
+        blockUI: 'lib/jquery.blockUI.min',
+        once: 'lib/once'
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap'], function($, qtip, filterTable, mylibs, swal) {
+define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'blockUI', 'once'], function($, qtip, filterTable, mylibs, swal) {
     var methods;
 
     return methods = {
@@ -22,9 +24,54 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap'], f
                 // Enable filter table plugin
                 $('.searchabletable').filterTable({minRows:0});
 
+                // check if server is alive
+                var uiBlocked = false;
+                //var ajaxloader =);
+                var mainmenu = $('#mainmenu');
+                var footer = $('#footer');
+
+                setInterval(function() {
+                    $.ajax({
+                    type: 'post',
+                    cache: false,
+                    url: '/phpietadmin/connection/check_server_online',
+                    timeout: 1000,
+                    success: function(data, textStatus, XMLHttpRequest) {
+                        if (data == 'alive') {
+                            if (uiBlocked == true) {
+                                uiBlocked = false;
+                                $.unblockUI();
+                                mainmenu.show();
+                                footer.show();
+                            }
+                        }
+                    }, error: function(data, textStatus, XMLHttpRequest) {
+                        if (data != 'alive') {
+                            if (uiBlocked == false) {
+                                uiBlocked = true;
+                                mainmenu.hide();
+                                footer.hide();
+
+                                $.blockUI({
+                                    message: $('#offlinemessage'),
+                                    css: {
+                                        border: 'none',
+                                        padding: '15px',
+                                        backgroundColor: '#222',
+                                        opacity: .5,
+                                        color: '#fff'
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    })
+                }, 2000);
+
                 // Updates footer in case ietd is stopped or started
                 // it also reloads the page, if the session terminates
-                setInterval(mylibs.reloadfooter, (30000));
+                setInterval(mylibs.reloadfooter, (11000));
+                setInterval(mylibs.check_session_expired, (15000));
 
                 // Select active menu element, when page is loaded manually
                 var path = window.location.pathname;

@@ -18,8 +18,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
         },
         add_event_handler_sessiondeletebutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '.sessiondeletebutton');
-                $(document).on('click', '.sessiondeletebutton', function() {
+                $(document).once('click', '.sessiondeletebutton', function() {
                     var data = {
                         iqn: $('#targetselection').find("option:selected").val(),
                         cid: $(this).closest('tr').find('.cid').text(),

@@ -42,58 +42,53 @@
             }
         }
 
-        public function check_loggedin($controller, $method) {
+        public function check_loggedin($controller) {
             if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
                 $this->session->setUsername($_SESSION['username']);
                 $this->session->setPassword($_SESSION['password']);
 
                 // Check if user is logged in
-                if (!$this->session->check()) {
-                    if ($this->std->IsXHttpRequest()) {
-                        echo false;
-                        die();
-                    } else {
-                        header("Location: /phpietadmin/auth/login");
-                        // Die in case browser ignores header redirect
-                        die();
-                    }
-                } elseif (time() - $_SESSION['timestamp'] > intval($this->database->get_config('idle') * 60)) {
-                    if ($this->std->IsXHttpRequest()) {
-                        echo false;
-                        die();
-                    } else {
-                        header("Location: /phpietadmin/auth/login");
-                        // Die in case browser ignores header redirect
-                        die();
-                    }
+                // Checks for correct password, browser agent, source_ip and if the sessions is expired
+                // if everything is ok, the session timestamp will be updated
+                if (!$this->session->check_password() or !$this->session->check_other_params($this->database->get_sessions_by_username($_SESSION['username'])) or time() - $_SESSION['timestamp'] > intval($this->database->get_config('idle') * 60)) {
+                    $this->session->destroy_session($this->std, $this->database);
                 } else {
                     // Update time
-                    // Don't update if controller is service/status
+                    // Don't update if controller is connection
                     // A connection to this controller is always established,
                     // even if the session is expired, but the site is still loaded
-                    if ($controller !== 'service' && $method !== 'status') {
-                        $this->session->setTime();
+                    if ($controller !== 'connection') {
+                        $time = time();
+                        $this->session->setTime($time);
                     }
                 }
             } else {
                 if ($this->std->IsXHttpRequest()) {
-                    echo false;
-                    die();
+                    echo 'false';
                 } else {
                     header("Location: /phpietadmin/auth/login");
-                    // Die in case browser ignores header redirect
-                    die();
                 }
+                die();
             }
         }
 
         public function model($model) {
-            require_once '../app/models/' . $model . '.php';
-            return new $model();
+            $file = '../app/models/' . $model . '.php';
+            if (file_exists($file)) {
+                require_once $file;
+                return new $model();
+            } else {
+                return false;
+            }
         }
 
         public function view($view, $data = []) {
-            require_once '../app/views/' . $view . '.php';
+            $file = '../app/views/' . $view . '.php';
+            if (file_exists($file)) {
+                require_once $file;
+            } else {
+                echo 'File ' . $file . ' not found!';
+            }
         }
 
         //public function scriptview($data = []) {

@@ -3,8 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return Methods = {
         add_event_handler_maplunbutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '#maplunbutton');
-                $(document).on('click', '#maplunbutton', function(){
+                $(document).once('click', '#maplunbutton', function(){
                     var targetselection =  $('#targetselection');
                     var iqn = targetselection.find("option:selected").val();
                     var defaultvalue = targetselection.find('#default').val();
@@ -27,10 +26,11 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         request.done(function() {
                             if (request.readyState == 4 && request.status == 200) {
                                 if (request.responseText == 'Success') {
-                                    var selectedvolume = $('#logicalvolume').find("option:selected");
+                                    var logicalvolume = $('#logicalvolume');
+                                    var selectedvolume = logicalvolume.find("option:selected");
                                     selectedvolume.remove();
 
-                                    if((selectedvolume.length) == 0) {
+                                    if((logicalvolume.find('option').length) == 1) {
                                         $('#configuretargetbody').replaceWith('<div id="configuretargetbody">' +
                                         '<div class = "container">' +
                                         '<div class="alert alert-danger" role="alert"><h3 align="center">Error - No logical volumes available!</h3></div>' +

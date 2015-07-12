@@ -82,3 +82,7 @@ td.alt {
     max-width: 700px;
     margin: 0 auto
 }
+
+.panel-body {
+    padding-top: 0;
+}

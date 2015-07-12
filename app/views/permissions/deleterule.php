@@ -30,10 +30,13 @@
                 </div>
             <?php } else { ?>
                 <div class = "col-md-5">
+                    <!-- If this span with the value false is found, jquery knows there are no objects available-->
+                    <span id="noobjects" hidden>false</span>
+
                     <ol class="breadcrumb">
                         <li class="active">Objects</li>
                     </ol>
-                    <h4><p align="center">No objects</p></h4>
+                    <h4 align="center">No objects</h4>
                 </div>
             <?php } ?>
 
@@ -75,6 +78,9 @@
                 </div>
             <?php } else { ?>
                 <div class = "col-md-5">
+                    <!-- If this span with the value false is found, jquery knows there are no orphans available-->
+                    <span id="noorphans" hidden>false</span>
+
                     <ol class="breadcrumb">
                         <li class="active">Orphans (No object available)</li>
                     </ol>

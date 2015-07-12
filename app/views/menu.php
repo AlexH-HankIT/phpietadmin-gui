@@ -91,6 +91,5 @@
         methods.add_event_handler_workspacetab();
         methods.add_event_handler_shutdown();
         methods.add_event_handler_reboot();
-        methods.sticky_button();
     });
 </script>

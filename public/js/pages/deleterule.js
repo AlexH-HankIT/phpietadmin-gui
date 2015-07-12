@@ -4,8 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return methods = {
         add_event_handler_deleteruletype: function() {
             $(document).ready(function(){
-                $(document).off('change', 'input[name="deleteruletype"]');
-                $(document).on('change', 'input[name="deleteruletype"]', function(){
+                $(document).once('change', 'input[name="deleteruletype"]', function(){
                     var selector_targetselection = $('#targetselection');
                     var iqn = selector_targetselection.find("option:selected").val();
                     var ruletype = $("input[name='deleteruletype']:checked").val();
@@ -26,8 +25,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_deleterulebutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '#deleterulebutton');
-                $(document).on('click', '#deleterulebutton', function(e){
+                $(document).once('click', '#deleterulebutton', function(e){
                     var selector_targetselection = $('#targetselection');
                     var iqn = selector_targetselection.find("option:selected").val();
                     var ruletype = $("input[name='deleteruletype']:checked").val();

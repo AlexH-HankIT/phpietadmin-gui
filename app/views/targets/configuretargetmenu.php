@@ -23,7 +23,7 @@
                 </ul>
             </li>
             <li><a class="configuretargetiqn" name="targets/deletesession" href="#"><span class="glyphicon glyphicon-list"></span> Sessions</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+            <li><a class="configuretargetiqn" name="targets/settings" href="#"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
             <li><a class="configuretargetiqn" name="targets/deletetarget" href="#"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
         </ul>
     </div>

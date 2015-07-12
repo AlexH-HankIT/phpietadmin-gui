@@ -9,6 +9,16 @@
         protected $params = [];
 
         public function __construct() {
+            // Sanitize user input
+            $array = $_POST;
+            foreach ($array as $key => $dangerous) {
+                $_POST[$key] = addslashes(strip_tags(trim($dangerous)));
+            }
+            $array = $_GET;
+            foreach ($array as $key => $dangerous) {
+                $_GET[$key] = addslashes(strip_tags(trim($dangerous)));
+            }
+
             $url = $this->parseUrl();
 
             if(file_exists("../app/controllers/" .  $url[0] . ".php")) {

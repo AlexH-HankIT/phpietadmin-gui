@@ -6,7 +6,6 @@ define(['jquery', 'mylibs', 'highchart', 'qtip'], function($, mylibs, chart, qti
 
             });
 
-
             $('.vgtablegraph').qtip({
                 content: {
                     text: function(e) {

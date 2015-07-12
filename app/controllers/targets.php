@@ -206,8 +206,6 @@
 
             } else {
                 $data['targets'] = $this->ietadd->get_targets();
-
-                $this->view('breadcrumb', 'Configure target');
                 if ($data['targets'] == 3) {
                     $this->view('message', "Error - No targets found");
                 } else {
@@ -218,37 +216,64 @@
         }
 
         public function settings() {
-            print_r($_POST);
-            if (isset($_POST['option']) && isset($_POST['oldvalue']) && isset($_POST['newvalue'])) {
-                // Check if newvalue is default
+            if (isset($_POST['option']) && isset($_POST['oldvalue']) && isset($_POST['newvalue']) && isset($_POST['iqn'])) {
+                // Check if newvalue is default <- validate this using jquery
 
-                print_r($_POST);
+                // Delete option from daemon here
+
+                // Then do this:
+                //      |
+                //      |
+                //      v
+
+                $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $_POST['option'] . ' ' . $_POST['oldvalue'], $this->database->get_config('ietd_config_file'));
+
+                if($return == 1) {
+                    echo "Read-only";
+                } else if ($return == 3) {
+                    echo "Not found";
+                } else {
+                    $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);
+                    if($return == 1) {
+                        echo "Read-only";
+                    } else if ($return == 3) {
+                        echo "Not found";
+                    } else {
+                        echo "Success";
+                    }
+                }
             } else if (isset($_POST['iqn'])) {
-                print_r($_POST);
-                echo "foo";
-
                 // get options with values
                 $data = $this->ietadd->get_all_options_from_iqn($_POST['iqn'], $this->database->get_config('ietd_config_file'));
 
-                $data['input'] = $this->database->get_iet_settings('input');
+                $default_settings = $this->database->get_iet_settings();
 
-                if (is_int($data)) {
-                    // iqn has no options
-                    // display table with default values here
+                // Insert configured data into default settings array to display user made changes
+                if (!empty($data)) {
+                    // every array with more than two indexes contains a target or a lun definition
+                    foreach ($data as $key => $value) {
+                        if (count($data[$key]) > 2) {
+                            unset($data[$key]);
+                        }
+                    }
 
-                } else {
-                    // iqn has options
-                    
+                    foreach ($data as $value) {
+                        $key = $this->std->recursive_array_search($value[0], $default_settings);
+
+                        if ($key !== false) {
+                            $string = trim(preg_replace('/\s+/', ' ', $value[1]));
+                            $default_settings[$key]['defaultvalue'] = $string;
+                        }
+                    }
                 }
 
-            } else {
-                $data['targets'] = $this->ietadd->get_targets();
+                // cut array in to pieces
+                $len = count($default_settings);
+                $viewdata[0] = array_slice($default_settings, 0, $len / 2);
+                $viewdata[1] = array_slice($default_settings, $len / 2);
 
-                if ($data['targets'] == 3) {
-                    $this->view('message', "Error - No targets found");
-                } else {
-                    $this->view('targets/settings', $data);
-                }
+
+                $this->view('targets/settingstable', $viewdata);
             }
         }
 

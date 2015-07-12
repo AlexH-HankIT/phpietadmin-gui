@@ -23,7 +23,7 @@
             }
         }
 
-        public function check() {
+        public function check_password() {
             $pass = $this->getPassword();
 
             if (empty($pass)) {
@@ -37,6 +37,41 @@
             }
         }
 
+        public function check_other_params(array $sessions) {
+            if ($_SERVER['REMOTE_ADDR'] == $sessions['source_ip'] && $_SERVER['HTTP_USER_AGENT'] == $sessions['browser_agent']) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // this function deletes a session from memory and database
+        // it also redirects the user to the login page
+        // if the request was an ajax, it will echo false
+        // function dies at the end
+        public function destroy_session($std, $database) {
+            // delete session from database
+            $database->delete_session(session_id(), $_SESSION['username']);
+
+            // destroy session
+            session_unset();
+            session_destroy();
+
+            // delete php session cookie
+            if (isset($_COOKIE['PHPSESSID'])) {
+                setcookie('PHPSESSID', '', time() - 7000000, '/');
+            }
+
+            // redirect
+            if ($std->IsXHttpRequest()) {
+                echo 'false';
+            } else {
+                header("Location: /phpietadmin/auth/login");
+            }
+            // Die in case browser ignores header redirect
+            die();
+        }
+
         public function setUsername($NAME) {
             $this->username = $NAME;
         }
@@ -45,8 +80,8 @@
             $this->password = $PASS;
         }
 
-        public function setTime() {
-            $_SESSION['timestamp'] = time();
+        public function setTime($login_time) {
+            $_SESSION['timestamp'] = $login_time;
         }
     }
 ?>

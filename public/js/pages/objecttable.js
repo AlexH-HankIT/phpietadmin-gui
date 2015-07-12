@@ -4,8 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return methods = {
         add_event_handler_addobjectrowbutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '#addobjectrowbutton');
-                $(document).on('click', '#addobjectrowbutton', function() {
+                $(document).once('click', '#addobjectrowbutton', function() {
                     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                     $('#addobjectstbody').append(
                         '<tr  class="newrow">' +
@@ -45,8 +44,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         add_event_handler_typeselection: function() {
             $(document).ready(function(){
                 // If type is "all" change input fields to "all"
-                $(document).off('click', '.typeselection');
-                $(document).on('change', '.typeselection', function() {
+                $(document).once('change', '.typeselection', function() {
                     var thisrow = $(this).closest("tr");
                     var type = thisrow.find(".typeselection option:selected").val();
                     var objectname = thisrow.find(".objectname");
@@ -72,8 +70,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_saveobjectrow: function() {
             $(document).ready(function(){
-                $(document).off('click', '.saveobjectrow');
-                $(document).on('click', '.saveobjectrow', function(event) {
+                $(document).once('click', '.saveobjectrow', function(event) {
                     event.preventDefault();
                     var thisrow = $(this).closest("tr");
 
@@ -105,7 +102,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             check: "duplicated"
                         };
 
-                        request = mylibs.doajax("/phpietadmin/objects/checkvalueexists", check);
+                        var request = mylibs.doajax("/phpietadmin/objects/checkvalueexists", check);
 
                         request.done(function () {
                             if (request.readyState == 4 && request.status == 200) {
@@ -165,8 +162,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_objectvalue: function() {
             $(document).ready(function(){
-                $(document).off('focus', '.objectvalue');
-                $(document).on('focus', '.objectvalue', function() {
+                $(document).once('focus', '.objectvalue', function() {
                     var objectvalue = $(".objectvalue");
                     if (objectvalue.hasClass("focusedInputerror")) {
                         objectvalue.removeClass("focusedInputerror");
@@ -176,8 +172,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_objectname: function() {
             $(document).ready(function(){
-                $(document).off('focus', '.objectname');
-                $(document).on('focus', '.objectname', function() {
+                $(document).once('focus', '.objectname', function() {
                     var objectname = $(".objectname");
                     if (objectname.hasClass("focusedInputerror")) {
                         objectname.removeClass("focusedInputerror");
@@ -187,8 +182,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_deleteobjectrow: function() {
             $(document).ready(function(){
-                $(document).off('click', '.deleteobjectrow');
-                $(document).on('click', '.deleteobjectrow', function(event) {
+                $(document).once('click', '.deleteobjectrow', function(event) {
                     event.preventDefault();
                     var sel = $(this).closest('tr');
 

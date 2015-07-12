@@ -7,8 +7,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 var seltargetselection = $('#targetselection');
                 var defaultvalue = seltargetselection.find('#default').val();
 
-                $(document).off('change', '#targetselection');
-                $(document).on('change', '#targetselection', function(){
+                $(document).once('change', '#targetselection', function(){
                     var iqn = seltargetselection.find("option:selected").val();
 
                     // Check that iqn is not default
@@ -17,7 +16,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             "iqn": iqn
                         };
 
-                        request = mylibs.doajax("/phpietadmin/permission/deleteuser", data);
+                        var request = mylibs.doajax("/phpietadmin/permission/deleteuser", data);
 
                         request.done(function() {
                             if (request.readyState == 4 && request.status == 200) {
@@ -35,8 +34,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             $(document).ready(function(){
                 var seltargetselection = $('#targetselection');
 
-                $(document).off('click', '#deleteuserbutton');
-                $(document).on('click', '#deleteuserbutton', function(){
+                $(document).once('click', '#deleteuserbutton', function(){
                     var iqn = seltargetselection.find("option:selected").val();
                     var defaultvalue = seltargetselection.find('#default').val();
 
@@ -58,7 +56,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                     "type": $(this).closest('tr').find('.type').text()
                                 };
 
-                                request = mylibs.doajax('/phpietadmin/permission/deleteuser', data);
+                                var request = mylibs.doajax('/phpietadmin/permission/deleteuser', data);
 
                                 request.done(function() {
                                     if (request.readyState == 4 && request.status == 200) {

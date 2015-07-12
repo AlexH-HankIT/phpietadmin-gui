@@ -18,8 +18,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             $(document).ready(function(){
                 var sel = $('#logicalvolumedeleteselection');
 
-                $(document).off('click', '#logicalvolumedeletebutton');
-                $(document).on('click', '#logicalvolumedeletebutton', function(){
+                $(document).once('click', '#logicalvolumedeletebutton', function(){
                     if(sel.find('option:selected').val() == $("#default").val()) {
                         swal({
                             title: 'Error',
@@ -31,7 +30,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             "target": sel.find('option:selected').val()
                         };
 
-                        request = mylibs.doajax("/phpietadmin/lvm/delete", data);
+                        var request = mylibs.doajax("/phpietadmin/lvm/delete", data);
 
                         request.done(function() {
                             if (request.readyState == 4 && request.status == 200) {

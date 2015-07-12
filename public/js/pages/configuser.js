@@ -9,8 +9,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'sha256'], function($, mylibs, swal, s
                 var editpassword = $('#editpassword');
                 var savepasswordatag = $('#savepassworda');
 
-                $(document).off('click', '.editpassword');
-                $(document).on('click', '#editpassword', function() {
+                $(document).once('click', '#editpassword', function() {
                     if (password1.prop('disabled') == true && password2.prop('disabled') == true) {
                         password1.prop('disabled', false);
                         password2.prop('disabled', false);
@@ -38,17 +37,14 @@ define(['jquery', 'mylibs', 'sweetalert', 'sha256'], function($, mylibs, swal, s
                 var password1 = $('.password1');
                 var password2 = $('.password2');
 
-                $(document).off('click', '.savepassword');
-                $(document).on('click', '#savepassword', function() {
-                    $(document).off('click', '.password1');
-                    $(document).on('focus', '.password1', function () {
+                $(document).once('click', '#savepassword', function() {
+                    $(document).once('focus', '.password1', function () {
                         if (password1.hasClass("focusedInputerror")) {
                             password1.removeClass("focusedInputerror");
                         }
                     });
 
-                    $(document).off('focus', '.password2');
-                    $(document).on('focus', '.password2', function () {
+                    $(document).once('focus', '.password2', function () {
                         if (password2.hasClass("focusedInputerror")) {
                             password2.removeClass("focusedInputerror");
                         }
@@ -77,7 +73,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'sha256'], function($, mylibs, swal, s
                                 "pwhash": pwhash
                             };
 
-                            request = mylibs.doajax('/phpietadmin/config/editloginuser', data);
+                            var request = mylibs.doajax('/phpietadmin/config/editloginuser', data);
 
                             request.done(function () {
                                 if (request.readyState == 4 && request.status == 200) {

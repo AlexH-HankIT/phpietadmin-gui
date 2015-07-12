@@ -51,14 +51,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_addtargetbutton: function () {
-            $(document).ready(function(){
-                var iqninput = $('#iqninput');
-                var data = iqninput.val();
-
-                // Do ajax when button is clicked
-                $(document).off('click', '#addtargetbutton');
-                $(document).on('click', '#addtargetbutton', function () {
-
+            $(document).ready(function () {
+                $(document).once('click', '#addtargetbutton', function () {
+                    var iqninput = $('#iqninput');
                     var def = $('#defaultiqn').val();
 
                     if (iqninput.val() == "") {
@@ -69,32 +64,32 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             "name": def + iqninput.val()
                         };
 
-                        request = mylibs.doajax('/phpietadmin/targets/addtarget', data);
+                        var request = mylibs.doajax('/phpietadmin/targets/addtarget', data);
 
                         request.done(function () {
                             if (request.readyState == 4 && request.status == 200) {
                                 if (request.responseText == 'Success') {
+                                    iqninput.focus();
                                     swal({
                                             title: 'Success',
                                             type: 'success'
                                         },
                                         function () {
-                                            //iqninput.val('');
-                                            window.location.reload(true);
+                                            iqninput.val('');
                                         });
                                 } else {
+                                    iqninput.focus();
                                     swal({
                                             title: 'Error',
                                             type: 'error',
                                             text: request.responseText
                                         },
                                         function () {
-                                            window.location.reload(true);
-                                            //iqninput.addClass("focusedInputerror");
+                                            iqninput.addClass("focusedInputerror");
                                         });
                                 }
                             }
-                        })
+                        });
                     }
                 });
             });

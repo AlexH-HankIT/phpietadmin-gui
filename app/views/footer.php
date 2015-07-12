@@ -1,4 +1,4 @@
-<div class = 'navbar navbar-default navbar-fixed-bottom'>
+<div id="footer" class = 'navbar navbar-default navbar-fixed-bottom'>
     <div class = 'container'>
         <div class='row'>
             <div class='col-md-2'>

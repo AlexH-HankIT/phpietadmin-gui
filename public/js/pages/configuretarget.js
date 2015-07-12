@@ -9,10 +9,9 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
         },
         add_event_handler_targetselection: function () {
             $(document).ready(function(){
-            var targetselection = $('#targetselection');
+                var targetselection = $('#targetselection');
 
-            $(document).off('change', '#targetselection');
-                $(document).on('change', '#targetselection', function () {
+                $(document).once('change', '#targetselection', function () {
                     var defaultvalue = targetselection.find('#default').val();
                     var iqn = targetselection.find("option:selected").val();
                     var configuretargetmenu = $('#configuretargetmenu');
@@ -31,16 +30,14 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
         },
         add_event_handler_configuretargetnodata: function () {
             $(document).ready(function(){
-                $(document).off('click', '.configuretargetnodata');
-                $(document).on('click', '.configuretargetnodata', function () {
+                $(document).once('click', '.configuretargetnodata', function () {
                     mylibs.loadconfiguretargetbody($(this).attr('name'), '', $(this))
                 });
             });
         },
         add_event_handler_configuretargetiqn: function () {
             $(document).ready(function(){
-                $(document).off('click', '.configuretargetiqn');
-                $(document).on('click', '.configuretargetiqn', function () {
+                $(document).once('click', '.configuretargetiqn', function () {
                     var iqn = $('#targetselection').find("option:selected").val();
                     mylibs.loadconfiguretargetbody($(this).attr('name'), iqn, $(this))
                 });

@@ -15,8 +15,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             });
         },
         add_event_handler_deletetargetbutton: function() {
-            $(document).off('click', '#deletetargetbutton');
-            $(document).on('click', '#deletetargetbutton', function() {
+            $(document).once('click', '#deletetargetbutton', function() {
                 var targetdelete = $('#targetdelete');
 
                 if(targetdelete.val() == $('#default').val()) {
@@ -30,7 +29,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         "target": targetdelete.find('option:selected').val()
                     };
 
-                    request = mylibs.doajax("/phpietadmin/targets/deletetarget", data);
+                    var request = mylibs.doajax("/phpietadmin/targets/deletetarget", data);
 
                     request.done(function() {
                         if (request.readyState == 4 && request.status == 200) {

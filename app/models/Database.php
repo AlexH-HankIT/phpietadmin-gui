@@ -11,6 +11,46 @@
             }
         }
 
+        public function add_session($session_id, $username, $timestamp, $source_ip, $browser_agent) {
+            $query = $this->prepare('INSERT INTO sessions (session_id, username_id, login_time, source_ip, browser_agent)
+                                    VALUES (:session_id, (SELECT id from user where username=:username), :login_time, :source_ip, :browser_agent)');
+
+            $query->bindValue('session_id', $session_id, SQLITE3_TEXT );
+            $query->bindValue('username', $username, SQLITE3_TEXT );
+            $query->bindValue('login_time', $timestamp, SQLITE3_TEXT );
+            $query->bindValue('source_ip', $source_ip, SQLITE3_TEXT );
+            $query->bindValue('browser_agent', $browser_agent, SQLITE3_TEXT );
+
+            $query->execute();
+            return $this->return_last_error();
+        }
+
+        public function delete_session($session_id, $username) {
+            $query = $this->prepare('DELETE FROM sessions where session_id=:session_id and username_id=(SELECT id from user where username=:username)');
+
+            $query->bindValue('session_id', $session_id, SQLITE3_TEXT );
+            $query->bindValue('username', $username, SQLITE3_TEXT );
+
+            $query->execute();
+            return $this->return_last_error();
+        }
+
+        public function get_sessions_by_username($username) {
+            $query = $this->prepare('select session_id, username_id, login_time, source_ip, browser_agent from sessions where username_id=(select id from user where username=:username)');
+
+            $query->bindValue('username', $username, SQLITE3_TEXT );
+
+            $result = $query->execute();
+
+            $result = $result->fetchArray(SQLITE3_ASSOC);
+
+            if (empty($result)) {
+                return false;
+            } else {
+                return $result;
+            }
+        }
+
         public function get_config($option) {
             $data = $this->prepare('SELECT value from config where option=:option');
             $data->bindValue('option', $option, SQLITE3_TEXT );
@@ -269,24 +309,20 @@
             }
         }
 
-        public function get_iet_settings($type) {
-            // $type == 'input' || $type == 'select'
+        public function get_iet_settings() {
+            $query = $this->prepare('SELECT option, defaultvalue, type, state, chars, othervalue1 FROM ietsettings');
+            $query = $query->execute();
 
-            if ($type == 'input') {
-                $query = $this->prepare('SELECT option, defaultvalue, type, state, chars FROM ietsettings where type = "input"');
-                $query = $query->execute();
+            $counter = 0;
+            while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+                $data[$counter] = $result;
+                $counter++;
+            }
 
-                $counter=0;
-                while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
-                    $data[$counter] = $result;
-                    $counter++;
-                }
-
-                return $data;
-            } else if ($type == 'select') {
-
-            } else {
+            if (empty($data)) {
                 return false;
+            } else {
+                return $data;
             }
         }
 

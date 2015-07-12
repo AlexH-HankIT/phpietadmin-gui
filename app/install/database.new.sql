@@ -63,6 +63,16 @@ CREATE TABLE services(
   enabled numeric boolean
 );
 
+DROP TABLE IF EXISTS sessions;
+CREATE TABLE sessions(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  session_id varchar(64) NOT NULL,
+  username_id varchar(50) NOT NULL,
+  login_time varchar(64) NOT NULL,
+  source_ip varchar(15) NOT NULL,
+  browser_agent varchar(200) NOT NULL
+);
+
 INSERT INTO ietsettings (option, defaultvalue, type, state, chars) VALUES
     ('Alias', 'false', 'input', 1, 'all'),
     ('MaxConnections', 1, 'input', 0, 'digits'),

@@ -1,18 +1,17 @@
 <div class="workspacedirect">
     <div class="container">
-        <ol class="breadcrumb">
-            <li class="active">Dashboard</li>
-        </ol>
-    </div>
+        <div class='panel panel-default'>
+            <ol class='panel-heading breadcrumb'>
+                <li class="active">Dashboard</li>
+            </ol>
 
-    <div class="container">
-        <table class = "table table-striped table-bordered">
-            <thead>
+            <table class = "table table-striped">
+                <thead>
                 <tr>
                     <th colspan="2" class="dashboardheader">System information</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr>
                     <td class="dashboardoption">Hostname</td>
                     <td class="dashboardvalue"><?php echo htmlspecialchars($data['hostname']); ?></td>
@@ -57,9 +56,10 @@
                     <td class="dashboardoption">Kernel</td>
                     <td class="dashboardvalue"><?php echo htmlspecialchars($data['kernel']); ?></td>
                 </tr>
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
+        </div>
     </div>
     <!--
     services mit start stop

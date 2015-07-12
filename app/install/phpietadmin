@@ -15,12 +15,14 @@ Alias /phpietadmin /usr/share/phpietadmin/public/
                 AllowOverride All
         </Directory>
 
-
         ErrorLog ${APACHE_LOG_DIR}/error.log
 
         # Possible values include: debug, info, notice, warn, error, crit,
         # alert, emerg.
         LogLevel warn
 
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
+        # Disable logging for connection controller, because a connection to this controller
+        # is established every 10 seconds to get up2date informations
+        SetEnvIf Request_URI "^/phpietadmin/connection/(.*)$" dontlog
+        CustomLog ${APACHE_LOG_DIR}/access.log combined env=!dontlog
 </VirtualHost>

@@ -12,10 +12,23 @@
                 // Write username and hash to session object
                 $this->session->setUsername($_POST['username']);
                 $this->session->setPassword($pwhash);
-                $this->session->setTime();
+                $login_time = time();
+                $this->session->setTime($login_time);
 
-                if($this->session->check()) {
-                    header("Location: /phpietadmin/dashboard");
+                if($this->session->check_password()) {
+                    // check here if session with user $_POST['username'] has already started
+                    $data = $this->database->get_sessions_by_username($_POST['username']);
+
+                    if (empty($data)) {
+                        // redirect to dashboard page
+                        header("Location: /phpietadmin/dashboard");
+
+                        // add session data to database
+                        $this->database->add_session(session_id(), $_POST['username'], $login_time, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+                    } else {
+                        // todo: add override option
+                        $this->view('message', 'User ' . $_POST['username'] . ' is already logged in from ' . $data['source_ip']);
+                    }
                     die();
                 } else {
                     $this->view('message', 'Wrong username or password!');
@@ -32,11 +45,8 @@
             if (!empty($_SESSION['username']) && !empty($_SESSION['password'])) {
                 $this->session->setUsername($_SESSION['username']);
                 $this->session->setPassword($_SESSION['password']);
-                if ($this->session->check()) {
-                    session_unset();
-                    session_destroy();
-                    header("Location: /phpietadmin/auth/login");
-                    die();
+                if ($this->session->check_password()) {
+                   $this->session->destroy_session($this->std, $this->database);
                 }
             } else {
                 header("Location: /phpietadmin/auth/login");

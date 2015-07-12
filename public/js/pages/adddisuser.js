@@ -4,8 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return Methods = {
         add_event_handler_adddisuserbutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '#adddisuserbutton');
-                $(document).on('click', '#adddisuserbutton', function() {
+                $(document).once('click', '#adddisuserbutton', function() {
                     var type = $("input[name='type']:checked").val();
                     var checkbox = $(".adddisusercheckbox:checked");
 
@@ -23,7 +22,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 "id": $(this).closest('tr').find('.userid').text()
                             };
 
-                            request = mylibs.doajax("/phpietadmin/permission/adddisuser", data);
+                            var request = mylibs.doajax("/phpietadmin/permission/adddisuser", data);
 
                             request.done(function () {
                                 if (request.readyState == 4 && request.status == 200) {

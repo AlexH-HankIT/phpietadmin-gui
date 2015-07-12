@@ -4,15 +4,14 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return methods = {
         add_event_handler_vgselection: function() {
             $(document).ready(function(){
-                $(document).off('change', '#vgselection');
-                $(document).on('change', '#vgselection', function(){
+                $(document).once('change', '#vgselection', function(){
                     var volumegroup = $('#vgselection').find('option:selected').text();
 
                     var data = {
                         "vg": volumegroup
                     };
 
-                    request = mylibs.doajax("/phpietadmin/lvm/add", data);
+                    var request = mylibs.doajax("/phpietadmin/lvm/add", data);
 
                     request.done(function() {
                         if (request.readyState == 4 && request.status == 200) {
@@ -32,8 +31,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             rangeinput.prop('max', freesize);
 
                             // oninput sizefield update slider
-                            $(document).off('input', '#sizefield');
-                            $(document).on('input', '#sizefield', function(){
+                            $(document).once('input', '#sizefield', function(){
                                 var sizevalue = sizefield.val();
 
                                 // Check if value is 0
@@ -62,14 +60,12 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             });
 
                             // onchange slider update size field
-                            $(document).off('input', '#rangeinput');
-                            $(document).on('input', '#rangeinput', function(){
+                            $(document).once('input', '#rangeinput', function(){
                                 var rangevalue = rangeinput.val();
                                 sizefield.val(rangevalue)
                             });
 
-                            $(document).off('click', '#createvolumebutton');
-                            $(document).on('click', '#createvolumebutton', function(){
+                            $(document).once('click', '#createvolumebutton', function(){
                                 // Check if name is not empty
                                 if (nameinput.val() == '') {
                                     swal({

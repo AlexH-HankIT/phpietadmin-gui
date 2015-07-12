@@ -4,8 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return methods = {
         add_event_handler_deletedisuserbutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '#deletedisuserbutton');
-                $(document).on('click', '#deletedisuserbutton', function() {
+                $(document).once('click', '#deletedisuserbutton', function() {
                     var checkbox = $(".deletedisusercheckbox:checked");
 
                     if (!checkbox.val()) {
@@ -21,7 +20,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 "type": $(this).closest('tr').find('.deletedisusertype').text()
                             };
 
-                            request = mylibs.doajax("/phpietadmin/permission/deletedisuser", data);
+                            var request = mylibs.doajax("/phpietadmin/permission/deletedisuser", data);
 
                             request.done(function() {
                                 if (request.readyState == 4 && request.status == 200) {

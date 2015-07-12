@@ -1,4 +1,4 @@
-define(function() {
+define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'bootstrap'], function($, qtip, filterTable, mylibs, swal, blockUI) {
     var Methods;
     return Methods = {
         // ajax request
@@ -23,7 +23,7 @@ define(function() {
                     "servicename" : 'iscsitarget'
                 };
 
-                var request = Methods.doajax('/phpietadmin/service/status', data);
+                var request = Methods.doajax('/phpietadmin/connection/status', data);
 
                 request.done(function () {
                     if (request.readyState == 4 && request.status == 200) {
@@ -32,11 +32,23 @@ define(function() {
                         } else if (request.responseText == 3) {
                             $("#ietdstatus").html('<a class = "navbar-btn btn-danger btn pull-left"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> ietd not running</a>');
                         } else {
-                            // if response is false, we are not logged in
-                            // reload the page to display the login form
-                            window.location.reload();
+                            $("#ietdstatus").html('<a class = "navbar-btn btn-warning btn pull-left"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> ietd status unkown</a>');
                         }
                     }
+                });
+            }
+        },
+        check_session_expired: function() {
+            if (window.location.pathname !== '/phpietadmin/auth/login') {
+                var request = Methods.doajax('/phpietadmin/connection/check_session_expired');
+
+                request.done(function () {
+                        if (request.readyState == 4 && request.status == 200) {
+                            if (request.responseText == 'false') {
+                                // reload the page to display the login form
+                                window.location.reload();
+                            }
+                        }
                 });
             }
         },
@@ -118,8 +130,6 @@ define(function() {
                         configuretargetbody.addClass(page);
                     }
                 });
-            } else {
-                console.log('Already loaded');
             }
         },
         loadworkspace: function(clicked, site) {
@@ -176,7 +186,7 @@ define(function() {
                 "servicename": row.text()
             };
 
-            var request = Methods.doajax('/phpietadmin/service/status', data);
+            var request = Methods.doajax('/phpietadmin/connection/status', data);
 
             row = row.closest('tr').find('.servicestatus');
 

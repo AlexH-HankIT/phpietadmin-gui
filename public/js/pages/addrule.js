@@ -3,8 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return Methods = {
         add_event_handler_addallowrulebutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '#addallowrulebutton');
-                $(document).on('click', '#addallowrulebutton', function(){
+                $(document).once('click', '#addallowrulebutton', function(){
                     var selector_targetselection = $('#targetselection');
                     var iqn = selector_targetselection.find("option:selected").val();
                     var defaultvalue = selector_targetselection.find('#default').val();

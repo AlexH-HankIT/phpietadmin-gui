@@ -1,18 +1,20 @@
 <div class="workspacedirect">
     <div class = "container">
-        <ol class="breadcrumb">
-            <li class="active"><?php echo htmlspecialchars($data['title']); ?></li>
-        </ol>
+        <div class='panel panel-default'>
+            <ol class='panel-heading breadcrumb'>
+                <li><a href='#'>Overview</a></li>
+                <li class='active'><?php echo htmlspecialchars($data['title']); ?></li>
+            </ol>
 
-        <table class = "table table-striped">
-            <thead>
+            <table class = "table table-striped table-in-panel">
+                <thead>
                 <tr>
                     <?php foreach ($data[0] as $value) { ?>
                         <th><?php echo htmlspecialchars($value); ?></th>
                     <?php } ?>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <?php foreach ($data[1] as $value) { ?>
                     <tr>
                         <?php for ($i=0; $i<count($value); $i++) { ?>
@@ -20,7 +22,8 @@
                         <?php } ?>
                     </tr>
                 <?php } ?>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

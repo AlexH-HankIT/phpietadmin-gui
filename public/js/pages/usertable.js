@@ -4,8 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return methods = {
         add_event_handler_passwordfield1: function() {
             $(document).ready(function(){
-                $(document).off('mouseover', '.passwordfield');
-                $(document).on('mouseover', '.passwordfield', function() {
+                $(document).once('mouseover', '.passwordfield', function() {
                     $(this).find('.passwordfieldplaceholder').hide();
                     $(this).find('.password').show();
                 });
@@ -13,8 +12,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_passwordfield2: function() {
             $(document).ready(function(){
-                $(document).off('mouseout', '.passwordfield');
-                $(document).on('mouseout', '.passwordfield', function() {
+                $(document).once('mouseout', '.passwordfield', function() {
                     $(this).find('.passwordfieldplaceholder').show();
                     $(this).find('.password').hide();
                 });
@@ -22,16 +20,14 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_adduserrowbutton1: function() {
             $(document).ready(function(){
-                $(document).off('click', '#adduserrowbutton');
-                $(document).on('click', '#adduserrowbutton', function() {
+                $(document).once('click', '#adduserrowbutton', function() {
                     $('#adduserrowbutton').hide();
                 });
             });
         },
         add_event_handler_deleteuserrow: function() {
             $(document).ready(function(){
-                $(document).off('click', '.deleteuserrow');
-                $(document).on('click', '.deleteuserrow', function() {
+                $(document).once('click', '.deleteuserrow', function() {
                     var thisrow = $(this).closest('tr');
 
                     if (thisrow.hasClass('newrow')) {
@@ -53,7 +49,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                     "id": thisrow.find('.id').text()
                                 };
 
-                                request = mylibs.doajax('/phpietadmin/ietusers/deleteuserfromdb', data);
+                                var request = mylibs.doajax('/phpietadmin/ietusers/deleteuserfromdb', data);
 
                                 request.done(function () {
                                     if (request.readyState == 4 && request.status == 200) {
@@ -83,8 +79,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_adduserrowbutton2: function() {
             $(document).ready(function(){
-                $(document).off('click', '#adduserrowbutton');
-                $(document).on('click', '#adduserrowbutton', function() {
+                $(document).once('click', '#adduserrowbutton', function() {
                     $('#addusertablebody').append(
                         '<tr class="newrow">' +
                         '<td>' +
@@ -110,27 +105,27 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         }
                     });
 
-                    $(document).on('click', '#generatepw', function() {
+                    $(document).once('click', '#generatepw', function() {
                         var selpassword = $('.password');
                         var password = mylibs.generatePassword();
                         selpassword.val(password);
                     });
 
-                    $(document).on('focus', '.password', function() {
+                    $(document).once('focus', '.password', function() {
                         var selpassword = $(".password");
                         if (selpassword.hasClass("focusedInputerror")) {
                             selpassword.removeClass("focusedInputerror");
                         }
                     });
 
-                    $(document).on('focus', '.username', function() {
+                    $(document).once('focus', '.username', function() {
                         var selusername = $(".username");
                         if (selusername.hasClass("focusedInputerror")) {
                             selusername.removeClass("focusedInputerror");
                         }
                     });
 
-                    $(document).on('click', '.saveuserrow', function() {
+                    $(document).once('click', '.saveuserrow', function() {
                         // Check if username and password isset
                         var selpassword = $(this).closest("tr").find('.password');
                         var selpasswordval = selpassword.val();
@@ -165,7 +160,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 "username": selusernameval
                             };
 
-                            request = mylibs.doajax('/phpietadmin/ietusers/check_username_already_in_use', data);
+                            var request = mylibs.doajax('/phpietadmin/ietusers/check_username_already_in_use', data);
 
                             request.done(function () {
                                 if (request.readyState == 4 && request.status == 200) {
@@ -183,7 +178,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                             "password": selpasswordval
                                         };
 
-                                        request = mylibs.doajax('/phpietadmin/ietusers/addusertodb', data);
+                                        var request = mylibs.doajax('/phpietadmin/ietusers/addusertodb', data);
 
                                         request.done(function () {
                                             if (request.readyState == 4 && request.status == 200) {

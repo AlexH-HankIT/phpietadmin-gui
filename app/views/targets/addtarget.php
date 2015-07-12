@@ -1,25 +1,19 @@
 <div class='workspacedirect'>
     <div id='addtargetinput' class='container'>
-        <!--<ol class='breadcrumb'>
-            <li class='active'>Add target</li>
-        </ol>-->
-
-        <ol class='breadcrumb'>
-            <li><a href='#'>Targets</a></li>
-            <li class='active'>Add</a></li>
-        </ol>
-
         <!-- Hidden field to save default iqn -->
         <input value='<?php echo htmlspecialchars($data); ?>' id='defaultiqn' type='hidden'/>
 
         <div class='panel panel-default'>
-
+            <ol class='panel-heading breadcrumb'>
+                <li><a href='#'>Targets</a></li>
+                <li class='active'>Add</a></li>
+            </ol>
             <div class='panel-body'>
                 <div class='row'>
                     <div class='col-md-12'>
                         <div class='input-group'>
                             <span class='input-group-addon' id='basic-addon1'><?php echo htmlspecialchars($data); ?></span>
-                            <input class='form-control focusedInput' type='text' id='iqninput' required/>
+                            <input class='form-control' type='text' id='iqninput' required/>
                         </div>
                     </div>
                 </div>

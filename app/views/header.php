@@ -19,3 +19,6 @@
     <title>phpietadmin</title>
 </head>
 <body>
+<div hidden id="offlinemessage">
+    Server connection failed... <img src="/phpietadmin/img/ajax-loader.gif">
+</div>

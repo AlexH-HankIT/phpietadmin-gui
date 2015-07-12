@@ -3,8 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return Methods = {
         add_event_handler_deletelunbutton: function() {
             $(document).ready(function(){
-                $(document).off('click', '#deletelunbutton');
-                $(document).on('click', '#deletelunbutton', function() {
+                $(document).once('click', '#deletelunbutton', function() {
                     var deletelunlunselection = $('#deletelunlunselection');
                     var iqn = $('#targetselection').find("option:selected").val();
 
