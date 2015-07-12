@@ -2,29 +2,31 @@
     <div class = "container">
         <div class="row">
             <div class="col-md-10">
-                <table id="objectstable" class="table table-striped searchabletable">
-                    <thead>
-                        <tr>
-                            <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
-                            <th class="col-md-3">Type</th>
-                            <th class="col-md-4">Name</th>
-                            <th class="col-md-4">Value</th>
-                        </tr>
-                    </thead>
-                    <tbody id="objectselection">
-                    <?php if (is_array($data['objects'])) { ?>
-                        <?php foreach ($data['objects'] as $value ) { ?>
+                <div class="table-responsive">
+                    <table id="objectstable" class="table table-striped searchabletable">
+                        <thead>
                             <tr>
-                                <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
-                                <td class="col-md-1"><input class="objectcheckbox" type="checkbox"/></td>
-                                <td class="col-md-3"><?php echo htmlspecialchars($value['type']); ?></td>
-                                <td class="col-md-4"><?php echo htmlspecialchars($value['name']); ?></td>
-                                <td class="col-md-4"><?php echo htmlspecialchars($value['value']); ?></td>
+                                <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                                <th class="col-md-3">Type</th>
+                                <th class="col-md-4">Name</th>
+                                <th class="col-md-4">Value</th>
                             </tr>
+                        </thead>
+                        <tbody id="objectselection">
+                        <?php if (is_array($data['objects'])) { ?>
+                            <?php foreach ($data['objects'] as $value ) { ?>
+                                <tr>
+                                    <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
+                                    <td class="col-md-1"><input class="objectcheckbox" type="checkbox"/></td>
+                                    <td class="col-md-3"><?php echo htmlspecialchars($value['type']); ?></td>
+                                    <td class="col-md-4"><?php echo htmlspecialchars($value['name']); ?></td>
+                                    <td class="col-md-4"><?php echo htmlspecialchars($value['value']); ?></td>
+                                </tr>
+                            <?php } ?>
                         <?php } ?>
-                    <?php } ?>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-md-2">
                 <div id="addallowrulebutton">

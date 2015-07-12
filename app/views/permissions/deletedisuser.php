@@ -17,24 +17,26 @@
         <ol class="breadcrumb">
             <li class="active">Users</li>
         </ol>
-        <table class="table table-striped searchabletable" id="deletedisusertable">
-            <thead>
-                <tr>
-                    <th><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
-                    <th>Type</th>
-                    <th>User</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($data as $row) { ?>
+        <div class="table-responsive">
+            <table class="table table-striped searchabletable" id="deletedisusertable">
+                <thead>
                     <tr>
-                        <td><input class="deletedisusercheckbox" type="checkbox"/></td>
-                        <td class="deletedisusertype"><?php echo $row[0] ?></td>
-                        <td class="deletedisusername"><?php echo $row[1] ?></td>
+                        <th><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                        <th>Type</th>
+                        <th>User</th>
                     </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($data as $row) { ?>
+                        <tr>
+                            <td><input class="deletedisusercheckbox" type="checkbox"/></td>
+                            <td class="deletedisusertype"><?php echo $row[0] ?></td>
+                            <td class="deletedisusername"><?php echo $row[1] ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
