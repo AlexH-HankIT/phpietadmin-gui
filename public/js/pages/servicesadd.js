@@ -122,7 +122,6 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
 
                             request.done(function() {
                                 if (request.readyState == 4 && request.status == 200) {
-                                    console.log(request.responseText);
                                     if (request.responseText == 'false') {
                                         request = mylibs.doajax('/phpietadmin/service/add', data);
 

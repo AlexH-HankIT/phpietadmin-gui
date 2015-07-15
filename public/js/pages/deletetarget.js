@@ -37,7 +37,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
                         request.done(function() {
                             if (request.readyState == 4 && request.status == 200) {
-                                console.log(request.responseText);
                                 swal({
                                     title: "Result",
                                     text: request.responseText
