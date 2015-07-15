@@ -86,3 +86,14 @@ td.alt {
 .panel-body {
     padding-top: 0;
 }
+
+select {
+    border:1px solid #ccc;
+    vertical-align:top;
+    height:20px;
+}
+input, select{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}

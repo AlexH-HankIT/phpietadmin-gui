@@ -138,7 +138,6 @@
             return $data;
         }
 
-
         public function get_targets_without_rules($a_initiators, $a_name) {
             $a_initiators2 = $this->get_initiator_array($a_initiators);
 

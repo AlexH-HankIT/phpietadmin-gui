@@ -1,52 +1,65 @@
 <div class="workspacedirect">
     <div class="container">
-        <div class="row">
-            <?php foreach ($data as $tables) { ?>
-                <div class="col-md-6">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+        <div class="panel panel-default">
+            <ol class='panel-heading breadcrumb'>
+                <li><a href='#'>Targets</a></li>
+                <li><a href='#'>Configure</a></li>
+                <li class='active'>Settings</li>
+            </ol>
+            <div class="row">
+                <?php foreach ($data as $tables) { ?>
+                    <div class="col-md-6">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
                                 <tr>
-                                    <th><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                                    <th>Save</th>
+                                    <th>Reset</th>
                                     <th>Option</th>
                                     <th>Value</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 <?php foreach ($tables as $row) { ?>
-                                    <tr class="<?php echo htmlspecialchars($row['option']); ?>">
-                                        <td><input disabled class="settingstablecheckbox" type="checkbox"></td>
+                                    <tr id="<?php echo htmlspecialchars($row['option']); ?>">
+                                        <td hidden><input class="settingstablecheckbox" type="checkbox"></td>
+                                        <td><a href="#" class="savevalueinput"><span class="glyphicon glyphicon-save glyphicon-20"></span></a></td>
                                         <?php if ($row['type'] == 'input') { ?>
-                                            <td><?php echo htmlspecialchars($row['option']); ?></td>
-                                            <td><input class='value' <?php if ($row['state'] == 0) echo 'disabled' ?> type="text" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
-                                            <td><input hidden class="default_value_before_change" type="text" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
+                                            <td><a href="#" class="resetvalue"><span class="glyphicon glyphicon-trash glyphicon-20"></span></a></td>
+                                            <td class="option"><?php echo htmlspecialchars($row['option']); ?></td>
+                                            <td><input class="value <?php if ($row['defaultvalue'] !== 'false') echo 'required' ?>" <?php if ($row['state'] == 0) echo 'disabled' ?> type="text" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
+                                            <td hidden><input class="default_value_before_change" type="text" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
                                         <?php } else if ($row['type'] == 'select') { ?>
-                                            <td><?php echo htmlspecialchars($row['option']); ?></td>
+                                            <td></td>
+                                            <td class="option"><?php echo htmlspecialchars($row['option']); ?></td>
                                             <td>
-                                                <select <?php if ($row['state'] == 0) echo 'disabled' ?>>
+                                                <select class="optionselector" <?php if ($row['state'] == 0) echo 'disabled' ?>>
                                                     <option><?php echo htmlspecialchars($row['defaultvalue']); ?></option>
-                                                    <option hidden class="default_value_before_change"><?php echo htmlspecialchars($row['defaultvalue']); ?></option>
                                                     <option><?php echo htmlspecialchars($row['othervalue1']); ?></option>
                                                 </select>
                                             </td>
+                                            <td hidden><input class="default_value_before_change" type="text" value="<?php echo htmlspecialchars($row['defaultvalue']); ?>"></td>
                                         <?php } ?>
                                     </tr>
                                 <?php } ?>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
         </div>
     </div>
 
     <script>
-        require(['common'],function() {
-            require(['pages/settings'],function(methods) {
+        require(['common'], function () {
+            require(['pages/settings'], function (methods) {
                 methods.add_event_handler_settingstablecheckbox();
-                methods.add_event_handler_save_settings();
+                methods.add_event_handler_savevalue();
+                methods.remove_error();
+                methods.add_event_handler_resetvalue();
             });
-            require(['pages/settingstableqtip'],function(methods) {
+            require(['pages/settingstableqtip'], function (methods) {
                 methods.add_qtip();
             });
         });

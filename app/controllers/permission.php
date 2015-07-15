@@ -3,7 +3,7 @@
         public function addrule() {
             if (isset($_POST['iqn']) && isset($_POST['type']) && isset($_POST['id'])) {
                 // Get value of object with $id
-                $value = $this->database->get_object_value(intval($_POST['id']));
+                $value = $this->database->get_object_value(intval(['id']));
 
                 // Check for type
                 if ($_POST['type'] == "initiator") {
@@ -21,7 +21,7 @@
                 }
 
                 if (isset($key) && is_int($key)) {
-                    echo 'The object with value ' . $value . ' is already added!';
+                    echo 'The object with value ' . htmlspecialchars($value) . ' is already added!';
                 } else {
                     if (isset($file) && !empty($file)) {
                         $return = $this->ietpermissions->add_object_to_iqn($_POST['iqn'], $value, $file);
@@ -143,13 +143,13 @@
                 }
 
                 if (isset($key) && is_int($key)) {
-                    echo 'User is ' . $data['username'] . ' already there!';
+                    echo 'User is ' . htmlspecialchars($data['username']) . ' already there!';
                 } else {
                     // Add user to daemon
                     $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=" . $tid . " --user --params=" . $type . "=" . $data['username'] . ",Password=" . $data['password']);
 
                     if ($return != 0) {
-                        echo 'Could not add user ' . $data['username'] . ' to target ' . $_POST['iqn'] .'Server said:' . $return[0];
+                        echo 'Could not add user ' . htmlspecialchars($data['username']) . ' to target ' . htmlspecialchars($_POST['iqn']) .'Server said:' . htmlspecialchars($return[0]);
                     } else {
                         $option = $type . ' ' . $data['username'] . ' ' . $data['password'];
                         $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $option);
@@ -210,7 +210,7 @@
                 $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op delete --tid=' . $tid . ' --user --params=' . $type . '=' . $_POST['user']);
 
                 if ($return !== 0) {
-                    echo 'Could not delete user ' . $_POST['user'] . ' from target ' . $_POST['iqn'] . 'Server said:' . $return[0];
+                    echo 'Could not delete user ' . htmlspecialchars($_POST['user']) . ' from target ' . htmlspecialchars($_POST['iqn']) . 'Server said:' . htmlspecialchars($return[0]);
                 } else {
                     // if successful delete uesr from config file
                     // get exact line with user
@@ -259,13 +259,13 @@
                 }
 
                 if (isset($key) && is_int($key)) {
-                    echo 'User is ' . $data['username'] . ' already there!';
+                    echo 'User is ' . htmlspecialchars($data['username']) . ' already there!';
                 } else {
                     // add user to daemon and config file
                     $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . ' --op new --user --params=' . $type . "=" . $data['username'] . ",Password=" . $data['password']);
 
                     if ($return !== 0) {
-                        echo 'Could not add user ' . $_POST['user'] . 'Server said:' . $return[0];
+                        echo 'Could not add user ' . htmlspecialchars($_POST['user']) . 'Server said:' . htmlspecialchars($return[0]);
                     } else {
                         $return = $this->ietadd->add_global_option_to_file($this->database->get_config('ietd_config_file'), $type . ' ' . $data['username'] . ' ' . $data['password']);
 
@@ -273,7 +273,7 @@
                             if ($return == 1) {
                                 echo 'The user was added to the daemon, but not to the config file, because it\'s read only.';
                             } else if ($return == 4) {
-                                echo 'User ' . $data['username'] . ' is already there!';
+                                echo 'User ' . htmlspecialchars($data['username']) . ' is already there!';
                             } else {
                                 echo 'The user was added to the daemon, but not to the config file. Reason is unkown.';
                             }
@@ -304,7 +304,7 @@
                 $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . ' --op delete  --user --params=' . $type . "=" . $_POST['username']);
 
                 if ($return !== 0) {
-                    echo 'Could not delete user ' . $_POST['username'] . 'Server said:' . $return[0];
+                    echo 'Could not delete user ' . htmlspecialchars($_POST['username']) . 'Server said:' . htmlspecialchars($return[0]);
                 } else {
                     // delete user from config file
                     $data = $this->database->get_user_by_name($_POST['username']);

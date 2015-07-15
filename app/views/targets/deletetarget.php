@@ -1,44 +1,55 @@
 <div class="workspacedirect">
     <div class="container">
-        <div class="jumbotron">
-            <div class="row">
-                <label>
-                    <input type="radio" name="lundeletion" checked/>
-                    Detach LUN(s)
-                </label>
-                (No data will be deleted)
-            </div>
-            <div class="row top-buffer">
-                <label>
-                    <input type="radio" name="lundeletion"/>
-                    Delete attached LUN(s)
-                </label>
-                (LVM only, data will be deleted!)
-            </div>
-            <div class="row top-buffer">
-                <label>
-                    <input type="checkbox" checked/>
-                    Delete acl
-                </label>
-                from initiator allow and target allow
-            </div>
-            <div class="row top-buffer">
-                <label>
-                    <input type="checkbox" />
-                    Force
-                </label>
-                (Delete even if in use, requires 'Delete allow rules')
-            </div>
-            <div class="row top-buffer">
-                <button id="deletetargetbutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
+        <div class="panel panel-default">
+            <ol class='panel-heading breadcrumb'>
+                <li><a href='#'>Targets</a></li>
+                <li><a href='#'>Configure</a></li>
+                <li class='active'>Delete target</li>
+            </ol>
+
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>
+                            <input type="radio" name="lundeletion" checked value="detach"/> Detach LUN(s)
+                        </label> (No data will be deleted)
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-12">
+                        <label>
+                            <input type="radio" name="lundeletion" value="delete"/> Delete attached LUN(s)
+                        </label> (LVM only, data will be deleted!)
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-12">
+                        <label>
+                            <input id="deleteacl" type="checkbox" checked/> Delete acl
+                        </label> from initiator allow and target allow
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-12">
+                        <label>
+                            <input id="force" type="checkbox"/> Force
+                        </label> (Delete even if in use, requires 'Delete acl')
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-md-12">
+                        <button id="deletetargetbutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
-        require(['common'],function() {
-            require(['pages/deletetarget'],function(methods) {
-                methods.add_qtip_deletetargetbutton();
+        require(['common'], function () {
+            require(['pages/deletetarget'], function (methods) {
                 methods.add_event_handler_deletetargetbutton();
             });
         });

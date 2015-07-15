@@ -28,9 +28,7 @@ CREATE TABLE sessions(
 );
 
 INSERT INTO ietsettings (option, defaultvalue, type, state, chars) VALUES
-    ('Alias', 'false', 'input', 1, 'all'),
     ('MaxConnections', 1, 'input', 0, 'digits'),
-    ('MaxSessions', 1, 'input', 1, 'digits'),
     ('MaxRecvDataSegmentLength', 8192, 'input', 1, 'digits'),
     ('MaxXmitDataSegmentLength', 8192, 'input', 1, 'digits'),
     ('MaxBurstLength', 262144, 'input', 1, 'digits'),

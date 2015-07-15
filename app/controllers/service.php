@@ -16,7 +16,7 @@
                 if (empty($command)) {
                     echo 'Invalid command!';
                 } else {
-                    echo shell_exec($command);
+                    echo htmlspecialchars(shell_exec($command));
                 }
             } else {
                 $this->view('services/overview', $this->database->get_services());
@@ -31,16 +31,16 @@
                     // $_POST['action'] == 'delete' <-- delete service
                     // $_POST['action'] == 'add' <-- add service
                     if ($_POST['action'] == 'enable') {
-                        echo $this->database->change_service($_POST['servicename'], 'enabled', '1');
+                        echo htmlspecialchars(($this->database->change_service($_POST['servicename'], 'enabled', '1')));
                     } else if ($_POST['action'] == 'disable') {
-                        echo $this->database->change_service($_POST['servicename'], 'enabled', '0');
+                        echo htmlspecialchars($this->database->change_service($_POST['servicename'], 'enabled', '0'));
                     } else if ($_POST['action'] == 'delete') {
-                        echo $this->database->delete_service($_POST['servicename']);
+                        echo htmlspecialchars($this->database->delete_service($_POST['servicename']));
                     } else if ($_POST['action'] == 'add') {
-                        echo $this->database->add_service($_POST['servicename']);
+                        echo htmlspecialchars($this->database->add_service($_POST['servicename']));
                     } else if ($_POST['action'] == 'edit') {
                         if (isset($_POST['newvalue'])) {
-                            echo $this->database->change_service($_POST['servicename'], 'name', $_POST['newvalue']);
+                            echo htmlspecialchars(($this->database->change_service($_POST['servicename'], 'name', $_POST['newvalue'])));
                         } else {
                             echo "Missing value";
                         }

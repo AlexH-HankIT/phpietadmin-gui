@@ -1,23 +1,22 @@
 <div class="workspacedirect">
     <div class = "container">
-        <ol class="breadcrumb">
-            <li class="active">Delete logical volumes</li>
-        </ol>
+        <div class="panel panel-default">
+            <ol class='panel-heading breadcrumb'>
+                <li><a href='#'>LVM</a></li>
+                <li class='active'>Delete logical volume</li>
+            </ol>
 
-        <div class="jumbotron">
-            <div class="row">
+            <div class="panel-body">
                 <select id="logicalvolumedeleteselection" class="form-control">
                     <option id="default">Select...</option>
                     <?php foreach ($data as $row) { ?>
-                        <option
-                            value="<?php echo htmlspecialchars($row); ?>"> <?php echo htmlspecialchars($row); ?> </option>
+                        <option value="<?php echo htmlspecialchars($row); ?>"> <?php echo htmlspecialchars($row); ?> </option>
                     <?php } ?>
                 </select>
             </div>
-            <div class="row top-buffer">
-                <button id="logicalvolumedeletebutton" class="btn btn-danger" type="submit">
-                    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
-                </button>
+
+            <div class="panel-footer">
+                <button id="logicalvolumedeletebutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
             </div>
         </div>
 

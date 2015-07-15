@@ -4,14 +4,6 @@ define(['jquery', 'qtip'], function($, qtip) {
     return methods = {
         add_qtip: function() {
             $(document).ready(function(){
-                $('#Alias').qtip({
-                    content: {
-                        text: 'This assigns an optional aliasname to the target.'
-                    },
-                    style: {
-                        classes: 'qtip-youtube'
-                    }
-                });
                 $('#HeaderDigest').qtip({
                     content: {
                         text: 'Optional. If set to "CRC32C" and  the  initiator  is  configured ' +
@@ -39,16 +31,6 @@ define(['jquery', 'qtip'], function($, qtip) {
                         text:  'Optional.  The number of connections within a session. Has to be ' +
                         'set to "1" (in words: one), which is also the default since MC/S ' +
                         'is not supported.'
-                    },
-                    style: {
-                        classes: 'qtip-youtube'
-                    }
-                });
-                $('#MaxSessions').qtip({
-                    content: {
-                        text:   'Optional.  The  maximum  number  of sessions for this target. If ' +
-                        'this is set to 0 (wich is the  default)  there  is  no  explicit ' +
-                        'session limit.'
                     },
                     style: {
                         classes: 'qtip-youtube'

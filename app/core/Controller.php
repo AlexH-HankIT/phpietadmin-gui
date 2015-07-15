@@ -37,6 +37,7 @@
                 $this->lvm = $this->model('Lvmdisplay');
                 $this->ietsessions = $this->model('IetSessions');
                 $this->ietsettings = $this->model('Settings');
+                $this->ietpermissions = $this->model('Ietpermissions');
             } else if ($controller == 'lvm') {
                 $this->lvm = $this->model('Lvmdisplay');
             }
@@ -87,7 +88,7 @@
             if (file_exists($file)) {
                 require_once $file;
             } else {
-                echo 'File ' . $file . ' not found!';
+                echo 'File ' . htmlspecialchars($file) . ' not found!';
             }
         }
 

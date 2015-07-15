@@ -1,38 +1,45 @@
 <div class="workspacedirect">
     <div class="container">
-        <div class="table-responsive">
-            <table class="table white-table">
-                <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Password</th>
-                    <th>Repeat</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>admin</td>
-                    <td>
-                        <input class="password1" disabled type="password" value="           "><span class="label label-success bestaetigung">Success</span>
-                    </td>
-                    <td>
-                        <input class="password2" disabled type="password" value="           "><span class="label label-success bestaetigung">Success</span>
-                    </td>
-                    <td>
-                        <a href='#'>
-                            <span id="editpassword" style="font-size: 15px" class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                    </td>
-                    <td>
-                        <a id="savepassworda" hidden href='#'>
-                            <span id="savepassword" style="font-size: 15px" class="glyphicon glyphicon-ok"></span>
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="panel panel-default">
+            <ol class='panel-heading breadcrumb'>
+                <li><a href='#'>Config</a></li>
+                <li class='active'>Login user</li>
+            </ol>
+
+            <div class="table-responsive">
+                <table class="table white-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Password</th>
+                            <th>Repeat</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>admin</td>
+                            <td>
+                                <input class="password1" disabled type="password" value="           "><span class="label label-success bestaetigung">Success</span>
+                            </td>
+                            <td>
+                                <input class="password2" disabled type="password" value="           "><span class="label label-success bestaetigung">Success</span>
+                            </td>
+                            <td>
+                                <a href='#'>
+                                    <span id="editpassword" style="font-size: 15px" class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a id="savepassworda" hidden href='#'>
+                                    <span id="savepassword" style="font-size: 15px" class="glyphicon glyphicon-ok"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

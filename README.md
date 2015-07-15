@@ -45,7 +45,7 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Smart data
 - [ ] Volume group menu (select which volume groups phpietadmin should use)
 - [x] Save session data in database
-    - [ ] Check if user 'admin' is already logged in
+    - [x] Check if user 'admin' is already logged in
 - [x] Delete session cookie when logging off
 - [ ] Config option for production and development
     * Production:
@@ -57,15 +57,18 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Backup config files
 - [ ] Menu to restore config files
 - [ ] Action logging
+- [ ] Document already written methods
+- [ ] Pie Chart for volume groups
+- [ ] Config -> MISC -> Idle, no zeros
+- [ ] Own model for exec's
 
 ## Planned features and todo
 In version 0.5:
-- [ ] Iet settings configuration menu
+- [x] Iet settings configuration menu
 - [x] Shutdown/reboot via gui (Add client side validation, Prevent link from being directly pressed)
     - [x] Check via sweetalert, shutdown/reboot server only if post var isset
 - [x] Add delete button to sessions
-- [ ] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
-- [ ] Own model for exec's
+- [x] Delete target: Checkbox to force deletion, even if in use (Disconnect initiator and delete target)
 - [ ] Add up2date documentation & screenshots
 - [x] Rework service tab
     - [x] Add other services
@@ -76,12 +79,11 @@ In version 0.5:
     - [x] Check service/services running
     - [x] Check session expired
     - [x] Disable apache access logging for this controller (http://stackoverflow.com/questions/10002289/prevent-stop-apache-from-logging-specific-ajax-xmlhttprequests)
-- [ ] Pie Chart for volume groups
 - [x] Add glyphicons Targets > Add/delete discovery user, Services -> overview, add
-- [ ] Check array search for correct value comparing
-- [ ] addslashes for every user input
-- [ ] htmlspecialchars for every echo
-- [ ] Config -> MISC -> Idle, no zeros
+- [x] addslashes for every user input
+- [x] htmlspecialchars for every echo
+- [x] Correct some ugly markup
+- [x] Targets/Configure/Delete ACL add checkboxes for orphans
 
 Items are completely random ;-)
 

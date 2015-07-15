@@ -7,7 +7,7 @@
        public function status() {
            if (isset($_POST['servicename'])) {
                $return = $this->std->get_service_status($_POST['servicename']);
-               echo $return[1];
+               echo htmlspecialchars($return[1]);
            } else {
                echo 'Undefined service name';
            }

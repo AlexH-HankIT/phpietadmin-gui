@@ -181,6 +181,31 @@ class Ietdelete
         }
     }
 
+    public function get_all_luns_of_iqn($targets_with_lun, $iqn) {
+        // $targets_with_lun is output of ietadd->get_targets_with_lun()
+
+        if (empty($targets_with_lun)) {
+            return 3;
+        } else {
+            foreach ($targets_with_lun as $value) {
+                if (strcmp($value[0]['name'], $iqn) === 0) {
+                    for ($i = 1; $i < count($value); $i++) {
+                        $paths[$i]['lun'] = $value[$i]['lun'];
+                        $paths[$i]['path'] = $value[$i]['path'];
+                        $paths[$i]['type'] = $value[$i]['iotype'];
+                        $paths[$i]['mode'] = $value[$i]['iomode'];
+                    }
+                }
+            }
+
+            if (empty($paths)) {
+                return 3;
+            } else {
+                return $paths;
+            }
+        }
+    }
+
     public function delete_all_options_from_iqn($iqn, $file) {
         /* This function is similar to the delete_option_from_iqn function,*/
         /* But it deletes all options from the target (target with luns cannot be deleted) */

@@ -6,7 +6,7 @@
         }
 
         public function get_version() {
-            echo file_get_contents('https://raw.githubusercontent.com/MrCrankHank/phpietadmin/master/version');
+            echo htmlspecialchars(file_get_contents('https://raw.githubusercontent.com/MrCrankHank/phpietadmin/master/version'));
         }
     }
 ?>

@@ -8,13 +8,14 @@
 
 // https://github.com/balupton/jquery-sparkle/blob/9921fcbf1cbeab7a4f2f875a91cb8548f3f65721/scripts/resources/jquery.events.js#L41
 
-define(['jquery'], function() {
+define(['jquery'], function($) {
     $.fn.once = $.fn.once || function(event, data, callback){
         // Only apply a event handler once
         var $this = $(this);
+
         // Handle
         if ( (callback||false) ) {
-            $this.off(event, callback);
+            $this.off(event, data);
             $this.on(event, data, callback);
         } else {
             callback = data;

@@ -1,8 +1,8 @@
-<script class="<?php echo $data['class'] ?>">
+<script class="<?php echo htmlspecialchars($data['class']) ?>">
     require(['common'],function() {
-        require(["pages/<?php echo $data['page'] ?>"],function(methods) {
+        require(["pages/<?php echo htmlspecialchars($data['page']) ?>"],function(methods) {
             <?php foreach ($data['methods'] as $methods) { ?>
-                methods.<?php echo $methods ?>;
+                methods.<?php echo htmlspecialchars($methods) ?>;
             <?php } ?>
         });
     });

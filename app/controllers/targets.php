@@ -4,11 +4,11 @@
             if (isset($_POST['name'])) {
                 $return = $this->ietadd->check_target_name_already_in_use($_POST['name']);
                 if ($return == 4) {
-                    echo 'The name ' . $_POST['name'] .  ' is already taken!';
+                    echo 'The name ' . htmlspecialchars($_POST['name']) .  ' is already taken!';
                 } else {
                     $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=0 --params Name=" . $_POST['name']);
                     if ($return != 0) {
-                        echo 'Could not add target ' . $_POST['name'] . '. Server said: ' . $return[0];
+                        echo 'Could not add target ' . htmlspecialchars($_POST['name']) . '. Server said: ' . htmlspecialchars($return[0]);
                     } else {
                         $return = $this->ietadd->add_iqn_to_file($_POST['name'], $this->database->get_config('ietd_config_file'));
                         if ($return !== 0) {
@@ -38,11 +38,11 @@
                     $LUN = $this->ietadd->get_next_lun($_POST['target']);
                     $return = $this->ietadd->check_path_already_in_use($_POST['path']);
                     if ($return != 0) {
-                        echo 'The path '  . $_POST['path'] . ' is already in use';
+                        echo 'The path '  . htmlspecialchars($_POST['path']) . ' is already in use';
                     } else {
                         $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=" . $TID . " --lun=" . $LUN . " --params Path=" . $_POST['path'] . ",Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode']);
                         if ($return != 0) {
-                            echo 'Could not add lun to target ' .  $_POST['target'] . ' Server said: ' . $return[0];
+                            echo 'Could not add lun to target ' .  htmlspecialchars($_POST['target']) . ' Server said: ' . htmlspecialchars($return[0]);
                         } else {
                             $option = 'Lun ' . $LUN . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path'];
 
@@ -94,20 +94,13 @@
 
             if (!empty($data)) {
                 if (isset($_POST['iqn']) && !isset($_POST['lun'])) {
-                    foreach ($data as $value) {
-                        if (strcmp($value[0]['name'], $_POST['iqn']) === 0) {
-                            for ($i = 1; $i < count($value); $i++) {
-                                $paths[$i]['lun'] = $value[$i]['lun'];
-                                $paths[$i]['path'] = $value[$i]['path'];
-                            }
-                        }
-                    }
+                    $luns = $this->ietdelete->get_all_luns_of_iqn($data, $_POST['iqn']);
 
-                    if (empty($paths)) {
+                    if ($luns == 3) {
                         $this->view('message', "Error - No luns available");
                     } else {
                         // Display page for ajax request
-                        $this->view('targets/deletelun', $paths);
+                        $this->view('targets/deletelun', $luns);
                     }
                 } else if (isset($_POST['iqn']) && isset($_POST['lun']) && isset($_POST['path'])) {
                     if (file_exists($_POST['path'])) {
@@ -116,22 +109,14 @@
                         $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid . " --lun=" . $_POST['lun']);
 
                         if ($return != 0) {
-                            echo 'Could not delete lun ' . $_POST['lun'] . ' from target ' . $_POST['iqn'] . ' Server said:' . $return[0];
+                            echo 'Could not delete lun ' . htmlspecialchars($_POST['lun']) . ' from target ' . htmlspecialchars($_POST['iqn']) . ' Server said:' . htmlspecialchars($return[0]);
                         } else {
-                            foreach ($data as $value) {
-                                if (strcmp($value[0]['name'], $_POST['iqn']) === 0) {
-                                    for ($i = 1; $i < count($value); $i++) {
-                                        if (strcmp($value[$i]['path'], $_POST['path']) === 0) {
-                                            $_POST['type'] = $value[$i]['iotype'];
-                                            $_POST['mode'] = $value[$i]['iomode'];
-                                        }
-                                    }
-                                }
-                            }
+                            $luns = $this->ietdelete->get_all_luns_of_iqn($data, $_POST['iqn']);
 
-                            $line = "Lun " . $_POST['lun'] . " Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode'] . ",Path=" . $_POST['path'];
+                            // get the data for the selected lun
+                            $key = $this->std->recursive_array_search($_POST['lun'], $luns);
 
-                            $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $line, $this->database->get_config('ietd_config_file'));
+                            $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], 'Lun ' . $_POST['lun'] . ' Type=' . $luns[$key]['type'] . ',IOMode=' . $luns[$key]['mode'] . ',Path=' . $_POST['path'], $this->database->get_config('ietd_config_file'));
 
                             if ($return !== 0) {
                                 echo 'Lun wasn\'t defined in the config file!';
@@ -140,7 +125,7 @@
                             }
                         }
                     } else {
-                        echo 'The file ' . $_POST['path'] . ' was not found!';
+                        echo 'The file ' . htmlspecialchars($_POST['path']) . ' was not found!';
                     }
                 }
             } else {
@@ -149,55 +134,120 @@
         }
 
         public function deletetarget() {
-            if (isset($_POST['target'])) {
-                $tid = $this->ietadd->get_tid($_POST['target']);
-                $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid);
+            if (isset($_POST['iqn']) && isset($_POST['action']) && isset($_POST['deleteaacl']) && isset($_POST['force'])) {
+                // Get tid of target
+                $tid = $this->ietadd->get_tid($_POST['iqn']);
 
-                if ($return != 0) {
-                    echo 'Could not delete target ' . $_POST['iqn'] . ' Server said:' . $return[0];
-                } else {
-                    $return = $this->ietdelete->delete_all_options_from_iqn($_POST['target'], $this->database->get_config('ietd_config_file'));
+                // Get luns for selected target
+                $data = $this->ietadd->get_targets_with_lun();
 
-                    if ($return !== 0) {
-                        if ($return == 1) {
-                            echo 'The iet config file is read-only';
-                        } else if ($return == 3) {
-                            echo 'The target was not deleted, because it wasn\'t there';
-                        } else {
-                            echo 'Unknown';
+                if (!empty($data)) {
+                    $luns = $this->ietdelete->get_all_luns_of_iqn($data, $_POST['iqn']);
+
+                    if (!is_int($luns)) {
+                        // luns are always deleted from the config file and the daemon
+                        foreach ($luns as $key => $lun) {
+                            try {
+                                // delete lun from daemon
+                                $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op delete --tid=' . $tid . ' --lun=' . $lun['lun']);
+
+                                if ($return != 0) {
+                                    throw new exception('Lun ' . $lun['lun'] . ' Error - Could not delete lun ' . $lun['lun'] . ' from daemon');
+                                } else {
+                                    // delete lun from config file
+                                    $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], 'Lun ' . $lun['lun'] . ' Type=' . $lun['type'] . ',IOMode=' . $lun['mode'] . ',Path=' . $lun['path'], $this->database->get_config('ietd_config_file'));
+
+                                    if ($return != 0) {
+                                        throw new exception('Lun ' . $lun['lun'] . ' Error - Could not delete lun ' . $lun['lun'] . ' from config');
+                                    } else {
+                                        if ($_POST['action'] == 'delete') {
+                                            $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('lvremove') . ' -f ' . $lun['path']);
+
+                                            if ($return != 0) {
+                                                throw new exception('Lun ' . $lun['lun'] . ' Error - Cannot delete logical volume ' . $lun['path']);
+                                            } else {
+                                                echo 'Lun ' . $lun['lun']  . ': ' . ' Success. LV ' . $lun['path'] . ' deleted' . "\n";
+                                            }
+                                        } else {
+                                            echo 'Lun ' . $lun['lun'] . ': ' . ' Success' . "\n";
+                                        }
+                                    }
+                                }
+                            } catch (Exception $e) {
+                                echo $e->getMessage() . '. Please remove it manually!';
+                            }
                         }
                     } else {
-                        $return = $this->ietdelete->delete_iqn_from_config_file($_POST['target'], $this->database->get_config('ietd_config_file'));
+                        echo 'No luns attached!' . "\n";
+                    }
+                } else {
+                    echo 'No luns attached!' . "\n";
+                }
 
-                        if ($return !== 0) {
-                            if ($return == 1) {
-                                echo 'The iet config file is read-only';
-                            } else if ($return == 3) {
-                                echo 'The target was not deleted, because it wasn\'t there';
-                            } else {
-                                echo 'Unknown';
-                            }
-                        } else {
-                            // Delete the rules of this iqn
-                            $val[0] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_init_allow'));
-                            $val[1] = $this->ietdelete->delete_iqn_from_allow_file($_POST['target'], $this->database->get_config('ietd_target_allow'));
+                try {
+                    // delete acl if set
+                    if ($_POST['deleteaacl'] == 'true') {
+                        $files[0] = $this->database->get_config('ietd_init_allow');
+                        $files[1] = $this->database->get_config('ietd_target_allow');
 
-                            if ($val[0] !== 0 or $val[1] !== 0) {
-                                echo 'The target was deleted from the daemon and the config file, but i could not delete the access rules. Please do this manually!';
+                        foreach ($files as $file) {
+                            $return = $this->ietdelete->delete_iqn_from_allow_file($_POST['iqn'], $file);
+                            if ($return != 0) {
+                                throw new exception('Error - Could not delete ACLs from file ' . $file);
                             } else {
-                                echo "Success";
+                                echo 'Success: ACLs from ' . $file . " deleted. \n";
                             }
                         }
                     }
+
+                    // just to be safe, delete all remaining options from $_POST['iqn']
+                    $return = $this->ietdelete->delete_all_options_from_iqn($_POST['iqn'], $this->database->get_config('ietd_config_file'));
+                    if ($return != 0) {
+                        throw new exception('Error - Could not delete other options from iqn ' . $_POST['iqn']);
+                    } else {
+                        // delete target from daemon
+
+                        if ($_POST['force'] == 'true') {
+                            if ($_POST['deleteaacl'] == 'true') {
+                                $sessions = $data = $this->ietsessions->getIetSessionsforiqn($_POST['iqn']);
+
+                                // position 0 contains the iqn
+                                // we already have it
+                                unset($sessions[0][0]);
+
+                                // force deletion if set and acl is set
+                                foreach ($sessions[0] as $key => $session) {
+                                    $return = $this->ietdelete->delete_session($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm'), $tid, $session['sid'], $session['cid']);
+
+                                    if ($return != 0) {
+                                        throw new exception('Error - Could not delete session ' . $session['sid']);
+                                    } else {
+                                        echo 'Success: Session ' . $session['sid'] .  " deleted. \n";
+                                    }
+                                }
+                            } else {
+                                throw new exception('Error - Cannot force delete without \'Delete acl\'');
+                            }
+                        }
+
+                        $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op delete --tid=' . $tid);
+                        if ($return != 0) {
+                            throw new exception('Error - Could not delete the iqn from the daemon. Maybe it\'s in use? Try the \'Force\' option');
+                        } else {
+                            // delete target from file
+                            $return = $this->ietdelete->delete_iqn_from_config_file($_POST['iqn'], $this->database->get_config('ietd_config_file'));
+                            if ($return != 0) {
+                                throw new exception('Error - Could not delete the iqn from the config file');
+                            } else {
+                                echo 'Target deleted successfully' . "\n";
+                            }
+                        }
+                    }
+                } catch (Exception $e) {
+                    echo $e->getMessage() . '. Please remove it manually!' . "\n";
                 }
             } else {
-                $data = $this->ietadd->get_targets_without_luns_or_connections($this->ietsessions->getIetSessions());
-
-                if ($data == 3) {
-                    $this->view('message', "Error - No targets found");
-                } else {
-                    $this->view('targets/deletetarget', $data);
-                }
+                $this->view('targets/deletetarget');
             }
         }
 
@@ -216,30 +266,69 @@
         }
 
         public function settings() {
-            if (isset($_POST['option']) && isset($_POST['oldvalue']) && isset($_POST['newvalue']) && isset($_POST['iqn'])) {
-                // Check if newvalue is default <- validate this using jquery
-
-                // Delete option from daemon here
-
-                // Then do this:
-                //      |
-                //      |
-                //      v
-
-                $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $_POST['option'] . ' ' . $_POST['oldvalue'], $this->database->get_config('ietd_config_file'));
-
-                if($return == 1) {
-                    echo "Read-only";
-                } else if ($return == 3) {
-                    echo "Not found";
+            // change or set value
+            if (isset($_POST['option']) && isset($_POST['oldvalue']) && isset($_POST['newvalue']) && isset($_POST['iqn']) && isset($_POST['type'])) {
+                // This is already validated on the client and should normally not occur
+                if ($_POST['oldvalue'] == $_POST['newvalue']) {
+                    echo "No changes!";
                 } else {
-                    $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);
-                    if($return == 1) {
-                        echo "Read-only";
-                    } else if ($return == 3) {
-                        echo "Not found";
+                    // Change option in daemon config
+                    $tid = $this->ietadd->get_tid($_POST['iqn']);
+
+                    $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op update  --tid=' . $tid . '--params=' . $_POST['option'] . '=' . $_POST['newvalue']);
+
+                    if ($return !== 0) {
+                        echo 'Could not change the daemon config!';
                     } else {
-                        echo "Success";
+                        $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $_POST['option'] . ' ' . $_POST['oldvalue'], $this->database->get_config('ietd_config_file'));
+
+                        // $return == 0 => option deleted from config file
+                        // $return == 1 => file is not found
+                        // $return == 3 => option not found in config file
+                        if ($return == 1) {
+                            echo 'Config file is read-only!';
+                        } else {
+                            if ($_POST['type'] == 'input') {
+                                $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);
+                            } else if ($_POST['type'] == 'select') {
+                                // if the type is 'select', we have to check for the default value
+                                // if the default value is the new value, we don't add it to the config file
+                                $default_settings = $this->database->get_iet_settings();
+                                $key = $this->std->recursive_array_search($_POST['option'], $default_settings);
+
+                                if ($default_settings[$key]['defaultvalue'] !== $_POST['newvalue']) {
+                                    $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);
+                                }
+                            }
+
+                            if ($return == 1) {
+                                echo 'Config file is read-only!';
+                            } else if ($return == 3) {
+                                echo 'Target not found!';
+                            } else {
+                                echo 'Success';
+                            }
+                        }
+                    }
+                }
+            // Resets value to default
+            } else if (isset($_POST['option']) && $_POST['action'] == 'reset' && isset($_POST['value']) && isset($_POST['iqn'])) {
+                // delete value from daemon config
+                $tid = $this->ietadd->get_tid($_POST['iqn']);
+                $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op update --tid=' . $tid . ' --params=' . $_POST['option'] . '=');
+
+                if ($return !== 0) {
+                    echo 'error';
+                } else {
+                    // reset value to default
+                    $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $_POST['option'] . ' ' . $_POST['value'], $this->database->get_config('ietd_config_file'));
+
+                    if ($return !== 0) {
+                        echo 'error';
+                    } else {
+                        $default_settings = $this->database->get_iet_settings();
+                        $key = $this->std->recursive_array_search($_POST['option'], $default_settings);
+                        echo htmlspecialchars($default_settings[$key]['defaultvalue']);
                     }
                 }
             } else if (isset($_POST['iqn'])) {
@@ -257,12 +346,21 @@
                         }
                     }
 
+                    error_log(print_r($data, true), 3, '/tmp/debugging.log');
+
                     foreach ($data as $value) {
                         $key = $this->std->recursive_array_search($value[0], $default_settings);
 
                         if ($key !== false) {
                             $string = trim(preg_replace('/\s+/', ' ', $value[1]));
-                            $default_settings[$key]['defaultvalue'] = $string;
+                            if ($default_settings[$key]['type'] == 'input') {
+                                $default_settings[$key]['defaultvalue'] = $string;
+                            } else if ($default_settings[$key]['type'] == 'select') {
+                                if ($default_settings[$key]['defaultvalue'] != $string) {
+                                    $default_settings[$key]['othervalue1'] = $default_settings[$key]['defaultvalue'];
+                                    $default_settings[$key]['defaultvalue'] = $string;
+                                }
+                            }
                         }
                     }
                 }
@@ -271,7 +369,6 @@
                 $len = count($default_settings);
                 $viewdata[0] = array_slice($default_settings, 0, $len / 2);
                 $viewdata[1] = array_slice($default_settings, $len / 2);
-
 
                 $this->view('targets/settingstable', $viewdata);
             }
@@ -283,7 +380,7 @@
                 if (is_numeric($_POST['cid']) && is_numeric($_POST['sid'])) {
                     $return = $this->ietdelete->delete_session($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm'), $this->ietadd->get_tid($_POST['iqn']), $_POST['sid'], $_POST['cid']);
                     if ($return != 0) {
-                        echo 'Could not delete session ' . $_POST['sid'] . ' Server said:' . $return[0];
+                        echo 'Could not delete session ' . htmlspecialchars($_POST['sid']) . ' Server said:' . htmlspecialchars($return[0]);
                     } else {
                         echo "Success";
                     }

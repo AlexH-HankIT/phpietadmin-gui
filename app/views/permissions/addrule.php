@@ -1,20 +1,35 @@
 <div class="workspacedirect">
     <div class = "container">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="table-responsive">
-                    <table id="objectstable" class="table table-striped searchabletable">
-                        <thead>
-                            <tr>
-                                <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
-                                <th class="col-md-3">Type</th>
-                                <th class="col-md-4">Name</th>
-                                <th class="col-md-4">Value</th>
-                            </tr>
-                        </thead>
+        <div class="panel panel-default">
+            <ol class='panel-heading breadcrumb'>
+                <li><a href='#'>Targets</a></li>
+                <li><a href='#'>Configure</a></li>
+                <li class='active'>Add ACL</li>
+            </ol>
+            <div class="panel-body">
+                <button id="addallowrulebutton" type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Allow</button>
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-default active">
+                        <input type="Radio" id="initiatorcheckbox" name="type" value="initiator" checked="checked"/>Initiator
+                    </label>
+                    <label class="btn btn-default">
+                        <input id="targetcheckbox" type="Radio" name="type" value="target"/>Target
+                    </label>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="objectstable" class="table table-striped searchabletable">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                            <th class="col-md-3">Type</th>
+                            <th class="col-md-4">Name</th>
+                            <th class="col-md-4">Value</th>
+                        </tr>
+                    </thead>
                         <tbody id="objectselection">
                         <?php if (is_array($data['objects'])) { ?>
-                            <?php foreach ($data['objects'] as $value ) { ?>
+                            <?php foreach ($data['objects'] as $value) { ?>
                                 <tr>
                                     <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
                                     <td class="col-md-1"><input class="objectcheckbox" type="checkbox"/></td>
@@ -24,22 +39,8 @@
                                 </tr>
                             <?php } ?>
                         <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div id="addallowrulebutton">
-                    <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Allow</button>
-                </div>
-                <div class="btn-group top-buffer" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="Radio" id="initiatorcheckbox" name="type" value="initiator" checked="checked"/>Initiator
-                    </label>
-                    <label class="btn btn-default">
-                        <input id="targetcheckbox" type="Radio" name="type" value="target"/> Target
-                    </label>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
