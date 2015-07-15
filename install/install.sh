@@ -67,12 +67,12 @@ if [ -f $DATABASE ]; then
     cp -r $PWD/* $BASEDIR
 
     # Delete installation files
-    if [ -d /usr/share/phpietadmin/app/install ]; then
-        rm -r /usr/share/phpietadmin/app/install
+    if [ -d $BASEDIR/app/install ]; then
+        rm -r $BASEDIR/app/install
     fi
 
-    if [ -d /usr/share/phpietadmin/app/install ]; then
-        rm -r /usr/share/phpietadmin/install
+    if [ -d $BASEDIR/install ]; then
+        rm -r $BASEDIR/install
     fi
 
     # Configure apache
@@ -90,7 +90,7 @@ if [ -f $DATABASE ]; then
     service apache2 restart
 
     # Set permissions for the iet config files and phpietadmin dir
-    chown -R www-data:www-data /usr/share/phpietadmin
+    chown -R www-data:www-data $BASEDIR
     chown -R www-data:www-data $DATABASE
     chmod 660 $DATABASE
 
@@ -108,7 +108,7 @@ else
     echo "www-data ALL=NOPASSWD: /usr/sbin/service *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce, /sbin/shutdown --reboot *, /sbin/shutdown --poweroff *" > $sudoers_file
 
     # Set permissions for the iet config files and phpietadmin dir
-    chown -R www-data:www-data /usr/share/phpietadmin
+    chown -R www-data:www-data $BASEDIR
     chown -R root:www-data /etc/iet
     chmod -R 770 /etc/iet
     # Enable mods
@@ -156,8 +156,14 @@ else
     # Write password to database
     sqlite3 $DATABASE "INSERT INTO user (username, password) values (\"admin\", \"$hash\");"
 
-    # Delete install folder
-    rm -r $BASEDIR/app/install
+     Delete installation files
+    if [ -d $BASEDIR/app/install ]; then
+        rm -r $BASEDIR/app/install
+    fi
+
+    if [ -d $BASEDIR/install ]; then
+        rm -r $BASEDIR/install
+    fi
 
     log_message "Installation complete"
 fi
