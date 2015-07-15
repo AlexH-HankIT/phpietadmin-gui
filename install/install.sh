@@ -66,6 +66,29 @@ if [ -f $DATABASE ]; then
     cd ../../
     cp -r $PWD/* $BASEDIR
 
+    # Delete installation files
+    if [ -d /usr/share/phpietadmin/app/install ]; then
+        rm -r /usr/share/phpietadmin/app/install
+    fi
+
+    if [ -d /usr/share/phpietadmin/app/install ]; then
+        rm -r /usr/share/phpietadmin/install
+    fi
+
+    # Configure apache
+    if [ -f "/etc/apache2/sites-enabled/phpietadmin" ]; then
+        # Wheezy
+        rm "/etc/apache2/sites-enabled/phpietadmin"
+        mv phpietadmin /etc/apache2/sites-enabled/
+    elif [ -f "/etc/apache2/sites-enabled/phpietadmin.conf" ]; then
+        # Jessie
+        rm "/etc/apache2/sites-enabled/phpietadmin.conf"
+        mv phpietadmin /etc/apache2/sites-enabled/phpietadmin.conf
+    fi
+
+    # restart apache
+    service apache2 restart
+
     # Set permissions for the iet config files and phpietadmin dir
     chown -R www-data:www-data /usr/share/phpietadmin
     chown -R www-data:www-data $DATABASE
