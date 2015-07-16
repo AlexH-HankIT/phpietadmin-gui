@@ -18,21 +18,23 @@
 
                 if (!is_int($data) && isset($data[0]) && !empty($data[0])) {
                     $key = array_search($value, $data[0]);
-                }
 
-                if (isset($key) && is_int($key)) {
-                    echo 'The object with value ' . htmlspecialchars($value) . ' is already added!';
-                } else {
-                    if (isset($file) && !empty($file)) {
-                        $return = $this->ietpermissions->add_object_to_iqn($_POST['iqn'], $value, $file);
-                        if ($return !== 0) {
-                            echo "Failed";
-                        } else {
-                            echo "Success";
-                        }
+                    if($key !== false) {
+                        echo 'The object with value ' . htmlspecialchars($value) . ' is already added!';
                     } else {
-                        echo "Failed";
+                        if (isset($file) && !empty($file)) {
+                            $return = $this->ietpermissions->add_object_to_iqn($_POST['iqn'], $value, $file);
+                            if ($return !== 0) {
+                                echo "Failed";
+                            } else {
+                                echo "Success";
+                            }
+                        } else {
+                            echo "Failed";
+                        }
                     }
+                } else {
+                    echo "Failed";
                 }
             } else {
                 $data['objects'] = $this->database->get_all_objects();
@@ -142,7 +144,7 @@
                     $key = array_search($data['username'], $usernames);
                 }
 
-                if (isset($key) && is_int($key)) {
+                if($key !== false) {
                     echo 'User is ' . htmlspecialchars($data['username']) . ' already there!';
                 } else {
                     // Add user to daemon
@@ -258,7 +260,7 @@
                     $key = array_search($data['username'], $usernames);
                 }
 
-                if (isset($key) && is_int($key)) {
+                if($key !== false) {
                     echo 'User is ' . htmlspecialchars($data['username']) . ' already there!';
                 } else {
                     // add user to daemon and config file

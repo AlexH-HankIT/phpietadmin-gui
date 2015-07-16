@@ -33,7 +33,6 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Show and configure network settings
 - [ ] Enable/Disable features
 - [ ] Delete lun: Display if target is in use
-- [ ] Don't display targets in use for permission deletion
 - [ ] Support for apcupsd
 - [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
 - [ ] HDD temp
@@ -44,7 +43,7 @@ Take a look at the github releases for detailed information about the features.
     * Development
         * normal versions will be used
 - [ ] Login/Logout logging
-- [ ] Backup config files
+- [ ] Backup config files (http://code.stephenmorley.org/php/diff-implementation/)
 - [ ] Menu to restore config files
 - [ ] Action logging
 - [ ] Document already written methods

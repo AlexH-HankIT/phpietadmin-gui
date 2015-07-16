@@ -103,7 +103,7 @@
                 $key = array_search($iqn, $data);
 
                 // If $key is a integer, the option already exists
-                if (!is_int($key)) {
+                if($key !== false) {
                     // If last line is empty, replace it
                     if (end($data) == "\n") {
                         // Delete last array element
@@ -158,7 +158,7 @@
                 $key = array_search('Target ' . $iqn . "\n", $data);
 
                 // If key is false, the iqn doesn't exist
-                if (!is_int($key)) {
+                if($key !== false) {
                     return 3;
                 } else {
                     // Add the option to the array, one line after the match
@@ -204,7 +204,7 @@
                 $key = array_search($option . "\n", $data);
 
                 // If $key is a integer, the option already exists
-                if (!is_int($key)) {
+                if($key !== false) {
                     // Add option as first index, other indexes will be corrected
                     array_unshift($data, $option . "\n");
 
@@ -360,7 +360,7 @@
                 } else {
                     $key = array_search($path, $data);
                     // If $key contains a number, array_search found something, which is bad
-                    if (is_numeric($key)) {
+                    if($key !== false) {
                         return 1;
                     } else {
                         return 0;
@@ -430,11 +430,11 @@
                 // Get index of the iqn from which the option should be deleted
                 $key = array_search($iqn, $data);
 
-                if (is_int($key)) {
+                if($key !== false) {
                     // Get the index of the position of the next target definition
                     $temp = array_search($key, $keys);
 
-                    if (is_int($temp)) {
+                    if($key !== false) {
                         // If $keys[$temp+1], there is another target definitions after this one
                         if (isset($keys[$temp + 1])) {
                             $end = $keys[$temp + 1];

@@ -42,6 +42,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function($, mylibs, s
                             type: 'error',
                             text: 'No changes made!'
                         });
+                    } else if (newvalue == '') {
+                        thisrow.find('.value').addClass('focusedInputerror')
                     } else {
                         var data = {
                             "option": thisrow.find('.option').text(),

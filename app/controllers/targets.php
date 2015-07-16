@@ -99,6 +99,15 @@
                     if ($luns == 3) {
                         $this->view('message', "Error - No luns available");
                     } else {
+                        // get sesssions for
+                        $sessions = $this->ietsessions->getIetSessionsforiqn($_POST['iqn']);
+
+                        if (is_array($sessions)) {
+                            // position 0 contains the iqn
+                            // we already have it
+                            unset($sessions[0][0]);
+                        }
+
                         // Display page for ajax request
                         $this->view('targets/deletelun', $luns);
                     }
@@ -209,8 +218,9 @@
 
                         if ($_POST['force'] == 'true') {
                             if ($_POST['deleteaacl'] == 'true') {
-                                $sessions = $data = $this->ietsessions->getIetSessionsforiqn($_POST['iqn']);
+                                $sessions = $this->ietsessions->getIetSessionsforiqn($_POST['iqn']);
 
+                                if (is_array($sessions))
                                 // position 0 contains the iqn
                                 // we already have it
                                 unset($sessions[0][0]);
@@ -280,6 +290,10 @@
                     if ($return !== 0) {
                         echo 'Could not change the daemon config!';
                     } else {
+                        // if the default value is the new value, we don't add or delete it to/from the config file
+                        $default_settings = $this->database->get_iet_settings();
+                        $key = $this->std->recursive_array_search($_POST['option'], $default_settings);
+                        
                         $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $_POST['option'] . ' ' . $_POST['oldvalue'], $this->database->get_config('ietd_config_file'));
 
                         // $return == 0 => option deleted from config file
@@ -292,9 +306,6 @@
                                 $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);
                             } else if ($_POST['type'] == 'select') {
                                 // if the type is 'select', we have to check for the default value
-                                // if the default value is the new value, we don't add it to the config file
-                                $default_settings = $this->database->get_iet_settings();
-                                $key = $this->std->recursive_array_search($_POST['option'], $default_settings);
 
                                 if ($default_settings[$key]['defaultvalue'] !== $_POST['newvalue']) {
                                     $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);

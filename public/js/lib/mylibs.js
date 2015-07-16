@@ -97,15 +97,13 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
             return retVal;
         },
         loadconfiguretargetbody: function(url, data, clicked) {
-            var page = url.replace('/', '_');
-            url = '/phpietadmin/' + url;
             var configuretargetbody = $('#configuretargetbody');
 
             if (clicked !== undefined && clicked != '') {
                 $('#configuretargetmenu').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
-            if (!configuretargetbody.hasClass(page)) {
+            //if (!configuretargetbody.hasClass(page)) {
                 var request;
                 if (data === undefined) {
                     // if type is undefined, not data will be passed
@@ -127,10 +125,11 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                         configuretargetbody.html('');
                         configuretargetbody.html(request.responseText);
                         configuretargetbody.removeClass();
-                        configuretargetbody.addClass(page);
+                        //configuretargetbody.addClass(page);
                     }
                 });
-            }
+
+            //}
         },
         loadworkspace: function(clicked, site) {
             // replace the slash in site with underscore

@@ -20,7 +20,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                     configuretargetmenu.show();
 
                     if (iqn !== defaultvalue) {
-                        mylibs.loadconfiguretargetbody('targets/maplun', '', $('#configuretargetlunsadd'))
+                        mylibs.loadconfiguretargetbody('/phpietadmin/targets/maplun', '', $('#configuretargetlunsadd'))
                     } else {
                         $('#configuretargetbody').html('');
                         configuretargetmenu.hide();
@@ -30,16 +30,18 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
         },
         add_event_handler_configuretargetnodata: function () {
             $(document).ready(function(){
-                $(document).once('click', '.configuretargetnodata', function () {
-                    mylibs.loadconfiguretargetbody($(this).attr('name'), '', $(this))
+                $(document).once('click', '.configuretargetnodata', function (e) {
+                    mylibs.loadconfiguretargetbody($(this).attr('href'), '', $(this));
+                    e.preventDefault();
                 });
             });
         },
         add_event_handler_configuretargetiqn: function () {
             $(document).ready(function(){
-                $(document).once('click', '.configuretargetiqn', function () {
+                $(document).once('click', '.configuretargetiqn', function (e) {
                     var iqn = $('#targetselection').find("option:selected").val();
-                    mylibs.loadconfiguretargetbody($(this).attr('name'), iqn, $(this))
+                    mylibs.loadconfiguretargetbody($(this).attr('href'), iqn, $(this));
+                    e.preventDefault();
                 });
             });
         }

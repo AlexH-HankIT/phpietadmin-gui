@@ -27,7 +27,7 @@
                                         <?php if ($row['type'] == 'input') { ?>
                                             <td><a href="#" class="resetvalue"><span class="glyphicon glyphicon-trash glyphicon-20"></span></a></td>
                                             <td class="option"><?php echo htmlspecialchars($row['option']); ?></td>
-                                            <td><input class="value <?php if ($row['defaultvalue'] !== 'false') echo 'required' ?>" <?php if ($row['state'] == 0) echo 'disabled' ?> type="text" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
+                                            <td><input class="value <?php if ($row['defaultvalue'] !== 'false') echo 'required' ?>" <?php if ($row['state'] == 0) echo 'disabled' ?> type="number" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
                                             <td hidden><input class="default_value_before_change" type="text" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
                                         <?php } else if ($row['type'] == 'select') { ?>
                                             <td></td>
