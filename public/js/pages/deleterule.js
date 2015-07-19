@@ -16,7 +16,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             "ruletype": ruletype
                         };
 
-                        mylibs.loadconfiguretargetbody('permission/deleterule', data);
+                        mylibs.loadconfiguretargetbody('/phpietadmin/permission/deleterule', data);
                     } else {
                         $('#configuretargetbody').html('');
                     }
@@ -73,7 +73,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                             ruletype: 'initiators.allow'
                                         };
 
-                                        mylibs.loadconfiguretargetbody('permission/deleterule', data);
+                                        mylibs.loadconfiguretargetbody('/phpietadmin/permission/deleterule', data);
                                     } else {
                                         swal({
                                             title: 'Error',

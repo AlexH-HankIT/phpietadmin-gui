@@ -114,6 +114,7 @@ class Ietdelete
                 // Get the index of the position of the next target definition
                 $temp = array_search($key, $keys);
                 if ($temp !== false) {
+                //if (is_int($temp)) {
                     // If $keys[$temp+1], there is another target definitions after this one
                     if (isset($keys[$temp + 1])) {
                         $end = $keys[$temp + 1];

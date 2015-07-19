@@ -5,38 +5,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         add_event_handler_addobjectrowbutton: function() {
             $(document).ready(function(){
                 $(document).once('click', '#addobjectrowbutton', function() {
-                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-                    $('#addobjectstbody').append(
-                        '<tr  class="newrow">' +
-                        '<td>' +
-                        '<select class="typeselection">' +
-                        '<option class="default">Select type...</option>' +
-                        '<option value="hostv4">IPv4 Host</option>' +
-                        '<option value="hostv6">IPv6 Host</option>' +
-                        '<option value="networkv4">IPv4 Network</option>' +
-                        '<option value="networkv6">IPv6 Network</option>' +
-                        '<option value="iqn">IQN</option>' +
-                        '<option value="all">ALL</option>' +
-                        '<option value="regex">Regex</option>' +
-                        '</select>' +
-                        '<span class="label label-success bestaetigung">Success</span>' +
-                        '</td>' +
-                        '<td>' +
-                        '<input class="objectname" type="text" name="value" placeholder="Meaningful name...">' +
-                        '<span class="label label-success bestaetigung">Success</span>' +
-                        '</td>' +
-                        '<td>' +
-                        '<input class="objectvalue" type="text" name="value" placeholder="Your value...">' +
-                        '<span class="label label-success bestaetigung">Success</span>' +
-                        '</td>' +
-                        '<td><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>' +
-                        '<td>' +
-                        '<a href="#" class="saveobjectrow"><span class="glyphicon glyphicon-save glyphicon-20" aria-hidden="true"></span></a>' +
-                        '<span class="label label-success bestaetigung">Success</span>' +
-                        '</td>' +
-                        '</tr>'
-                    );
-
+                    $('#template').clone().prependTo('#addobjectstbody').removeAttr('id hidden').addClass("newrow");
                     $('#addobjectrowbutton').hide();
                 });
             });

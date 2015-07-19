@@ -55,7 +55,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                             text: request.responseText
                                         });
                                     }
-                                    mylibs.loadconfiguretargetbody('permission/adduser', iqn);
+                                    mylibs.loadconfiguretargetbody('/phpietadmin/permission/adduser', iqn);
                                 }
                             });
                         });

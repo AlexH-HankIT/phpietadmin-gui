@@ -73,7 +73,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                                 text: request.responseText
                                             });
                                         }
-                                        mylibs.loadconfiguretargetbody('permission/deleteuser', iqn);
+                                        mylibs.loadconfiguretargetbody('/phpietadmin/permission/deleteuser', iqn);
                                     }
                                 });
                             });

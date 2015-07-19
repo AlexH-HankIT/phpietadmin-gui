@@ -52,7 +52,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                             text: request.responseText
                                         });
                                     }
-                                    mylibs.loadconfiguretargetbody('permission/addrule', iqn);
+                                    mylibs.loadconfiguretargetbody('/phpietadmin/permission/addrule', iqn);
                                 }
                             });
                         });

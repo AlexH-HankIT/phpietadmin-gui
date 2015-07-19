@@ -103,7 +103,7 @@
                 $key = array_search($iqn, $data);
 
                 // If $key is a integer, the option already exists
-                if($key !== false) {
+                if($key === false) {
                     // If last line is empty, replace it
                     if (end($data) == "\n") {
                         // Delete last array element
@@ -158,7 +158,7 @@
                 $key = array_search('Target ' . $iqn . "\n", $data);
 
                 // If key is false, the iqn doesn't exist
-                if($key !== false) {
+                if($key === false) {
                     return 3;
                 } else {
                     // Add the option to the array, one line after the match

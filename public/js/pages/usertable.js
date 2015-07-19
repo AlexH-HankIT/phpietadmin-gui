@@ -80,21 +80,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         add_event_handler_adduserrowbutton2: function() {
             $(document).ready(function(){
                 $(document).once('click', '#adduserrowbutton', function() {
-                    $('#addusertablebody').append(
-                        '<tr class="newrow">' +
-                        '<td>' +
-                        '<input class="username" type="text" placeholder="Username">' +
-                        '<span class="label label-success bestaetigung">Success</span>' +
-                        '</td>' +
-                        '<td>' +
-                        '<a href="#"> <span id="generatepw" class="glyphicon glyphicon-hand-right glyphicon-20" aria-hidden="true"></span></a>&nbsp;&nbsp;' +
-                        '<input class="password" maxlength="16" type="text" placeholder="Password">' +
-                        '<span class="label label-success bestaetigung">Success</span>' +
-                        '</td>' +
-                        '<td><a href="#" class="deleteuserrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>' +
-                        '<td><a href="#" class="saveuserrow"><span class="glyphicon glyphicon-save glyphicon-20" aria-hidden="true"></span></a></td>' +
-                        '</tr>'
-                    );
+                    $('#template').clone().prependTo('#addusertablebody').removeAttr('id hidden').addClass("newrow");
 
                     $('#generatepw').qtip({
                         content: {
@@ -132,6 +118,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         var selpasswordconfirm = selpassword.next('.bestaetigung');
 
                         var selusername =  $(this).closest("tr").find('.username');
+                        //var passwordcell = $(this).closest('tr').find('.passwordcell');
+                        //var usernamecell = $(this).closest('tr').find('.usernamecell');
                         var selusernameval = selusername.val();
                         var selusernameconfirm = selusername.next('.bestaetigung');
 
@@ -178,11 +166,14 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                             "password": selpasswordval
                                         };
 
-                                        var request = mylibs.doajax('/phpietadmin/ietusers/addusertodb', data);
+                                        request = mylibs.doajax('/phpietadmin/ietusers/addusertodb', data);
 
                                         request.done(function () {
                                             if (request.readyState == 4 && request.status == 200) {
-                                                location.reload();
+                                                //passwordcell.html(selpasswordval);
+                                                //usernamecell.html(selusernameval);
+
+                                                window.location.reload();
                                             }
                                         });
                                     }
