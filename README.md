@@ -24,7 +24,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 ## Features
 Take a look at the github releases for detailed information about the features.
 
-# Bugs in the beta of v0.5 will be fixed in v0.5.1. So far:
+## Bugs in the beta of v0.5 will be fixed in v0.5.1. So far:
 [ ] Jquery/javascript is sometimes not executed, when loaded via ajax
 [ ] Target acl cannot be deleted if no initiator acl exists (Page isn't displayed, only error)
 [ ] Discovery users are always already added, even if not
