@@ -11,7 +11,7 @@ directly to the daemon via php’s „exec“ function. This prevents any incons
 daemon live config.
 
 ## Compatibility
-Phpietadmin is tested on Debian 7 and 8. But it’s not limited to Debian.
+Phpietadmin is tested on 8. But it’s not limited to Debian.
 It should run just fine on any other linux distribution.
 
 ## Docs
