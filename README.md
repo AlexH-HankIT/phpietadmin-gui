@@ -31,6 +31,7 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Discovery users are always already added, even if not
 - [ ] Config menu update migth not work
 - [ ] A few unnecessary page reloads
+- [ ] Installer isn't working
 
 ## ToDo
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
