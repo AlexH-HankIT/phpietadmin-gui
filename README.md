@@ -26,12 +26,15 @@ Take a look at the github releases for detailed information about the features.
 
 ## Bugs in the beta of v0.5 will be fixed in v0.5.1.
 ## So far:
-- [ ] Jquery/javascript is sometimes not executed, when loaded via ajax
+- [x] Jquery/javascript is sometimes not executed, when loaded via ajax
 - [ ] Target acl cannot be deleted if no initiator acl exists (Page isn't displayed, only error)
-- [ ] Discovery users are always already added, even if not
-- [ ] Config menu update migth not work
+- [x] Discovery users are always already added, even if not
+- [] Adding of multiple discovery users to the daemon might fail
+- [ ] Config menu update might not work
 - [ ] A few unnecessary page reloads
-- [ ] Installer isn't working
+- [] Installer isn't working <- should be fixed, to be tested
+- [ ] Filter table jquery plugin displays hidden rows when searching
+- [ ] Login not possible under yet unknown conditions
 
 ## ToDo
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)

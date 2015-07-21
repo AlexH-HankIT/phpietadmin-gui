@@ -6,7 +6,7 @@
                     $return = $this->lvm->check_logical_volume_exists_in_vg($_POST['name'], $_POST['vg']);
 
                     if ($return) {
-                        $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvcreate') . ' -L ' . $_POST['size'] . 'G -n' . $_POST['name'] . " " . $_POST['vg']);
+                        $return = $this->exec->add_logical_volume($_POST['size'], $_POST['name'], $_POST['vg']);
 
                         if ($return != 0) {
                             echo 'Could not add the logical volume ' . htmlspecialchars($_POST['name']) . '. Server said: ' . $return[0];
@@ -40,7 +40,8 @@
 
         public function delete() {
             if (isset($_POST['target']) && !empty($_POST['target'])) {
-                $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('lvremove') . ' -f ' . $_POST['target']);
+                $return = $this->exec->delete_logical_volume($_POST['target']);
+
                 if ($return != 0) {
                     echo 'Error - Cannot delete logical volume ' . htmlspecialchars($_POST['target']);
                 } else {
@@ -59,34 +60,6 @@
                     }
                 }
             }
-        }
-
-        public function extend() {
-            /*
-             * list logical volumes
-             * if volume is in use:
-             * resize it and disconnect the session, the initiator normally reconnects immediatly
-             *
-             * otherwise:
-             * just resize it
-             */
-
-            $data = $this->lvm->get_all_logical_volumes();
-            if ($data == 3) {
-                $this->view('message', "Error - No logical volumes available");
-            } else {
-                echo "<pre>";
-                print_r($this->lvm->get_used_logical_volumes($data));
-                echo "</pre>";
-            }
-        }
-
-        public function shrink() {
-
-        }
-
-        public function rename() {
-
         }
     }
 ?>

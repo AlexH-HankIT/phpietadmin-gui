@@ -53,15 +53,6 @@
             }
         }
 
-        //public function status() {
-        //    if (isset($_POST['servicename'])) {
-        //        $return = $this->std->get_service_status($_POST['servicename']);
-        //        echo $return[1];
-        //    } else {
-        //        echo 'Undefined service name';
-        //    }
-        //}
-
         public function check_service_already_exists() {
             if (isset($_POST['servicename'])) {
                 foreach ($this->database->get_services(true) as $key => $value) {

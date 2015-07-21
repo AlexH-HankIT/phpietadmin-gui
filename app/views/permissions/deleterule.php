@@ -125,6 +125,7 @@
             require(['pages/deleterule'],function(methods) {
                 methods.add_event_handler_deleteruletype();
                 methods.add_event_handler_deleterulebutton();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

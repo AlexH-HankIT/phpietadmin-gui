@@ -42,6 +42,7 @@
             require(['pages/deleteuser'], function (methods) {
                 methods.add_event_handler_targetselection();
                 methods.add_event_handler_deleteuserbutton();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

@@ -40,6 +40,7 @@
         require(['common'],function() {
             require(['pages/deletedisuser'],function(methods) {
                 methods.add_event_handler_deletedisuserbutton();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

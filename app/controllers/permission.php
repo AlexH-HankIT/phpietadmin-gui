@@ -146,7 +146,7 @@
                     echo 'User is ' . htmlspecialchars($data['username']) . ' already there!';
                 } else {
                     // Add user to daemon
-                    $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=" . $tid . " --user --params=" . $type . "=" . $data['username'] . ",Password=" . $data['password']);
+                    $return = $this->exec->add_user_to_daemon($tid, $type, $data['username'], $data['password']);
 
                     if ($return != 0) {
                         echo 'Could not add user ' . htmlspecialchars($data['username']) . ' to target ' . htmlspecialchars($_POST['iqn']) .'Server said:' . htmlspecialchars($return[0]);
@@ -207,7 +207,7 @@
                 $tid = $this->ietadd->get_tid($_POST['iqn']);
 
                 // delete user from daemon
-                $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op delete --tid=' . $tid . ' --user --params=' . $type . '=' . $_POST['user']);
+                $return = $this->exec->delete_user_from_daemon($tid, $type, $_POST['user']);
 
                 if ($return !== 0) {
                     echo 'Could not delete user ' . htmlspecialchars($_POST['user']) . ' from target ' . htmlspecialchars($_POST['iqn']) . 'Server said:' . htmlspecialchars($return[0]);
@@ -255,14 +255,20 @@
                     foreach ($user as $key => $value) {
                         $usernames[$key] = $value[1];
                     }
-                    $key = array_search($data['username'], $usernames);
+                    if (empty($usernames)) {
+                        $key = false;
+                    } else {
+                        $key = array_search($data['username'], $usernames);
+                    }
+                } else {
+                    $key = false;
                 }
 
                 if($key !== false) {
                     echo 'User is ' . htmlspecialchars($data['username']) . ' already there!';
                 } else {
                     // add user to daemon and config file
-                    $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . ' --op new --user --params=' . $type . "=" . $data['username'] . ",Password=" . $data['password']);
+                    $return = $this->exec->add_discovery_user_to_daemon($type, $data['username'], $data['password']);
 
                     if ($return !== 0) {
                         echo 'Could not add user ' . htmlspecialchars($_POST['user']) . 'Server said:' . htmlspecialchars($return[0]);
@@ -301,7 +307,7 @@
                 }
 
                 // delete user from daemon
-                $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . ' --op delete  --user --params=' . $type . "=" . $_POST['username']);
+                $return = $this->exec->delete_discovery_user_from_daemon($type, $_POST['username']);
 
                 if ($return !== 0) {
                     echo 'Could not delete user ' . htmlspecialchars($_POST['username']) . 'Server said:' . htmlspecialchars($return[0]);

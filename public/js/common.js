@@ -21,9 +21,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
     return methods = {
         common: function() {
             $(function() {
-                // Enable filter table plugin
-                $('.searchabletable').filterTable({minRows:0});
-
                 // check if server is alive
                 var uiBlocked = false;
                 //var ajaxloader =);

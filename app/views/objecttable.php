@@ -73,6 +73,7 @@
                 methods.add_event_handler_objectvalue();
                 methods.add_event_handler_objectname();
                 methods.add_event_handler_deleteobjectrow();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

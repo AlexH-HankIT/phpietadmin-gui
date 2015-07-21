@@ -47,6 +47,7 @@
         require(['common'],function() {
             require(['pages/adddisuser'],function(methods) {
                 methods.add_event_handler_adddisuserbutton();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

@@ -2,6 +2,12 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     var methods;
 
     return methods = {
+        enable_filter_table_plugin: function() {
+            $(document).ready(function(){
+                // Enable filter table plugin
+                $('.searchabletable').filterTable({minRows:0});
+            });
+        },
         add_event_handler_deletedisuserbutton: function() {
             $(document).ready(function(){
                 $(document).once('click', '#deletedisuserbutton', function() {

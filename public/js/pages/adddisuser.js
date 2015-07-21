@@ -17,9 +17,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         });
                     } else {
                         checkbox.each(function () {
+                            var $this = $(this);
                             var data = {
                                 "type": type,
-                                "id": $(this).closest('tr').find('.userid').text()
+                                "id": $this.closest('tr').find('.userid').text()
                             };
 
                             var request = mylibs.doajax("/phpietadmin/permission/adddisuser", data);
@@ -27,21 +28,17 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             request.done(function () {
                                 if (request.readyState == 4 && request.status == 200) {
                                     if (request.responseText == true) {
+                                        $this.removeAttr('checked');
+
                                         swal({
                                                 title: 'Success',
                                                 type: 'success'
-                                            },
-                                            function () {
-                                                location.reload();
                                             });
                                     } else {
                                         swal({
                                                 title: 'Error',
                                                 type: 'error',
                                                 text: request.responseText
-                                            },
-                                            function () {
-                                                location.reload();
                                             });
                                     }
                                 }
@@ -50,6 +47,12 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         });
                     }
                 });
+            });
+        },
+        enable_filter_table_plugin: function() {
+            $(document).ready(function(){
+                // Enable filter table plugin
+                $('.searchabletable').filterTable({minRows:0});
             });
         }
     };

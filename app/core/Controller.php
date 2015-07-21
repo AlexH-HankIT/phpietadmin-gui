@@ -13,6 +13,7 @@
         public $ietpermissions;
         public $ietdelete;
         public $ietsettings;
+        public $exec;
 
         /* This function creates all necessary models */
         public function create_models($controller) {
@@ -20,6 +21,7 @@
             $this->std = $this->model('Std');
             $this->session = $this->model('Session');
             $this->database = $this->model('Database');
+            $this->exec = $this->model('Exec');
 
             // Different models for specific controllers
             if ($controller == 'overview') {

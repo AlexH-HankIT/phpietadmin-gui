@@ -48,6 +48,7 @@
         require(['common'], function () {
             require(['pages/adduser'], function (methods) {
                 methods.add_event_handler_adduserbutton();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

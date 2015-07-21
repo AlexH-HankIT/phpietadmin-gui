@@ -203,8 +203,8 @@
                 // Check if $option already exists
                 $key = array_search($option . "\n", $data);
 
-                // If $key is a integer, the option already exists
-                if($key !== false) {
+                // If $key is a not false, the option already exists
+                if($key === false) {
                     // Add option as first index, other indexes will be corrected
                     array_unshift($data, $option . "\n");
 

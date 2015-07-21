@@ -1,6 +1,12 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     var Methods;
     return Methods = {
+        enable_filter_table_plugin: function() {
+            $(document).ready(function(){
+                // Enable filter table plugin
+                $('.searchabletable').filterTable({minRows:0});
+            });
+        },
         add_event_handler_addallowrulebutton: function() {
             $(document).ready(function(){
                 $(document).once('click', '#addallowrulebutton', function(){

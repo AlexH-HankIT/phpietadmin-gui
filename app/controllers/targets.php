@@ -6,7 +6,7 @@
                 if ($return == 4) {
                     echo 'The name ' . htmlspecialchars($_POST['name']) .  ' is already taken!';
                 } else {
-                    $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=0 --params Name=" . $_POST['name']);
+                    $return = $this->exec->add_target_to_daemon($_POST['name']);
                     if ($return != 0) {
                         echo 'Could not add target ' . htmlspecialchars($_POST['name']) . '. Server said: ' . htmlspecialchars($return[0]);
                     } else {
@@ -34,17 +34,17 @@
 
             if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['path'])) {
                 if (file_exists($_POST['path'])) {
-                    $TID = $this->ietadd->get_tid($_POST['target']);
-                    $LUN = $this->ietadd->get_next_lun($_POST['target']);
+                    $tid = $this->ietadd->get_tid($_POST['target']);
+                    $lun = $this->ietadd->get_next_lun($_POST['target']);
                     $return = $this->ietadd->check_path_already_in_use($_POST['path']);
                     if ($return != 0) {
                         echo 'The path '  . htmlspecialchars($_POST['path']) . ' is already in use';
                     } else {
-                        $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op new --tid=" . $TID . " --lun=" . $LUN . " --params Path=" . $_POST['path'] . ",Type=" . $_POST['type'] . ",IOMode=" . $_POST['mode']);
+                        $return = $this->exec->add_lun_to_daemon($tid, $lun, $_POST['path'], $_POST['type'], $_POST['mode']);
                         if ($return != 0) {
                             echo 'Could not add lun to target ' .  htmlspecialchars($_POST['target']) . ' Server said: ' . htmlspecialchars($return[0]);
                         } else {
-                            $option = 'Lun ' . $LUN . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path'];
+                            $option = 'Lun ' . $lun . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path'];
 
                             $return = $this->ietadd->add_option_to_iqn_in_file($_POST['target'], $this->database->get_config('ietd_config_file'), $option);
 
@@ -115,7 +115,7 @@
                     if (file_exists($_POST['path'])) {
                         // Delete lun from daemon
                         $tid = $this->ietadd->get_tid($_POST['iqn']);
-                        $return = $this->std->exec_and_return($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm') . " --op delete --tid=" . $tid . " --lun=" . $_POST['lun']);
+                        $return = $this->exec->delete_lun_from_daemon($tid, $_POST['lun']);
 
                         if ($return != 0) {
                             echo 'Could not delete lun ' . htmlspecialchars($_POST['lun']) . ' from target ' . htmlspecialchars($_POST['iqn']) . ' Server said:' . htmlspecialchars($return[0]);
@@ -158,7 +158,7 @@
                         foreach ($luns as $key => $lun) {
                             try {
                                 // delete lun from daemon
-                                $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op delete --tid=' . $tid . ' --lun=' . $lun['lun']);
+                                $return = $this->exec->delete_lun_from_daemon($tid, $_POST['lun']);
 
                                 if ($return != 0) {
                                     throw new exception('Lun ' . $lun['lun'] . ' Error - Could not delete lun ' . $lun['lun'] . ' from daemon');
@@ -170,7 +170,7 @@
                                         throw new exception('Lun ' . $lun['lun'] . ' Error - Could not delete lun ' . $lun['lun'] . ' from config');
                                     } else {
                                         if ($_POST['action'] == 'delete') {
-                                            $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('lvremove') . ' -f ' . $lun['path']);
+                                            $return = $this->exec->delete_logical_volume($lun['path']);
 
                                             if ($return != 0) {
                                                 throw new exception('Lun ' . $lun['lun'] . ' Error - Cannot delete logical volume ' . $lun['path']);
@@ -240,7 +240,7 @@
                             }
                         }
 
-                        $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op delete --tid=' . $tid);
+                        $return = $this->exec->delete_target_from_daemon($tid);
                         if ($return != 0) {
                             throw new exception('Error - Could not delete the iqn from the daemon. Maybe it\'s in use? Try the \'Force\' option');
                         } else {
@@ -285,7 +285,7 @@
                     // Change option in daemon config
                     $tid = $this->ietadd->get_tid($_POST['iqn']);
 
-                    $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op update  --tid=' . $tid . '--params=' . $_POST['option'] . '=' . $_POST['newvalue']);
+                    $return = $this->exec->add_config_to_daemon($tid, $_POST['option'], $_POST['newvalue']);
 
                     if ($return !== 0) {
                         echo 'Could not change the daemon config!';
@@ -356,8 +356,6 @@
                             unset($data[$key]);
                         }
                     }
-
-                    error_log(print_r($data, true), 3, '/tmp/debugging.log');
 
                     foreach ($data as $value) {
                         $key = $this->std->recursive_array_search($value[0], $default_settings);

@@ -10,18 +10,17 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 });
             });
         },
+        enable_filter_table_plugin: function() {
+            $(document).ready(function(){
+                // Enable filter table plugin
+                $('.searchabletable').filterTable({minRows:0});
+            });
+        },
         add_event_handler_passwordfield2: function() {
             $(document).ready(function(){
                 $(document).once('mouseout', '.passwordfield', function() {
                     $(this).find('.passwordfieldplaceholder').show();
                     $(this).find('.password').hide();
-                });
-            });
-        },
-        add_event_handler_adduserrowbutton1: function() {
-            $(document).ready(function(){
-                $(document).once('click', '#adduserrowbutton', function() {
-                    $('#adduserrowbutton').hide();
                 });
             });
         },
@@ -77,9 +76,11 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 });
             });
         },
-        add_event_handler_adduserrowbutton2: function() {
+        add_event_handler_adduserrowbutton: function() {
             $(document).ready(function(){
                 $(document).once('click', '#adduserrowbutton', function() {
+                    $('#adduserrowbutton').hide();
+
                     $('#template').clone().prependTo('#addusertablebody').removeAttr('id hidden').addClass("newrow");
 
                     $('#generatepw').qtip({

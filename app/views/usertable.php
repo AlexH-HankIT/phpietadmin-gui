@@ -51,9 +51,9 @@
             require(['pages/usertable'], function (methods) {
                 methods.add_event_handler_passwordfield1();
                 methods.add_event_handler_passwordfield2();
-                methods.add_event_handler_adduserrowbutton1();
+                methods.add_event_handler_adduserrowbutton();
                 methods.add_event_handler_deleteuserrow();
-                methods.add_event_handler_adduserrowbutton2();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

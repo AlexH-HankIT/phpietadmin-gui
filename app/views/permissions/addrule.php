@@ -49,6 +49,7 @@
         require(['common'],function() {
             require(['pages/addrule'],function(methods) {
                 methods.add_event_handler_addallowrulebutton();
+                methods.enable_filter_table_plugin();
             });
         });
     </script>

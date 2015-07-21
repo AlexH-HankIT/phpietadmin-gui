@@ -63,8 +63,8 @@ if [ -f $DATABASE ]; then
     echo "www-data ALL=NOPASSWD: /usr/sbin/service *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce, /sbin/shutdown --reboot *, /sbin/shutdown --poweroff *" > $sudoers_file
 
     log_message "Starting file update..."
-    cd ../../
-    cp -r $PWD/* $BASEDIR
+    cd ..
+    cp -r * $BASEDIR
 
     # Delete installation files
     if [ -d $BASEDIR/app/install ]; then
