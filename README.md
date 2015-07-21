@@ -29,10 +29,10 @@ Take a look at the github releases for detailed information about the features.
 - [x] Jquery/javascript is sometimes not executed, when loaded via ajax
 - [ ] Target acl cannot be deleted if no initiator acl exists (Page isn't displayed, only error)
 - [x] Discovery users are always already added, even if not
-- [] Adding of multiple discovery users to the daemon might fail
+- [ ] Adding of multiple discovery users to the daemon might fail
 - [ ] Config menu update might not work
 - [ ] A few unnecessary page reloads
-- [] Installer isn't working <- should be fixed, to be tested
+- [ ] Installer isn't working <- should be fixed, to be tested
 - [ ] Filter table jquery plugin displays hidden rows when searching
 - [ ] Login not possible under yet unknown conditions
 
