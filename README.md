@@ -110,6 +110,7 @@ In version 0.6:
 - [ ] Use Type Hinting (http://php.net/manual/de/language.oop5.typehinting.php)
 - [ ] All regex into one model
 - [ ] All shell_execs/execs/system calls in Exec model
+- [ ] Create a target model with all functions which are necessary to add/delete/change a target
 
 Items are completely random ;-)
 
