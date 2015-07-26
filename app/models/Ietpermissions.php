@@ -4,16 +4,11 @@
         var $database;
         var $std;
 
-        public function __construct() {
-            $this->create_models();
-        }
-
-        private function create_models() {
-            // Create other need models in this model
-            require_once 'Database.php';
-            require_once 'Std.php';
-            $this->database = new Database();
-            $this->std = new Std();
+        public function __construct($models = '') {
+            if (isset($models['database'], $models['std'])) {
+                $this->database = $models['database'];
+                $this->std = $models['std'];
+            }
         }
 
         public function get_iet_allow($allowfile, $iqn = '') {
@@ -260,4 +255,3 @@
             return 0;
         }
     }
-?>

@@ -2,7 +2,7 @@
     class Lvm extends Controller {
         public function add(){
             if (!empty($_POST['vg'])) {
-                if (isset($_POST['name']) && isset($_POST['size']) && isset($_POST['vg'])) {
+                if (isset($_POST['name'], $_POST['size'], $_POST['vg'])) {
                     $return = $this->lvm->check_logical_volume_exists_in_vg($_POST['name'], $_POST['vg']);
 
                     if ($return) {
@@ -39,7 +39,7 @@
         }
 
         public function delete() {
-            if (isset($_POST['target']) && !empty($_POST['target'])) {
+            if (isset($_POST['target'], $_POST['target'])) {
                 $return = $this->exec->delete_logical_volume($_POST['target']);
 
                 if ($return != 0) {
@@ -62,4 +62,3 @@
             }
         }
     }
-?>

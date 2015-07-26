@@ -1,7 +1,7 @@
 <?php
     class permission extends Controller {
         public function addrule() {
-            if (isset($_POST['iqn']) && isset($_POST['type']) && isset($_POST['id'])) {
+            if (isset($_POST['iqn'], $_POST['type'], $_POST['id'])) {
                 // Get value of object with $id
                 $value = $this->database->get_object_value(intval(['id']));
 
@@ -48,6 +48,7 @@
 
         public function deleterule() {
             if (isset($_POST['iqn']) && !isset($_POST['value'])) {
+                $this->view('permissions/deleterulebuttons');
                 if (isset($_POST['ruletype'])) {
                     if ($_POST['ruletype'] == 'initiators.allow') {
                         $file = $this->database->get_config('ietd_init_allow');
@@ -92,7 +93,7 @@
                 } else {
                     $this->view('message', 'No rules set for this target!');
                 }
-            } else if (isset($_POST['iqn']) && isset($_POST['value'])) {
+            } else if (isset($_POST['iqn'], $_POST['value'])) {
                 if ($_POST['ruletype'] == 'initiators.allow') {
                     $file = $this->database->get_config('ietd_init_allow');
                 } else if ($_POST['ruletype'] == 'targets.allow') {
@@ -115,7 +116,7 @@
         }
 
         public function adduser() {
-            if (isset($_POST['iqn']) && isset($_POST['type']) && isset($_POST['id'])) {
+            if (isset($_POST['iqn'], $_POST['type'], $_POST['id'])) {
                 if ($_POST['type'] == 'Incoming') {
                     $type = 'IncomingUser';
                 } else if ($_POST['type'] == 'Outgoing') {
@@ -180,7 +181,7 @@
         }
 
         public function deleteuser() {
-            if (isset($_POST['iqn']) && !isset($_POST['user']) && !isset($_POST['type'])) {
+            if (isset($_POST['iqn']) && !isset($_POST['user'], $_POST['type'])) {
                 // get tid to iqn
                 $tid = $this->ietadd->get_tid($_POST['iqn']);
 
@@ -192,7 +193,7 @@
                 } else {
                     $this->view('permissions/deleteuser', $users);
                 }
-            } else if(isset($_POST['user']) && isset($_POST['type']) && isset($_POST['iqn'])) {
+            } else if(isset($_POST['user'], $_POST['type'], $_POST['iqn'])) {
                 // get type
                 if ($_POST['type'] == 'IncomingUser') {
                     $type = 'IncomingUser';
@@ -233,7 +234,7 @@
         }
 
         public function adddisuser() {
-            if (isset($_POST['id']) && isset($_POST['type'])) {
+            if (isset($_POST['id'], $_POST['type'])) {
                 // get type
                 if ($_POST['type'] == 'Incoming') {
                     $type = 'IncomingUser';
@@ -295,7 +296,7 @@
         }
 
         public function deletedisuser() {
-            if (isset($_POST['type']) && isset($_POST['username'])) {
+            if (isset($_POST['type'], $_POST['username'])) {
                 // get type
                 if ($_POST['type'] == 'IncomingUser') {
                     $type = 'IncomingUser';
@@ -339,4 +340,3 @@
             }
         }
     }
-?>

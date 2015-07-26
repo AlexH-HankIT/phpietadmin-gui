@@ -1,5 +1,11 @@
 <?php
     class Std {
+        public $database;
+
+        public function __construct($database) {
+            $this->database = $database;
+        }
+
         public function get_dashboard_data() {
             $data['hostname'] = file_get_contents('/etc/hostname');
             $data['phpietadminversion'] = file_get_contents('/usr/share/phpietadmin/version');
@@ -40,11 +46,10 @@
             }
         }
 
-        public function get_service_status($servicename) {
-            require_once 'Database.php';
-            $database = new Database;
 
-            exec($database->get_config('sudo') . " " . $database->get_config('service') . " " . escapeshellarg($servicename) . " status", $status, $result);
+
+        public function get_service_status($servicename) {
+            exec($this->database->get_config('sudo') . " " . $this->database->get_config('service') . " " . escapeshellarg($servicename) . " status", $status, $result);
             $return[0] = $status;
             $return[1] = $result;
             return $return;
@@ -106,5 +111,21 @@
             }
             return $data;
         }
+
+        /**
+         *
+         * Escape and execute a command
+         *
+         * @link    http://stackoverflow.com/questions/4993104/using-ifempty-with-multiple-variables-not-in-an-array
+         * @return      boolean
+         *
+         */
+         public function mempty() {
+            foreach(func_get_args() as $arg)
+                if(empty($arg))
+                    continue;
+                else
+                    return false;
+            return true;
+        }
     }
-?>

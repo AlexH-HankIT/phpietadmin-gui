@@ -1,7 +1,14 @@
 <?php
     class Auth extends Controller {
+        /**
+         *
+         * Handles the user login
+         *
+         * @return     void
+         *
+         */
         public function login() {
-            if (isset($_POST['username']) && isset($_POST['password'])) {
+            if (isset($_POST['username'], $_POST['password'])) {
                 // Create pw hash
                 $pwhash = hash('sha256', $_POST['password']);
 
@@ -41,8 +48,15 @@
             }
         }
 
+        /**
+         *
+         * Handles the logout
+         *
+         * @return      void
+         *
+         */
         public function logout(){
-            if (!empty($_SESSION['username']) && !empty($_SESSION['password'])) {
+            if (!$this->std->mempty($_SESSION['username'], $_SESSION['password'])) {
                 $this->session->setUsername($_SESSION['username']);
                 $this->session->setPassword($_SESSION['password']);
                 if ($this->session->check_password()) {
@@ -54,4 +68,3 @@
             }
         }
     }
-?>

@@ -3,14 +3,10 @@
         // Define global vars
         var $database;
 
-        public function __construct() {
-            $this->create_models();
-        }
-
-        private function create_models() {
-            // Create other need models in this model
-            require_once 'Database.php';
-            $this->database = new Database();
+        public function __construct($models = '') {
+            if (isset($models['database'])) {
+                $this->database = $models['database'];
+            }
         }
 
         private function parse_lsblk_output($var_lsblk_output) {
@@ -73,4 +69,3 @@
             }
         }
     }
-?>

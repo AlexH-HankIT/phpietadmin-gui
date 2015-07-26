@@ -1,5 +1,12 @@
 <?php
     class Ietusers extends Controller {
+        /**
+         *
+         * Display table with users
+         *
+         * @return      void
+         *
+         */
         public function index() {
             // get all all username, passwords and ids from database and turn them over to the view
             $data = $this->database->get_all_users();
@@ -7,6 +14,13 @@
             $this->view('usertable', $data);
         }
 
+        /**
+         *
+         * Check if username is already taken
+         *
+         * @return      void
+         *
+         */
         public function check_username_already_in_use() {
             $data = $this->database->get_all_usernames();
 
@@ -23,6 +37,13 @@
             }
         }
 
+        /**
+         *
+         * Adds a user to the database
+         *
+         * @return      void
+         *
+         */
         public function addusertodb() {
             if (isset($_POST['username']) && isset($_POST['password'])) {
                 $this->database->add_ietuser($_POST['username'], $_POST['password']);
@@ -53,4 +74,3 @@
             }
         }
     }
-?>

@@ -1,6 +1,13 @@
 <?php
-class Ietdelete
-{
+class Ietdelete {
+    public $std;
+
+    public function __construct($models = '') {
+        if (isset($models['std'])) {
+            $this->std = $models['std'];
+        }
+    }
+
     public function delete_global_option_from_file($option, $file) {
         /*
             This function deletes a global option from the config file
@@ -159,9 +166,8 @@ class Ietdelete
         } else {
             // Read data in array
             $data = file($file);
-            require_once 'Std.php';
-            $std = new Std;
-            if ($std->array_find($iqn, $data)) {
+
+            if ($this->std->array_find($iqn, $data)) {
                 foreach ($data as $key => $value) {
                     if (strpos($value, '#') !== true) {
                         if (strpos($value, $iqn) !== false) {
@@ -304,9 +310,6 @@ class Ietdelete
     }
 
     public function delete_session($ietadm, $tid, $sid, $cid) {
-        require_once 'Std.php';
-        $std = new Std();
-        return $std->exec_and_return($ietadm . ' --op delete --tid=' . $tid . ' --sid=' . $sid . ' --cid=' . $cid);
+        return $this->std->exec_and_return($ietadm . ' --op delete --tid=' . $tid . ' --sid=' . $sid . ' --cid=' . $cid);
     }
 }
-?>

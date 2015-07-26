@@ -18,35 +18,45 @@
         /* This function creates all necessary models */
         public function create_models($controller) {
             // These models are always needed
-            $this->std = $this->model('Std');
-            $this->session = $this->model('Session');
             $this->database = $this->model('Database');
-            $this->exec = $this->model('Exec');
+            $this->std = $this->model('Std', $this->database);
+            $this->exec = $this->model('Exec', $this->database);
+            $this->session = $this->model('Session', $this->database, $this->std);
+            $this->regex = $this->model('Regex');
+
+            // sometimes models are needed inside other models
+            $models = array (
+                'std' => $this->std,
+                'database' => $this->database,
+                'exec' => $this->exec,
+                'session' => $this->session,
+                'regex' => $this->regex
+            );
 
             // Different models for specific controllers
             if ($controller == 'overview') {
-                $this->disks = $this->model('Disks');
-                $this->ietvolumes = $this->model('IetVolumes');
-                $this->ietsessions = $this->model('IetSessions');
-                $this->lvm = $this->model('Lvmdisplay');
+                $this->disks = $this->model('Disks', $models);
+                $this->ietvolumes = $this->model('IetVolumes', $models);
+                $this->ietsessions = $this->model('IetSessions', $models);
+                $this->lvm = $this->model('Lvmdisplay', $models);
             } else if ($controller == 'permission') {
-                $this->ietpermissions = $this->model('Ietpermissions');
-                $this->ietadd = $this->model('Ietaddtarget');
-                $this->ietdelete = $this->model('Ietdelete');
+                $this->ietpermissions = $this->model('Ietpermissions', $models);
+                $this->ietadd = $this->model('Ietaddtarget', $models);
+                $this->ietdelete = $this->model('Ietdelete', $models);
             } else if ($controller == 'targets') {
-                $this->ietadd = $this->model('Ietaddtarget');
-                $this->ietdelete = $this->model('Ietdelete');
-                $this->lvm = $this->model('Lvmdisplay');
-                $this->ietsessions = $this->model('IetSessions');
-                $this->ietsettings = $this->model('Settings');
-                $this->ietpermissions = $this->model('Ietpermissions');
+                $this->ietadd = $this->model('Ietaddtarget', $models);
+                $this->ietdelete = $this->model('Ietdelete', $models);
+                $this->lvm = $this->model('Lvmdisplay', $models);
+                $this->ietsessions = $this->model('IetSessions', $models);
+                $this->ietsettings = $this->model('Settings', $models);
+                $this->ietpermissions = $this->model('Ietpermissions', $models);
             } else if ($controller == 'lvm') {
-                $this->lvm = $this->model('Lvmdisplay');
+                $this->lvm = $this->model('Lvmdisplay', $models);
             }
         }
 
         public function check_loggedin($controller) {
-            if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
+            if (isset($_SESSION['username'], $_SESSION['password'])) {
                 $this->session->setUsername($_SESSION['username']);
                 $this->session->setPassword($_SESSION['password']);
 
@@ -75,11 +85,15 @@
             }
         }
 
-        public function model($model) {
+        public function model($model, $other_models = '') {
             $file = '../app/models/' . $model . '.php';
             if (file_exists($file)) {
                 require_once $file;
-                return new $model();
+                if (!empty($other_models )) {
+                    return new $model($other_models);
+                } else {
+                    return new $model();
+                }
             } else {
                 return false;
             }
@@ -98,4 +112,3 @@
         //    require_once '../app/views/scripts.php';
         //}
     }
-?>

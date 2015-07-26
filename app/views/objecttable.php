@@ -5,6 +5,37 @@
                 <li class='active'>Objects</li>
             </ol>
 
+            <table hidden>
+                <tr id="template">
+                    <td class='col-md-2'>
+                        <select class="typeselection">
+                            <option class="default">Select type...</option>
+                            <option value="hostv4">IPv4 Host</option>
+                            <option value="hostv6">IPv6 Host</option>
+                            <option value="networkv4">IPv4 Network</option>
+                            <option value="networkv6">IPv6 Network</option>
+                            <option value="iqn">IQN</option>
+                            <option value="all">ALL</option>
+                            <option value="regex">Regex</option>
+                        </select>
+                        <span class="label label-success bestaetigung">Success</span>
+                    </td>
+                    <td class='col-md-4'>
+                        <input class="objectname" type="text" name="value" placeholder="Meaningful name...">
+                        <span class="label label-success bestaetigung">Success</span>
+                    </td>
+                    <td class='col-md-4'>
+                        <input class="objectvalue" type="text" name="value" placeholder="Your value...">
+                        <span class="label label-success bestaetigung">Success</span>
+                    </td>
+                    <td class='col-md-1'><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
+                    <td class='col-md-1'>
+                        <a href="#" class="saveobjectrow"><span class="glyphicon glyphicon-save glyphicon-20" aria-hidden="true"></span></a>
+                        <span class="label label-success bestaetigung">Success</span>
+                    </td>
+                </tr>
+            </table>
+
             <div class="table-responsive">
                 <table id='objectstable' class='table searchabletable'>
                     <thead>
@@ -19,34 +50,6 @@
 
                     <tbody id='addobjectstbody'>
                     <?php if (is_array($data['objects'])) { ?>
-                        <tr hidden id="template">
-                            <td class='col-md-2'>
-                                <select class="typeselection">
-                                    <option class="default">Select type...</option>
-                                    <option value="hostv4">IPv4 Host</option>
-                                    <option value="hostv6">IPv6 Host</option>
-                                    <option value="networkv4">IPv4 Network</option>
-                                    <option value="networkv6">IPv6 Network</option>
-                                    <option value="iqn">IQN</option>
-                                    <option value="all">ALL</option>
-                                    <option value="regex">Regex</option>
-                                </select>
-                                <span class="label label-success bestaetigung">Success</span>
-                            </td>
-                            <td class='col-md-4'>
-                                <input class="objectname" type="text" name="value" placeholder="Meaningful name...">
-                                <span class="label label-success bestaetigung">Success</span>
-                            </td>
-                            <td class='col-md-4'>
-                                <input class="objectvalue" type="text" name="value" placeholder="Your value...">
-                                <span class="label label-success bestaetigung">Success</span>
-                            </td>
-                            <td class='col-md-1'><a href="#" class="deleteobjectrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
-                            <td class='col-md-1'>
-                                <a href="#" class="saveobjectrow"><span class="glyphicon glyphicon-save glyphicon-20" aria-hidden="true"></span></a>
-                                <span class="label label-success bestaetigung">Success</span>
-                            </td>
-                        </tr>
                         <?php foreach ($data['objects'] as $objects) { ?>
                             <tr>
                                 <td hidden class='id'><?php echo htmlspecialchars($objects['objectid']); ?></td>

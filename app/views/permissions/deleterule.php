@@ -1,29 +1,5 @@
 <div class="workspacedirect">
     <div class="container">
-        <div class='panel panel-default'>
-            <ol class='panel-heading breadcrumb'>
-                <li><a href='#'>Targets</a></li>
-                <li><a href='#'>Configure</a></li>
-                <li class='active'>Delete ACL</li>
-            </ol>
-
-            <div class='panel-body'>
-                <button id="deleterulebutton" class="btn btn-danger" type="submit"><span
-                        class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
-                </button>
-
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="Radio" name="deleteruletype" value="initiators.allow" checked="checked"/>Initiators
-                    </label>
-
-                    <label class="btn btn-default">
-                        <input type="Radio" name="deleteruletype" value="targets.allow"/> Targets
-                    </label>
-                </div>
-            </div>
-        </div>
-
         <!-- row open -->
         <div class="row">
             <?php if (isset($data['deleteruleobjectstable']) && !empty($data['deleteruleobjectstable'])) { ?>

@@ -85,7 +85,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
                     $('#generatepw').qtip({
                         content: {
-                            text: 'An sixteen char password containing upper and lower case letters and digits will be generated.'
+                            text: 'An sixteen char password containing upper and lower case letters and digits will be generated.' +
+                                  'Note: Passwords for discovery users can be at most 12 chars long!'
                         },
                         style: {
                             classes: 'qtip-youtube'

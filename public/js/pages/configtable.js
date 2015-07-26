@@ -18,6 +18,7 @@ define(['jquery'], function ($) {
                         $.ajax({
                             url: "/phpietadmin/config/edit?option=" + option + "&value=" + value,
                             success: function (result) {
+                                console.log(result);
                                 if (result.indexOf("Success") >= 0) {
                                     clicked.next('.bestaetigung').removeClass("label-danger");
                                     clicked.next('.bestaetigung').addClass("label-success");

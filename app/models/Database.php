@@ -11,6 +11,13 @@
             }
         }
 
+        /**
+         *
+         * Adds a session to the database
+         *
+         * @return      int
+         *
+         */
         public function add_session($session_id, $username, $timestamp, $source_ip, $browser_agent) {
             $query = $this->prepare('INSERT INTO sessions (session_id, username_id, login_time, source_ip, browser_agent)
                                     VALUES (:session_id, (SELECT id from user where username=:username), :login_time, :source_ip, :browser_agent)');
@@ -25,6 +32,13 @@
             return $this->return_last_error();
         }
 
+        /**
+         *
+         * Deletes a session from the database
+         *
+         * @return      int
+         *
+         */
         public function delete_session($session_id, $username) {
             $query = $this->prepare('DELETE FROM sessions where session_id=:session_id and username_id=(SELECT id from user where username=:username)');
 
@@ -334,4 +348,3 @@
             return SQLite3::lastErrorCode();
         }
     }
-?>

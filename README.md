@@ -30,11 +30,17 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Target acl cannot be deleted if no initiator acl exists (Page isn't displayed, only error)
 - [x] Discovery users are always already added, even if not
 - [ ] Adding of multiple discovery users to the daemon might fail
-- [ ] Config menu update might not work
+- [x] Config menu update might not work
 - [ ] A few unnecessary page reloads
 - [ ] Installer isn't working <- should be fixed, to be tested
-- [ ] Filter table jquery plugin displays hidden rows when searching
+- [x] Filter table jquery plugin displays hidden rows when searching
 - [ ] Login not possible under yet unknown conditions
+- [ ] Cron job to regularly purge session data
+- [x] Password of discovery user max 12 chars
+- [ ] Enable a few special chars in Targets/Add
+- [ ] Fix dependencies between models
+    * Ietaddtarget->ietvolumes->parse_proc_volumes()
+    * IetVolumes->Ietaddtarget->get_proc_volume_content()
 
 ## ToDo
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
@@ -58,7 +64,6 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Backup config files (http://code.stephenmorley.org/php/diff-implementation/)
 - [ ] Menu to restore config files
 - [ ] Action logging
-- [ ] Document already written methods
 
 ## Planned features and todo
 In version 0.6:
@@ -71,6 +76,40 @@ In version 0.6:
 - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
 - [ ] Support for nfs
 - [ ] Lvm snapshots
+- [ ] Document already written methods (phpDoc)
+    - [ ] auth.php
+    - [ ] config.php
+    - [ ] connection.php
+    - [ ] dashboard.php
+    - [ ] ietusers.php
+    - [ ] lvm.php
+    - [ ] objects.php
+    - [ ] overview.php
+    - [ ] permission.php
+    - [ ] service.php
+    - [ ] targets.php
+    - [ ] App.php
+    - [ ] Controller.php
+    - [ ] Database.php
+    - [ ] Disk.php
+    - [x] Exec.php
+    - [ ] Ietaddtarget.php
+    - [ ] Ietdelete.php
+    - [ ] Ietpermissions.php
+    - [ ] IetSessions.php
+    - [ ] IetVolumes.php
+    - [ ] Lvmdisplay.php
+    - [ ] Regex.php
+    - [ ] Session.php
+    - [ ] Settings.php
+    - [ ] Std.php
+- [ ] Use json for ajax responses
+- [ ] Replace multiple !empty with one mempty() function
+- [ ] When checking for post data, always check with isset() and then with mempty()/empty()
+- [ ] Use try/catch for error handling
+- [ ] Use Type Hinting (http://php.net/manual/de/language.oop5.typehinting.php)
+- [ ] All regex into one model
+- [ ] All shell_execs/execs/system calls in Exec model
 
 Items are completely random ;-)
 

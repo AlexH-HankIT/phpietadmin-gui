@@ -32,41 +32,45 @@
         public function maplun() {
             $data = $this->lvm->get_all_logical_volumes();
 
-            if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['path'])) {
-                if (file_exists($_POST['path'])) {
-                    $tid = $this->ietadd->get_tid($_POST['target']);
-                    $lun = $this->ietadd->get_next_lun($_POST['target']);
-                    $return = $this->ietadd->check_path_already_in_use($_POST['path']);
-                    if ($return != 0) {
-                        echo 'The path '  . htmlspecialchars($_POST['path']) . ' is already in use';
-                    } else {
-                        $return = $this->exec->add_lun_to_daemon($tid, $lun, $_POST['path'], $_POST['type'], $_POST['mode']);
+            if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
+                if (!$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
+                    if (file_exists($_POST['path'])) {
+                        $tid = $this->ietadd->get_tid($_POST['target']);
+                        $lun = $this->ietadd->get_next_lun($_POST['target']);
+                        $return = $this->ietadd->check_path_already_in_use($_POST['path']);
                         if ($return != 0) {
-                            echo 'Could not add lun to target ' .  htmlspecialchars($_POST['target']) . ' Server said: ' . htmlspecialchars($return[0]);
+                            echo 'The path ' . htmlspecialchars($_POST['path']) . ' is already in use';
                         } else {
-                            $option = 'Lun ' . $lun . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path'];
-
-                            $return = $this->ietadd->add_option_to_iqn_in_file($_POST['target'], $this->database->get_config('ietd_config_file'), $option);
-
-                            if ($return !== 0) {
-                                if ($return == 1) {
-                                    echo 'The lun was added to the daemon, but not to the config file, because it\'s read only.';
-                                } else if ($return == 3) {
-                                    echo 'The lun was added to the daemon, but not to the config file, because the target isn\'t there.';
-                                } else {
-                                    echo 'The lun was added to the daemon, but not to the config file. Reason is unkown.';
-                                }
+                            $return = $this->exec->add_lun_to_daemon($tid, $lun, $_POST['path'], $_POST['type'], $_POST['mode']);
+                            if ($return != 0) {
+                                echo 'Could not add lun to target ' . htmlspecialchars($_POST['target']) . ' Server said: ' . htmlspecialchars($return[0]);
                             } else {
-                                echo "Success";
+                                $option = 'Lun ' . $lun . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path'];
+
+                                $return = $this->ietadd->add_option_to_iqn_in_file($_POST['target'], $this->database->get_config('ietd_config_file'), $option);
+
+                                if ($return !== 0) {
+                                    if ($return == 1) {
+                                        echo 'The lun was added to the daemon, but not to the config file, because it\'s read only.';
+                                    } else if ($return == 3) {
+                                        echo 'The lun was added to the daemon, but not to the config file, because the target isn\'t there.';
+                                    } else {
+                                        echo 'The lun was added to the daemon, but not to the config file. Reason is unkown.';
+                                    }
+                                } else {
+                                    echo "Success";
+                                }
                             }
                         }
+                    } else {
+                        echo 'The file ' . $_POST['path'] . ' was not found!';
                     }
                 } else {
-                    $this->view('message', "The file " . $_POST['path'] . " was not found!");
+                    echo 'No data';
                 }
-            } else if (!empty($_POST['target']) && !empty($_POST['type']) && !empty($_POST['mode']) && !empty($_POST['pathtoblockdevice'])) {
-                print_r($_POST);
+            } else if (!$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'],$_POST['pathtoblockdevice'] )) {
                 // handle manual selection here
+                echo 'Not implemented';
             } else {
                 if ($data == 3) {
                     $this->view('message', "Error - No logical volumes found!");
@@ -93,7 +97,7 @@
             $data = $this->ietadd->get_targets_with_lun();
 
             if (!empty($data)) {
-                if (isset($_POST['iqn']) && !isset($_POST['lun'])) {
+                if (isset($_POST['iqn'], $_POST['lun'])) {
                     $luns = $this->ietdelete->get_all_luns_of_iqn($data, $_POST['iqn']);
 
                     if ($luns == 3) {
@@ -111,7 +115,7 @@
                         // Display page for ajax request
                         $this->view('targets/deletelun', $luns);
                     }
-                } else if (isset($_POST['iqn']) && isset($_POST['lun']) && isset($_POST['path'])) {
+                } else if (isset($_POST['iqn'], $_POST['lun'], $_POST['path'])) {
                     if (file_exists($_POST['path'])) {
                         // Delete lun from daemon
                         $tid = $this->ietadd->get_tid($_POST['iqn']);
@@ -143,7 +147,7 @@
         }
 
         public function deletetarget() {
-            if (isset($_POST['iqn']) && isset($_POST['action']) && isset($_POST['deleteaacl']) && isset($_POST['force'])) {
+            if (isset($_POST['iqn'], $_POST['action'], $_POST['deleteaacl'], $_POST['force'])) {
                 // Get tid of target
                 $tid = $this->ietadd->get_tid($_POST['iqn']);
 
@@ -261,7 +265,7 @@
             }
         }
 
-        public function configuretarget() {
+        /*public function configuretarget() {
             if (isset($_POST['iqn'])) {
 
             } else {
@@ -273,11 +277,11 @@
                     $this->view('targets/configuretargetmenu');
                 }
             }
-        }
+        }*/
 
         public function settings() {
             // change or set value
-            if (isset($_POST['option']) && isset($_POST['oldvalue']) && isset($_POST['newvalue']) && isset($_POST['iqn']) && isset($_POST['type'])) {
+            if (isset($_POST['option'], $_POST['oldvalue'], $_POST['newvalue'], $_POST['iqn'], $_POST['type'])) {
                 // This is already validated on the client and should normally not occur
                 if ($_POST['oldvalue'] == $_POST['newvalue']) {
                     echo "No changes!";
@@ -323,7 +327,7 @@
                     }
                 }
             // Resets value to default
-            } else if (isset($_POST['option']) && $_POST['action'] == 'reset' && isset($_POST['value']) && isset($_POST['iqn'])) {
+            } else if (isset($_POST['option'], $_POST['value'], $_POST['iqn']) && $_POST['action'] == 'reset') {
                 // delete value from daemon config
                 $tid = $this->ietadd->get_tid($_POST['iqn']);
                 $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op update --tid=' . $tid . ' --params=' . $_POST['option'] . '=');
@@ -384,7 +388,7 @@
         }
 
         public function deletesession() {
-            if (isset($_POST['iqn']) && isset($_POST['cid']) && isset($_POST['sid'])){
+            if (isset($_POST['iqn'], $_POST['cid'], $_POST['sid'])){
                 // delete session
                 if (is_numeric($_POST['cid']) && is_numeric($_POST['sid'])) {
                     $return = $this->ietdelete->delete_session($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm'), $this->ietadd->get_tid($_POST['iqn']), $_POST['sid'], $_POST['cid']);
@@ -408,4 +412,3 @@
             }
         }
     }
-?>

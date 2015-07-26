@@ -4,16 +4,11 @@
         var $database;
         var $regex;
 
-        public function __construct() {
-            $this->create_models();
-        }
-
-        private function create_models() {
-            // Create other need models in this model
-            require_once 'Database.php';
-            require_once 'Regex.php';
-            $this->database = new Database();
-            $this->regex = new Regex();
+        public function __construct($models = '') {
+            if (isset($models['database'], $models['regex'])) {
+                $this->database = $models['database'];
+                $this->regex = $models['regex'];
+            }
         }
 
         /* --------------------------------------------------------------------------------------------------------------------------------------------
@@ -519,4 +514,3 @@
 
        -----------------------------------------------------------------------------------------------------------------------------------------------*/
     }
-?>

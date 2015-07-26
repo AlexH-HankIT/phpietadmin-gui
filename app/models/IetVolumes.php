@@ -1,15 +1,14 @@
 <?php
     class IetVolumes {
         public $regex;
+        public $database;
 
-        public function __construct() {
-            $this->create_models();
-        }
+        public function __construct($models = '') {
+            if (isset($models['regex'], $models['database'])) {
+                $this->regex = $models['regex'];
+                $this->database = $models['database'];
+            }
 
-        private function create_models() {
-            // Create other needed models in this model
-            require_once 'Regex.php';
-            $this->regex = new Regex();
         }
 
         private function create_table() {
@@ -98,14 +97,22 @@
 
         }
 
+        // dirty hack, just copied it frm Ietaddtarget.php
+        // ToDO: FIX THIS!!!!
+        public function get_proc_volume_content() {
+            $file = $this->database->get_config('proc_volumes');
+            if (file_exists($file)) {
+                return file_get_contents($this->database->get_config('proc_volumes'));
+            } else {
+                return 2;
+            }
+        }
+
         // Reads proc_volumes and creates an array for every target
         // Luns are also included, if available
         public function parse_proc_volumes() {
-            require_once 'Ietaddtarget.php';
-            $ietaddtarget = new ietaddtarget();
-
             // Get proc volume content
-            $data = $ietaddtarget->get_proc_volume_content();
+            $data = $this->get_proc_volume_content();
 
             // Abort if no data is returned
             if (is_int($data) or empty($data)) {
@@ -175,5 +182,3 @@
 
         }
     }
-
-?>

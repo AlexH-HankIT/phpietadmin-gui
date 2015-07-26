@@ -8,7 +8,7 @@
         }
 
         public function add() {
-            if (isset($_POST['type']) && isset($_POST['name']) && isset($_POST['value'])) {
+            if (isset($_POST['type'], $_POST['name'], $_POST['value'])) {
                 $this->database->add_object($_POST['type'], $_POST['name'], $_POST['value']);
             }
         }
@@ -28,7 +28,7 @@
         }
 
         public function checkvalueexists() {
-            if (isset($_POST['check']) && $_POST['check'] == "duplicated" && isset($_POST['value'])) {
+            if (isset($_POST['check'], $_POST['value']) && $_POST['check'] == 'duplicated') {
                 $data = $this->database->get_all_object_values();
 
                 if (is_array($data)) {
@@ -44,4 +44,3 @@
             }
         }
     }
-?>
