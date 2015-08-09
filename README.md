@@ -46,8 +46,8 @@ Take a look at the github releases for detailed information about the features.
 ## Planned features and todo
 In version 0.6:
 * LVM
-    - [ ] Lvm snapshots
-    - [ ] Add lvextend, lvremove, lvrename features
+    - [x] Lvm snapshots
+    - [x] Add lvextend, lvremove, lvrename features
     - [ ] Volume group menu (select which volume groups phpietadmin should use)
     - [ ] Optional lv prefix (append LV_ or some other user chosen string)
 
@@ -75,6 +75,7 @@ In version 0.6:
         - [ ] Import orphaned objects into database
     - [ ] Error logging
     - [ ] Login/Logout logging
+    - [ ] Use namespaces with autoloading
 
 * Docs
     - [ ] Document already written methods (phpDoc)
