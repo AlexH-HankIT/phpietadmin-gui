@@ -8,11 +8,19 @@ class Ietdelete {
         }
     }
 
+    /**
+     *
+     *  This function deletes a global option from the config file
+     *  Comments and empty lines are also deleted
+     *
+     *
+     * @param   string $option option to delete
+     * @param   string $file file from which the options should be deleted
+     * @return  int
+     *
+     * ToDo: Don't remove comments
+     */
     public function delete_global_option_from_file($option, $file) {
-        /*
-            This function deletes a global option from the config file
-            Comments and empty lines are also deleted
-        */
         if (!is_writeable($file)) {
             return 1;
         } else {
@@ -53,12 +61,20 @@ class Ietdelete {
         }
     }
 
+    /**
+     *
+     *  This function deletes a iqn from the config file
+     *  No options of the iqn are deleted, so make sure it has none before calling this!
+     *  This will delete all comments from the config file
+     *
+     *
+     * @param   string $iqn iqn to delete
+     * @param   string $file file from which the the iqn should be deleted
+     * @return  int
+     *
+     * ToDo: Don't remove comments
+     */
     public function delete_iqn_from_config_file($iqn, $file) {
-        /*
-            This function deletes a iqn from the config file
-            No options of the iqn are deleted, so make sure it has none before calling this!
-            This will delete all comments from the config file
-        */
         if (!is_writeable($file)) {
             return 1;
         } else {
@@ -94,6 +110,19 @@ class Ietdelete {
         }
     }
 
+    /**
+     *
+     *  This function deletess a specific option from a iqn
+     *  This will delete all comments from the config file
+     *
+     *
+     * @param   string $iqn iqn to delete
+     * @param   string $option option to delete
+     * @param   string $file file from which the the iqn should be deleted
+     * @return  int
+     *
+     * ToDo: Don't remove comments
+     */
     public function delete_option_from_iqn($iqn, $option, $file) {
         if (!is_writeable($file)) {
             return 1;
@@ -160,6 +189,18 @@ class Ietdelete {
         }
     }
 
+    /**
+     *
+     *  This function deletes a iqn from (+ all acls) from one ietd allow file
+     *  This will delete all comments from the config file
+     *
+     *
+     * @param   string $iqn iqn to delete
+     * @param   string $file file from which the the iqn should be deleted
+     * @return  int
+     *
+     * ToDo: Don't remove comments
+     */
     public function delete_iqn_from_allow_file($iqn, $file) {
         if (!is_writeable($file)) {
             return 1;
@@ -187,9 +228,17 @@ class Ietdelete {
         }
     }
 
+    /**
+     *
+     *  Fetch all luns of one iqn
+     *
+     *
+     * @param   array $targets_with_lun output of ietadd->get_targets_with_lun()
+     * @param   string $iqn iqn from which the lus should be fetched
+     * @return  int, array
+     *
+     */
     public function get_all_luns_of_iqn($targets_with_lun, $iqn) {
-        // $targets_with_lun is output of ietadd->get_targets_with_lun()
-
         if (empty($targets_with_lun)) {
             return 3;
         } else {
@@ -212,10 +261,19 @@ class Ietdelete {
         }
     }
 
+    /**
+     *
+     *  This function is similar to the delete_option_from_iqn function,
+     *  But it deletes all options from the target (target with luns cannot be deleted)
+     *  This functions makes sure, that no config pieces are left over, when a target is deleted
+     *
+     *
+     * @param   string $file path to the file from which the option should be deleted
+     * @param   string $iqn iqn from which the lus should be fetched
+     * @return  int
+     *
+     */
     public function delete_all_options_from_iqn($iqn, $file) {
-        /* This function is similar to the delete_option_from_iqn function,*/
-        /* But it deletes all options from the target (target with luns cannot be deleted) */
-        /* This functions makes sure, that no config pieces are left over, when a target is deleted */
         if (!is_writeable($file)) {
             return 1;
         } else {
@@ -290,6 +348,8 @@ class Ietdelete {
 
     // if tid is given, this function will return all users for one target
     // if not it will return all discovery users
+
+    
     public function get_configured_iet_users($ietadm, $tid = false) {
         if ($tid === false) {
             $return = shell_exec($ietadm . ' --op show --user');

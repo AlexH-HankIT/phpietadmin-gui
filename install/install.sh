@@ -60,7 +60,7 @@ if [ -f $DATABASE ]; then
         rm $sudoers_file
     fi
 
-    echo "www-data ALL=NOPASSWD: /usr/sbin/service *, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce, /sbin/shutdown --reboot *, /sbin/shutdown --poweroff *" > $sudoers_file
+    echo "www-data ALL=NOPASSWD: /usr/share/phpietadmin/install/phpietadmin-cli.php, /usr/sbin/service, /sbin/vgs, /sbin/pvs, /sbin/lvs, /bin/lsblk -rn, /usr/sbin/ietadm --op *, /sbin/lvcreate, /sbin/lvremove -f *, /sbin/lvextend, /sbin/lvreduce, /sbin/shutdown --reboot *, /sbin/shutdown --poweroff *" > $sudoers_file
 
     log_message "Starting file update..."
     cd ..

@@ -103,33 +103,29 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                 $('#configuretargetmenu').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
-            //if (!configuretargetbody.hasClass(page)) {
-                var request;
-                if (data === undefined) {
-                    // if type is undefined, not data will be passed
-                    request = Methods.doajax(url);
-                } else if (typeof data == 'string' ) {
-                    // if type is string an array will be created an posted
-                    var array = {
-                        iqn: data
-                    };
+            var request;
+            if (data === undefined) {
+                // if type is undefined, not data will be passed
+                request = Methods.doajax(url);
+            } else if (typeof data == 'string') {
+                // if type is string an array will be created an posted
+                var array = {
+                    iqn: data
+                };
 
-                    request = Methods.doajax(url, array);
-                } else {
-                    // else data is already an array
-                    request = Methods.doajax(url, data);
+                request = Methods.doajax(url, array);
+            } else {
+                // else data is already an array
+                request = Methods.doajax(url, data);
+            }
+
+            request.done(function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    configuretargetbody.html('');
+                    configuretargetbody.html(request.responseText);
+                    configuretargetbody.removeClass();
                 }
-
-                request.done(function () {
-                    if (request.readyState == 4 && request.status == 200) {
-                        configuretargetbody.html('');
-                        configuretargetbody.html(request.responseText);
-                        configuretargetbody.removeClass();
-                        //configuretargetbody.addClass(page);
-                    }
-                });
-
-            //}
+            });
         },
         loadworkspace: function(clicked, site) {
             // replace the slash in site with underscore

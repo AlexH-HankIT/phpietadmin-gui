@@ -21,11 +21,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             "path": $('#logicalvolume').val()
                         };
 
-                        var request = mylibs.doajax('/phpietadmin/targets/maplun', data);
-
-                        request.done(function() {
-                            if (request.readyState == 4 && request.status == 200) {
-                                if (request.responseText == 'Success') {
+                        $.ajax({
+                            url: '/phpietadmin/targets/maplun',
+                            data: data,
+                            dataType: 'json',
+                            type: 'post',
+                            success: function(data) {
+                                if (data['status'] == 'Success') {
                                     var logicalvolume = $('#logicalvolume');
                                     var selectedvolume = logicalvolume.find("option:selected");
                                     selectedvolume.remove();
@@ -40,16 +42,24 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
                                     swal({
                                         title: 'Success',
-                                        type: 'success'
+                                        type: 'success',
+                                        text: data['message']
                                     });
-                                } else {
+                                } else if (data['status'] == 'Error') {
                                     swal({
                                         title: 'Error',
                                         type: 'error',
-                                        text: request.responseText
+                                        text: data['message']
                                     });
                                 }
-                                mylibs.loadconfiguretargetbody('/phpietadmin/targets/maplun');
+                            },
+                            error: function(data) {
+                                console.log(data);
+                                swal({
+                                    title: 'Error',
+                                    type: 'error',
+                                    text: 'Something went wrong while submitting!'
+                                });
                             }
                         });
                     }
@@ -57,16 +67,4 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             });
         }
     };
-        // shows/hides the manual input
-        /*maplun.hide();
-        $("#check").change(function() {
-            if(maplun.is(':hidden')) {
-                maplun.attr("required");
-                maplun.show();
-                autoselection.hide();
-            } else {
-                autoselection.show();
-                maplun.hide();
-            }
-        });*/
 });

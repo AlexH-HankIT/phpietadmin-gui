@@ -5,9 +5,9 @@
         public $database;
         public $std;
 
-        public function __construct($database, $std) {
-            $this->database = $database;
-            $this->std = $std;
+        public function __construct($models) {
+            $this->database = $models['database'];
+            $this->std = $models['std'];
 
             session_start();
         }
@@ -53,7 +53,7 @@
         // function dies at the end
         public function destroy_session() {
             // delete session from database
-            $this->$database->delete_session(session_id(), $_SESSION['username']);
+            $this->database->delete_session(session_id(), $_SESSION['username']);
 
             // destroy session
             session_unset();
@@ -74,12 +74,12 @@
             die();
         }
 
-        public function setUsername($NAME) {
-            $this->username = $NAME;
+        public function setUsername($name) {
+            $this->username = $name;
         }
 
-        public function setPassword($PASS) {
-            $this->password = $PASS;
+        public function setPassword($pass) {
+            $this->password = $pass;
         }
 
         public function setTime($login_time) {

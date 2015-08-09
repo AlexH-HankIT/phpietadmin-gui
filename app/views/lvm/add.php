@@ -12,12 +12,12 @@
                     <table class="table borderless">
                         <tr>
                             <td>Name:</td>
-                            <td><input type="text" id="nameinput" class="form-control"/></td>
+                            <td><input type="text" id="nameinput" class="form-control"></td>
                         </tr>
                         <tr>
                             <td>Size in GB:</td>
-                            <td><input id="sizefield" type="text" value="1" class="form-control"/></td>
-                            <td><input id="rangeinput" type="range" min="1" max="" value="1" step="1" class="form-control"/></td>
+                            <td><input id="sizefield" type="text" value="1" class="form-control"></td>
+                            <td><input id="rangeinput" type="range" min="1" max="" value="1" step="1" class="form-control"></td>
                         </tr>
                         <tr>
                             <td>(max <span id="maxvalue"></span>G)</td>

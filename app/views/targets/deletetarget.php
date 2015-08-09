@@ -12,28 +12,28 @@
                 <div class="row">
                     <div class="col-md-12">
                         <label>
-                            <input type="radio" name="lundeletion" checked value="detach"/> Detach LUN(s)
+                            <input type="radio" name="lundeletion" checked value="detach"> Detach LUN(s)
                         </label> (No data will be deleted)
                     </div>
                 </div>
                 <div class="row top-buffer">
                     <div class="col-md-12">
                         <label>
-                            <input type="radio" name="lundeletion" value="delete"/> Delete attached LUN(s)
+                            <input type="radio" name="lundeletion" value="delete"> Delete attached LUN(s)
                         </label> (LVM only, data will be deleted!)
                     </div>
                 </div>
                 <div class="row top-buffer">
                     <div class="col-md-12">
                         <label>
-                            <input id="deleteacl" type="checkbox" checked/> Delete acl
+                            <input id="deleteacl" type="checkbox" checked> Delete acl
                         </label> from initiator allow and target allow
                     </div>
                 </div>
                 <div class="row top-buffer">
                     <div class="col-md-12">
                         <label>
-                            <input id="force" type="checkbox"/> Force
+                            <input id="force" type="checkbox"> Force
                         </label> (Delete even if in use, requires 'Delete acl')
                     </div>
                 </div>

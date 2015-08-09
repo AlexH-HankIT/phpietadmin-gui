@@ -1,7 +1,7 @@
 <div class='workspacedirect'>
     <div id='addtargetinput' class='container'>
         <!-- Hidden field to save default iqn -->
-        <input value='<?php echo htmlspecialchars($data); ?>' id='defaultiqn' type='hidden'/>
+        <input value='<?php echo htmlspecialchars($data); ?>' id='defaultiqn' type='hidden'>
 
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>
@@ -13,7 +13,7 @@
                     <div class='col-md-12'>
                         <div class='input-group'>
                             <span class='input-group-addon' id='basic-addon1'><?php echo htmlspecialchars($data); ?></span>
-                            <input class='form-control' type='text' id='iqninput' required/>
+                            <input class='form-control' type='text' id='iqninput' required>
                         </div>
                     </div>
                 </div>

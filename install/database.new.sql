@@ -108,9 +108,12 @@ INSERT INTO config (option, optioningui, ispath, value, description, category) V
     ('vgs', 'vgs bin', 1, '/sbin/vgs', "Path to the vgs binary", 2),
     ('pvs', 'pvs bin', 1, '/sbin/pvs', "Path to the pvs binary", 2),
     ('lvcreate', 'lvcreate bin', 1, '/sbin/lvcreate', "Path to the lvcreate binary", 2),
+    ('lvrename', 'lvrename bin', 1, '/sbin/lvrename', "Path to the lvrename binary", 2),
     ('lvreduce', 'lvreduce bin', 1, '/sbin/lvreduce', "Path to the lvreduce binary", 2),
     ('lvextend', 'lvextend bin', 1, '/sbin/lvextend', "Path to the lvextend binary", 2),
     ('lvremove', 'lvremove bin', 1, '/sbin/lvremove', "Path to the lvremove binary", 2),
+    ('lvconvert', 'lvconvert bin', 1, '/sbin/lvconvert', "Path to the lvconvert binary", 2),
+    ('prefix', 'Prefix', 0, 'Prefix for newly created logical volumes', 2)
     ('mdstat', '/proc mdstat', 1, '/proc/mdstat', "Path to the mdstat file", 3),
     ('sudo', 'subo bin', 1, '/usr/bin/sudo', "Path to the sudo binary", 3),
     ('service', 'service bin', 1, '/usr/sbin/service', "Path to the service binary", 3),

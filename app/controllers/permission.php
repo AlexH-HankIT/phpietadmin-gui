@@ -46,9 +46,12 @@
             }
         }
 
+        public function deleterulebuttons() {
+            $this->view('permissions/deleterulebuttons');
+        }
+
         public function deleterule() {
             if (isset($_POST['iqn']) && !isset($_POST['value'])) {
-                $this->view('permissions/deleterulebuttons');
                 if (isset($_POST['ruletype'])) {
                     if ($_POST['ruletype'] == 'initiators.allow') {
                         $file = $this->database->get_config('ietd_init_allow');

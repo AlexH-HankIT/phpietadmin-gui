@@ -52,6 +52,9 @@ INSERT INTO ietsettings (option, defaultvalue, type, state, othervalue1) VALUES
 
 INSERT INTO config (option, optioningui, ispath, value, description, category) VALUES
   ('idle', 'idle time', 0, 15, 'Time until the user is automatically logged out in minutes', 3),
+  ('lvrename', 'lvrename bin', 1, '/sbin/lvrename', "Path to the lvrename binary", 2),
+  ('lvconvert', 'lvconvert bin', 1, '/sbin/lvconvert', "Path to the lvconvert binary", 2),
+  ('prefix', 'Prefix', 0, 'Prefix for newly created logical volumes', 2),
   ('shutdown', 'shutdown bin', 1, '/sbin/shutdown', "Path to the shutdown binary", 3);
 
 INSERT INTO services (name, enabled, deleteable) VALUES

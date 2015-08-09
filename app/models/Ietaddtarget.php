@@ -3,8 +3,22 @@
         // Define global vars
         var $database;
         var $regex;
+        var $models;
 
+        /*
+         * This model is a bit messy
+         * ToDO: FIX THIS!
+         */
+
+        /**
+         *
+         * Create models
+         *
+         * @param   array $models needed models in this mdel
+         *
+         */
         public function __construct($models = '') {
+            $this->models = $models;
             if (isset($models['database'], $models['regex'])) {
                 $this->database = $models['database'];
                 $this->regex = $models['regex'];
@@ -17,6 +31,15 @@
 
         -----------------------------------------------------------------------------------------------------------------------------------------------*/
 
+        /**
+         *
+         * resursive array_search
+         *
+         * @return   array
+         *
+         * ToDo: Move this to std model
+         *
+         */
         private function in_array_r($needle, $haystack, $strict = false) {
             foreach ($haystack as $item) {
                 if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict))) {
@@ -27,6 +50,14 @@
             return false;
         }
 
+        /**
+         *
+         * Get the next usable lun for a target
+         *
+         * @param   string $target iqn of a target
+         * @return  int
+         *
+         */
         public function get_next_lun($target) {
             $array_targets_with_lun = $this->get_targets_with_lun();
             // Empty or not in array means, the lun has no targets, therefore the first usable lun is 0
@@ -40,6 +71,16 @@
             }
         }
 
+        /**
+         *
+         * Get the highest lun of a target
+         *
+         * @param   array $array_name_lun_correct_index
+         * @return   array
+         *
+         *
+         * ToDO: what the hell is this doing? Find out and document
+         */
         private function get_highest_lun($array_name_lun_correct_index, $target) {
             foreach ($array_name_lun_correct_index as $value) {
                 if (in_array($target, $value[0])) {
@@ -51,6 +92,15 @@
             return $highestlun + 1;
         }
 
+        /**
+         *
+         * Get the highest lun of a target
+         *
+         * @param   array $array_targets_with_more_than_two_rows
+         * @return   array
+         *
+         * ToDO: what the hell is this doing? Find out and document
+         */
         private function parse_name_lun_from_array($array_targets_with_more_than_two_rows) {
             $counter = 0;
             foreach ($array_targets_with_more_than_two_rows as $value) {
@@ -71,13 +121,20 @@
 
         -----------------------------------------------------------------------------------------------------------------------------------------------*/
 
+        /**
+         *
+         * This function appends a target to the config file
+         * Newlines and duplications are handled!
+         * This function will delete all comments!
+         * Don't bother with the 'Target ', it's added automatically
+         *
+         * @param   string $iqn iqn
+         * @param   string $file file to which the iqn should be added
+         * @return   int
+         *
+         * ToDO: Don't delete comments
+         */
         public function add_iqn_to_file($iqn, $file) {
-            /*
-                This function appends a target to the config file
-                Newlines and duplications are handled!
-                This function will delete all comments!
-            */
-
             if (!is_writeable($file)) {
                 return 1;
             } else {
@@ -127,15 +184,22 @@
             }
         }
 
+        /**
+         *
+         *  'Normal' options are added after a specific target definition
+         *  This function looks for the target and adds the option one line after the match to the file
+         *  Newlines are handled!
+         *  No duplication checks here, because the same option can be configured for multiple targets
+         *  This function will delete all comments!
+         *
+         * @param   string $iqn iqn to which the option should be added
+         * @param   string $file file which will be changed
+         * @param   string $option option to add
+         * @return   int
+         *
+         * ToDO: Don't delete comments
+         */
         public function add_option_to_iqn_in_file($iqn, $file, $option) {
-            /*
-                'Normal' options are added after a specific target definition
-                This function looks for the target and adds the option one line after the match to the file
-                Newlines are handled!
-                No duplication checks here, because the same option can be configured for multiple targets
-                This function will delete all comments!
-            */
-
             if (!is_writeable($file)) {
                 return 1;
             } else {
@@ -174,12 +238,22 @@
             }
         }
 
+        /**
+         *
+         *  This function adds a global option to the config file
+         *  Global options are inserted before any target definitions
+         *  Newlines and duplications are handled!
+         *  This function will delete all comments!
+         *
+         * @param   string $file file which will be changed
+         * @param   string $option option to add
+         * @return   int
+         *
+         * ToDO: Don't delete comments
+         */
         public function add_global_option_to_file($file, $option) {
             /*
-                This function adds a global option to the config file
-                Global options are inserted before any target definitions
-                Newlines and duplications are handled!
-                This function will delete all comments!
+
             */
 
             if (!is_writeable($file)) {
@@ -226,10 +300,17 @@
 
         -----------------------------------------------------------------------------------------------------------------------------------------------*/
 
-        // Returns all targets with at least one lun
+        /**
+         *
+         *  Return all targets with at least one lun
+         *
+         * @return   array, string
+         *
+         * ToDO: Return only array
+         */
         public function get_targets_with_lun() {
             require_once 'IetVolumes.php';
-            $ietvolumes = new IetVolumes();
+            $ietvolumes = new IetVolumes($this->models);
 
             $data = $ietvolumes->parse_proc_volumes();
 
@@ -240,6 +321,14 @@
             }
         }
 
+        /**
+         *
+         *  Read the ietd volumes file under proc
+         *
+         * @return   string, int
+         *
+         * ToDO: Return only array
+         */
         public function get_proc_volume_content() {
             $file = $this->database->get_config('proc_volumes');
             if (file_exists($file)) {
@@ -249,6 +338,16 @@
             }
         }
 
+        /**
+         *
+         *  Get the tid for a target
+         *
+         * @param    string         $name  iqn of the target
+         * @return   int
+         *
+         * ToDo: Error handling, what if $key = false?
+         *
+         */
         public function get_tid($name) {
             $volumes = $this->get_proc_volume_content();
             $a_name = $this->parse_all_names_from_proc_volumes($volumes);
@@ -258,7 +357,15 @@
             return $a_tid[$key];
         }
 
-        //
+        /**
+         *
+         *  Get all targets from the daemon
+         *
+         * @return   int, array
+         *
+         * ToDo: Error handling, what if $data is empty?
+         *
+         */
         public function get_targets() {
             $volumes = $this->get_proc_volume_content();
 
@@ -273,6 +380,14 @@
             }
         }
 
+        /**
+         *
+         *  Get all targets without any lun
+         *
+         * @return   int, array
+         *
+         *
+         */
         public function get_targets_without_luns() {
             $alltargets = $this->get_targets();
             $withluns = $this->get_targets_with_lun();
@@ -299,6 +414,15 @@
                 }
             }
         }
+
+        /**
+         *
+         *  This returns all targets without any luns or connections
+         *
+         *
+         * @return   int, array
+         *
+         *
 
         public function get_targets_without_luns_or_connections($ietsessions) {
             $targets_without_luns = $this->get_targets_without_luns();
@@ -343,9 +467,19 @@
                 } else {
                     return 3;
                 }
-            }*/
-        }
+            }
+        }*/
 
+        /**
+         *
+         *  CHeck if a lun (=path to block device) is already added to a target
+         *
+         *
+         * @return   int
+         *
+         * ToDo: Fix bad name
+         *
+         */
         public function check_path_already_in_use($path) {
             $volumes = $this->get_proc_volume_content();
             if (!empty($volumes)) {
@@ -366,7 +500,16 @@
             }
         }
 
-        // Check if the specified name is already in use by a target
+        /**
+         *
+         *  Check if the specified name is already in use by a target
+         *
+         *
+         * @param   string $name name of the target
+         * @return   int
+         *
+         *
+         */
         public function check_target_name_already_in_use($name) {
             $volumes = $this->get_proc_volume_content();
 
@@ -382,7 +525,15 @@
             }
         }
 
-        // Filters all used volumes from a given array
+        /**
+         *
+         *  Filters all used volumes from a given array
+         *
+         *
+         * @param   array $logicalvolumes output[2] of function get_all_logical_volumes() from the file 'Lvmdisplay.php'
+         * @return   array
+         *
+         */
         public function get_unused_volumes($logicalvolumes) {
             $volumes = $this->get_proc_volume_content();
 
@@ -400,9 +551,18 @@
             }
         }
 
+        /**
+         *
+         *  This function is similar to the delete_option_from_iqn function
+         *  But it only returns all options from the target
+         *
+         *
+         * @param   string $iqn name of the target
+         * @param   string $file file from which the options should be fetched
+         * @return   array, int
+         *
+         */
         public function get_all_options_from_iqn($iqn, $file) {
-            /* This function is similar to the delete_option_from_iqn function */
-            /* But it only returns all options from the target */
 
             if (!is_writeable($file)) {
                 return 1;
@@ -490,6 +650,8 @@
         Start // Regex functions
 
         -----------------------------------------------------------------------------------------------------------------------------------------------*/
+
+        /* ToDo: Move this functions to the regex model */
 
         // Uses regex to extract all target names from a given string
         private function parse_all_names_from_proc_volumes($var_volumes) {

@@ -23,7 +23,7 @@
                     <tbody>
                     <?php foreach ($data as $row) { ?>
                         <tr>
-                            <td><input class="userdeletecheckbox" type="checkbox"/></td>
+                            <td><input class="userdeletecheckbox" type="checkbox"></td>
                             <td class="type"><?php echo htmlspecialchars($row[0]); ?></td>
                             <td class="user"><?php echo htmlspecialchars($row[1]); ?></td>
                         </tr>

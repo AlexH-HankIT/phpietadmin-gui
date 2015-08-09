@@ -20,12 +20,12 @@
          * @param   object $database database connection
          *
          */
-        public function __construct($database) {
-            $this->sudo = $database->get_config('sudo');
-            $this->ietadm = $database->get_config('ietadm');
-            $this->service = $database->get_config('service');
-            $this->lvcreate = $database->get_config('lvcreate');
-            $this->lvremove = $database->get_config('lvremove');
+        public function __construct($models) {
+            $this->sudo = $models['database']->get_config('sudo');
+            $this->ietadm = $models['database']->get_config('ietadm');
+            $this->service = $models['database']->get_config('service');
+            $this->lvcreate = $models['database']->get_config('lvcreate');
+            $this->lvremove = $models['database']->get_config('lvremove');
         }
 
         /**

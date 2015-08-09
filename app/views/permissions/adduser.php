@@ -12,10 +12,10 @@
 
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default active">
-                        <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="Incoming" checked="checked"/> Incoming
+                        <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="Incoming" checked="checked"> Incoming
                     </label>
                     <label class="btn btn-default">
-                        <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="Outgoing"/> Outgoing
+                        <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="Outgoing"> Outgoing
                     </label>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                         <?php foreach ($data['user'] as $row) { ?>
                             <tr>
                                 <td hidden class="userid"><?php echo htmlspecialchars($row['id']); ?></td>
-                                <td class="col-md-1"><input class="addusercheckbox" type="checkbox"/></td>
+                                <td class="col-md-1"><input class="addusercheckbox" type="checkbox"></td>
                                 <td class="col-md-11"><?php echo htmlspecialchars($row['username']); ?></td>
                             </tr>
                         <?php } ?>

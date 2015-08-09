@@ -2,76 +2,98 @@
     class targets extends controller {
         public function addtarget() {
             if (isset($_POST['name'])) {
+                $json = array(
+                    'status' => 'Success',
+                    'message' => 'The target ' . $_POST['name'] . ' was successfully added'
+                );
+
                 $return = $this->ietadd->check_target_name_already_in_use($_POST['name']);
-                if ($return == 4) {
-                    echo 'The name ' . htmlspecialchars($_POST['name']) .  ' is already taken!';
-                } else {
-                    $return = $this->exec->add_target_to_daemon($_POST['name']);
-                    if ($return != 0) {
-                        echo 'Could not add target ' . htmlspecialchars($_POST['name']) . '. Server said: ' . htmlspecialchars($return[0]);
+                try {
+                    if ($return == 4) {
+                        throw new exception('The name ' . htmlspecialchars($_POST['name']) .  ' is already taken!');
                     } else {
-                        $return = $this->ietadd->add_iqn_to_file($_POST['name'], $this->database->get_config('ietd_config_file'));
-                        if ($return !== 0) {
-                            if ($return == 1 ) {
-                                echo 'The target was added to the daemon, but not to the config file, because it\'s read only.';
-                            } else if ($return == 4) {
-                                echo 'The target was added to the daemon, but not to the config file, because it was already there.';
-                            } else {
-                                echo 'The target was added to the daemon, but not to the config file. Reason is unkown.';
-                            }
+                        $return = $this->exec->add_target_to_daemon($_POST['name']);
+                        if ($return != 0) {
+                            throw new exception('Could not add target ' . htmlspecialchars($_POST['name']) . '. Server said: ' . htmlspecialchars($return[0]));
                         } else {
-                            echo 'Success';
+                            $return = $this->ietadd->add_iqn_to_file($_POST['name'], $this->database->get_config('ietd_config_file'));
+                            if ($return !== 0) {
+                                if ($return == 1 ) {
+                                    throw new exception('The target was added to the daemon, but not to the config file, because it\'s read only.');
+                                } else if ($return == 4) {
+                                    throw new exception('The target was added to the daemon, but not to the config file, because it was already there.');
+                                } else {
+                                    throw new exception('The target was added to the daemon, but not to the config file. Reason is unknown.');
+                                }
+                            }
                         }
                     }
+                } catch (Exception $e) {
+                    // Override success message with error
+                    $json = array(
+                        'status' => 'Error',
+                        'message' => $e->getMessage()
+                    );
                 }
+
+                // Output json string
+                echo json_encode($json);
             } else {
                 $this->view('targets/addtarget', $this->database->get_config('iqn') . ":");
             }
         }
 
         public function maplun() {
-            $data = $this->lvm->get_all_logical_volumes();
-
             if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                if (!$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                    if (file_exists($_POST['path'])) {
-                        $tid = $this->ietadd->get_tid($_POST['target']);
-                        $lun = $this->ietadd->get_next_lun($_POST['target']);
-                        $return = $this->ietadd->check_path_already_in_use($_POST['path']);
-                        if ($return != 0) {
-                            echo 'The path ' . htmlspecialchars($_POST['path']) . ' is already in use';
-                        } else {
-                            $return = $this->exec->add_lun_to_daemon($tid, $lun, $_POST['path'], $_POST['type'], $_POST['mode']);
+                // Default success message
+                // Might be overwritten, if exception is thrown
+                $json = array(
+                    'status' => 'Success',
+                    'message' => 'The lun ' . $_POST['path'] . ' was successfully added to the target ' . $_POST['target']
+                );
+
+                try {
+                    if (!$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
+                        if (file_exists($_POST['path'])) {
+                            $tid = $this->ietadd->get_tid($_POST['target']);
+                            $lun = $this->ietadd->get_next_lun($_POST['target']);
+                            $return = $this->ietadd->check_path_already_in_use($_POST['path']);
                             if ($return != 0) {
-                                echo 'Could not add lun to target ' . htmlspecialchars($_POST['target']) . ' Server said: ' . htmlspecialchars($return[0]);
+                                throw new exception('The path ' . htmlspecialchars($_POST['path']) . ' is already in use');
                             } else {
-                                $option = 'Lun ' . $lun . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path'];
-
-                                $return = $this->ietadd->add_option_to_iqn_in_file($_POST['target'], $this->database->get_config('ietd_config_file'), $option);
-
-                                if ($return !== 0) {
-                                    if ($return == 1) {
-                                        echo 'The lun was added to the daemon, but not to the config file, because it\'s read only.';
-                                    } else if ($return == 3) {
-                                        echo 'The lun was added to the daemon, but not to the config file, because the target isn\'t there.';
-                                    } else {
-                                        echo 'The lun was added to the daemon, but not to the config file. Reason is unkown.';
-                                    }
+                                $return = $this->exec->add_lun_to_daemon($tid, $lun, $_POST['path'], $_POST['type'], $_POST['mode']);
+                                if ($return != 0) {
+                                    throw new exception('Could not add lun to target ' . htmlspecialchars($_POST['target']) . ' Server said: ' . htmlspecialchars($return[0]));
                                 } else {
-                                    echo "Success";
+                                    $return = $this->ietadd->add_option_to_iqn_in_file($_POST['target'], $this->database->get_config('ietd_config_file'), 'Lun ' . $lun . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path']);
+
+                                    if ($return != 0) {
+                                        if ($return == 1) {
+                                            throw new exception('The lun was added to the daemon, but not to the config file, because it\'s read only.');
+                                        } else if ($return == 3) {
+                                            throw new exception('The lun was added to the daemon, but not to the config file, because the target isn\'t there.');
+                                        } else {
+                                            throw new exception('The lun was added to the daemon, but not to the config file. Reason is unkown.');
+                                        }
+                                    }
                                 }
                             }
+                        } else {
+                            throw new exception('The file ' . $_POST['path'] . ' was not found!');
                         }
                     } else {
-                        echo 'The file ' . $_POST['path'] . ' was not found!';
+                        throw new exception('No data');
                     }
-                } else {
-                    echo 'No data';
+                } catch (Exception $e) {
+                    $json = array(
+                        'status' => 'Error',
+                        'message' => $e->getMessage()
+                    );
                 }
-            } else if (!$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'],$_POST['pathtoblockdevice'] )) {
-                // handle manual selection here
-                echo 'Not implemented';
+
+                echo json_encode($json);
             } else {
+                $data = $this->lvm->get_all_logical_volumes();
                 if ($data == 3) {
                     $this->view('message', "Error - No logical volumes found!");
                 } else {
@@ -265,19 +287,15 @@
             }
         }
 
-        /*public function configuretarget() {
-            if (isset($_POST['iqn'])) {
-
+        public function configuretarget() {
+            $data['targets'] = $this->ietadd->get_targets();
+            if ($data['targets'] == 3) {
+                $this->view('message', "Error - No targets found");
             } else {
-                $data['targets'] = $this->ietadd->get_targets();
-                if ($data['targets'] == 3) {
-                    $this->view('message', "Error - No targets found");
-                } else {
-                    $this->view('targets/targetselect', $data);
-                    $this->view('targets/configuretargetmenu');
-                }
+                $this->view('targets/targetselect', $data);
+                $this->view('targets/configuretargetmenu');
             }
-        }*/
+        }
 
         public function settings() {
             // change or set value

@@ -16,7 +16,7 @@
             <div class="alert alert-warning" role="alert"><h3 align="center">Warning - JavaScript is disabled. This application won't work correctly!</h3></div>
         </div>
     </noscript>
-    <title>phpietadmin</title>
+    <title>phpietadmin<?php if (isset($data['hostname'])) echo ' on ' . htmlspecialchars($data['hostname']); ?></title>
 </head>
 <body>
 <div hidden id="offlinemessage">

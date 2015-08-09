@@ -22,7 +22,7 @@
                                 <tbody>
                                 <?php foreach ($data['deleteruleobjectstable'] as $row) { ?>
                                     <tr>
-                                        <td><input class="objectdeletecheckbox" type="checkbox"/></td>
+                                        <td><input class="objectdeletecheckbox" type="checkbox"></td>
                                         <td class="objectid" hidden><?php echo htmlspecialchars($row['id']); ?></td>
                                         <td><?php echo htmlspecialchars($row['type']); ?></td>
                                         <td><?php echo htmlspecialchars($row['name']); ?></td>
@@ -69,7 +69,7 @@
                                 <tbody>
                                 <?php foreach ($data['deleteruleorphanedtable'] as $row) { ?>
                                     <tr>
-                                        <td><input class="objectdeletecheckbox" type="checkbox"/></td>
+                                        <td><input class="objectdeletecheckbox" type="checkbox"></td>
                                         <td class="objectvalue"><?php echo htmlspecialchars($row); ?></td>
                                     </tr>
                                 <?php } ?>
@@ -95,14 +95,4 @@
         <!-- row close -->
         </div>
     </div>
-
-    <script>
-        require(['common'],function() {
-            require(['pages/deleterule'],function(methods) {
-                methods.add_event_handler_deleteruletype();
-                methods.add_event_handler_deleterulebutton();
-                methods.enable_filter_table_plugin();
-            });
-        });
-    </script>
 </div>

@@ -14,15 +14,18 @@
         public $ietdelete;
         public $ietsettings;
         public $exec;
+        public $parser;
+        public $models;
 
         /* This function creates all necessary models */
         public function create_models($controller) {
             // These models are always needed
             $this->database = $this->model('Database');
-            $this->std = $this->model('Std', $this->database);
-            $this->exec = $this->model('Exec', $this->database);
-            $this->session = $this->model('Session', $this->database, $this->std);
+            $this->std = $this->model('Std', array('database' =>$this->database));
+            $this->exec = $this->model('Exec', array('database' =>$this->database));
+            $this->session = $this->model('Session', array('database' => $this->database, 'std' => $this->std));
             $this->regex = $this->model('Regex');
+            $this->parser = $this->model('Parser');
 
             // sometimes models are needed inside other models
             $models = array (
@@ -30,8 +33,11 @@
                 'database' => $this->database,
                 'exec' => $this->exec,
                 'session' => $this->session,
-                'regex' => $this->regex
+                'regex' => $this->regex,
+                'parser' => $this->parser
             );
+
+            $this->models = $models;
 
             // Different models for specific controllers
             if ($controller == 'overview') {
@@ -89,7 +95,7 @@
             $file = '../app/models/' . $model . '.php';
             if (file_exists($file)) {
                 require_once $file;
-                if (!empty($other_models )) {
+                if (!empty($other_models)) {
                     return new $model($other_models);
                 } else {
                     return new $model();

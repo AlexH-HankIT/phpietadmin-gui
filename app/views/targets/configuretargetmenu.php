@@ -12,7 +12,7 @@
                 <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-exclamation-sign"></span> ACL <b class = "caret"></b></a>
                 <ul class = "dropdown-menu">
                     <li><a class="configuretargetiqn" href="/phpietadmin/permission/addrule"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                    <li><a class="configuretargetiqn" href="/phpietadmin/permission/deleterule"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+                    <li><a class="configuretargetiqn" href="/phpietadmin/permission/deleterulebuttons"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
                 </ul>
             </li>
             <li class = "dropdown">

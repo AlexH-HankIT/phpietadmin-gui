@@ -24,7 +24,7 @@
                     <tbody>
                     <?php foreach ($data as $row) { ?>
                         <tr>
-                            <td><input class="deletedisusercheckbox" type="checkbox"/></td>
+                            <td><input class="deletedisusercheckbox" type="checkbox"></td>
                             <td class="deletedisusertype"><?php echo $row[0] ?></td>
                             <td class="deletedisusername"><?php echo $row[1] ?></td>
                         </tr>

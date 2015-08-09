@@ -8,24 +8,56 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 $('.searchabletable').filterTable({minRows:0});
             });
         },
+        load_default_table: function() {
+            var selector_targetselection = $('#targetselection');
+            var iqn = selector_targetselection.find("option:selected").val();
+            var ruletype = $("input[name='deleteruletype']:checked").val();
+            var configuretargetbody = $('#deleteruleworkspace');
+
+            var data = {
+                "iqn": iqn,
+                "ruletype": ruletype
+            };
+
+            $('#configuretargetmenu').find('ul').children('li').removeClass('active');
+            $(this).parents('li').addClass('active');
+
+            var request = mylibs.doajax('/phpietadmin/permission/deleterule', data);
+
+            request.done(function () {
+                if (request.readyState == 4 && request.status == 200) {
+                    configuretargetbody.html('');
+                    configuretargetbody.html(request.responseText);
+                    configuretargetbody.removeClass();
+                }
+            });
+        },
         add_event_handler_deleteruletype: function() {
             $(document).ready(function(){
                 $(document).once('change', 'input[name="deleteruletype"]', function(){
                     var selector_targetselection = $('#targetselection');
                     var iqn = selector_targetselection.find("option:selected").val();
                     var ruletype = $("input[name='deleteruletype']:checked").val();
-                    var defaultvalue = selector_targetselection.find('#default').val();
+                    var configuretargetbody = $('#deleteruleworkspace');
 
-                    if (iqn !== defaultvalue) {
-                        var data = {
-                            "iqn": iqn,
-                            "ruletype": ruletype
-                        };
+                    var data = {
+                        "iqn": iqn,
+                        "ruletype": ruletype
+                    };
 
-                        mylibs.loadconfiguretargetbody('/phpietadmin/permission/deleterule', data);
-                    } else {
-                        $('#configuretargetbody').html('');
-                    }
+                    $('#configuretargetmenu').find('ul').children('li').removeClass('active');
+                    $(this).parents('li').addClass('active');
+
+                    var request = mylibs.doajax('/phpietadmin/permission/deleterule', data);
+
+                    request.done(function () {
+                        if (request.readyState == 4 && request.status == 200) {
+                            configuretargetbody.html('');
+                            configuretargetbody.html(request.responseText);
+                            configuretargetbody.removeClass();
+                        }
+                    });
+
                 });
             });
         },

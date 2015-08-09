@@ -2,8 +2,8 @@
     class Std {
         public $database;
 
-        public function __construct($database) {
-            $this->database = $database;
+        public function __construct($models) {
+            $this->database = $models['database'];
         }
 
         public function get_dashboard_data() {

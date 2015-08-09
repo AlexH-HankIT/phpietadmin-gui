@@ -49,7 +49,7 @@
 
             // If request is no ajax, display header, menu and footer
             if (!$this->controller->std->IsXHttpRequest() && $this->controllername !== "auth") {
-                $this->controller->view('header');
+                $this->controller->view('header', $this->controller->std->get_dashboard_data());
                 $this->controller->view('menu');
             }
 

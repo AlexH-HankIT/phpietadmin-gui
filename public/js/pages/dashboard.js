@@ -1,20 +1,23 @@
+
 define(['jquery', 'mylibs'], function($, mylibs) {
     var Methods;
     return Methods = {
         checkversion: function() {
             $(document).ready(function(){
-                var val;
-                var request = mylibs.doajax('/phpietadmin/dashboard/get_version');
+                var versioncheck = $('#versioncheck');
 
-                request.done(function () {
-                    if (request.readyState == 4 && request.status == 200) {
-                        if (request.responseText == $('#phpietadminversion').text()) {
+                $.ajax({
+                    url: '/phpietadmin/dashboard/get_version',
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(data) {
+                        var val;
+
+                        if (data['version'] == $('#phpietadminversion').text()) {
                             val = true;
                         } else {
-                            val = request.responseText;
+                            val = data['version']
                         }
-
-                        var versioncheck = $('#versioncheck');
 
                         if (val == true) {
                             versioncheck.addClass('label-success');
@@ -23,6 +26,10 @@ define(['jquery', 'mylibs'], function($, mylibs) {
                             versioncheck.addClass('label-danger');
                             versioncheck.text(val + ' available!');
                         }
+                    },
+                    error: function() {
+                        versioncheck.addClass('label-warning');
+                        versioncheck.text('Version unknown!');
                     }
                 });
             });

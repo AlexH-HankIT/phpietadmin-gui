@@ -64,30 +64,39 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             "name": def + iqninput.val()
                         };
 
-                        var request = mylibs.doajax('/phpietadmin/targets/addtarget', data);
-
-                        request.done(function () {
-                            if (request.readyState == 4 && request.status == 200) {
-                                if (request.responseText == 'Success') {
+                        $.ajax({
+                            url: '/phpietadmin/targets/addtarget',
+                            data: data,
+                            dataType: 'json',
+                            type: 'post',
+                            success: function(data) {
+                                if (data['status'] == 'Success') {
                                     iqninput.focus();
                                     swal({
                                             title: 'Success',
-                                            type: 'success'
+                                            type: 'success',
+                                            text: data['message']
                                         },
                                         function () {
                                             iqninput.val('');
                                         });
-                                } else {
-                                    iqninput.focus();
+                                } else if (data['status'] == 'Error') {
                                     swal({
                                             title: 'Error',
                                             type: 'error',
-                                            text: request.responseText
+                                            text: data['message']
                                         },
                                         function () {
                                             iqninput.addClass("focusedInputerror");
                                         });
                                 }
+                            },
+                            error: function() {
+                                swal({
+                                    title: 'Error',
+                                    type: 'error',
+                                    text: 'Something went wrong while submitting!'
+                                });
                             }
                         });
                     }

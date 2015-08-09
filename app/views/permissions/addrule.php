@@ -10,10 +10,10 @@
                 <button id="addallowrulebutton" type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Allow</button>
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default active">
-                        <input type="Radio" id="initiatorcheckbox" name="type" value="initiator" checked="checked"/>Initiator
+                        <input type="Radio" id="initiatorcheckbox" name="type" value="initiator" checked="checked">Initiator
                     </label>
                     <label class="btn btn-default">
-                        <input id="targetcheckbox" type="Radio" name="type" value="target"/>Target
+                        <input id="targetcheckbox" type="Radio" name="type" value="target">Target
                     </label>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                             <?php foreach ($data['objects'] as $value) { ?>
                                 <tr>
                                     <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
-                                    <td class="col-md-1"><input class="objectcheckbox" type="checkbox"/></td>
+                                    <td class="col-md-1"><input class="objectcheckbox" type="checkbox"></td>
                                     <td class="col-md-3"><?php echo htmlspecialchars($value['type']); ?></td>
                                     <td class="col-md-4"><?php echo htmlspecialchars($value['name']); ?></td>
                                     <td class="col-md-4"><?php echo htmlspecialchars($value['value']); ?></td>
