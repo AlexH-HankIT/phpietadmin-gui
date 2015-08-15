@@ -1,5 +1,9 @@
 <?php
     class config extends Controller {
+        public function vg() {
+            $this->view('config/vg');
+        }
+
         /**
          *
          * Displays the phpietadmin user config menu

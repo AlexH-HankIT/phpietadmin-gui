@@ -4,7 +4,7 @@
             <li class = "dropdown active">
                 <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"> LUN <b class = "caret"></b></a>
                 <ul class = "dropdown-menu">
-                    <li class="active"><a id="configuretargetlunsadd" class="configuretargetnodata" href="/phpietadmin/targets/maplun"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                    <li class="active"><a id="configuretargetlunsadd" class="configuretargetnodata" href="/phpietadmin/targets/configure/maplun"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
                     <li><a class="configuretargetiqn" href="/phpietadmin/targets/deletelun"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
                 </ul>
             </li>

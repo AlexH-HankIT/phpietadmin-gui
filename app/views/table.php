@@ -10,16 +10,16 @@
                 <table class = "table table-striped table-in-panel">
                     <thead>
                     <tr>
-                        <?php foreach ($data[0] as $value) { ?>
+                        <?php foreach ($data['heading'] as $value) { ?>
                             <th><?php echo htmlspecialchars($value); ?></th>
                         <?php } ?>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($data[1] as $value) { ?>
+                    <?php foreach ($data['body'] as $value) { ?>
                         <tr>
-                            <?php for ($i=0; $i<count($value); $i++) { ?>
-                                <td><?php echo htmlspecialchars($value[$i]); ?></td>
+                            <?php foreach ($value as $td) { ?>
+                                <td><?php echo htmlspecialchars($td); ?></td>
                             <?php } ?>
                         </tr>
                     <?php } ?>

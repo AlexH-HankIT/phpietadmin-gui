@@ -13,7 +13,7 @@
                             <div id="maplunautoselection">
                                 <select name="path" id="logicalvolume" class="form-control">
                                     <option id="logicalvolumedefault">Select logical volume</option>
-                                    <?php foreach ($data['logicalvolumes'] as $value) { ?>
+                                    <?php foreach ($data as $value) { ?>
                                         <option value="<?php echo htmlspecialchars($value) ?>"> <?php echo htmlspecialchars($value) ?> </option>
                                     <?php } ?>
                                 </select>
@@ -49,7 +49,7 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/maplun'],function(methods) {
+            require(['pages/target/maplun'],function(methods) {
                 methods.add_event_handler_maplunbutton();
             });
         });

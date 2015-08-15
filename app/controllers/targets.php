@@ -1,45 +1,96 @@
 <?php
     class targets extends controller {
         public function addtarget() {
-            if (isset($_POST['name'])) {
-                $json = array(
-                    'status' => 'Success',
-                    'message' => 'The target ' . $_POST['name'] . ' was successfully added'
-                );
+            if (!empty($_POST['name'])) {
+                // constructor creates target if it's not existing
+                $target = $this->target_model($_POST['name']);
+                $result = $target->get_result();
 
-                $return = $this->ietadd->check_target_name_already_in_use($_POST['name']);
-                try {
-                    if ($return == 4) {
-                        throw new exception('The name ' . htmlspecialchars($_POST['name']) .  ' is already taken!');
-                    } else {
-                        $return = $this->exec->add_target_to_daemon($_POST['name']);
-                        if ($return != 0) {
-                            throw new exception('Could not add target ' . htmlspecialchars($_POST['name']) . '. Server said: ' . htmlspecialchars($return[0]));
-                        } else {
-                            $return = $this->ietadd->add_iqn_to_file($_POST['name'], $this->database->get_config('ietd_config_file'));
-                            if ($return !== 0) {
-                                if ($return == 1 ) {
-                                    throw new exception('The target was added to the daemon, but not to the config file, because it\'s read only.');
-                                } else if ($return == 4) {
-                                    throw new exception('The target was added to the daemon, but not to the config file, because it was already there.');
-                                } else {
-                                    throw new exception('The target was added to the daemon, but not to the config file. Reason is unknown.');
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception $e) {
-                    // Override success message with error
+                if ($result['code'] != 0) {
                     $json = array(
                         'status' => 'Error',
-                        'message' => $e->getMessage()
+                        'message' => $result['message']
                     );
+                } else {
+                    if ($target->target_status === true) {
+                        $json = array(
+                            'status' => 'Error',
+                            'message' => 'The target ' . $_POST['name'] . ' already exists!'
+                        );
+                    } else {
+                        $json = array(
+                            'status' => 'Success',
+                            'message' => $result['message']
+                        );
+                    }
                 }
 
-                // Output json string
                 echo json_encode($json);
             } else {
                 $this->view('targets/addtarget', $this->database->get_config('iqn') . ":");
+            }
+        }
+
+        public function configuretarget() {
+            $targets = $this->target_model('');
+
+            $data = $targets->return_target_data();
+            if ($data === false) {
+                $result = $targets->get_result();
+                $this->view('message', array('message' => $result['message'], 'type' => 'error'));
+            } else {
+                $this->view('targets/targetselect', $data);
+                $this->view('targets/configuretargetmenu');
+            }
+        }
+
+        public function configure($param = false) {
+            $targets = $this->target_model('');
+            $data = $targets->return_target_data();
+
+            if ($data !== false) {
+                if ($param === false) {
+                    $this->view('targets/targetselect', $data);
+                    $this->view('targets/configuretargetmenu');
+                } else if ($param == 'maplun') {
+                    if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
+                        // ToDo
+                        // If the target doesn't exist it will be created
+                        // This should never happen here
+                        // But maybe we should handle this anyway?
+                        $target = $this->target_model($_POST['target']);
+
+                        if ($target->target_status !== false) {
+                            $target->add_lun($_POST['path'], $_POST['mode'], $_POST['type']);
+
+                            echo json_encode($target->get_result());
+                        } else {
+                            $this->view('message', array('message' => 'The target does not exist!', 'type' => 'error'));
+                        }
+                    } else {
+                        $lv = $this->lv_model(false, false);
+
+                        $unused_lun = $lv->get_unused_lun($targets->return_all_used_lun());
+
+                        if (!empty($unused_lun) && $unused_lun !== false) {
+                            $this->view('targets/maplun', $unused_lun);
+                        } else {
+                            $this->view('message', array('message' => 'No logical volumes available', 'type' => 'error'));
+                        }
+                    }
+                } else if ($param == 'deletetarget') {
+
+                } else if ($param == 'deletelun') {
+
+                } else if ($param == 'deletesession') {
+
+                } else if ($param == 'settings') {
+
+                } else {
+                    $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
+                }
+            } else {
+                $this->view('message', array('message' => 'No targets available', 'type' => 'warning'));
             }
         }
 
@@ -284,16 +335,6 @@
                 }
             } else {
                 $this->view('targets/deletetarget');
-            }
-        }
-
-        public function configuretarget() {
-            $data['targets'] = $this->ietadd->get_targets();
-            if ($data['targets'] == 3) {
-                $this->view('message', "Error - No targets found");
-            } else {
-                $this->view('targets/targetselect', $data);
-                $this->view('targets/configuretargetmenu');
             }
         }
 

@@ -73,6 +73,12 @@ CREATE TABLE sessions(
   browser_agent varchar(200) NOT NULL
 );
 
+DROP TABLE IF EXISTS volume_groups;
+CREATE TABLE volume_groups(
+  volume_group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  volume_group_name varchar()
+)
+
 INSERT INTO ietsettings (option, defaultvalue, type, state, chars) VALUES
     ('MaxConnections', 1, 'input', 0, 'digits'),
     ('MaxRecvDataSegmentLength', 8192, 'input', 1, 'digits'),
@@ -103,28 +109,29 @@ INSERT INTO config (option, optioningui, ispath, value, description, category) V
     ('ietd_config_file', 'IET config file', 1, '/etc/iet/ietd.conf', "Path to the IET config file", 1),
     ('ietd_init_allow', 'IET initiator allow', 1, '/etc/iet/initiators.allow', "Path to the IET initiators allow file", 1),
     ('ietd_target_allow', 'IET target allow', 1, '/etc/iet/targets.allow', "Path to the IET targets allow file", 1),
-    ('ietadm', 'ietadm bin', 1, '/usr/sbin/ietadm', "Path to the IET admin tool", 1),
-    ('lvs', 'lvs bin', 1, '/sbin/lvs', "Path to the lvs binary", 2),
-    ('vgs', 'vgs bin', 1, '/sbin/vgs', "Path to the vgs binary", 2),
-    ('pvs', 'pvs bin', 1, '/sbin/pvs', "Path to the pvs binary", 2),
-    ('lvcreate', 'lvcreate bin', 1, '/sbin/lvcreate', "Path to the lvcreate binary", 2),
-    ('lvrename', 'lvrename bin', 1, '/sbin/lvrename', "Path to the lvrename binary", 2),
-    ('lvreduce', 'lvreduce bin', 1, '/sbin/lvreduce', "Path to the lvreduce binary", 2),
-    ('lvextend', 'lvextend bin', 1, '/sbin/lvextend', "Path to the lvextend binary", 2),
-    ('lvremove', 'lvremove bin', 1, '/sbin/lvremove', "Path to the lvremove binary", 2),
-    ('lvconvert', 'lvconvert bin', 1, '/sbin/lvconvert', "Path to the lvconvert binary", 2),
-    ('prefix', 'Prefix', 0, 'Prefix for newly created logical volumes', 2)
+    ('ietadm', 'ietadm bin', 1, '/usr/sbin/ietadm', "Path to the IET admin tool", 4),
+    ('lvs', 'lvs bin', 1, '/sbin/lvs', "Path to the lvs binary", 4),
+    ('vgs', 'vgs bin', 1, '/sbin/vgs', "Path to the vgs binary", 4),
+    ('pvs', 'pvs bin', 1, '/sbin/pvs', "Path to the pvs binary", 4),
+    ('lvcreate', 'lvcreate bin', 1, '/sbin/lvcreate', "Path to the lvcreate binary", 4),
+    ('lvrename', 'lvrename bin', 1, '/sbin/lvrename', "Path to the lvrename binary", 4),
+    ('lvreduce', 'lvreduce bin', 1, '/sbin/lvreduce', "Path to the lvreduce binary", 4),
+    ('lvextend', 'lvextend bin', 1, '/sbin/lvextend', "Path to the lvextend binary", 4),
+    ('lvremove', 'lvremove bin', 1, '/sbin/lvremove', "Path to the lvremove binary", 4),
+    ('lvconvert', 'lvconvert bin', 1, '/sbin/lvconvert', "Path to the lvconvert binary", 4),
+    ('prefix', 'Prefix', 0, '', 'Prefix for newly created logical volumes', 2),
     ('mdstat', '/proc mdstat', 1, '/proc/mdstat', "Path to the mdstat file", 3),
-    ('sudo', 'subo bin', 1, '/usr/bin/sudo', "Path to the sudo binary", 3),
-    ('service', 'service bin', 1, '/usr/sbin/service', "Path to the service binary", 3),
-    ('lsblk', 'lsblk bin', 1, '/bin/lsblk', "Path to the lsblk binary", 3),
-    ('shutdown', 'shutdown bin', 1, '/sbin/shutdown', "Path to the shutdown binary", 3),
+    ('sudo', 'subo bin', 1, '/usr/bin/sudo', "Path to the sudo binary", 4),
+    ('service', 'service bin', 1, '/usr/sbin/service', "Path to the service binary", 4),
+    ('lsblk', 'lsblk bin', 1, '/bin/lsblk', "Path to the lsblk binary", 4),
+    ('shutdown', 'shutdown bin', 1, '/sbin/shutdown', "Path to the shutdown binary", 4),
     ('idle', 'idle time', 0, 15, 'Time until the user is automatically logged out in minutes', 3);
 
 INSERT INTO category (category) VALUES
     ('iet'),
     ('lvm'),
-    ('misc');
+    ('misc'),
+    ('bin');
 
 INSERT INTO types (value, display_name) VALUES
   ('hostv4', 'IPv4 Host'),

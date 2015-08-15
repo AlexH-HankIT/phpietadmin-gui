@@ -1,109 +1,45 @@
-<?php
-    class Disks {
-        // Define global vars
-        var $database;
+<?php namespace phpietadmin\app\models;
+    use phpietadmin\app\models\logging;
 
-        /**
-         *
-         * Create models
-         *
-         *
-         */
-        public function __construct($models = '') {
-            if (isset($models['database'])) {
-                $this->database = $models['database'];
-            }
+    class Disks extends logging\Logging {
+        private $database;
+
+        public function __construct() {
+            $this->database = new Database();
         }
 
-        /**
-         *
-         * Close database connection
-         *
-         * @param   array $var_lsblk_output output of $this.>exec_lsblk()
-         * @return   array
-         *
-         * ToDO: Error Handling!
-         */
-        private function parse_lsblk_output($var_lsblk_output) {
-            // Seperate output by lines
-            $array_lsblk_output = explode("\n", $var_lsblk_output);
-
-            // Filter empty lines
-            $array_lsblk_output = array_filter($array_lsblk_output, 'strlen');
-
-            $counter = 0;
-            foreach ($array_lsblk_output as $value) {
-                if (strpos($value, "dm") === false) {
-                    $array_lsblk_output_sperated_by_space[$counter] = explode(" ", $value);
-                }
-                $counter++;
-            }
-
-            return $array_lsblk_output_sperated_by_space;
-        }
-
-
-        /**
-         *
-         * Create table for view
-         *
-         * @return   array
-         *
-         * ToDO: Error Handling!
-         */
-        private function create_table() {
-            return $table = array(
-                0 => "Name",
-                1 => "MAJ:MIN",
-                2 => "RM",
-                3 => "Size",
-                4 => "RO",
-                5 => "Type",
-                6 => "Mountpoint"
-            );
-        }
-
-        /**
-         *
-         * Get output of lsblk binary
-         *
-         * @return   string
-         *
-         * ToDO: Move this to the Exec model
-         */
-        private function exec_lsblk() {
-            // We use shell exec, since we don't care about the return value
-            $command = escapeshellcmd($this->database->get_config('sudo') . " " . $this->database->get_config('lsblk') . " -rn");
-            return shell_exec($command);
-        }
-
-        /**
-         *
-         * Parse lsblk output and create readable array
-         *
-         * @return   array
-         *
-         */
         public function get_disks() {
-            // Get lsblk output
-            $var_lsblk_output = $this->exec_lsblk();
+            $return = $this->exec_and_return($this->database->get_config('lsblk') . ' --pairs');
 
-            // Return 2 if no block devices exist (unlikely)
-            if (empty($var_lsblk_output)) {
-                return 2;
+            if ($return['result'] == 0) {
+                if (!empty($return['status'])) {
+                    foreach ($return['status'] as $key => $data) {
+                        preg_match_all('/(\w+)\s*=\s*(["\'])((?:(?!\2).)*)\2/', $data, $temp, PREG_SET_ORDER);
+
+                        foreach ($temp as $value) {
+                            $disks[$key][$value[1]] = $value[3];
+                        }
+                    }
+
+                    array_walk($disks, function(&$value) {
+                        if ($value['TYPE'] == 'lvm') {
+                            // unset doesn't work with references
+                            // instead we set the value to NULL
+                            // which will remove the variable and unset its value
+                            $value = NULL;
+                        }
+                    });
+
+                    return array(
+                        'title' => 'Disks',
+                        'heading' => array_keys($disks[0]),
+                        'body' => array_values($disks)
+                    );
+                } else {
+                    return false;
+                }
             } else {
-                // Get readable lsblk output
-                $array_lsblk_output_sperated_by_space = $this->parse_lsblk_output($var_lsblk_output);
-
-                // Get table
-                $table = $this->create_table();
-
-                // Create array to return
-                $disks[0] = $table;
-                $disks[1] = $array_lsblk_output_sperated_by_space;
-                $disks['title'] = "Disks";
-
-                return $disks;
+                return false;
             }
         }
     }

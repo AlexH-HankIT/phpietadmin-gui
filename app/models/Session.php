@@ -1,13 +1,14 @@
-<?php
+<?php namespace phpietadmin\app\models;
+
     class Session {
         private $username;
         private $password;
         public $database;
         public $std;
 
-        public function __construct($models) {
-            $this->database = $models['database'];
-            $this->std = $models['std'];
+        public function __construct() {
+            $this->database = new Database;
+            $this->std = new Std;
 
             session_start();
         }
@@ -39,7 +40,7 @@
             }
         }
 
-        public function check_other_params(array $sessions) {
+        public function check_other_params($sessions) {
             if ($_SERVER['REMOTE_ADDR'] == $sessions['source_ip'] && $_SERVER['HTTP_USER_AGENT'] == $sessions['browser_agent']) {
                 return true;
             } else {

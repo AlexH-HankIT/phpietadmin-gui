@@ -20,7 +20,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                     configuretargetmenu.show();
 
                     if (iqn !== defaultvalue) {
-                        mylibs.loadconfiguretargetbody('/phpietadmin/targets/maplun', '', $('#configuretargetlunsadd'))
+                        mylibs.loadconfiguretargetbody('/phpietadmin/targets/configure/maplun', '', $('#configuretargetlunsadd'))
                     } else {
                         $('#configuretargetbody').html('');
                         configuretargetmenu.hide();

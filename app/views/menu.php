@@ -20,12 +20,12 @@
                     <ul class = "dropdown-menu">
                         <li><a class="workspacetab" href='/phpietadmin/overview/disks'>Disks</a></li>
                         <li class="divider"></li>
-                        <li><a class="workspacetab" href='/phpietadmin/overview/ietvolumes'>Iet volumes</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/overview/ietsessions'>Iet sessions</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/overview/iet/volume'>Iet volumes</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/overview/iet/session'>Iet sessions</a></li>
                         <li class="divider"></li>
-                        <li><a class="workspacetab" href='/phpietadmin/overview/pv'>Physical volumes</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/overview/vg'>Volume groups</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/overview/lv'>Logical volumes</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/overview/lvm/pv'>Physical volumes</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/overview/lvm/vg'>Volume groups</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/overview/lvm/lv'>Logical volumes</a></li>
                     </ul>
                 </li>
 

@@ -11,7 +11,9 @@ requirejs.config({
         sha256: 'lib/sha256.min',
         highchart: 'lib/highcharts.amd',
         blockUI: 'lib/jquery.blockUI.min',
-        once: 'lib/once'
+        once: 'lib/once',
+        bootstraptable: 'lib/bootstrap-table',
+        jqueryui: 'lib/jquery-ui'
     }
 });
 

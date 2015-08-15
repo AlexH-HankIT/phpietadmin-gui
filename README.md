@@ -60,51 +60,27 @@ In version 0.6:
     - [ ] Pie Chart for volume groups
     - [x] Put hostname in title
     - [ ] Bar for volume group usage
+    - [ ] Bootstrap-table Table Select Checkbox
+    - [ ] Display input validation with bootstrap css Validation states
+    - [x] Nested tables for iet volumes and iet sessions (https://github.com/wenzhixin/bootstrap-table-examples/blob/master/options/sub-table.html)
+    - [ ] Drag & Drop with HTML5
+    - [ ] Menu to import orphaned objects into database
 
 * Backend
     - [ ] Prevent comments from being deleted, when editing a config file
     - [ ] Use json for ajax responses
     - [ ] Replace multiple !empty with one mempty() function
     - [ ] When checking for post data, always check with isset() and then with mempty()/empty()
-    - [ ] Use try/catch for error handling
     - [ ] Use Type Hinting (http://php.net/manual/de/language.oop5.typehinting.php)
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
-    - [ ] Create a lvm model
+    - [x] Create a lvm model
     - [ ] Write phpietadmin-cli
         - [ ] Install/Update
         - [ ] Import orphaned objects into database
     - [ ] Error logging
     - [ ] Login/Logout logging
-    - [ ] Use namespaces with autoloading
-
-* Docs
-    - [ ] Document already written methods (phpDoc)
-        - [ ] auth.php
-        - [ ] config.php
-        - [ ] connection.php
-        - [ ] dashboard.php
-        - [ ] ietusers.php
-        - [ ] lvm.php
-        - [ ] objects.php
-        - [ ] overview.php
-        - [ ] permission.php
-        - [ ] service.php
-        - [ ] targets.php
-        - [ ] App.php
-        - [ ] Controller.php
-        - [ ] Database.php
-        - [ ] Disk.php
-        - [x] Exec.php
-        - [ ] Ietaddtarget.php
-        - [ ] Ietdelete.php
-        - [ ] Ietpermissions.php
-        - [ ] IetSessions.php
-        - [ ] IetVolumes.php
-        - [ ] Lvmdisplay.php
-        - [ ] Regex.php
-        - [ ] Session.php
-        - [ ] Settings.php
-        - [ ] Std.php
+    - [x] Use namespaces with basic autoloader
+    - [x] New lsblk parser
 
 ## More
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)

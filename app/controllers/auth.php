@@ -26,7 +26,7 @@
                     // check here if session with user $_POST['username'] has already started
                     $data = $this->database->get_sessions_by_username($_POST['username']);
 
-                    if (empty($data)) {
+                    if (empty($data) || $data === false) {
                         // redirect to dashboard page
                         header("Location: /phpietadmin/dashboard");
 

@@ -9,8 +9,8 @@
             <div class='panel-body'>
                 <select id="targetselection" class="form-control">
                     <option id="default">Select a target to configure</option>
-                    <?php foreach ($data['targets'] as $value) { ?>
-                        <option value="<?php echo htmlspecialchars($value); ?>"><?php echo htmlspecialchars($value); ?></option>
+                    <?php foreach ($data as $target) { ?>
+                        <option value="<?php echo htmlspecialchars($target['iqn']); ?>"><?php echo htmlspecialchars($target['iqn']); ?></option>
                     <?php } ?>
                 </select>
             </div>
