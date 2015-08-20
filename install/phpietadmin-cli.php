@@ -256,7 +256,7 @@ class Logic {
     }
 
     protected function purge_packages() {
-        shell_exec('apt-get purge -y build-essential wget iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-$(uname -r) sqlite3 php5-sqlite lsb-release lvm2', $output, $code);
+        shell_exec('apt-get purge -y build-essential wget iscsitarget iscsitarget-dkms apache2 sudo libapache2-mod-php5 linux-headers-$(uname -r) sqlite3 php5-sqlite lsb-release lvm2');
     }
 }
 
