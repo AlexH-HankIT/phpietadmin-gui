@@ -281,7 +281,7 @@ class Cli extends Instructions {
                 $this->display_help();
             } else if (isset($options['v'])|| isset($options['version'])) {
                 echo "0.1\n";
-            } else if (!empty($options['a'])|| isset($options['action'])) {
+            } else if (isset($options['action'], $options['a']) && !empty($options['a']) || !empty($options['action'])) {
                 if ($options['a'] == 'update') {
                     if (is_dir($this->phpietadmin_base_dir)) {
                         $this->update();
