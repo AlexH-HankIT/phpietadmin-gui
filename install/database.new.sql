@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS volume_groups;
 CREATE TABLE volume_groups(
   volume_group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   volume_group_name varchar()
-)
+);
 
 INSERT INTO ietsettings (option, defaultvalue, type, state, chars) VALUES
     ('MaxConnections', 1, 'input', 0, 'digits'),
