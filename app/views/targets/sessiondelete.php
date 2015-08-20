@@ -10,23 +10,23 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <?php foreach ($data[1] as $value) { ?>
+                        <?php foreach ($data['heading'] as $value) { ?>
                             <th><?php echo htmlspecialchars($value); ?></th>
                         <?php } ?>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php for ($i = 1; $i < count($data[0]); $i++) { ?>
+
+                    <?php foreach ($data['body'] as $value) { ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($data[0][0]['tid']); ?></td>
-                            <td class="sid"><?php echo htmlspecialchars($data[0][$i]['sid']); ?></td>
-                            <td><?php echo htmlspecialchars($data[0][$i]['initiator']); ?></td>
-                            <td class="cid"><?php echo htmlspecialchars($data[0][$i]['cid']); ?></td>
-                            <td class="ip"><?php echo htmlspecialchars($data[0][$i]['ip']); ?></td>
-                            <td><?php echo htmlspecialchars($data[0][$i]['state']); ?></td>
-                            <td><?php echo htmlspecialchars($data[0][$i]['hd']); ?></td>
-                            <td><?php echo htmlspecialchars($data[0][$i]['dd']); ?></td>
+                            <td class="sid"><?php echo htmlspecialchars($value['sid']) ?></td>
+                            <td><?php echo htmlspecialchars($value['initiator']) ?></td>
+                            <td><?php echo htmlspecialchars($value['cid']) ?></td>
+                            <td><?php echo htmlspecialchars($value['ip']) ?></td>
+                            <td><?php echo htmlspecialchars($value['state']) ?></td>
+                            <td><?php echo htmlspecialchars($value['hd']) ?></td>
+                            <td><?php echo htmlspecialchars($value['dd']) ?></td>
                             <td><a class="sessiondeletebutton" href="#"><span class="glyphicon glyphicon glyphicon-trash glyphicon-20"></span></a></td>
                         </tr>
                     <?php } ?>
@@ -38,7 +38,7 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/deletesession'], function (methods) {
+            require(['pages/target/deletesession'], function (methods) {
                 methods.add_qtip_sessiondeletebutton();
                 methods.add_event_handler_sessiondeletebutton();
             });

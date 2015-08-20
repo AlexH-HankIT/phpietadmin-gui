@@ -1,5 +1,9 @@
 <div class="workspacedirect">
     <div class="container">
+        <?php if (isset($data['session'])) { ?>
+            <div align="center" class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Warning - Target has open sessions!</h3></div>
+        <?php } ?>
+
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>
                 <li><a href='#'>Targets</a></li>
@@ -10,8 +14,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <select id="deletelunlunselection" class="form-control">
-                            <?php foreach ($data as $value) { ?>
-                                <option class="lun" name="<?php echo htmlspecialchars($value['path']); ?>" value="<?php echo htmlspecialchars($value['lun']) ?>"><?php echo htmlspecialchars($value['lun']) . ' ' . htmlspecialchars($value['path']); ?></option>
+                            <?php foreach ($data['lun'] as $value) { ?>
+                                <option class="lun" name="<?php echo htmlspecialchars($value['path']); ?>" value="<?php echo htmlspecialchars($value['id']) ?>"><?php echo htmlspecialchars($value['id']) . ' ' . htmlspecialchars($value['path']); ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -29,7 +33,7 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/deletelun'], function (methods) {
+            require(['pages/target/deletelun'], function (methods) {
                 methods.add_event_handler_deletelunbutton();
             });
         });

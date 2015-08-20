@@ -18,11 +18,11 @@
 
 // $target->target_status;
 
-  // print_r($target->get_result());
+  // print_r($target->get_action_result());
 
     //print_r($target->return_target_data());
 
-    // print_r($target->get_result());
+    // print_r($target->get_action_result());
     //$target->delete_lun_from_iqn();
         //$target->delete_lun('/dev/VG_data01/test7', true);
 
@@ -39,4 +39,4 @@ $target->get_all_settings();
 
 
 
-       print_r($target->get_result());
+       print_r($target->g

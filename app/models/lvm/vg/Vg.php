@@ -32,10 +32,10 @@
          *
          */
         public function get_vg() {
-            $this->set_result('The data of the volume group ' . $this->vg_name . ' was successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+            $this->log_action_result('The data of the volume group ' . $this->vg_name . ' was successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
             $return = $this->parse_lvm('vg');
             if ($return === false) {
-                $this->set_result('The volume group ' . $this->vg_name . ' does not exist or another error occured!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+                $this->log_action_result('The volume group ' . $this->vg_name . ' does not exist or another error occured!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
                 return false;
             } else {
                 return $return;
@@ -50,14 +50,14 @@
          *
          */
         public function get_all_lv_from_vg($snap = false) {
-            $this->set_result('The logical volumes of the volume group ' . $this->vg_name . ' were successfully parsed ', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+            $this->log_action_result('The logical volumes of the volume group ' . $this->vg_name . ' were successfully parsed ', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
             $return = $this->parse_lvm('lv');
             if ($return === false) {
-                $this->set_result('The logical volumes of the volume group ' . $this->vg_name . ' were not parsed', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+                $this->log_action_result('The logical volumes of the volume group ' . $this->vg_name . ' were not parsed', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
                 return false;
             } else {
                 if (empty($return)) {
-                    $this->set_result('The volume group ' . $this->vg_name . ' has no logical volumes!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+                    $this->log_action_result('The volume group ' . $this->vg_name . ' has no logical volumes!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
                 } else {
                     if ($snap === false) {
                         foreach ($return as $key => $volume) {
@@ -74,7 +74,7 @@
                     }
                 }
                 if (empty($return)) {
-                    $this->set_result('The volume group ' . $this->vg_name . ' has no logical volumes!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+                    $this->log_action_result('The volume group ' . $this->vg_name . ' has no logical volumes!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
                     return false;
                 } else {
                     return array_values($return);

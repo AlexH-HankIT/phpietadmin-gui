@@ -1,5 +1,5 @@
 <?php
 /*
- * get_result()
- * set_result()
+ * get_action_result()
+ * log_action_result()
  */

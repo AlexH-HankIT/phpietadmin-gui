@@ -71,7 +71,7 @@
                                         <th class="col-md-1">HD</th>
                                         <th class="col-md-1">DD</th>
                                     </tr>
-                                    <?php foreach ($row['session'] as $session) { ?>
+                                    <?php foreach (array_reverse($row['session']) as $session) { ?>
                                         <tr class="collapse row<?php echo $key ?>">
                                             <td class="col-md-1"><?php echo $session['sid'] ?></td>
                                             <td class="col-md-2"><?php echo $session['cid'] ?></td>

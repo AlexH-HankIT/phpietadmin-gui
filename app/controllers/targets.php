@@ -4,7 +4,7 @@
             if (!empty($_POST['name'])) {
                 // constructor creates target if it's not existing
                 $target = $this->target_model($_POST['name']);
-                $result = $target->get_result();
+                $result = $target->get_action_result();
 
                 if ($result['code'] != 0) {
                     $json = array(
@@ -36,7 +36,7 @@
 
             $data = $targets->return_target_data();
             if ($data === false) {
-                $result = $targets->get_result();
+                $result = $targets->get_action_result();
                 $this->view('message', array('message' => $result['message'], 'type' => 'error'));
             } else {
                 $this->view('targets/targetselect', $data);
@@ -63,9 +63,9 @@
                         if ($target->target_status !== false) {
                             $target->add_lun($_POST['path'], $_POST['mode'], $_POST['type']);
 
-                            echo json_encode($target->get_result());
+                            echo json_encode($target->get_action_result());
                         } else {
-                            $this->view('message', array('message' => 'The target does not exist!', 'type' => 'error'));
+                            $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
                         }
                     } else {
                         $lv = $this->lv_model(false, false);
@@ -75,15 +75,68 @@
                         if (!empty($unused_lun) && $unused_lun !== false) {
                             $this->view('targets/maplun', $unused_lun);
                         } else {
-                            $this->view('message', array('message' => 'No logical volumes available', 'type' => 'error'));
+                            $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
                         }
+                    }
+                } else if ($param == 'deletelun') {
+                    if (isset($_POST['iqn'], $_POST['path'])) {
+                        // delete lun with id
+                        $target = $this->target_model($_POST['iqn']);
+                        $target->delete_lun($_POST['path'], true);
+                        echo json_encode($target->get_action_result());
+                    } else if (isset($_POST['iqn'])) {
+                        // fetch data via target model
+                        $target = $this->target_model($_POST['iqn']);
+                        $data = $target->return_target_data();
+
+                        if ($target->target_status !== false) {
+                            if (isset($data['lun'])) {
+                                // display lun for iqn
+                                $this->view('targets/deletelun', $data);
+                            } else {
+                                $this->view('message', array('message' => 'Error - No lun available!', 'type' => 'warning'));
+                            }
+                        } else {
+                            $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                        }
+                    }
+                } else if ($param == 'adduser') {
+                    if (isset($_POST['iqn'])) {
+                        $data = $this->database->get_all_usernames(true);
+
+                        if ($data != 0) {
+                            $this->view('targets/adduser', $data);
+                        } else {
+                            $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+                        }
+                    } else {
+
                     }
                 } else if ($param == 'deletetarget') {
 
-                } else if ($param == 'deletelun') {
-
                 } else if ($param == 'deletesession') {
+                    if (isset($_POST['iqn'], $_POST['sid'])) {
+                        $target = $this->target_model($_POST['iqn']);
 
+                        if ($target->target_status !== false) {
+                            $target->disconnect_session($_POST['sid']);
+                            echo json_encode($target->get_action_result());
+                        } else {
+                            $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                        }
+                    } else if (isset($_POST['iqn'])) {
+                        $target = $this->target_model($_POST['iqn']);
+                        $data = $target->return_target_data();
+
+                        if (isset($data['session'])) {
+                            $view['heading'] = array_keys($data['session'][0]);
+                            $view['body'] = $data['session'];
+
+                            $this->view('targets/sessiondelete', $view);
+                        } else {
+                            $this->view('message', array('message' => 'Error - The target has no open sessions!', 'type' => 'warning'));
+                        }
+                    }
                 } else if ($param == 'settings') {
 
                 } else {
@@ -91,131 +144,6 @@
                 }
             } else {
                 $this->view('message', array('message' => 'No targets available', 'type' => 'warning'));
-            }
-        }
-
-        public function maplun() {
-            if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                // Default success message
-                // Might be overwritten, if exception is thrown
-                $json = array(
-                    'status' => 'Success',
-                    'message' => 'The lun ' . $_POST['path'] . ' was successfully added to the target ' . $_POST['target']
-                );
-
-                try {
-                    if (!$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                        if (file_exists($_POST['path'])) {
-                            $tid = $this->ietadd->get_tid($_POST['target']);
-                            $lun = $this->ietadd->get_next_lun($_POST['target']);
-                            $return = $this->ietadd->check_path_already_in_use($_POST['path']);
-                            if ($return != 0) {
-                                throw new exception('The path ' . htmlspecialchars($_POST['path']) . ' is already in use');
-                            } else {
-                                $return = $this->exec->add_lun_to_daemon($tid, $lun, $_POST['path'], $_POST['type'], $_POST['mode']);
-                                if ($return != 0) {
-                                    throw new exception('Could not add lun to target ' . htmlspecialchars($_POST['target']) . ' Server said: ' . htmlspecialchars($return[0]));
-                                } else {
-                                    $return = $this->ietadd->add_option_to_iqn_in_file($_POST['target'], $this->database->get_config('ietd_config_file'), 'Lun ' . $lun . ' Type=' . $_POST['type'] . ',IOMode=' . $_POST['mode'] . ',Path=' . $_POST['path']);
-
-                                    if ($return != 0) {
-                                        if ($return == 1) {
-                                            throw new exception('The lun was added to the daemon, but not to the config file, because it\'s read only.');
-                                        } else if ($return == 3) {
-                                            throw new exception('The lun was added to the daemon, but not to the config file, because the target isn\'t there.');
-                                        } else {
-                                            throw new exception('The lun was added to the daemon, but not to the config file. Reason is unkown.');
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            throw new exception('The file ' . $_POST['path'] . ' was not found!');
-                        }
-                    } else {
-                        throw new exception('No data');
-                    }
-                } catch (Exception $e) {
-                    $json = array(
-                        'status' => 'Error',
-                        'message' => $e->getMessage()
-                    );
-                }
-
-                echo json_encode($json);
-            } else {
-                $data = $this->lvm->get_all_logical_volumes();
-                if ($data == 3) {
-                    $this->view('message', "Error - No logical volumes found!");
-                } else {
-                    $data = $this->ietadd->get_unused_volumes($data[2]);
-                    if (empty($data)) {
-                        $this->view('message', "Error - No logical volumes available!");
-                    } else {
-                        $data['logicalvolumes'] = $data;
-                        $data['targets'] = $this->ietadd->get_targets();
-
-                        if ($data['targets'] == 3) {
-                            $this->view('message', "Error - No targets found");
-                        } else {
-                            $this->view('targets/maplun', $data);
-                        }
-                    }
-                }
-            }
-        }
-
-        public function deletelun() {
-            // Get luns for selected target
-            $data = $this->ietadd->get_targets_with_lun();
-
-            if (!empty($data)) {
-                if (isset($_POST['iqn'], $_POST['lun'])) {
-                    $luns = $this->ietdelete->get_all_luns_of_iqn($data, $_POST['iqn']);
-
-                    if ($luns == 3) {
-                        $this->view('message', "Error - No luns available");
-                    } else {
-                        // get sesssions for
-                        $sessions = $this->ietsessions->getIetSessionsforiqn($_POST['iqn']);
-
-                        if (is_array($sessions)) {
-                            // position 0 contains the iqn
-                            // we already have it
-                            unset($sessions[0][0]);
-                        }
-
-                        // Display page for ajax request
-                        $this->view('targets/deletelun', $luns);
-                    }
-                } else if (isset($_POST['iqn'], $_POST['lun'], $_POST['path'])) {
-                    if (file_exists($_POST['path'])) {
-                        // Delete lun from daemon
-                        $tid = $this->ietadd->get_tid($_POST['iqn']);
-                        $return = $this->exec->delete_lun_from_daemon($tid, $_POST['lun']);
-
-                        if ($return != 0) {
-                            echo 'Could not delete lun ' . htmlspecialchars($_POST['lun']) . ' from target ' . htmlspecialchars($_POST['iqn']) . ' Server said:' . htmlspecialchars($return[0]);
-                        } else {
-                            $luns = $this->ietdelete->get_all_luns_of_iqn($data, $_POST['iqn']);
-
-                            // get the data for the selected lun
-                            $key = $this->std->recursive_array_search($_POST['lun'], $luns);
-
-                            $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], 'Lun ' . $_POST['lun'] . ' Type=' . $luns[$key]['type'] . ',IOMode=' . $luns[$key]['mode'] . ',Path=' . $_POST['path'], $this->database->get_config('ietd_config_file'));
-
-                            if ($return !== 0) {
-                                echo 'Lun wasn\'t defined in the config file!';
-                            } else {
-                                echo "Success";
-                            }
-                        }
-                    } else {
-                        echo 'The file ' . htmlspecialchars($_POST['path']) . ' was not found!';
-                    }
-                }
-            } else {
-                $this->view('message', "Error - No luns available");
             }
         }
 

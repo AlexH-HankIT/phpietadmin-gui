@@ -17,7 +17,7 @@
          *
          * Create a database object and get the paths to the binaries
          *
-         * @param   object $database database connection
+         * @param   object $models database connection
          *
          */
         public function __construct($models) {

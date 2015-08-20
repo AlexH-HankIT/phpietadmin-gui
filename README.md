@@ -65,19 +65,16 @@ In version 0.6:
     - [x] Nested tables for iet volumes and iet sessions (https://github.com/wenzhixin/bootstrap-table-examples/blob/master/options/sub-table.html)
     - [ ] Drag & Drop with HTML5
     - [ ] Menu to import orphaned objects into database
+    - [x] Override option, if user is already logged in
 
 * Backend
     - [ ] Prevent comments from being deleted, when editing a config file
-    - [ ] Use json for ajax responses
-    - [ ] Replace multiple !empty with one mempty() function
-    - [ ] When checking for post data, always check with isset() and then with mempty()/empty()
-    - [ ] Use Type Hinting (http://php.net/manual/de/language.oop5.typehinting.php)
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
     - [x] Create a lvm model
     - [ ] Write phpietadmin-cli
         - [ ] Install/Update
         - [ ] Import orphaned objects into database
-    - [ ] Error logging
+    - [x] Baisc error logging
     - [ ] Login/Logout logging
     - [x] Use namespaces with basic autoloader
     - [x] New lsblk parser
@@ -98,11 +95,12 @@ In version 0.6:
 - [ ] Smart data
 - [ ] Config option for production and development
     * Production:
-        * minifized html and javascript generated at the relase will be used
+        * minifized html and javascript generated at the release will be used
     * Development
         * normal versions will be used
 - [ ] Backup config files (http://code.stephenmorley.org/php/diff-implementation/)
 - [ ] Menu to restore config files
+- [ ] function naming convention in models (prepend class name fo function name)
 
 Items are completely random ;-)
 

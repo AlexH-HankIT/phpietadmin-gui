@@ -17,7 +17,7 @@
             $data = $targets->return_target_data();
 
             $view['data'] = $data;
-            $data = $targets->get_result();
+            $data = $targets->get_action_result();
 
             if ($view['data'] !== false) {
                 if ($param == 'session') {
@@ -55,7 +55,7 @@
                 if ($data !== false) {
                     $this->view('table', array('title' => $title, 'heading' => array_keys($data[0]), 'body' => $data));
                 } else {
-                    $data = $model->get_result();
+                    $data = $model->get_action_result();
                     $this->view('message', array('message' => $data['message'], 'type' => 'danger'));
                 }
             }

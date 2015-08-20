@@ -7,7 +7,8 @@
          * @return     void
          *
          */
-        public function login() {
+        public function login()
+        {
             if (isset($_POST['username'], $_POST['password'])) {
                 // Create pw hash
                 $pwhash = hash('sha256', $_POST['password']);
@@ -22,7 +23,7 @@
                 $login_time = time();
                 $this->session->setTime($login_time);
 
-                if($this->session->check_password()) {
+                if ($this->session->check_password()) {
                     // check here if session with user $_POST['username'] has already started
                     $data = $this->database->get_sessions_by_username($_POST['username']);
 
@@ -33,18 +34,40 @@
                         // add session data to database
                         $this->database->add_session(session_id(), $_POST['username'], $login_time, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
                     } else {
-                        // todo: add override option
-                        $this->view('message', 'User ' . $_POST['username'] . ' is already logged in from ' . $data['source_ip']);
+                        $this->view('login/override', 'User ' . $_POST['username'] . ' is already logged in from ' . $data['source_ip']);
                     }
-                    die();
                 } else {
                     $this->view('message', 'Wrong username or password!');
-                    header( "refresh:2;url=/phpietadmin/auth/login" );
+                    header("refresh:2;url=/phpietadmin/auth/login");
+                    die();
+                }
+            } else if (isset($_POST['override'])) {
+                $this->session->setUsername($_SESSION['username']);
+                $this->session->setPassword($_SESSION['password'] );
+
+                if ($this->session->check_password()) {
+                    $login_time = time();
+                    $this->session->setTime($login_time);
+
+                    // get data from session which should be overwritte
+                    $data = $this->database->get_sessions_by_username($_SESSION['username']);
+
+                    // delete session from database
+                    $this->database->delete_session($data['session_id'], $_SESSION['username']);
+
+                    // add new session to database
+                    $this->database->add_session(session_id(), $_SESSION['username'], $login_time, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+
+                    // redirect to dashboard
+                    header("Location: /phpietadmin/dashboard");
+                } else {
+                    $this->view('message', 'Wrong username or password!');
+                    header("refresh:2;url=/phpietadmin/auth/login");
                     die();
                 }
             } else {
                 $this->view('header', "login");
-                $this->view('signin');
+                $this->view('login/signin');
             }
         }
 

@@ -6,17 +6,8 @@
         protected $params = [];
 
         public function __construct() {
-            // Sanitize user input
-            // Unlikely that this does something useful
-            // but it's a welcome addition
-            $array = $_POST;
-            foreach ($array as $key => $dangerous) {
-                $_POST[$key] = addslashes(strip_tags(trim($dangerous)));
-            }
-            $array = $_GET;
-            foreach ($array as $key => $dangerous) {
-                $_GET[$key] = addslashes(strip_tags(trim($dangerous)));
-            }
+            array_filter($_POST, 'trim_value');
+            array_filter($_GET, 'trim_value');
 
             $url = $this->parseUrl();
 
@@ -64,5 +55,12 @@
             if(isset($_GET['url'])) {
                 return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
             }
+        }
+
+        // Sanitize user input
+        // Unlikely that this does something useful
+        // but it's a welcome addition
+        protected function sanitize(&$value) {
+            $value = addslashes(strip_tags(trim($value)));
         }
     }

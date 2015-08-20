@@ -6,7 +6,7 @@
          * If it's in use, it will return all data about this target
          *
          *
-         * @return  array, boolean
+         * @return  array|bool
          *
          *
          */
@@ -26,7 +26,7 @@
          * Returns false if not and the iqn of the target using it if yes
          *
          * @param   string $path path to the block device or image
-         * @return  boolean, string
+         * @return  bool|string
          *
          *
          */
@@ -62,31 +62,34 @@
         /**
          *
          * Returns the next free lun id
+         * Gaps are handled!
          *
          * @return  int
          *
          */
         protected function get_next_free_lun() {
             if (isset($this->target_data['lun'])) {
-                foreach ($this->target_data['lun'] as $key => $lun) {
-                    $used_ids[$key] = $lun['id'];
+                // extract lun ids
+                $used_ids = array_column($this->target_data['lun'], 'id');
+
+                // sort array
+                sort($used_ids);
+
+                // create range with all possible used ids
+                $ids = range(0, max($used_ids));
+
+                // delete all used ids from the array
+                $ids = array_diff($ids, $used_ids);
+
+                if (empty($ids)) {
+                    // this means there are no gaps in the number sequence
+                    // so we just continue with max($used_ids) + 1
+                    return max($used_ids) + 1;
+                } else {
+                    // the smallest number in the $ids array is our id
+                    return min($ids);
                 }
 
-                // sort array from low to high
-                asort($used_ids);
-
-                foreach ($used_ids as $key => $id) {
-                    if (isset($used_ids[$key+1])) {
-                        if ($id != $used_ids[$key+1]) {
-                            return $id+1;
-                        }
-                    } else {
-                        // $used_ids[$key+1] doesn't exist
-                        // which means we reached the end of the array
-                        return $id+1;
-                    }
-                }
-                return 0;
             } else {
                 return 0;
             }
@@ -102,7 +105,7 @@
          * If the rule has an associated object in the database name and type will be also returned
          * If the rule is an orphane only the value will be returned
          *
-         * @return  array, boolean
+         * @return  array|bool
          *
          */
         public function get_acls() {
@@ -140,7 +143,7 @@
          *
          * @param int $id id of the object
          * @param string $type type of the acl initiators/targets
-         * @return boolean
+         * @return bool
          *
          */
         protected function check_object_already_added($id, $type = 'initiators') {
@@ -171,7 +174,7 @@
          *
          * Deletes the lun with $id or, if $lun = false all luns from the ietd config file
          *
-         * @param boolean, string $path path to the lun, that should be deleted, if $path = false, all lun will be deleted
+         * @param bool|string $path path to the lun, that should be deleted, if $path = false, all lun will be deleted
          *
          * @return boolean|int|array
          *

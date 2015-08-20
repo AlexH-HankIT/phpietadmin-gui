@@ -12,7 +12,7 @@ $target = new target\Target('iqn.2014-12.com.example.iscsi:test2');
 // @param   string  $mode  wt/ro
 $target->add_lun('/dev/VG_data01/test3', 'wt', 'fileio');
 
-print_r($target->get_result());
+print_r($target->get_action_result());
 
 // example failure:
 /*

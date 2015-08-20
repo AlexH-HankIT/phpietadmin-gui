@@ -2,7 +2,7 @@
 use phpietadmin\app\models\target;
 use phpietadmin\app\models\lvm\lv;
 
-// no error handling via logging function get_result() included!
+// no error handling via logging function get_action_result() included!
 
 // require the class
 require_once __DIR__ . '/../../autoloader.php';

@@ -131,7 +131,7 @@
          * @return   array
          *
          */
-        protected function disconnect_session($sid, $cid) {
+        protected function exec_disconnect_session($sid, $cid) {
             return $this->exec_and_return($this->ietadm . ' --op delete --tid=' . $this->tid . ' --sid=' . intval($sid) . ' --cid=' . intval($cid));
         }
 

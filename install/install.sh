@@ -25,6 +25,9 @@ if [ "$(id -u)" != "0" ]; then
    log_error "Please run this script as root!"
 fi
 
+mkdir -p /var/log/phpietadmin
+chown -R www-data:www-data /var/log/phpietadmin
+
 # Define vars
 BASEDIR="/usr/share/phpietadmin"
 DATABASE="$BASEDIR/app/config.db"

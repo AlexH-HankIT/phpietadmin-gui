@@ -33,7 +33,7 @@
                     return array(
                         'title' => 'Disks',
                         'heading' => array_keys($disks[0]),
-                        'body' => array_values($disks)
+                        'body' => array_values(array_filter($disks))
                     );
                 } else {
                     return false;

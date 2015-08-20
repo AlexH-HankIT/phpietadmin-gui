@@ -196,9 +196,6 @@
          *  No options of the iqn are deleted, so make sure it has none before calling this!
          *  This will delete all comments from the config file
          *
-         *
-         * @param   string $iqn iqn to delete
-         * @param   string $file file from which the the iqn should be deleted
          * @return  int
          *
          * ToDo: Don't remove comments
@@ -244,7 +241,7 @@
          *  This function is similar to the delete_option_from_iqn function
          *  But it only returns all options from the target
          *
-         * @return   array, int
+         * @return   array|int
          *
          */
         public function get_all_options_from_iqn() {
@@ -293,7 +290,7 @@
                             if (strcmp($data[$key + 1], $data[$end - 1]) == 0) {
                                 if (isset($data[$key + 1])) {
                                     // return array so we can always use a loop
-                                    return array(0 => explode(" ", trim($iqn, "\n")),
+                                    return array(0 => explode(' ', trim($iqn, "\n")),
                                         1 => explode(" ", trim($data[$key + 1], "\n")));
                                 } else {
                                     return 3;
@@ -308,7 +305,7 @@
                                     return 3;
                                 } else {
                                     foreach ($options as $key => $value) {
-                                        $return[$key] = explode(" ", trim($value, "\n"));
+                                        $return[$key] = explode(' ', trim($value, "\n"));
                                     }
                                     return $return;
                                 }
