@@ -2,7 +2,7 @@
     use phpietadmin\app\models\logging;
 
     class Disks extends logging\Logging {
-        private $database;
+        protected $database;
 
         public function __construct() {
             $this->database = new Database();
