@@ -38,8 +38,8 @@
                 // because we loose the password and can't delete the line
                 // create a better function to check this
                 // if a user is commented, this will alert anyway...
-                $return[0] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file'), 'IncomingUser ' . $this->username);
-                $return[1] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file'), 'OutgoingUser ' . $this->username);
+                $return[0] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file')['value'], 'IncomingUser ' . $this->username);
+                $return[1] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file')['value'], 'OutgoingUser ' . $this->username);
 
                 if ($return[0] === true || $return[1] === true) {
                     $this->log_action_result('The username ' . $this->username . ' is used by the iet daemon!', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
