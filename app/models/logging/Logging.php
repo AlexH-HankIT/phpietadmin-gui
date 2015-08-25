@@ -1,7 +1,7 @@
 <?php namespace phpietadmin\app\models\logging;
     use phpietadmin\app\models;
 
-    // ToDo: Remove duplicated usage of std (extended an created)
+    // ToDo: Remove duplicated usage of std (extended and created)
 
     /* ToDo: Define paths in database */
     define('log_dir_path', '/var/log/phpietadmin');
