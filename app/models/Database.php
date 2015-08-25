@@ -118,7 +118,7 @@ class Database extends \SQLite3
 	 * If the value is a "super user binary" sudo will be prepended
 	 *
 	 * @param     string $option option to get the value from
-	 * @return    string
+	 * @return    array|bool
 	 *
 	 */
 	public function get_config($option) {
