@@ -1,9 +1,10 @@
 <?php
 // todo
-// build auth code menu in frontend
 // add backup function
 // add restore function
 // add remove feature (for testing purpose)
+// add /var/log/phpietadmin directory
+// add logrotation for log files
 
 class Logic {
     protected $phpietadmin_base_dir;
