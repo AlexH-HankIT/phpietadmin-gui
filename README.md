@@ -81,6 +81,7 @@ In version 0.6:
     - [x] Login/Logout logging
     - [x] Debug logging
     - [ ] Log also successful messages
+    - [ ] Rework database model
     - [ ] Rework controller/models
         - [x] Dashboard
         - [ ] Overview
