@@ -138,9 +138,9 @@ INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, desc
     ('debug_log', 'Debug log filename', 2, 'debug.log', 'Filename of the debug log file', 5, 'input'),
     ('action_log', 'Action log filename', 2, 'action.log', 'Filename of the action log file', 5, 'input'),
     ('access_log', 'Access log filename', 2, 'access.log', 'Filename of the access log file', 5, 'input'),
-    ('debug_log_enabled', 'Enable debug log', 1, 'Disabled', 'Log debug information', 5, 'input'),
-    ('action_log_enabled', 'Enable action log', 1, 'Enabled', 'Log action information', 5, 'select'),
-    ('access_log_enabled', 'Enable access log', 1, 'Enabled', 'Log access information', 5, 'select');
+    ('debug_log_enabled', 'Enable debug log', 1, 0, 'Log debug information', 5, 'input'),
+    ('action_log_enabled', 'Enable action log', 1, 1, 'Log action information', 5, 'select'),
+    ('access_log_enabled', 'Enable access log', 1, 1, 'Log access information', 5, 'select');
 
 INSERT INTO phpietadmin_config_category (category) VALUES
     ('iet'),

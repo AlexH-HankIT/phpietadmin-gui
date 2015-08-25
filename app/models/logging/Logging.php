@@ -3,13 +3,6 @@
 
     // ToDo: Remove duplicated usage of std (extended and created)
 
-    /* ToDo: Define paths in database */
-    define('log_dir_path', '/var/log/phpietadmin');
-    define('log_file_name', 'phpietadmin.log');
-    define('action_log_file_path', log_dir_path . '/phpietadmin_action.log');
-    define('debug_log_file_path', log_dir_path . '/phpietadmin_debug.log');
-    define('access_log_file_path', log_dir_path . '/phpietadmin_access.log');
-
     class Logging extends models\Std {
         private $action_result;
         private $access_result;
@@ -19,42 +12,79 @@
         private $write_debug_log;
         private $write_access_log;
         private $write_action_log;
+		private $log_dir_path;
+		private $action_log_file_path;
+		private $debug_log_file_path;
+		private $access_log_file_path;
 
         public function __construct() {
             $this->std = new models\std();
             $this->database = new models\database();
+
+			// log file paths
+			$this->log_dir_path = $this->database->get_config('log_base')['value'];
+			$this->action_log_file_path = $this->log_dir_path . ' ' . $this->database->get_config('action_log')['value'];
+			$this->debug_log_file_path = $this->log_dir_path . ' ' . $this->database->get_config('debug_log')['value'];
+			$this->access_log_file_path = $this->log_dir_path . ' ' . $this->database->get_config('access_log')['value'];
+
+			// enabled logging options
+			$value = $this->database->get_config('debug_log_enabled')['value'];
+			if ($value == 0) {
+				$this->write_debug_log = false;
+			} else {
+				$this->write_debug_log = true;
+			}
+
+			$value = $this->database->get_config('access_log_enabled')['value'];
+			if ($value == 0) {
+				$this->write_access_log = false;
+			} else {
+				$this->write_access_log = true;
+			}
+
+			$value = $this->database->get_config('action_log_enabled')['value'];
+			if ($value == 0) {
+				$this->write_action_log = false;
+			} else {
+				$this->write_action_log = true;
+			}
         }
 
         private function write_to_access_log_file() {
-            if (is_array($this->access_result)) {
-                end($this->access_result);
-                $key = key($this->access_result);
+			if ($this->write_access_log == true) {
+				if (is_array($this->access_result)) {
+					end($this->access_result);
+					$key = key($this->access_result);
 
-                // handle call via webserver and cli
-                if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
-                    $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->access_result[$key]['message'] . '" ' . $this->access_result[$key]['status'] . ' ' . $this->access_result[$key]['type'] . ' ' . $this->access_result[$key]['method'] . "\n";
-                } else {
-                    $line = time() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['status'] . ' ' . $this->action_result[$key]['type'] . ' ' . $this->action_result[$key]['method'] . "\n";
-                }
+					// handle call via webserver and cli
+					if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
+						$line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->access_result[$key]['message'] . '" ' . $this->access_result[$key]['status'] . ' ' . $this->access_result[$key]['type'] . ' ' . $this->access_result[$key]['method'] . "\n";
+					} else {
+						$line = time() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['status'] . ' ' . $this->action_result[$key]['type'] . ' ' . $this->action_result[$key]['method'] . "\n";
+					}
 
-                file_put_contents(access_log_file_path, $line, FILE_APPEND | LOCK_EX);
-            }
+					file_put_contents($this->access_log_file_path, $line, FILE_APPEND | LOCK_EX);
+				}
+			}
+
         }
 
         private function write_to_debug_log_file() {
-            if (is_array($this->debug_result)) {
-                end($this->debug_result);
-                $key = key($this->debug_result);
+			if ($this->write_debug_log == true) {
+				if (is_array($this->debug_result)) {
+					end($this->debug_result);
+					$key = key($this->debug_result);
 
-                // handle call via webserver and cli
-                if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
-                    $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->debug_result[$key]['command'] . ' ' . $this->debug_result[$key]['message'] . '" ' . $this->debug_result[$key]['method'] . "\n";
-                } else {
-                    $line = time() . $this->debug_result[$key]['command'] . ' "' . $this->debug_result[$key]['message'] . '" '  . $this->debug_result[$key]['method'] . "\n";
-                }
+					// handle call via webserver and cli
+					if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
+						$line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->debug_result[$key]['command'] . ' ' . $this->debug_result[$key]['message'] . '" ' . $this->debug_result[$key]['method'] . "\n";
+					} else {
+						$line = time() . $this->debug_result[$key]['command'] . ' "' . $this->debug_result[$key]['message'] . '" '  . $this->debug_result[$key]['method'] . "\n";
+					}
 
-                file_put_contents(debug_log_file_path, $line, FILE_APPEND | LOCK_EX);
-            }
+					file_put_contents($this->debug_log_file_path, $line, FILE_APPEND | LOCK_EX);
+				}
+			}
         }
 
         /**
@@ -64,19 +94,21 @@
          *
          */
         private function write_to_action_log_file() {
-            if (is_array($this->action_result)) {
-                end($this->action_result);
-                $key = key($this->action_result);
+			if ($this->write_action_log == true) {
+				if (is_array($this->action_result)) {
+					end($this->action_result);
+					$key = key($this->action_result);
 
-                // handle call via webserver and cli
-                if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
-                    $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
-                } else {
-                    $line = time() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
-                }
+					// handle call via webserver and cli
+					if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
+						$line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
+					} else {
+						$line = time() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
+					}
 
-                file_put_contents(action_log_file_path, $line, FILE_APPEND | LOCK_EX);
-            }
+					file_put_contents($this->action_log_file_path, $line, FILE_APPEND | LOCK_EX);
+				}
+			}
         }
 
         /**
