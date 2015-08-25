@@ -2,6 +2,8 @@
 define('dbpath', '/usr/share/phpietadmin/app/config.db');
 use Sqlite3;
 
+// use new values in config table for error handling and better usage
+
 class Database extends \SQLite3
 {
     /**
@@ -110,6 +112,24 @@ class Database extends \SQLite3
         }
     }
 
+	public function get_config($option) {
+		$query = $this->prepare('SELECT phpietadmin_config.option, phpietadmin_config.value, (SELECT type FROM phpietadmin_config_type WHERE phpietadmin_config_type.config_type_id = phpietadmin_config.config_type_id) as type, (SELECT category FROM phpietadmin_config_category WHERE phpietadmin_config_category.config_category_id = phpietadmin_config.config_category_id) as category, phpietadmin_config.description, phpietadmin_config.field, phpietadmin_config.editable_via_gui, phpietadmin_config.optioningui FROM phpietadmin_config WHERE phpietadmin_config.option = :option');
+		$query->bindValue('option', $option, SQLITE3_TEXT);
+		$query = $query->execute();
+		$query = $query->fetchArray(SQLITE3_ASSOC);
+
+		if (empty($query)) {
+			return false;
+		} else {
+			// if type is subin, we prepend sudo
+			if ($query['type'] == 'subin') {
+				$sudo = $this->get_config('sudo');
+				$query['value'] = $sudo['value'] . ' ' . $query['value'];
+			}
+			return $query;
+		}
+	}
+
     /**
      *
      * Fetch value for config option
@@ -119,7 +139,7 @@ class Database extends \SQLite3
      * @return    string
      *
      */
-    /* ToDo: Error handling? */
+    /* ToDo: Error handling?
     public function get_config($option)
     {
 		$data = $this->prepare('SELECT category, value from phpietadmin_config where option=:option');
@@ -137,7 +157,7 @@ class Database extends \SQLite3
         } else {
             return $result['value'];
         }
-    }
+    }*/
 
     /**
      *

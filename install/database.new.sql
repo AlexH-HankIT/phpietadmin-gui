@@ -3,11 +3,11 @@ CREATE TABLE phpietadmin_config(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   option VARCHAR(50) NOT NULL,
   optioningui VARCHAR(50) NOT NULL,
-  type BOOLEAN NOT NULL DEFAULT 1,
+  config_type_id BOOLEAN NOT NULL DEFAULT 1,
   value VARCHAR(50) NOT NULL,
   editable_via_gui BOOLEAN NOT NULL DEFAULT 1,
   description VARCHAR(200),
-  category INT NOT NULL,
+  config_category_id INT NOT NULL,
   field varchar(20)
 );
 
@@ -110,7 +110,7 @@ INSERT INTO phpietadmin_iet_setting (option, defaultvalue, type, state, otherval
   ('DataPDUInOrder', 'Yes', 'select', 0, 'No'),
   ('DataSequenceInOrder', 'Yes', 'select', 0, 'No');
 
-INSERT INTO phpietadmin_config (option, optioningui, type, value, description, category, field) VALUES
+INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, description, config_category_id, field) VALUES
     ('iqn', 'IQN', 1, 'iqn.2014-12.com.example.iscsi', "Names of the iscsi targets", 1, 'input'),
     ('proc_sessions', '/proc session', 2, '/proc/net/iet/session', "Path to the IET sessions file", 1, 'input'),
     ('proc_volumes', '/proc volume', 2, '/proc/net/iet/volume', "Path to the IET volumes file", 1, 'input'),
