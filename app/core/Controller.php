@@ -26,7 +26,7 @@
                 if (!$this->session->check_password() or !$this->session->check_other_params($this->database->get_sessions_by_username($_SESSION['username']))) {
                     // ToDo: log something here..
                     $this->session->destroy_session();
-                } else if (time() - $_SESSION['timestamp'] > intval($this->database->get_config('idle') * 60)) {
+                } else if (time() - $_SESSION['timestamp'] > intval($this->database->get_config('idle')['value'] * 60)) {
                     $this->logging->log_access_result('The user was ' . $_SESSION['username'] . ' logged out due to inactivity!', 1, 'timeout_logout', __METHOD__);
                     $this->session->destroy_session();
                 } else {
