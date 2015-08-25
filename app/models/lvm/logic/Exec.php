@@ -1,12 +1,6 @@
 <?php namespace phpietadmin\app\models\lvm\logic;
     use phpietadmin\app\models\logging\Logging;
 
-/*
- * ToDo:
- * Append sudo to every command in constructor
- *
- */
-
     class Exec extends Logging {
         private $lvcreate;
         private $lvremove;
@@ -24,15 +18,15 @@
         protected $vg;
 
         public function __construct() {
-            $this->lvcreate = $this->database->get_config('lvcreate');
-            $this->lvremove = $this->database->get_config('lvremove');
-            $this->vgs = $this->database->get_config('vgs');
-            $this->pvs = $this->database->get_config('pvs');
-            $this->lvs = $this->database->get_config('lvs');
-            $this->lvrename = $this->database->get_config('lvrename');
-            $this->lvextend = $this->database->get_config('lvextend');
-            $this->lvreduce = $this->database->get_config('lvreduce');
-            $this->lvconvert = $this->database->get_config('lvconvert');
+            $this->lvcreate = $this->database->get_config('lvcreate')['value'];
+            $this->lvremove = $this->database->get_config('lvremove')['value'];
+            $this->vgs = $this->database->get_config('vgs')['value'];
+            $this->pvs = $this->database->get_config('pvs')['value'];
+            $this->lvs = $this->database->get_config('lvs')['value'];
+            $this->lvrename = $this->database->get_config('lvrename')['value'];
+            $this->lvextend = $this->database->get_config('lvextend')['value'];
+            $this->lvreduce = $this->database->get_config('lvreduce')['value'];
+            $this->lvconvert = $this->database->get_config('lvconvert')['value'];
         }
 
         protected function set_database($database) {
