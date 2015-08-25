@@ -154,7 +154,7 @@ class Std {
      * @return string
      */
     public function hash_sha256_string($string) {
-        return  hash('sha256', $string);
+        return hash('sha256', $string);
     }
 
     public function check_if_file_contains_value($file, $value) {
