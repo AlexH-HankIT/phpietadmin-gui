@@ -15,8 +15,6 @@
                 // password2 = password check
                 // check this on the server to prevent user from sending false data
                 if (isset($_POST['username'], $_POST['password1'], $_POST['password2'], $_POST['auth_code']) && !$this->std->mempty($_POST['username'], $_POST['password1'], $_POST['password2'], $_POST['auth_code'])) {
-                    $this->logging->log_access_result('The user ' . $_POST['username'] . ' was successfully authenticated!', 0, 'first_login', __METHOD__, true);
-
                     $userdata = $this->database->get_phpietadmin_user();
 
                     // validate user table is empty to prevent this from working if there are already users
@@ -24,7 +22,8 @@
                         // parse xml file
                         $auth_code = simplexml_load_file(__DIR__ . '/../../install/auth.xml');
 
-                        if ($auth_code === $_POST['auth_code']) {
+                        if ($auth_code->authcodes->authcode->code == $_POST['auth_code']) {
+							$this->logging->log_access_result('The user ' . $_POST['username'] . ' was successfully authenticated!', 0, 'first_login', __METHOD__);
                             if ($_POST['password1'] === $_POST['password2']) {
                                 // create hash from password
                                 // insert hash and user into database
@@ -109,7 +108,7 @@
                         $this->database->delete_session($data['session_id'], $_SESSION['username']);
 
                         // add new session to database
-                        $this->database->add_session(session_id(), $_SESSION['username'], $login_time, $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']);
+                        $this->database->add_session($login_time);
 
                         $this->logging->log_access_result('The session ' . $data['session_id'] . ' of the user ' . $_SESSION['username'] . ' was overwritten!', 0, 'login', __METHOD__);
 
