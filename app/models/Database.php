@@ -112,6 +112,15 @@ class Database extends \SQLite3
         }
     }
 
+	/**
+	 *
+	 * Fetch value for config option
+	 * If the value is a "super user binary" sudo will be prepended
+	 *
+	 * @param     string $option option to get the value from
+	 * @return    string
+	 *
+	 */
 	public function get_config($option) {
 		$query = $this->prepare('SELECT phpietadmin_config.option, phpietadmin_config.value, (SELECT type FROM phpietadmin_config_type WHERE phpietadmin_config_type.config_type_id = phpietadmin_config.config_type_id) as type, (SELECT category FROM phpietadmin_config_category WHERE phpietadmin_config_category.config_category_id = phpietadmin_config.config_category_id) as category, phpietadmin_config.description, phpietadmin_config.field, phpietadmin_config.editable_via_gui, phpietadmin_config.optioningui FROM phpietadmin_config WHERE phpietadmin_config.option = :option');
 		$query->bindValue('option', $option, SQLITE3_TEXT);
@@ -129,35 +138,6 @@ class Database extends \SQLite3
 			return $query;
 		}
 	}
-
-    /**
-     *
-     * Fetch value for config option
-     * If the value is a binary sudo will be prepended
-     *
-     * @param     string $option option to get the value from
-     * @return    string
-     *
-     */
-    /* ToDo: Error handling?
-    public function get_config($option)
-    {
-		$data = $this->prepare('SELECT category, value from phpietadmin_config where option=:option');
-        $data->bindValue('option', $option, SQLITE3_TEXT);
-        $result = $data->execute();
-        $result = $result->fetchArray();
-
-        // if the fetched value is a binary we prepend sudo
-        if ($result['category'] == 4) {
-            $sudo = $this->prepare('SELECT value from phpietadmin_config where option=\'sudo\'');
-            $sudo = $sudo->execute();
-            $sudo = $sudo->fetchArray();
-
-            return $sudo['value'] . ' ' . $result['value'];
-        } else {
-            return $result['value'];
-        }
-    }*/
 
     /**
      *
