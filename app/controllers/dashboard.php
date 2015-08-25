@@ -21,6 +21,6 @@
          */
 
         public function get_version() {
-            echo json_encode(array('version' => htmlspecialchars(file_get_contents('https://raw.githubusercontent.com/MrCrankHank/phpietadmin/master/version'))));
+            echo file_get_contents(__DIR__ . '/../../version.json');
         }
     }

@@ -9,32 +9,7 @@
          */
         public function index() {
             // get all all username, passwords and ids from database and turn them over to the view
-            $data = $this->database->get_all_users();
-
-            $this->view('usertable', $data);
-        }
-
-        /**
-         *
-         * Check if username is already taken
-         *
-         * @return      void
-         *
-         */
-        public function check_username_already_in_use() {
-            $data = $this->database->get_all_usernames();
-
-            if (is_array($data)) {
-                $result = array_search($_POST['username'], $data);
-
-                if ($result === false) {
-                    echo "false";
-                } else {
-                    echo "true";
-                }
-            } else {
-                echo "false";
-            }
+            $this->view('usertable', $this->database->get_all_users());
         }
 
         /**
@@ -44,33 +19,21 @@
          * @return      void
          *
          */
-        public function addusertodb() {
-            if (isset($_POST['username']) && isset($_POST['password'])) {
-                $this->database->add_ietuser($_POST['username'], $_POST['password']);
+        public function add_to_db() {
+            if (isset($_POST['username'], $_POST['password']) && !$this->std->mempty($_POST['username'], $_POST['password'])) {
+                $_POST['username'] = str_replace(' ', '', $_POST['username']);
+                $_POST['password'] = str_replace(' ', '', $_POST['password']);
+                $user = $this->ietuser_model($_POST['username']);
+                $user->add_user_to_db($_POST['password']);
+                echo json_encode($user->get_action_result());
             }
         }
 
-        public function deleteuserfromdb() {
-            if (isset($_POST['id']) && !empty($_POST['id'])) {
-                $id = intval($_POST['id']);
-
-                // Check if user is in use
-                $data = $this->database->get_ietuser($id);
-                $return[0] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file'), 'IncomingUser ' . $data['username']);
-                $return[1] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file'), 'OutgoingUser ' . $data['username']);
-
-                if (!$return[0] && !$return[1]) {
-                    $return = $this->database->delete_ietuser($id);
-                    if ($return !== 0) {
-                        echo "Failed";
-                    } else {
-                        echo "Success";
-                    }
-                } else {
-                    echo "In use!";
-                }
-            } else {
-                echo "Can't do anything!";
+        public function delete_from_db() {
+            if (isset($_POST['username']) && !empty($_POST['username'])) {
+                $user = $this->ietuser_model($_POST['username']);
+                $user->delete_user_from_db();
+                echo json_encode($user->get_action_result());
             }
         }
     }

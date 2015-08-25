@@ -2,15 +2,13 @@
     use phpietadmin\app\models\logging\Logging;
 
     class Parser extends Logging {
-        protected $database;
-        protected $std;
         protected $iqn;
         protected $target_data;
         protected $tid;
         protected $ietd_config_file;
 
-        protected function set_database($database) {
-            $this->database = $database;
+        public function __construct() {
+            Logging::__construct();
         }
 
         protected function set_iqn($iqn) {
@@ -467,10 +465,10 @@
 
         /**
          *
-         * Parse all information from the ietd allow files
+         * Parse all information from the iet allow files
          * return false if nothing was found or an array with the index 'initiators' and 'targets' for the data
          *
-         * @param   $iqn string optional, only return acls for this iqn
+         * @param   $iqn string optional, only return acl for this iqn
          * @return   array, boolean
          *
          */

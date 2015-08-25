@@ -1,5 +1,9 @@
 <?php namespace phpietadmin\app\models\target;
     class Logic extends Parser {
+        public function __construct() {
+            Parser::__construct();
+        }
+
         /**
          *
          * Check if the specified name is already in use by a target
@@ -210,7 +214,7 @@
             }
         }
 
-        protected function check_user_already_added($userdata, $type, $discovery = false) {
+        protected function check_user_already_added_to_iet($userdata, $type, $discovery = false) {
             $users = $this->get_configured_iet_users($discovery);
 
             if ($users == 3) {

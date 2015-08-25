@@ -1,6 +1,6 @@
 <div class="workspacedirect">
     <div class="container">
-        <div class="panel panel-default">
+        <div id='delete_user_panel' class="panel panel-default">
             <ol class='panel-heading breadcrumb'>
                 <li><a href='#'>Targets</a></li>
                 <li><a href='#'>Configure</a></li>
@@ -20,27 +20,24 @@
                         <th>User</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id='delete_user_table_body'>
                     <?php foreach ($data as $row) { ?>
                         <tr>
                             <td><input class="userdeletecheckbox" type="checkbox"></td>
                             <td class="type"><?php echo htmlspecialchars($row[0]); ?></td>
-                            <td class="user"><?php echo htmlspecialchars($row[1]); ?></td>
+                            <td><?php echo htmlspecialchars($row[1]); ?></td>
+                            <td hidden class="id"><?php echo htmlspecialchars($row[2]); ?></td>
                         </tr>
                     <?php } ?>
                     </tbody>
                 </table>
             </div>
-
         </div>
-
-
     </div>
 
     <script>
         require(['common'], function () {
-            require(['pages/deleteuser'], function (methods) {
-                methods.add_event_handler_targetselection();
+            require(['pages/target/deleteuser'], function (methods) {
                 methods.add_event_handler_deleteuserbutton();
                 methods.enable_filter_table_plugin();
             });

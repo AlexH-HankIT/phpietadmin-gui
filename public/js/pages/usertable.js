@@ -42,34 +42,38 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 closeOnConfirm: false
                             },
                             function () {
-                                // Delete row from database
-                                // Ajax id to delete url
-                                var data = {
-                                    "id": thisrow.find('.id').text()
-                                };
-
-                                var request = mylibs.doajax('/phpietadmin/ietusers/deleteuserfromdb', data);
-
-                                request.done(function () {
-                                    if (request.readyState == 4 && request.status == 200) {
-                                        if (request.responseText == "Success") {
+                                $.ajax({
+                                    url: '/phpietadmin/ietusers/delete_from_db',
+                                    data: {
+                                        "username": thisrow.find('.username').text()
+                                    },
+                                    dataType: 'json',
+                                    type: 'post',
+                                    success: function (data) {
+                                        if (data['code'] == 0) {
                                             swal({
-                                                    title: 'Success',
-                                                    type: 'success'
-                                                },
-                                                function () {
-                                                    thisrow.remove();
-                                                });
+                                                title: 'Success',
+                                                type: 'success',
+                                                text: data['message']
+                                            }, function() {
+                                                location.reload();
+                                            });
                                         } else {
                                             swal({
                                                 title: 'Error',
                                                 type: 'error',
-                                                text: request.responseText
+                                                text: data['message']
                                             });
                                         }
+                                    },
+                                    error: function() {
+                                        swal({
+                                            title: 'Error',
+                                            type: 'error',
+                                            text: 'Something went wrong while submitting!'
+                                        });
                                     }
                                 });
-
                             });
                     }
                     $('#adduserrowbutton').show();
@@ -125,7 +129,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         var selusernameval = selusername.val();
                         var selusernameconfirm = selusername.next('.bestaetigung');
 
-
                         if (selusernameval == '') {
                             selusername.addClass("focusedInputerror");
                             selusernameconfirm.addClass("label-danger");
@@ -145,40 +148,37 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             selpasswordconfirm.show(500);
                             selpasswordconfirm.delay(2000).hide(0);
                         } else {
-                            // Check if username already exists
-                            var data = {
-                                "username": selusernameval
-                            };
-
-                            var request = mylibs.doajax('/phpietadmin/ietusers/check_username_already_in_use', data);
-
-                            request.done(function () {
-                                if (request.readyState == 4 && request.status == 200) {
-                                    if (request.responseText == "true") {
-                                        // Display bad message here because user already exists
-                                        selusername.addClass("focusedInputerror");
-                                        selusernameconfirm.addClass("label-danger");
-                                        selusernameconfirm.text("In use!");
-                                        selusernameconfirm.show(500);
-                                        selusernameconfirm.delay(2000).hide(0);
+                            $.ajax({
+                                url: '/phpietadmin/ietusers/add_to_db',
+                                data: {
+                                    "username": selusernameval,
+                                    "password": selpasswordval
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function (data) {
+                                    if (data['code'] == 0) {
+                                        swal({
+                                            title: 'Success',
+                                            type: 'success',
+                                            text: data['message']
+                                        }, function() {
+                                            location.reload();
+                                        });
                                     } else {
-                                        // Ajax data to server and reload page
-                                        var data = {
-                                            "username": selusernameval,
-                                            "password": selpasswordval
-                                        };
-
-                                        request = mylibs.doajax('/phpietadmin/ietusers/addusertodb', data);
-
-                                        request.done(function () {
-                                            if (request.readyState == 4 && request.status == 200) {
-                                                //passwordcell.html(selpasswordval);
-                                                //usernamecell.html(selusernameval);
-
-                                                window.location.reload();
-                                            }
+                                        swal({
+                                            title: 'Error',
+                                            type: 'error',
+                                            text: data['message']
                                         });
                                     }
+                                },
+                                error: function() {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'Something went wrong while submitting!'
+                                    });
                                 }
                             });
                         }

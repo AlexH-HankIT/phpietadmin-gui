@@ -13,7 +13,7 @@
                     <div class='col-md-12'>
                         <div class='input-group'>
                             <span class='input-group-addon' id='basic-addon1'><?php echo htmlspecialchars($data); ?></span>
-                            <input class='form-control' type='text' id='iqninput' required>
+                            <input class='form-control' type='text' id='iqninput' required autofocus>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/addtarget'],function(methods) {
+            require(['pages/target/addtarget'],function(methods) {
                 methods.disable_special_chars();
                 methods.focus_input();
                 methods.remove_error();

@@ -6,8 +6,8 @@
         protected $params = [];
 
         public function __construct() {
-            array_filter($_POST, 'trim_value');
-            array_filter($_GET, 'trim_value');
+            array_filter($_POST, array($this, 'sanitize'));
+            array_filter($_GET, array($this, 'sanitize'));
 
             $url = $this->parseUrl();
 

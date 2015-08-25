@@ -35,8 +35,7 @@
                     <?php if (is_array($data)) { ?>
                         <?php foreach ($data as $row) { ?>
                             <tr>
-                                <td hidden class="id"><?php echo htmlspecialchars($row['id']); ?></td>
-                                <td class="col-md-5"><?php echo htmlspecialchars($row['username']); ?></td>
+                                <td class="col-md-5 username"><?php echo htmlspecialchars($row['username']); ?></td>
                                 <td class="col-md-5"><span class="passwordfield"><span class="passwordfieldplaceholder"><i>Show</i></span><span class="password" hidden><?php echo htmlspecialchars($row['password']); ?></span></span></td>
                                 <td class="col-md-1"><a href="#" class="deleteuserrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
                                 <td class="col-md-1"></td>

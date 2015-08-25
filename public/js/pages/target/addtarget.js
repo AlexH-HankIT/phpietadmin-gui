@@ -35,6 +35,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         focus_input: function () {
+            // html5 autofocus does not work in firefox when loaded via ajax
             $(document).ready(function() {
                 var iqninput = $('#iqninput');
                 // Focus the iqninput when the site is loaded

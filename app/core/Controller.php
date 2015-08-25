@@ -4,6 +4,7 @@
         public $database;
         public $std;
         public $session;
+        public $logging;
 
         /* This function creates all necessary models */
         public function create_models() {
@@ -11,6 +12,7 @@
             $this->database = $this->generic_model('Database');
             $this->std = $this->generic_model('Std');
             $this->session = $this->generic_model('Session');
+            $this->logging = $this->generic_model('logging\Logging');
         }
 
         public function check_loggedin($controller) {
@@ -21,7 +23,11 @@
                 // Check if user is logged in
                 // Checks for correct password, browser agent, source_ip and if the sessions is expired
                 // if everything is ok, the session timestamp will be updated
-                if (!$this->session->check_password() or !$this->session->check_other_params($this->database->get_sessions_by_username($_SESSION['username'])) or time() - $_SESSION['timestamp'] > intval($this->database->get_config('idle') * 60)) {
+                if (!$this->session->check_password() or !$this->session->check_other_params($this->database->get_sessions_by_username($_SESSION['username']))) {
+                    // ToDo: log something here..
+                    $this->session->destroy_session();
+                } else if (time() - $_SESSION['timestamp'] > intval($this->database->get_config('idle') * 60)) {
+                    $this->logging->log_access_result('The user was ' . $_SESSION['username'] . ' logged out due to inactivity!', 1, 'timeout_logout', __METHOD__);
                     $this->session->destroy_session();
                 } else {
                     // Update time
@@ -67,6 +73,11 @@
             require_once __DIR__ . '/../models/autoloader.php';
             $model = 'phpietadmin\\app\\models\\' . $model;
             return new $model();
+        }
+
+        public function ietuser_model($username) {
+            require_once __DIR__ . '/../models/autoloader.php';
+            return new phpietadmin\app\models\Ietuser($username);
         }
 
         public function view($view, $data = []) {

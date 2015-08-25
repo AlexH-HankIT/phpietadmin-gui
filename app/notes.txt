@@ -3,11 +3,12 @@
     1 file not found/read only
     2 file is empty
     3 No data
-    4 already in use
+    4 in use
     5 error while exec
     6 write failure
     7 unknown
     8 not enough space
+    9 wrong usage
 
 
     http://manpages.ubuntu.com/manpages/trusty/man5/ietd.conf.5.html

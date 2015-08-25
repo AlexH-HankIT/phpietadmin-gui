@@ -53,13 +53,13 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/settings'], function (methods) {
+            require(['pages/target/settings'], function (methods) {
                 methods.add_event_handler_settingstablecheckbox();
                 methods.add_event_handler_savevalue();
                 methods.remove_error();
                 methods.add_event_handler_resetvalue();
             });
-            require(['pages/settingstableqtip'], function (methods) {
+            require(['pages/target/settingstableqtip'], function (methods) {
                 methods.add_qtip();
             });
         });

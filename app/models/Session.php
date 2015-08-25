@@ -1,15 +1,12 @@
 <?php namespace phpietadmin\app\models;
+    use phpietadmin\app\models\logging;
 
-    class Session {
+    class Session extends logging\Logging {
         private $username;
         private $password;
-        public $database;
-        public $std;
 
         public function __construct() {
-            $this->database = new Database;
-            $this->std = new Std;
-
+            parent::__construct();
             session_start();
         }
 

@@ -101,16 +101,33 @@
                         }
                     }
                 } else if ($param == 'adduser') {
-                    if (isset($_POST['iqn'])) {
+                    if (isset($_POST['type'], $_POST['id'], $_POST['iqn'])) {
+                        $target = $this->target_model($_POST['iqn']);
+                        $target->add_user($_POST['id'], false, $_POST['type']);
+                        echo json_encode($target->get_action_result());
+                    } else if ($_POST['iqn']){
                         $data = $this->database->get_all_usernames(true);
-
                         if ($data != 0) {
                             $this->view('targets/adduser', $data);
                         } else {
                             $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
                         }
-                    } else {
+                    }
+                } else if ($param == 'deleteuser') {
+                    if (isset($_POST['id'], $_POST['type'], $_POST['iqn'])) {
+                        $target = $this->target_model($_POST['iqn']);
+                        $target->delete_user($_POST['id'], false, $_POST['type']);
+                        echo json_encode($target->get_action_result());
+                    } else if ($_POST['iqn']) {
+                        $target = $this->target_model($_POST['iqn']);
 
+                        $data = $target->get_user();
+
+                        if ($data == 3 || $data == false) {
+                            $this->view('message', array('message' => 'Error - No users set for this target!', 'type' => 'warning'));
+                        } else {
+                            $this->view('targets/deleteuser', $data);
+                        }
                     }
                 } else if ($param == 'deletetarget') {
 
@@ -138,7 +155,15 @@
                         }
                     }
                 } else if ($param == 'settings') {
+                    // get_all_settings
 
+                    if (isset($_POST['option'], $_POST['oldvalue'], $_POST['newvalue'], $_POST['iqn'], $_POST['type'])) {
+
+                    } else if (isset($_POST['option'], $_POST['value'], $_POST['iqn']) && $_POST['action'] == 'reset') {
+
+                    } else if (isset($_POST['iqn'])) {
+
+                    }
                 } else {
                     $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
                 }
@@ -371,31 +396,6 @@
                 $viewdata[1] = array_slice($default_settings, $len / 2);
 
                 $this->view('targets/settingstable', $viewdata);
-            }
-        }
-
-        public function deletesession() {
-            if (isset($_POST['iqn'], $_POST['cid'], $_POST['sid'])){
-                // delete session
-                if (is_numeric($_POST['cid']) && is_numeric($_POST['sid'])) {
-                    $return = $this->ietdelete->delete_session($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm'), $this->ietadd->get_tid($_POST['iqn']), $_POST['sid'], $_POST['cid']);
-                    if ($return != 0) {
-                        echo 'Could not delete session ' . htmlspecialchars($_POST['sid']) . ' Server said:' . htmlspecialchars($return[0]);
-                    } else {
-                        echo "Success";
-                    }
-                } else {
-                    echo "Error - cid and sid are not numeric!";
-                }
-            } else if (isset($_POST['iqn'])) {
-                // display all sessions for this target
-                $data = $this->ietsessions->getIetSessionsforiqn($_POST['iqn']);
-
-                if (!$data) {
-                    $this->view('message', 'Error - No initiators connected');
-                } else {
-                    $this->view('targets/sessiondelete', $data);
-                }
             }
         }
     }

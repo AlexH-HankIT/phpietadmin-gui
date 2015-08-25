@@ -1,6 +1,8 @@
 <?php namespace phpietadmin\app\models\logging;
     use phpietadmin\app\models;
 
+    // ToDo: Remove duplicated usage of std (extended an created)
+
     /* ToDo: Define paths in database */
     define('log_dir_path', '/var/log/phpietadmin');
     define('log_file_name', 'phpietadmin.log');
@@ -9,34 +11,68 @@
     define('access_log_file_path', log_dir_path . '/phpietadmin_access.log');
 
     class Logging extends models\Std {
-        private $result;
+        private $action_result;
+        private $access_result;
+        private $debug_result;
+        protected $std;
+        protected $database;
+        private $write_debug_log;
+        private $write_access_log;
+        private $write_action_log;
 
-        protected function write_to_access_log_file() {
-            // login user, login time
-            // logout user, logout time, logout reason (button or inactivity)
+        public function __construct() {
+            $this->std = new models\std();
+            $this->database = new models\database();
         }
 
-        protected function write_to_debug_log_file() {
-            // executed shell commands
-            // added/deleted config files
-        }
-
-        /**
-         * Writes the data from $this->result to the phpietadmin action log file
-         *
-         * @return void
-         */
-        protected function write_to_action_log_file() {
-            if (is_array($this->result)) {
-                end($this->result);
-                $key = key($this->result);
+        private function write_to_access_log_file() {
+            if (is_array($this->access_result)) {
+                end($this->access_result);
+                $key = key($this->access_result);
 
                 // handle call via webserver and cli
                 if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
-                    $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'] . ' ' . session_id() . ' ' . $this->result[$key]['message'] . ' ' . $this->result[$key]['code_type'] . ' ' . $this->result[$key]['code'] . ' ' . $this->result[$key]['method'] . "\n";
+                    $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->access_result[$key]['message'] . '" ' . $this->access_result[$key]['status'] . ' ' . $this->access_result[$key]['type'] . ' ' . $this->access_result[$key]['method'] . "\n";
                 } else {
-                    $line = time() . ' ' . $this->result[$key]['message'] . ' ' . $this->result[$key]['code_type'] . ' ' . $this->result[$key]['code'] . ' ' . $this->result[$key]['method'] . "\n";
+                    $line = time() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['status'] . ' ' . $this->action_result[$key]['type'] . ' ' . $this->action_result[$key]['method'] . "\n";
+                }
 
+                file_put_contents(access_log_file_path, $line, FILE_APPEND | LOCK_EX);
+            }
+        }
+
+        private function write_to_debug_log_file() {
+            if (is_array($this->debug_result)) {
+                end($this->debug_result);
+                $key = key($this->debug_result);
+
+                // handle call via webserver and cli
+                if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
+                    $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->debug_result[$key]['command'] . ' ' . $this->debug_result[$key]['message'] . '" ' . $this->debug_result[$key]['method'] . "\n";
+                } else {
+                    $line = time() . $this->debug_result[$key]['command'] . ' "' . $this->debug_result[$key]['message'] . '" '  . $this->debug_result[$key]['method'] . "\n";
+                }
+
+                file_put_contents(debug_log_file_path, $line, FILE_APPEND | LOCK_EX);
+            }
+        }
+
+        /**
+         * Writes the data from $this->action_result to the phpietadmin action log file
+         *
+         * @return void
+         *
+         */
+        private function write_to_action_log_file() {
+            if (is_array($this->action_result)) {
+                end($this->action_result);
+                $key = key($this->action_result);
+
+                // handle call via webserver and cli
+                if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
+                    $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
+                } else {
+                    $line = time() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
                 }
 
                 file_put_contents(action_log_file_path, $line, FILE_APPEND | LOCK_EX);
@@ -53,14 +89,13 @@
          * @param   array $return to be documented
          * @param   string $function called function
          * @param   boolean $reset delete all indexes from the array, optional
-         * @return  array|bool
          *
          */
         protected function log_action_result($message, $return, $function, $reset = false) {
-            if (!is_array($this->result)) {
-                $this->result = [];
+            if (!is_array($this->action_result)) {
+                $this->action_result = [];
             } else if ($reset === true) {
-                $this->result = [];
+                $this->action_result = [];
             }
 
             // use array push, so we can save all messages
@@ -82,7 +117,7 @@
                 );
             }
 
-            array_push($this->result, $temp);
+            array_push($this->action_result, $temp);
 
             // if there is an error write it to the log file
             if ($return['result'] != 0) {
@@ -94,12 +129,52 @@
             // so never log if the return code is 0
         }
 
-        public function log_debug_result() {
+        public function log_debug_result($message, $function, $command = '') {
+            if (!is_array($this->debug_result)) {
+                $this->debug_result = [];
+            }
 
+            $temp = array (
+                'message' => htmlspecialchars($message),
+                'session_id' => session_id(),
+                'method' => $function,
+                'command' => $command
+            );
+
+            array_push($this->debug_result, $temp);
+
+            $this->write_to_debug_log_file();
         }
 
-        public function log_access_result() {
+        /**
+         * @param $message string error/success message
+         * @param $status string success/failure
+         * @param $type string login/logout/timeout_logout/first_login/override
+         * @param $function string __METHOD__
+         *
+         */
+        public function log_access_result($message, $status, $type, $function) {
+            if (!is_array($this->access_result)) {
+                $this->access_result = [];
+            }
 
+            if ($status == 0) {
+                $status = 'success';
+            } else {
+                $status = 'failure';
+            }
+
+            $temp = array (
+                'message' => htmlspecialchars($message),
+                'status' => $status,
+                'session_id' => session_id(),
+                'type' => $type,
+                'method' => $function
+            );
+
+            array_push($this->access_result, $temp);
+
+            $this->write_to_access_log_file();
         }
 
         /**
@@ -112,15 +187,15 @@
          *
          */
         public function get_action_result($all = false) {
-            if (is_array($this->result)) {
+            if (is_array($this->action_result)) {
                 if ($all === true) {
-                    return $this->result;
+                    return $this->action_result;
                 } else {
                     // Get last array position
-                    end($this->result);
-                    $key = key($this->result);
+                    end($this->action_result);
+                    $key = key($this->action_result);
 
-                    return $this->result[$key];
+                    return $this->action_result[$key];
                 }
             } else {
                 return false;

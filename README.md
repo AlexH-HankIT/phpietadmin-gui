@@ -66,6 +66,9 @@ In version 0.6:
     - [ ] Drag & Drop with HTML5
     - [ ] Menu to import orphaned objects into database
     - [x] Override option, if user is already logged in
+    - [ ] Use more html5 elements (like autofocus)
+    - [ ] Use json for tables
+    - [ ] Create logging gui
 
 * Backend
     - [ ] Prevent comments from being deleted, when editing a config file
@@ -74,10 +77,29 @@ In version 0.6:
     - [ ] Write phpietadmin-cli
         - [ ] Install/Update
         - [ ] Import orphaned objects into database
-    - [x] Baisc error logging
-    - [ ] Login/Logout logging
+    - [x] Basic error logging
+    - [x] Login/Logout logging
+    - [x] Debug logging
+    - [ ] Log also successful messages
+    - [ ] Rework controller/models
+        - [x] Dashboard
+        - [ ] Overview
+        - [ ] Targets
+            - [x] Lun
+            - [ ] ACL
+            - [x] Users
+            - [x] Sessions
+            - [ ] Settings
+            - [ ] Delete
+        - [ ] Users
+        - [ ] Objects
+        - [ ] LVM
+        - [ ] Services
+        - [ ] Config
+        - [ ] Login/Logout/Reboot/Shutdown
     - [x] Use namespaces with basic autoloader
     - [x] New lsblk parser
+    - [x] Replace version file with .json
 
 ## More
 - [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
@@ -100,7 +122,7 @@ In version 0.6:
         * normal versions will be used
 - [ ] Backup config files (http://code.stephenmorley.org/php/diff-implementation/)
 - [ ] Menu to restore config files
-- [ ] function naming convention in models (prepend class name fo function name)
+- [ ] function naming convention in models (prepend class name to function name)
 
 Items are completely random ;-)
 

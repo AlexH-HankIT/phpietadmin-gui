@@ -39,21 +39,25 @@
                 $model = $this->pv_model();
                 $data = $model->get_pv();
                 $title = 'Physical volumes';
+                $heading = array_keys($data[0]);
             } else if ($param == 'vg') {
                 $model = $this->vg_model();
                 $data = $model->get_vg();
                 $title = 'Volume groups';
+                $heading = array_keys($data[0]);
+                array_push($heading, 'Used');
             } else if ($param == 'lv') {
                 $model = $this->lv_model(false, false);
                 $data = $model->get_lv();
                 $title = 'Logical volumes';
+                $heading = array_keys($data[0]);
             } else {
                 $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
             }
 
             if (!empty($data)) {
                 if ($data !== false) {
-                    $this->view('table', array('title' => $title, 'heading' => array_keys($data[0]), 'body' => $data));
+                    $this->view('table', array('title' => $title, 'heading' => $heading, 'body' => $data));
                 } else {
                     $data = $model->get_action_result();
                     $this->view('message', array('message' => $data['message'], 'type' => 'danger'));

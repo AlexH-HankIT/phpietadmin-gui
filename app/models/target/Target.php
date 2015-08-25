@@ -1,26 +1,16 @@
 <?php namespace phpietadmin\app\models\target;
     use phpietadmin\app\models;
 
-    /*
-     * ToDo:
-     * add function to return all
-     * non-used logical volumes
-     * used logical volume
-     */
-
     class Target extends Exec {
         // true means target was already there
         // false means target is a new target
         public $target_status;
 
         public function __construct($iqn = '') {
-            // Write database object into global var
-            $this->set_database(new models\Database());
-            $this->std = new models\Std();
-            $this->ietd_config_file = $this->database->get_config('ietd_config_file');
-
             // Get paths for binaries in Exec class
-            parent::__construct();
+            Exec::__construct();
+
+            $this->ietd_config_file = $this->database->get_config('ietd_config_file');
 
             // if the iqn is empty, we get the data for every target
             if (empty($iqn)) {
@@ -424,6 +414,7 @@
                     }
                 }
 
+                // maybe use array_replace() here?
                 foreach ($data as $value) {
                     $key = $this->std->recursive_array_search($value[0], $default_settings);
 
@@ -545,9 +536,9 @@
             } else {
                 // check if user is already added
                 if ($discovery === true) {
-                    $check = $this->check_user_already_added($userdata, $type, true);
+                    $check = $this->check_user_already_added_to_iet($userdata, $type, true);
                 } else {
-                    $check = $this->check_user_already_added($userdata, $type);
+                    $check = $this->check_user_already_added_to_iet($userdata, $type);
                 }
 
                 if ($check === false) {
@@ -558,7 +549,7 @@
                         $return = $this->add_user_to_daemon($type, $userdata['username'], $userdata['password']);
                     }
 
-                    if (['result'] != 0) {
+                    if ($return['result'] != 0) {
                         $this->log_action_result('The user ' . $userdata['username'] . ' was not added to the daemon or the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     } else {
                         // add user to config file
@@ -623,7 +614,7 @@
                     }
 
                     if ($return != 0) {
-                        $this->log_action_result('The user ' . $userdata['username'] . ' could not be deleted from the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__, true);
+                        $this->log_action_result('The user ' . $userdata['username'] . ' could not be deleted from the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
 
@@ -643,12 +634,20 @@
                 $this->check();
             }
 
-            $data = $this->get_configured_iet_users($discovery);
+            $iet_user = $this->get_configured_iet_users($discovery);
 
-            if (empty($data)) {
+            if (empty($iet_user) || $iet_user == 3) {
                 return false;
             } else {
-                return $data;
+                $database_user = $this->database->get_all_usernames(true);
+
+                // get ids for the usernames
+                foreach ($iet_user as $key => $iet) {
+                    $found = $this->std->recursive_array_search($iet['1'], $database_user);
+                    $iet_user[$key][] = $database_user[$found]['id'];
+                }
+
+                return $iet_user;
             }
         }
 

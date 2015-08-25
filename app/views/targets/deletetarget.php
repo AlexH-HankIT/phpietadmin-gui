@@ -49,7 +49,7 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/deletetarget'], function (methods) {
+            require(['pages/target/deletetarget'], function (methods) {
                 methods.add_event_handler_deletetargetbutton();
             });
         });

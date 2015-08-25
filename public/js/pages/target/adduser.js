@@ -13,15 +13,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 $(document).once('click', '#adduserbutton', function () {
                     var selector_targetselection = $('#targetselection');
                     var iqn = selector_targetselection.find("option:selected").val();
-                    var defaultvalue = selector_targetselection.find('#default').val();
 
-                    if (iqn == defaultvalue) {
-                        swal({
-                            title: 'Error',
-                            type: 'error',
-                            text: 'Please select a iqn!'
-                        });
-                    } else if (!$(".addusercheckbox:checked").val()) {
+                    if (!$(".addusercheckbox:checked").val()) {
                         swal({
                             title: 'Error',
                             type: 'error',
@@ -36,36 +29,43 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             var $this = $(this);
                             var id = $this.closest('tr').find('.userid').text();
 
-                            var data = {
-                                "iqn": iqn,
-                                "type": type,
-                                "id": id
-                            };
-
-                            var request = mylibs.doajax("/phpietadmin/permission/adduser", data);
-
-                            request.done(function () {
-                                if (request.readyState == 4 && request.status == 200) {
-                                    if (request.responseText == "Success") {
-                                        // uncheck all the checkbox
-                                        $this.removeAttr('checked');
-
+                            $.ajax({
+                                url: '/phpietadmin/targets/configure/adduser',
+                                data: {
+                                    "iqn": iqn,
+                                    "type": type,
+                                    "id": id
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function(data) {
+                                    if (data['code'] == 0) {
                                         swal({
                                             title: 'Success',
-                                            type: 'success'
+                                            type: 'success',
+                                            text: data['message']
+                                        }, function() {
+                                            // uncheck all the checkbox
+                                            $this.removeAttr('checked');
                                         });
                                     } else {
                                         swal({
                                             title: 'Error',
                                             type: 'error',
-                                            text: request.responseText
+                                            text: data['message']
                                         });
                                     }
-                                    mylibs.loadconfiguretargetbody('/phpietadmin/permission/adduser', iqn);
+                                    mylibs.loadconfiguretargetbody('/phpietadmin/targets/configure/adduser', iqn);
+                                },
+                                error: function() {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'Something went wrong while submitting!'
+                                    });
                                 }
                             });
                         });
-
                     }
                 });
             });

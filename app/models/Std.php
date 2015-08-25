@@ -43,7 +43,12 @@ class Std {
      */
     public function get_dashboard_data() {
         $data['hostname'] = file_get_contents('/etc/hostname');
-        $data['phpietadminversion'] = file_get_contents('/usr/share/phpietadmin/version');
+
+        // get version and release
+        $json = json_decode(file_get_contents(__DIR__ . '/../../version.json'), true);
+        $data['phpietadminversion'] = $json['version'][1]['version_nr'];
+        $data['release'] = $json['version'][3]['release'];
+
         $data['distribution'] = shell_exec('lsb_release -sd');
 
         $hwdata = file('/proc/cpuinfo');
@@ -139,5 +144,91 @@ class Std {
             }
         }
         return $result;
+    }
+
+    /**
+     * Hash a string an return it
+     * To prevent inconsistency with different hashing algorithms
+     *
+     * @param $string string that should be hashed
+     * @return string
+     */
+    public function hash_sha256_string($string) {
+        return  hash('sha256', $string);
+    }
+
+    public function check_if_file_contains_value($file, $value) {
+        if (strpos(file_get_contents($file), $value) !== false) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Tail implementation in php
+     *
+     * @link http://www.geekality.net/2011/05/28/php-tail-tackling-large-files/
+     * @param $filename
+     * @param int $lines
+     * @param int $buffer
+     * @return string
+     */
+    public function tail($filename, $lines = 10, $buffer = 4096) {
+        if (file_exists($filename) && filesize($filename) != 0) {
+            // Open the file
+            $f = fopen($filename, "rb");
+
+            // Jump to last character
+            fseek($f, -1, SEEK_END);
+
+            // Read it and adjust line number if necessary
+            // (Otherwise the result would be wrong if file doesn't end with a blank line)
+            if(fread($f, 1) != "\n") $lines -= 1;
+
+            // Start reading
+            $output = '';
+            $chunk = '';
+
+            // While we would like more
+            while(ftell($f) > 0 && $lines >= 0)
+            {
+                // Figure out how far back we should jump
+                $seek = min(ftell($f), $buffer);
+
+                // Do the jump (backwards, relative to where we are)
+                fseek($f, -$seek, SEEK_CUR);
+
+                // Read a chunk and prepend it to our output
+                $output = ($chunk = fread($f, $seek)).$output;
+
+                // Jump back to where we started reading
+                fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
+
+                // Decrease our line counter
+                $lines -= substr_count($chunk, "\n");
+            }
+
+            // While we have too many lines
+            // (Because of buffer size we might have read too many)
+            while($lines++ < 0)
+            {
+                // Find first newline and remove all text before that
+                $output = substr($output, strpos($output, "\n") + 1);
+            }
+
+            // Close file and return
+            fclose($f);
+
+            $data = array_filter(explode("\n", $output));
+
+            foreach ($data as $line) {
+                $rows[] = str_getcsv($line, ' ');
+            }
+
+            return $rows;
+        } else {
+            return false;
+        }
     }
 }

@@ -21,6 +21,10 @@
                     <td id="phpietadminversion" class="dashboardvalue"><?php echo htmlspecialchars($data['phpietadminversion']); ?></td>
                 </tr>
                 <tr>
+                    <td class="dashboardoption">phpietadmin release</td>
+                    <td class="dashboardvalue"><?php echo htmlspecialchars($data['release']); ?></td>
+                </tr>
+                <tr>
                     <td class="dashboardoption">phpietadmin version status</td>
                     <td class="dashboardvalue"><span id='versioncheck' class="label"></span></td>
                 </tr>

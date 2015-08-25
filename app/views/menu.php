@@ -71,7 +71,21 @@
                 </li>
 
                 <li class = "dropdown">
-                    <a href='#' id="menuconfig" class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-off"></span> <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Logs <b class = "caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="workspacetab" href='/phpietadmin/log/show/access'>Access</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/log/show/action'>Action</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/log/show/debug'>Debug</a></li>
+                        <li class="divider"></li>
+                        <li><a class="workspacetab" href='/phpietadmin/log/show/syslog'>Syslog</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/log/show/php'>PHP</a></li>
+                        <li class="divider"></li>
+                        <li><a class="workspacetab" href='/phpietadmin/log/config'>Config</a></li>
+                    </ul>
+                </li>
+
+                <li class = "dropdown">
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-off"></span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a href='/phpietadmin/auth/logout'><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                         <li><a id="menushutdownbutton" href='/phpietadmin/service/hold'><span class="glyphicon glyphicon-off"></span> Shutdown</a></li>

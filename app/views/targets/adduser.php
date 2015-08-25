@@ -12,19 +12,19 @@
 
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default active">
-                        <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="Incoming" checked="checked"> Incoming
+                        <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="IncomingUser" checked="checked"> Incoming
                     </label>
                     <label class="btn btn-default">
-                        <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="Outgoing"> Outgoing
+                        <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="OutgoingUser"> Outgoing
                     </label>
                 </div>
             </div>
+            <br />
             <div class="table-responsive">
-                <table id="addusertable" class="table table-striped searchabletable">
+                <table id="addusertable" data-click-to-select="true" class="table table-striped searchabletable">
                     <thead>
                     <tr>
-                        <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span>
-                        </th>
+                        <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
                         <th class="col-md-11">Username</th>
                     </tr>
                     </thead>

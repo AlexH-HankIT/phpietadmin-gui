@@ -13,7 +13,7 @@ define(['jquery', 'mylibs'], function($, mylibs) {
                     success: function(data) {
                         var val;
 
-                        if (data['version'] == $('#phpietadminversion').text()) {
+                        if (data['version'][1].version_nr == $('#phpietadminversion').text()) {
                             val = true;
                         } else {
                             val = data['version']

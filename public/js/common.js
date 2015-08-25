@@ -17,7 +17,7 @@ requirejs.config({
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'blockUI', 'once'], function($, qtip, filterTable, mylibs, swal) {
+define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function($, qtip, filterTable, mylibs, swal) {
     var methods;
 
     return methods = {
@@ -156,11 +156,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                         });
                     e.preventDefault();
                 });
-            });
-        },
-        sticky_button: function() {
-            $(document).ready(function(){
-
             });
         }
     };
