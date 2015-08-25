@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS config;
-CREATE TABLE config(
+DROP TABLE IF EXISTS phpietadmin_config;
+CREATE TABLE phpietadmin_config(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   option VARCHAR(50) NOT NULL,
   optioningui VARCHAR(50) NOT NULL,
@@ -11,50 +11,50 @@ CREATE TABLE config(
   field varchar(20)
 );
 
-DROP TABLE IF EXISTS config_category;
-CREATE TABLE config_category(
+DROP TABLE IF EXISTS phpietadmin_config_category;
+CREATE TABLE phpietadmin_config_category(
   config_category_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   category varchar(20) NOT NULL
 );
 
 
-DROP TABLE IF EXISTS config_type;
-CREATE TABLE config_type(
+DROP TABLE IF EXISTS phpietadmin_config_type;
+CREATE TABLE phpietadmin_config_type(
   config_type_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   type varchar(20) NOT NULL
 );
 
-DROP TABLE IF EXISTS phpietadmin_user;
-CREATE TABLE phpietadmin_user(
+DROP TABLE IF EXISTS phpietadmin_phpietadmin_user;
+CREATE TABLE phpietadmin_phpietadmin_user(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(50) NOT NULL,
   password varchar(64) NOT NULL /* for sha256 hash */
 );
 
-DROP TABLE IF EXISTS object;
-CREATE TABLE object(
+DROP TABLE IF EXISTS phpietadmin_object;
+CREATE TABLE phpietadmin_object(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   type_id INTEGER NOT NULL,
   value varchar(50) NOT NULL,
   name varchar(50) NOT NULL
 );
 
-DROP TABLE IF EXISTS object_type;
-CREATE TABLE object_type(
+DROP TABLE IF EXISTS phpietadmin_object_type;
+CREATE TABLE phpietadmin_object_type(
   type_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   display_name varchar(10) NOT NULL,
   value varchar(10) NOT NULL
 );
 
-DROP TABLE IF EXISTS iet_user;
-CREATE TABLE iet_user(
+DROP TABLE IF EXISTS phpietadmin_iet_user;
+CREATE TABLE phpietadmin_iet_user(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(50) NOT NULL,
   password varchar(50) NOT NULL
 );
 
-DROP TABLE IF EXISTS iet_setting;
-CREATE TABLE iet_setting(
+DROP TABLE IF EXISTS phpietadmin_iet_setting;
+CREATE TABLE phpietadmin_iet_setting(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   option varchar(50) NOT NULL,
   defaultvalue varchar(50) NOT NULL,
@@ -64,15 +64,15 @@ CREATE TABLE iet_setting(
   othervalue1 varchar(50) DEFAULT NULL
 );
 
-DROP TABLE IF EXISTS service;
-CREATE TABLE service(
+DROP TABLE IF EXISTS phpietadmin_service;
+CREATE TABLE phpietadmin_service(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   name varchar(50),
   enabled numeric boolean
 );
 
-DROP TABLE IF EXISTS session;
-CREATE TABLE session(
+DROP TABLE IF EXISTS phpietadmin_session;
+CREATE TABLE phpietadmin_session(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   session_id varchar(64) NOT NULL,
   username_id varchar(50) NOT NULL,
@@ -81,13 +81,13 @@ CREATE TABLE session(
   browser_agent varchar(200) NOT NULL
 );
 
-DROP TABLE IF EXISTS volume_group;
-CREATE TABLE volume_group(
+DROP TABLE IF EXISTS phpietadmin_volume_group;
+CREATE TABLE phpietadmin_volume_group(
   volume_group_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   volume_group_name varchar(255) NOT NULL
 );
 
-INSERT INTO iet_setting (option, defaultvalue, type, state, chars) VALUES
+INSERT INTO phpietadmin_iet_setting (option, defaultvalue, type, state, chars) VALUES
     ('MaxConnections', 1, 'input', 0, 'digits'),
     ('MaxRecvDataSegmentLength', 8192, 'input', 1, 'digits'),
     ('MaxXmitDataSegmentLength', 8192, 'input', 1, 'digits'),
@@ -102,7 +102,7 @@ INSERT INTO iet_setting (option, defaultvalue, type, state, chars) VALUES
     ('Wthreads', 8, 'input', 1, 'digits'),
     ('QueuedCommands', 32, 'input', 1, 'digits');
 
-INSERT INTO iet_setting (option, defaultvalue, type, state, othervalue1) VALUES
+INSERT INTO phpietadmin_iet_setting (option, defaultvalue, type, state, othervalue1) VALUES
   ('HeaderDigest', 'None', 'select', 1, 'CRC32C'),
   ('DataDigest', 'None', 'select', 1, 'CRC32C'),
   ('InitialR2T', 'Yes', 'select', 1, 'No'),
@@ -110,7 +110,7 @@ INSERT INTO iet_setting (option, defaultvalue, type, state, othervalue1) VALUES
   ('DataPDUInOrder', 'Yes', 'select', 0, 'No'),
   ('DataSequenceInOrder', 'Yes', 'select', 0, 'No');
 
-INSERT INTO config (option, optioningui, type, value, description, category, field) VALUES
+INSERT INTO phpietadmin_config (option, optioningui, type, value, description, category, field) VALUES
     ('iqn', 'IQN', 1, 'iqn.2014-12.com.example.iscsi', "Names of the iscsi targets", 1, 'input'),
     ('proc_sessions', '/proc session', 2, '/proc/net/iet/session', "Path to the IET sessions file", 1, 'input'),
     ('proc_volumes', '/proc volume', 2, '/proc/net/iet/volume', "Path to the IET volumes file", 1, 'input'),
@@ -142,14 +142,14 @@ INSERT INTO config (option, optioningui, type, value, description, category, fie
     ('action_log_enabled', 'Enable action log', 1, 'Enabled', 'Log action information', 5, 'select')
     ('access_log_enabled', 'Enable access log', 1 'Enabled', 'Log access information', 5, 'select');
 
-INSERT INTO config_category (category) VALUES
+INSERT INTO phpietadmin_config_category (category) VALUES
     ('iet'),
     ('lvm'),
     ('misc'),
     ('bin'),
     ('logging');
 
-INSERT INTO object_type (value, display_name) VALUES
+INSERT INTO phpietadmin_object_type (value, display_name) VALUES
   ('hostv4', 'IPv4 Host'),
   ('hostv6', 'IPv6 Host'),
   ('networkv4', 'IPv4 Network'),
@@ -158,16 +158,16 @@ INSERT INTO object_type (value, display_name) VALUES
   ('all', 'ALL'),
   ('regex', 'Regex');
 
-INSERT INTO config_type(type) VALUES
+INSERT INTO phpietadmin_config_type(type) VALUES
   ('generic'),
   ('file'),
   ('folder'),
   ('bin'),
   ('subin');
 
-INSERT INTO object (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from types where value='all'));
+INSERT INTO phpietadmin_object (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from types where value='all'));
 
-INSERT INTO service (name, enabled) VALUES
+INSERT INTO phpietadmin_service (name, enabled) VALUES
   ('cron', 1),
   ('ssh', 1),
   ('drbd', 0),
