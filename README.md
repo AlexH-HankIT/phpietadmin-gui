@@ -36,7 +36,6 @@ Take a look at the github releases for detailed information about the features.
 - [ ] Installer isn't working <- should be fixed, to be tested
 - [x] Filter table jquery plugin displays hidden rows when searching
 - [ ] Login not possible under yet unknown conditions
-- [ ] Cron job to regularly purge session data
 - [x] Password of discovery user max 12 chars
 - [ ] Enable a few special chars in Targets/Add
 - [ ] Fix dependencies between models
@@ -53,7 +52,6 @@ In version 0.6:
 
 * IET
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
-    - [ ] Create "consistency", which displays if the daemon config and the config file are identically
 
 * Frontend
     - [ ] Config -> MISC -> Idle, no zeros
@@ -81,8 +79,8 @@ In version 0.6:
     - [x] Login/Logout logging
     - [x] Debug logging
     - [ ] Log also successful messages
-    - [ ] Rework database model
     - [ ] Rework controller/models
+        - [ ] Database model
         - [x] Dashboard
         - [ ] Overview
         - [ ] Targets
@@ -124,6 +122,9 @@ In version 0.6:
 - [ ] Backup config files (http://code.stephenmorley.org/php/diff-implementation/)
 - [ ] Menu to restore config files
 - [ ] function naming convention in models (prepend class name to function name)
+- [ ] Create "consistency", which displays if the daemon config and the config file are identically
+- [ ] Use composer
+- [ ] Use unity testing
 
 Items are completely random ;-)
 
