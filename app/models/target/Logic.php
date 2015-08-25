@@ -190,7 +190,7 @@
                 // delete all luns
                 if (isset($data['lun']) && !empty($data['lun'])) {
                     foreach ($data['lun'] as $key => $lun) {
-                        $return[$key] = $this->delete_option_from_iqn('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode'] . ',Path=' . $data['lun'][$key]['path'], $this->database->get_config('ietd_config_file'));
+                        $return[$key] = $this->delete_option_from_iqn('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode'] . ',Path=' . $data['lun'][$key]['path'], $this->database->get_config('ietd_config_file')['value']);
                     }
 
                     // return array with results
@@ -207,7 +207,7 @@
                 $key = $this->std->recursive_array_search($path, $data['lun']);
 
                 if (isset($key) && isset($data['lun'][$key])) {
-                    return $this->delete_option_from_iqn('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path'], $this->database->get_config('ietd_config_file'));
+                    return $this->delete_option_from_iqn('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path'], $this->database->get_config('ietd_config_file')['value']);
                 } else {
                     return false;
                 }

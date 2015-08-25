@@ -9,7 +9,7 @@
         }
 
         public function get_disks() {
-            $return = $this->exec_and_return($this->database->get_config('lsblk') . ' --pairs');
+            $return = $this->exec_and_return($this->database->get_config('lsblk')['value'] . ' --pairs');
 
             if ($return['result'] == 0) {
                 if (!empty($return['status'])) {

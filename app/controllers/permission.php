@@ -10,9 +10,9 @@ class permission extends Controller
 
 			// Check for type
 			if ($_POST['type'] == "initiator") {
-				$file = $this->database->get_config('ietd_init_allow');
+				$file = $this->database->get_config('ietd_init_allow')['value'];
 			} else if ($_POST['type'] == "target") {
-				$file = $this->database->get_config('ietd_target_allow');
+				$file = $this->database->get_config('ietd_target_allow')['value'];
 			} else {
 				die();
 			}
@@ -59,12 +59,12 @@ class permission extends Controller
 		if (isset($_POST['iqn']) && !isset($_POST['value'])) {
 			if (isset($_POST['ruletype'])) {
 				if ($_POST['ruletype'] == 'initiators.allow') {
-					$file = $this->database->get_config('ietd_init_allow');
+					$file = $this->database->get_config('ietd_init_allow')['value'];
 				} else if ($_POST['ruletype'] == 'targets.allow') {
-					$file = $this->database->get_config('ietd_target_allow');
+					$file = $this->database->get_config('ietd_target_allow')['value'];
 				}
 			} else {
-				$file = $this->database->get_config('ietd_init_allow');
+				$file = $this->database->get_config('ietd_init_allow')['value'];
 			}
 
 			$data = $this->ietpermissions->get_iet_allow($file, $_POST['iqn']);
@@ -103,11 +103,11 @@ class permission extends Controller
 			}
 		} else if (isset($_POST['iqn'], $_POST['value'])) {
 			if ($_POST['ruletype'] == 'initiators.allow') {
-				$file = $this->database->get_config('ietd_init_allow');
+				$file = $this->database->get_config('ietd_init_allow')['value'];
 			} else if ($_POST['ruletype'] == 'targets.allow') {
-				$file = $this->database->get_config('ietd_target_allow');
+				$file = $this->database->get_config('ietd_target_allow')['value'];
 			} else {
-				$file = $this->database->get_config('ietd_init_allow');
+				$file = $this->database->get_config('ietd_init_allow')['value'];
 			}
 
 			if (isset($file) && !empty($file)) {

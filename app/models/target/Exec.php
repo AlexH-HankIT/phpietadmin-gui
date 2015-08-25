@@ -18,9 +18,9 @@
          */
         public function __construct() {
             Logic::__construct();
-            $this->ietadm = $this->database->get_config('ietadm');
-            $this->service = $this->database->get_config('service');
-            $this->lvremove = $this->database->get_config('lvremove');
+            $this->ietadm = $this->database->get_config('ietadm')['value'];
+            $this->service = $this->database->get_config('service')['value'];
+            $this->lvremove = $this->database->get_config('lvremove')['value'];
         }
 
         /**

@@ -27,7 +27,7 @@
 
                 echo json_encode($json);
             } else {
-                $this->view('targets/addtarget', $this->database->get_config('iqn') . ":");
+                $this->view('targets/addtarget', $this->database->get_config('iqn')['value'] . ":");
             }
         }
 
@@ -226,8 +226,8 @@
                 try {
                     // delete acl if set
                     if ($_POST['deleteaacl'] == 'true') {
-                        $files[0] = $this->database->get_config('ietd_init_allow');
-                        $files[1] = $this->database->get_config('ietd_target_allow');
+                        $files[0] = $this->database->get_config('ietd_init_allow')['value'];
+                        $files[1] = $this->database->get_config('ietd_target_allow')['value'];
 
                         foreach ($files as $file) {
                             $return = $this->ietdelete->delete_iqn_from_allow_file($_POST['iqn'], $file);

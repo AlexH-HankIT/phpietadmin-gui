@@ -330,8 +330,8 @@
          */
         protected function parse_target(array $arg = []) {
             $files = array(
-                'volume' => $this->database->get_config('proc_volumes'),
-                'session' => $this->database->get_config('proc_sessions')
+                'volume' => $this->database->get_config('proc_volumes')['value'],
+                'session' => $this->database->get_config('proc_sessions')['value']
             );
 
             foreach ($files as $fileindex => $file) {
@@ -474,8 +474,8 @@
          */
         protected function parse_target_acl($iqn = '') {
             $files = array(
-                'initiators' => $this->database->get_config('ietd_init_allow'),
-                'targets' => $this->database->get_config('ietd_target_allow')
+                'initiators' => $this->database->get_config('ietd_init_allow')['value'],
+                'targets' => $this->database->get_config('ietd_target_allow')['value']
             );
 
             foreach ($files as $fileindex => $file) {

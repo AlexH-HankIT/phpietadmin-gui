@@ -10,7 +10,7 @@
             // Get paths for binaries in Exec class
             Exec::__construct();
 
-            $this->ietd_config_file = $this->database->get_config('ietd_config_file');
+            $this->ietd_config_file = $this->database->get_config('ietd_config_file')['value'];
 
             // if the iqn is empty, we get the data for every target
             if (empty($iqn)) {
@@ -230,9 +230,9 @@
             $this->log_action_result('The object is successfully added!', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
             if ($type == "targets") {
-                $file = $this->database->get_config('ietd_target_allow');
+                $file = $this->database->get_config('ietd_target_allow')['value'];
             } else {
-                $file = $this->database->get_config('ietd_init_allow');
+                $file = $this->database->get_config('ietd_init_allow')['value'];
             }
 
             $return = $this->check_object_already_added($id, $type);
@@ -264,9 +264,9 @@
             $this->log_action_result('The object is successfully deleted!', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
             if ($type == 'targets') {
-                $file = $this->database->get_config('ietd_target_allow');
+                $file = $this->database->get_config('ietd_target_allow')['value'];
             } else {
-                $file = $this->database->get_config('ietd_init_allow');
+                $file = $this->database->get_config('ietd_init_allow')['value'];
             }
 
             $return = $this->delete_object_from_iqn($value, $file);
@@ -297,12 +297,12 @@
             // the force option must be used with the deleteacl option
             if ($force === true && $deleteacl === true) {
                 // delete the allow rules
-                $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_target_allow'));
+                $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_target_allow')['value']);
 
                 if ($return != 0) {
                     $this->log_action_result('The targets acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
-                    $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_init_allow'));;
+                    $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_init_allow')['value']);
 
                     if ($return != 0) {
                         $this->log_action_result('The initiators acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
@@ -321,12 +321,12 @@
                 }
             } else if ($deleteacl === true) {
                 // delete the allow rules
-                $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_target_allow'));
+                $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_target_allow')['value']);
 
                 if ($return != 0) {
                     $this->log_action_result('The targets acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
-                    $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_init_allow'));
+                    $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_init_allow')['value']);
 
                     if ($return != 0) {
                         $this->log_action_result('The initiators acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
