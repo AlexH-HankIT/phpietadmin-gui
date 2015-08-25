@@ -134,13 +134,13 @@ INSERT INTO phpietadmin_config (option, optioningui, type, value, description, c
     ('lsblk', 'lsblk bin', 4, '/bin/lsblk', "Path to the lsblk binary", 4, 'input'),
     ('shutdown', 'shutdown bin', 5, '/sbin/shutdown', "Path to the shutdown binary", 4, 'input'),
     ('idle', 'idle time', 1, 15, 'Time until the user is automatically logged out in minutes', 3, 'input'),
-    ('log_base', 'Log folder', 3, '/var/log/phpietadmin', 'Base dir for the phpietadmin log files', 5, 'input')
-    ('debug_log', 'Debug log filename', 2, 'debug.log', 'Filename of the debug log file', 5, 'input')
-    ('action_log', 'Action log filename', 2, 'action.log', 'Filename of the action log file', 5, 'input')
-    ('access_log', 'Access log filename', 2 'access.log', 'Filename of the access log file', 5, 'input')
-    ('debug_log_enabled', 'Enable debug log', 1, 'Disabled', 'Log debug information', 5, 'input')
-    ('action_log_enabled', 'Enable action log', 1, 'Enabled', 'Log action information', 5, 'select')
-    ('access_log_enabled', 'Enable access log', 1 'Enabled', 'Log access information', 5, 'select');
+    ('log_base', 'Log folder', 3, '/var/log/phpietadmin', 'Base dir for the phpietadmin log files', 5, 'input'),
+    ('debug_log', 'Debug log filename', 2, 'debug.log', 'Filename of the debug log file', 5, 'input'),
+    ('action_log', 'Action log filename', 2, 'action.log', 'Filename of the action log file', 5, 'input'),
+    ('access_log', 'Access log filename', 2, 'access.log', 'Filename of the access log file', 5, 'input'),
+    ('debug_log_enabled', 'Enable debug log', 1, 'Disabled', 'Log debug information', 5, 'input'),
+    ('action_log_enabled', 'Enable action log', 1, 'Enabled', 'Log action information', 5, 'select'),
+    ('access_log_enabled', 'Enable access log', 1, 'Enabled', 'Log access information', 5, 'select');
 
 INSERT INTO phpietadmin_config_category (category) VALUES
     ('iet'),
