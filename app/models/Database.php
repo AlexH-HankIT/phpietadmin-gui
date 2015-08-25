@@ -30,7 +30,7 @@ class Database extends \SQLite3
     // really necessary to pass all these parameters?
     public function add_session($session_id, $username, $timestamp, $source_ip, $browser_agent)
     {
-        $query = $this->prepare('INSERT INTO sessions (session_id, username_id, login_time, source_ip, browser_agent) VALUES (:session_id, (SELECT id from user where username=:username), :login_time, :source_ip, :browser_agent)');
+        $query = $this->prepare('INSERT INTO phpietadmin_session (session_id, username_id, login_time, source_ip, browser_agent) VALUES (:session_id, (SELECT id from user where username=:username), :login_time, :source_ip, :browser_agent)');
         $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
         $query->bindValue('username', $username, SQLITE3_TEXT);
         $query->bindValue('login_time', $timestamp, SQLITE3_TEXT);
@@ -49,7 +49,7 @@ class Database extends \SQLite3
      */
     public function delete_session($session_id, $username)
     {
-        $query = $this->prepare('DELETE FROM sessions where session_id=:session_id and username_id=(SELECT id from user where username=:username)');
+        $query = $this->prepare('DELETE FROM phpietadmin_session where session_id=:session_id and username_id=(SELECT id from user where username=:username)');
         $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
         $query->bindValue('username', $username, SQLITE3_TEXT);
         $query->execute();
@@ -66,9 +66,9 @@ class Database extends \SQLite3
     public function get_phpietadmin_user($username = false)
     {
         if ($username === false) {
-            $query = $this->prepare('SELECT id, username, password FROM user');
+            $query = $this->prepare('SELECT id, username, password FROM phpietadmin_phpietadmin_user');
         } else {
-            $query = $this->prepare('SELECT id, username, password FROM user where username=:username');
+            $query = $this->prepare('SELECT id, username, password FROM phpietadmin_phpietadmin_user where username=:username');
             $query->bindValue('username', $username, SQLITE3_TEXT);
         }
 
@@ -78,12 +78,6 @@ class Database extends \SQLite3
         while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
             $data[] = $result;
         }
-
-        /*$counter = 0;
-        while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
-            $data[$counter] = $result;
-            $counter++;
-        }*/
 
         if (!empty($data)) {
             return $data;
@@ -101,7 +95,7 @@ class Database extends \SQLite3
      */
     public function get_sessions_by_username($username)
     {
-        $query = $this->prepare('select session_id, username_id, login_time, source_ip, browser_agent from sessions where username_id=(select id from user where username=:username)');
+        $query = $this->prepare('select session_id, username_id, login_time, source_ip, browser_agent from phpietadmin_session where username_id=(select id from user where username=:username)');
 
         $query->bindValue('username', $username, SQLITE3_TEXT);
 
@@ -128,14 +122,14 @@ class Database extends \SQLite3
     /* ToDo: Error handling? */
     public function get_config($option)
     {
-        $data = $this->prepare('SELECT category, value from config where option=:option');
+        $data = $this->prepare('SELECT phpietadmin_config_category, value from config where option=:option');
         $data->bindValue('option', $option, SQLITE3_TEXT);
         $result = $data->execute();
         $result = $result->fetchArray();
 
         // if the fetched value is a binary we prepend sudo
         if ($result['category'] == 4) {
-            $sudo = $this->prepare('SELECT value from config where option=\'sudo\'');
+            $sudo = $this->prepare('SELECT value from phpietadmin_config where option=\'sudo\'');
             $sudo = $sudo->execute();
             $sudo = $sudo->fetchArray();
 
@@ -155,7 +149,7 @@ class Database extends \SQLite3
      */
     public function ispath($option)
     {
-        $data = $this->prepare('SELECT ispath from config where option=:option');
+        $data = $this->prepare('SELECT ispath from phpietadmin_config where option=:option');
         $data->bindValue('option', $option, SQLITE3_TEXT);
         $result = $data->execute();
         $result = $result->fetchArray();
@@ -173,7 +167,7 @@ class Database extends \SQLite3
      */
     public function set_config($option, $value)
     {
-        $query = $this->prepare('UPDATE CONFIG SET VALUE=:value where option=:option');
+        $query = $this->prepare('UPDATE phpietadmin_config SET VALUE=:value where option=:option');
         $query->bindValue('value', $value, SQLITE3_TEXT);
         $query->bindValue('option', $option, SQLITE3_TEXT);
         $query->execute();
@@ -189,7 +183,7 @@ class Database extends \SQLite3
      */
     public function get_object_types()
     {
-        $query = $this->query('select value from types');
+        $query = $this->query('select value from phpietadmin_object_type');
 
         $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_NUM)) {
@@ -209,7 +203,7 @@ class Database extends \SQLite3
      */
     public function delete_object($id)
     {
-        $query = $this->prepare('DELETE FROM objects where id=:id');
+        $query = $this->prepare('DELETE FROM phpietadmin_object where id=:id');
         $query->bindValue('id', intval($id), SQLITE3_INTEGER);
         $query->execute();
         return $this->return_last_error();
@@ -225,7 +219,7 @@ class Database extends \SQLite3
      */
     public function get_object_value($id)
     {
-        $query = $this->prepare('SELECT value from objects where id=:id');
+        $query = $this->prepare('SELECT value from phpietadmin_object where id=:id');
         $query->bindValue('id', $id, SQLITE3_INTEGER);
         $query = $query->execute();
         $result = $query->fetchArray();
@@ -242,7 +236,7 @@ class Database extends \SQLite3
      */
     public function get_object_by_value($value)
     {
-        $query = $this->prepare('SELECT objects.id, objects.value, objects.name, types.value as type from objects, types where objects.type_id = types.type_id and objects.value=:value');
+        $query = $this->prepare('SELECT objects.id, objects.value, objects.name, types.value as type from phpietadmin_object, types where objects.type_id = types.type_id and objects.value=:value');
         $query->bindValue('value', $value, SQLITE3_TEXT);
         $query = $query->execute();
         return $query->fetchArray(SQLITE3_ASSOC);
@@ -257,7 +251,7 @@ class Database extends \SQLite3
      */
     public function get_all_object_values()
     {
-        $query = $this->prepare('SELECT value from objects');
+        $query = $this->prepare('SELECT value from phpietadmin_object');
         $query = $query->execute();
         $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_NUM)) {
@@ -285,7 +279,7 @@ class Database extends \SQLite3
      */
     public function get_all_objects()
     {
-        $query = $this->prepare('select objects.id as objectid, objects.name as name, objects.value, types.display_name as type from objects, types where objects.type_id=types.type_id');
+        $query = $this->prepare('select objects.id as objectid, objects.name as name, objects.value, types.display_name as type from phpietadmin_object, phpietadmin_object_type where objects.type_id=types.type_id');
         $query = $query->execute();
 
         $counter = 0;
@@ -313,7 +307,7 @@ class Database extends \SQLite3
      */
     public function add_object($type, $name, $value)
     {
-        $query = $this->prepare('INSERT INTO objects (type_id, value, name) VALUES ((SELECT type_id FROM types WHERE value=:type), :value, :name)');
+        $query = $this->prepare('INSERT INTO objects (type_id, value, name) VALUES ((SELECT type_id FROM phpietadmin_object_type WHERE value=:type), :value, :name)');
         $query->bindValue('type', $type, SQLITE3_TEXT);
         $query->bindValue('name', $name, SQLITE3_TEXT);
         $query->bindValue('value', $value, SQLITE3_TEXT);
@@ -330,7 +324,7 @@ class Database extends \SQLite3
      */
     public function get_all_users()
     {
-        $query = $this->prepare('SELECT id, username, password FROM ietusers');
+        $query = $this->prepare('SELECT id, username, password FROM phpietadmin_iet_user');
         $query = $query->execute();
 
         $counter = 0;
@@ -356,7 +350,7 @@ class Database extends \SQLite3
      */
     public function get_ietuser($id)
     {
-        $query = $this->prepare('SELECT username, password FROM ietusers where id=:id');
+        $query = $this->prepare('SELECT username, password FROM phpietadmin_iet_user where id=:id');
         $query->bindValue('id', $id, SQLITE3_TEXT);
         $query = $query->execute();
 
@@ -379,7 +373,7 @@ class Database extends \SQLite3
      */
     public function get_user_by_name($username)
     {
-        $query = $this->prepare('SELECT id, password FROM ietusers where username=:username');
+        $query = $this->prepare('SELECT id, password FROM phpietadmin_iet_user where username=:username');
         $query->bindValue('username', $username, SQLITE3_TEXT);
         $query = $query->execute();
         $data = $query->fetchArray(SQLITE3_ASSOC);
@@ -402,7 +396,7 @@ class Database extends \SQLite3
      */
     public function edit_login_user($pwhash, $username = 'admin')
     {
-        $query = $this->prepare('UPDATE user SET password=:pwhash where username=:username');
+        $query = $this->prepare('UPDATE phpietadmin_phpietadmin_user SET password=:pwhash where username=:username');
         $query->bindValue('username', $username, SQLITE3_TEXT);
         $query->bindValue('pwhash', $pwhash, SQLITE3_TEXT);
         $query->execute();
@@ -410,7 +404,7 @@ class Database extends \SQLite3
     }
 
     public function add_login_user($pwhash, $username = 'admin') {
-        $query = $this->prepare('INSERT INTO user (username, password) VALUES (:username, :pwhash)');
+        $query = $this->prepare('INSERT INTO phpietadmin_phpietadmin_user (username, password) VALUES (:username, :pwhash)');
         $query->bindValue('username', $username, SQLITE3_TEXT);
         $query->bindValue('pwhash', $pwhash, SQLITE3_TEXT);
         $query->execute();
@@ -428,7 +422,7 @@ class Database extends \SQLite3
     public function get_all_usernames($id = false)
     {
         if ($id === false) {
-            $query = $this->prepare('SELECT username from ietusers');
+            $query = $this->prepare('SELECT username from phpietadmin_iet_user');
             $query = $query->execute();
 
             $counter = 0;
@@ -438,7 +432,7 @@ class Database extends \SQLite3
             }
 
         } else {
-            $query = $this->prepare('SELECT id, username from ietusers');
+            $query = $this->prepare('SELECT id, username from phpietadmin_iet_user');
             $query = $query->execute();
 
             $counter = 0;
@@ -466,7 +460,7 @@ class Database extends \SQLite3
      */
     public function add_iet_user($username, $password)
     {
-        $query = $this->prepare('INSERT INTO ietusers (username, password) VALUES (:username, :password)');
+        $query = $this->prepare('INSERT INTO phpietadmin_iet_user (username, password) VALUES (:username, :password)');
         $query->bindValue('username', $username, SQLITE3_TEXT);
         $query->bindValue('password', $password, SQLITE3_TEXT);
         $query->execute();
@@ -483,7 +477,7 @@ class Database extends \SQLite3
      */
     public function delete_iet_user($username)
     {
-        $data = $this->prepare('DELETE FROM ietusers WHERE username=:username');
+        $data = $this->prepare('DELETE FROM phpietadmin_iet_user WHERE username=:username');
         $data->bindValue('username', $username, SQLITE3_TEXT);
         $data->execute();
         return $this->return_last_error();
@@ -505,9 +499,9 @@ class Database extends \SQLite3
         // $option: option to be changed
         // $value: new value
         if ($option == 'enabled') {
-            $query = $this->prepare('UPDATE services set enabled=:value where name = :name');
+            $query = $this->prepare('UPDATE phpietadmin_service set enabled=:value where name = :name');
         } else if ($option == 'name') {
-            $query = $this->prepare('UPDATE services set name=:value where name = :name');
+            $query = $this->prepare('UPDATE phpietadmin_service set name=:value where name = :name');
         } else {
             return 1;
         }
@@ -530,7 +524,7 @@ class Database extends \SQLite3
      */
     public function delete_service($name)
     {
-        $query = $this->prepare('DELETE FROM services where name = :name');
+        $query = $this->prepare('DELETE FROM phpietadmin_service where name = :name');
         $query->bindValue('name', $name, SQLITE3_TEXT);
         $query->execute();
         return $this->return_last_error();
@@ -546,7 +540,7 @@ class Database extends \SQLite3
      */
     public function add_service($name)
     {
-        $query = $this->prepare("INSERT INTO services ('name', 'enabled') VALUES (:name, 1)");
+        $query = $this->prepare("INSERT INTO phpietadmin_service ('name', 'enabled') VALUES (:name, 1)");
         $query->bindValue('name', $name, SQLITE3_TEXT);
         $query->execute();
         return $this->return_last_error();
@@ -565,9 +559,9 @@ class Database extends \SQLite3
         // If all is true, fetch all services
         // else fetch only enabled ones
         if ($all) {
-            $query = $this->prepare('SELECT name, enabled FROM services');
+            $query = $this->prepare('SELECT name, enabled FROM phpietadmin_service');
         } else {
-            $query = $this->prepare('SELECT name, enabled FROM services where enabled=1');
+            $query = $this->prepare('SELECT name, enabled FROM phpietadmin_service where enabled=1');
         }
 
         $query = $query->execute();
@@ -594,7 +588,7 @@ class Database extends \SQLite3
      */
     public function get_iet_settings()
     {
-        $query = $this->prepare('SELECT option, defaultvalue, type, state, chars, othervalue1 FROM ietsettings');
+        $query = $this->prepare('SELECT option, defaultvalue, type, state, chars, othervalue1 FROM phpietadmin_iet_setting');
         $query = $query->execute();
 
         $counter = 0;
