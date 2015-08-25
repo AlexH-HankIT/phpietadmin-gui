@@ -91,7 +91,7 @@
          * @param   boolean $reset delete all indexes from the array, optional
          *
          */
-        protected function log_action_result($message, $return, $function, $reset = false) {
+        public function log_action_result($message, $return, $function, $reset = false) {
             if (!is_array($this->action_result)) {
                 $this->action_result = [];
             } else if ($reset === true) {

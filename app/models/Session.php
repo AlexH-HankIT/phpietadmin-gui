@@ -11,7 +11,7 @@
         }
 
         private function getPassword() {
-            $data = $this->database->prepare('SELECT password from user where username=:user');
+            $data = $this->database->prepare('SELECT password from phpietadmin_phpietadmin_user where username=:user');
             $data->bindValue('user', $this->username, SQLITE3_TEXT );
             $result = $data->execute();
             $result = $result->fetchArray();

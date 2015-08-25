@@ -28,14 +28,14 @@ class Database extends \SQLite3
      *
      */
     // really necessary to pass all these parameters?
-    public function add_session($session_id, $username, $timestamp, $source_ip, $browser_agent)
+    public function add_session($timestamp)
     {
-        $query = $this->prepare('INSERT INTO phpietadmin_session (session_id, username_id, login_time, source_ip, browser_agent) VALUES (:session_id, (SELECT id from user where username=:username), :login_time, :source_ip, :browser_agent)');
-        $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
-        $query->bindValue('username', $username, SQLITE3_TEXT);
+        $query = $this->prepare('INSERT INTO phpietadmin_session (session_id, username_id, login_time, source_ip, browser_agent) VALUES (:session_id, (SELECT id from phpietadmin_phpietadmin_user where username=:username), :login_time, :source_ip, :browser_agent)');
+        $query->bindValue('session_id', session_id(), SQLITE3_TEXT);
+        $query->bindValue('username', $_SESSION['username'], SQLITE3_TEXT);
         $query->bindValue('login_time', $timestamp, SQLITE3_TEXT);
-        $query->bindValue('source_ip', $source_ip, SQLITE3_TEXT);
-        $query->bindValue('browser_agent', $browser_agent, SQLITE3_TEXT);
+        $query->bindValue('source_ip', $_SERVER['REMOTE_ADDR'], SQLITE3_TEXT);
+        $query->bindValue('browser_agent', $_SERVER['HTTP_USER_AGENT'], SQLITE3_TEXT);
         $query->execute();
         return $this->return_last_error();
     }
@@ -49,7 +49,7 @@ class Database extends \SQLite3
      */
     public function delete_session($session_id, $username)
     {
-        $query = $this->prepare('DELETE FROM phpietadmin_session where session_id=:session_id and username_id=(SELECT id from user where username=:username)');
+        $query = $this->prepare('DELETE FROM phpietadmin_session where session_id=:session_id and username_id=(SELECT id from phpietadmin_phpietadmin_user where username=:username)');
         $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
         $query->bindValue('username', $username, SQLITE3_TEXT);
         $query->execute();
@@ -72,10 +72,10 @@ class Database extends \SQLite3
             $query->bindValue('username', $username, SQLITE3_TEXT);
         }
 
-        $query->execute();
+		$result = $query->execute();
 
         $data = array();
-        while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+        while ($result->fetchArray(SQLITE3_ASSOC)) {
             $data[] = $result;
         }
 
@@ -95,7 +95,7 @@ class Database extends \SQLite3
      */
     public function get_sessions_by_username($username)
     {
-        $query = $this->prepare('select session_id, username_id, login_time, source_ip, browser_agent from phpietadmin_session where username_id=(select id from user where username=:username)');
+        $query = $this->prepare('select session_id, username_id, login_time, source_ip, browser_agent from phpietadmin_session where username_id=(select id from phpietadmin_phpietadmin_user where username=:username)');
 
         $query->bindValue('username', $username, SQLITE3_TEXT);
 
@@ -122,7 +122,7 @@ class Database extends \SQLite3
     /* ToDo: Error handling? */
     public function get_config($option)
     {
-        $data = $this->prepare('SELECT phpietadmin_config_category, value from config where option=:option');
+		$data = $this->prepare('SELECT category, value from phpietadmin_config where option=:option');
         $data->bindValue('option', $option, SQLITE3_TEXT);
         $result = $data->execute();
         $result = $result->fetchArray();
