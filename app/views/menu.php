@@ -20,7 +20,7 @@
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-blackboard"></span> <span class='hidden-sm hidden-md'>Overview</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a class="workspacetab" href='/phpietadmin/overview/disks2'>Disks</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/overview/disks'>Disks</a></li>
                         <li class="divider"></li>
                         <li><a class="workspacetab" href='/phpietadmin/overview/iet/volume'>Iet volumes</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/overview/iet/session'>Iet sessions</a></li>
