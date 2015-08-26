@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div class="container">
         <div class="row top-buffer">
             <div class='panel panel-default'>

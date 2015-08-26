@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div class="container">
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>
@@ -64,30 +64,14 @@
 
             </table>
         </div>
-    </div>
-    <!--
-    services mit start stop
-    interfaces
-    netzwerk usage
-    CPU Cores
-    HDD Usage
-    Network Interfaces
 
-    Service status
-    ietd
-    cron
-    ssh
-    apache2
-    rsyslog
-    drbd
-    corosync
-    pacemaker-->
-    <script>
-        require(['common'],function() {
-            require(['pages/dashboard'],function(methods) {
-                    methods.checkversion();
-                }
-            );
-        });
-    </script>
+        <script>
+            require(['common'],function() {
+                require(['pages/dashboard'],function(methods) {
+                        methods.checkversion();
+                    }
+                );
+            });
+        </script>
+    </div>
 </div>

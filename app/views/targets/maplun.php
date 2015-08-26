@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div class="container">
         <div id="mapluncontent">
             <div class='panel panel-default'>

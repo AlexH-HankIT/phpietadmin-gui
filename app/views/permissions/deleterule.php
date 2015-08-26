@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div class="container">
         <!-- row open -->
         <div class="row">

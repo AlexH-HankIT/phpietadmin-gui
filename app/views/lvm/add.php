@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <!-- Inserted via ajax -->
 
     <!-- Hidden fields to store some data -->

@@ -2,8 +2,6 @@
 define('dbpath', '/usr/share/phpietadmin/app/config.db');
 use Sqlite3;
 
-// use new values in config table for error handling and better usage
-
 class Database extends \SQLite3
 {
     /**
@@ -24,12 +22,79 @@ class Database extends \SQLite3
 
     /**
      *
+     * Fetch value for config option
+     * If the value is a "super user binary" sudo will be prepended
+     *
+     * @param     string $option option to get the value from
+     * @return    array|bool
+     *
+     */
+    public function get_config($option) {
+        $query = $this->prepare('SELECT phpietadmin_config.option, phpietadmin_config.value, (SELECT type FROM phpietadmin_config_type WHERE phpietadmin_config_type.config_type_id = phpietadmin_config.config_type_id) as type, (SELECT category FROM phpietadmin_config_category WHERE phpietadmin_config_category.config_category_id = phpietadmin_config.config_category_id) as category, phpietadmin_config.description, phpietadmin_config.field, phpietadmin_config.editable_via_gui, phpietadmin_config.optioningui FROM phpietadmin_config WHERE phpietadmin_config.option = :option');
+        $query->bindValue('option', $option, SQLITE3_TEXT);
+        $query = $query->execute();
+        $query = $query->fetchArray(SQLITE3_ASSOC);
+
+        if (empty($query)) {
+            return false;
+        } else {
+            // if type is subin, we prepend sudo
+            if ($query['type'] == 'subin') {
+                $sudo = $this->get_config('sudo');
+                $query['value'] = $sudo['value'] . ' ' . $query['value'];
+            }
+            return $query;
+        }
+    }
+
+    public function get_config_by_category($category) {
+        $query = $this->prepare('SELECT config_category_id from phpietadmin_config_category WHERE category = :category');
+        $query->bindValue('category', $category, SQLITE3_TEXT);
+        $query = $query->execute();
+        $category = $query->fetchArray(SQLITE3_ASSOC);
+
+        if (empty($category)) {
+            return false;
+        } else {
+            $sql = <<< EOT
+            SELECT phpietadmin_config.option,
+            phpietadmin_config.value,
+            (SELECT type FROM phpietadmin_config_type WHERE phpietadmin_config_type.config_type_id = phpietadmin_config.config_type_id) as type,
+            (SELECT category FROM phpietadmin_config_category WHERE phpietadmin_config_category.config_category_id = phpietadmin_config.config_category_id) as category,
+            phpietadmin_config.description,
+            phpietadmin_config.field,
+            phpietadmin_config.editable_via_gui,
+            phpietadmin_config.optioningui FROM
+            phpietadmin_config WHERE
+            phpietadmin_config.config_category_id = :id
+EOT;
+
+            $query = $this->prepare($sql);
+            $query->bindValue('id', $category['config_category_id'], SQLITE3_INTEGER);
+            $query = $query->execute();
+
+            while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
+                $data[] = $result;
+            }
+
+            if (empty($data)) {
+                return false;
+            } else {
+                return $data;
+            }
+        }
+
+    }
+
+    // Rework everything down here
+
+    /**
+     *
      * Adds a session to the database
      *
      * @return      int
      *
      */
-    // really necessary to pass all these parameters?
     public function add_session($timestamp)
     {
         $query = $this->prepare('INSERT INTO phpietadmin_session (session_id, username_id, login_time, source_ip, browser_agent) VALUES (:session_id, (SELECT id from phpietadmin_phpietadmin_user where username=:username), :login_time, :source_ip, :browser_agent)');
@@ -111,33 +176,6 @@ class Database extends \SQLite3
             return $result;
         }
     }
-
-	/**
-	 *
-	 * Fetch value for config option
-	 * If the value is a "super user binary" sudo will be prepended
-	 *
-	 * @param     string $option option to get the value from
-	 * @return    array|bool
-	 *
-	 */
-	public function get_config($option) {
-		$query = $this->prepare('SELECT phpietadmin_config.option, phpietadmin_config.value, (SELECT type FROM phpietadmin_config_type WHERE phpietadmin_config_type.config_type_id = phpietadmin_config.config_type_id) as type, (SELECT category FROM phpietadmin_config_category WHERE phpietadmin_config_category.config_category_id = phpietadmin_config.config_category_id) as category, phpietadmin_config.description, phpietadmin_config.field, phpietadmin_config.editable_via_gui, phpietadmin_config.optioningui FROM phpietadmin_config WHERE phpietadmin_config.option = :option');
-		$query->bindValue('option', $option, SQLITE3_TEXT);
-		$query = $query->execute();
-		$query = $query->fetchArray(SQLITE3_ASSOC);
-
-		if (empty($query)) {
-			return false;
-		} else {
-			// if type is subin, we prepend sudo
-			if ($query['type'] == 'subin') {
-				$sudo = $this->get_config('sudo');
-				$query['value'] = $sudo['value'] . ' ' . $query['value'];
-			}
-			return $query;
-		}
-	}
 
     /**
      *

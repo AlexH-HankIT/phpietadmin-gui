@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div id="leftDiv">
         <br>
         <form method="post">

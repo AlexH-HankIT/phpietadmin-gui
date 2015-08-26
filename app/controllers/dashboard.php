@@ -16,6 +16,10 @@
          *
          * Get the up2date phpietadmin version from github
          *
+         * FROM GITHUB, not the local file
+         *
+         * ToDo: Fix this
+         *
          * @return      void
          *
          */

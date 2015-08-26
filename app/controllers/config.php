@@ -15,44 +15,24 @@
             $this->view('config/user');
         }
 
-        /**
-         *
-         * Displays the lvm config menu
-         *
-         * @return      void
-         *
-         */
-        public function lvm() {
-            $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=2');
-            $data = $this->std->fetchdata($result);
-            $this->view('config/configtable', $data);
-        }
+        public function show($param) {
+            if ($param == 'lvm') {
+                $data = $this->database->get_config_by_category('lvm');
+            } else if ($param == 'iet') {
+                $data = $this->database->get_config_by_category('iet');
+            } else if ($param == 'misc') {
+                $data = $this->database->get_config_by_category('misc');
+            } else if ($param == 'bin') {
+                $data = $this->database->get_config_by_category('bin');
+            } else if ($param == 'logging') {
+                $data = $this->database->get_config_by_category('logging');
+            } else {
+                $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
+            }
 
-        /**
-         *
-         * Displays the ietd config menu
-         *
-         * @return      void
-         *
-         */
-        public function iet() {
-            $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=1');
-            $data = $this->std->fetchdata($result);
-            $this->view('config/configtable', $data);
-        }
-
-        /**
-         *
-         * Displays other config options
-         *
-         * @return      void
-         *
-         */
-        public function misc() {
-            $result = $this->database->query('select option, value, description from config where editable_via_gui=1 and category=3');
-            $data = $this->std->fetchdata($result);
-            $this->view('config/configtable', $data);
-
+            if (isset($data) && !empty($data) && $data !== false) {
+                $this->view('config/configtable', $data);
+            }
         }
 
         /**

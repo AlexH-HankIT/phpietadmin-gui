@@ -87,17 +87,59 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                 });
             });
         },
-        add_event_handler_workspacetab: function() {
+        load_workspace: function() {
+            // load workspace and perform error handling
             $(document).ready(function(){
-                $(document).off('click', '.workspacetab');
-                $(document).on('click', '.workspacetab', function(e) {
+                    $(document).once('click', '.workspacetab', function() {
+                        var $this = $(this);
+                        var link = $this.attr('href');
+                        var ajaxloader = $('#ajaxloader');
+                        var ajax_error_sign = $('#ajax_error_sign');
 
-                    mylibs.loadworkspace($(this), $(this).attr('href'));
+                        ajax_error_sign.hide();
 
-                    // stop link
-                    e.preventDefault();
-                    return false;
-                });
+                        // select menu
+                        if ($this != '') {
+                            $('#mainmenu').find('ul').children('li').removeClass('active');
+                            $this.parents('li').addClass('active');
+                        }
+
+                        ajaxloader.show();
+
+                        // remove the previously loaded workspace (only we the site was called directly, via F5 for example)
+                        // content loaded via ajax is inside the #workspace_wrapper div
+                        // normally we wouldn't need this
+                        // just load everything into the workspace div and let the load() function only insert the container div
+                        // unfortunately the load() function strips all <script> tags if its called with a selector
+                        // this is a workaround for this
+                        $('#workspace').remove();
+
+                        // ignore the workspace and load only the container class
+                        $('#workspace_wrapper').load(link, function(response, status) {
+                            if (status == 'error') {
+                                $('#ajax_error_sign').qtip({
+                                    content: {
+                                        text: response
+                                    },
+                                    style: {
+                                        classes: 'qtip-youtube'
+                                    }
+                                });
+
+                                $(this).html("<div id='workspace'><div class='container'>" +
+                                "<h1 align='center'>" + response + '</h1>' +
+                                '</div></div>');
+
+                                ajax_error_sign.show();
+                            }
+                        });
+
+                        window.history.pushState({path: link}, '', link);
+
+                        ajaxloader.delay(10).hide(10);
+
+                        return false;
+                    });
             });
         },
         add_event_handler_shutdown: function() {

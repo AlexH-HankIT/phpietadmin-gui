@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div class="container">
         <div class="panel panel-default">
             <ol class='panel-heading breadcrumb'>
@@ -17,13 +17,13 @@
                     <tbody>
                         <?php foreach ($data as $value) { ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($value[0]); ?></td>
+                                <td><?php echo htmlspecialchars($value['optioningui']); ?></td>
                                 <td>
-                                    <input size="80" type="text" name="fname" value="<?php echo htmlspecialchars($value[1]); ?>" disabled>
-                                    <a href="#<?php echo htmlspecialchars($value[0]); ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                    <input size="80" type="text" name="fname" value="<?php echo htmlspecialchars($value['value']); ?>" disabled>
+                                    <a href="#<?php echo htmlspecialchars($value['optioningui']); ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                     <span class="label label-success bestaetigung">Success</span>
                                 </td>
-                                <td><?php if (isset($value[2])) echo htmlspecialchars($value[2]) ?></td>
+                                <td><?php if (isset($value['description'])) echo htmlspecialchars($value['description']) ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

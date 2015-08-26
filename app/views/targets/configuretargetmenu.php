@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div id="configuretargetmenu" class="container">
         <ul class="nav nav-tabs">
             <li class = "dropdown active">

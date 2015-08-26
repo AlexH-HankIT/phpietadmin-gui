@@ -25,25 +25,47 @@
                 $this->controller->check_loggedin($this->controllername, $this->method);
             }
 
-            if(isset($url[1])) {
-                if(method_exists($this->controller, $url[1])) {
-                    $this->method = $url[1];
-                    unset($url[1]);
-                } else {
-                    echo '<h1>Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!</h1>';
-                    die();
-                }
-            }
-
-            $this->params = $url ? array_values($url) : [];
-
             // If request is no ajax, display header, menu and footer
             if (!$this->controller->std->IsXHttpRequest() && $this->controllername !== 'auth') {
                 $this->controller->view('header', $this->controller->std->get_dashboard_data());
                 $this->controller->view('menu');
             }
 
-            call_user_func_array([$this->controller, $this->method], $this->params);
+            $continue = true;
+            if(isset($url[1])) {
+                if(method_exists($this->controller, $url[1])) {
+                    $this->method = $url[1];
+                    unset($url[1]);
+                } else {
+                    if ($this->controller->std->IsXHttpRequest() === true) {
+                        http_response_code(404);
+                        echo 'Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!';
+                    } else {
+                        echo "<div id='workspace'><div class='container'><h1 align='center'>Method " . htmlspecialchars($url[1]) . ' doesn\'t exist!</h1></div></div>';
+                    }
+                    $continue = false;
+                }
+            } else {
+                // if $url[1] is not set, the browser will most likely call the index function
+                if(method_exists($this->controller, 'index')) {
+                    $this->method = 'index';
+                } else {
+                    if ($this->controller->std->IsXHttpRequest() === true) {
+                        http_response_code(404);
+                        echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
+                    } else {
+                        echo "<div id='workspace'><div class='container'><h1 align='center'>Method " . htmlspecialchars($this->method) . ' doesn\'t exist!</h1></div></div>';
+                    }
+                    $continue = false;
+                }
+            }
+
+            $this->params = $url ? array_values($url) : [];
+
+            // only load the main application if no error occured
+            if ($continue === true) {
+                call_user_func_array([$this->controller, $this->method], $this->params);
+            }
 
             if (!$this->controller->std->IsXHttpRequest() && $this->controllername !== 'auth') {
                 //$this->controller->view('footer', $this->controller->std->get_service_status('iscsitarget'));

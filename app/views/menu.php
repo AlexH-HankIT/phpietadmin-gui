@@ -13,12 +13,14 @@
             <ul class = "nav navbar-nav navbar-right">
                 <li class='hidden-sm hidden-md'><a><img hidden id="ajaxloader" src="/phpietadmin/img/ajax-loader.gif"></a></li>
 
+                <li class='hidden-sm hidden-md'><a><span id='ajax_error_sign' class='glyphicon glyphicon-warning-sign'></span></a></li>
+
                 <li><a id="menudashboard" class="workspacetab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'>Dashboard</span></a></li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-blackboard"></span> <span class='hidden-sm hidden-md'>Overview</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a class="workspacetab" href='/phpietadmin/overview/disks'>Disks</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/overview/disks2'>Disks</a></li>
                         <li class="divider"></li>
                         <li><a class="workspacetab" href='/phpietadmin/overview/iet/volume'>Iet volumes</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/overview/iet/session'>Iet sessions</a></li>
@@ -63,9 +65,11 @@
                 <li class = "dropdown">
                     <a href='#' id="menuconfig" class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-cog"></span> <span class='hidden-sm hidden-md'>Config</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a class="workspacetab" href='/phpietadmin/config/iet'>IET config</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/config/lvm'>LVM config</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/config/misc'>Misc config</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/config/show/lvm'>LVM config</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/config/show/iet'>IET config</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/config/show/misc'>Misc config</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/config/show/bin'>Bin config</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/config/show/logging'>Logging config</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/config/user'>Login user</a></li>
                     </ul>
                 </li>
@@ -97,12 +101,12 @@
     </div>
 </div>
 
-<div id="workspace"></div>
+<div id='workspace_wrapper'></div>
 
 <script>
     require(['common'],function(methods) {
         methods.common();
-        methods.add_event_handler_workspacetab();
+        methods.load_workspace();
         methods.add_event_handler_shutdown();
         methods.add_event_handler_reboot();
     });

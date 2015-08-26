@@ -101,3 +101,7 @@ input, select{
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
+
+#ajax_error_sign {
+    display: none;
+}

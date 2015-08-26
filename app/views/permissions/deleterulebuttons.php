@@ -1,4 +1,4 @@
-<div class="workspacedirect">
+<div id="workspace">
     <div class="container">
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>
@@ -23,17 +23,17 @@
             </div>
         </div>
     </div>
-</div>
 
-<div id="deleteruleworkspace"></div>
+    <div id="deleteruleworkspace"></div>
 
-<script>
-    require(['common'],function() {
-        require(['pages/deleterule'],function(methods) {
-            methods.add_event_handler_deleteruletype();
-            methods.add_event_handler_deleterulebutton();
-            methods.enable_filter_table_plugin();
-            methods.load_default_table();
+    <script>
+        require(['common'],function() {
+            require(['pages/deleterule'],function(methods) {
+                methods.add_event_handler_deleteruletype();
+                methods.add_event_handler_deleterulebutton();
+                methods.enable_filter_table_plugin();
+                methods.load_default_table();
+            });
         });
-    });
-</script>
+    </script>
+</div>

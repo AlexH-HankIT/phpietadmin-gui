@@ -23,9 +23,9 @@
 
 			// log file paths
 			$this->log_dir_path = $this->database->get_config('log_base')['value'];
-			$this->action_log_file_path = $this->log_dir_path . ' ' . $this->database->get_config('action_log')['value'];
-			$this->debug_log_file_path = $this->log_dir_path . ' ' . $this->database->get_config('debug_log')['value'];
-			$this->access_log_file_path = $this->log_dir_path . ' ' . $this->database->get_config('access_log')['value'];
+			$this->action_log_file_path = $this->log_dir_path . '/' . $this->database->get_config('action_log')['value'];
+			$this->debug_log_file_path = $this->log_dir_path . '/' . $this->database->get_config('debug_log')['value'];
+			$this->access_log_file_path = $this->log_dir_path . '/' . $this->database->get_config('access_log')['value'];
 
 			// enabled logging options
 			$value = $this->database->get_config('debug_log_enabled')['value'];
