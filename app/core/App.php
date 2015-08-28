@@ -1,4 +1,7 @@
 <?php
+	// ToDo Get rid of "controllername" var
+	// ToDo Don't escape output passed to the message view
+
     Class App {
         protected $controller;
         protected $controllername = 'dashboard';
@@ -14,9 +17,8 @@
             if(file_exists(__DIR__ . '/../controllers/' .  $url[0] . '.php')) {
                 $this->controllername = $url[0];
                 unset($url[0]);
+				require_once __DIR__ .  '/../controllers/' . $this->controllername . '.php';
             }
-
-            require_once __DIR__ .  '/../controllers/' . $this->controllername . '.php';
 
             $this->controller = new $this->controllername;
             $this->controller->create_models();
@@ -41,7 +43,7 @@
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!';
                     } else {
-                        echo "<div id='workspace'><div class='container'><h1 align='center'>Method " . htmlspecialchars($url[1]) . ' doesn\'t exist!</h1></div></div>';
+                        $this->controller->view('messsage', 'Method ' . $url[1] . ' doesn\'t exist!');
                     }
                     $continue = false;
                 }
@@ -54,7 +56,7 @@
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
                     } else {
-                        echo "<div id='workspace'><div class='container'><h1 align='center'>Method " . htmlspecialchars($this->method) . ' doesn\'t exist!</h1></div></div>';
+                        $this->controller->view('messsage', 'Method ' . $this->method . ' doesn\'t exist!');
                     }
                     $continue = false;
                 }
@@ -62,13 +64,12 @@
 
             $this->params = $url ? array_values($url) : [];
 
-            // only load the main application if no error occured
+            // only load the main application if no error occurred
             if ($continue === true) {
                 call_user_func_array([$this->controller, $this->method], $this->params);
             }
 
             if (!$this->controller->std->IsXHttpRequest() && $this->controllername !== 'auth') {
-                //$this->controller->view('footer', $this->controller->std->get_service_status('iscsitarget'));
                 $this->controller->view('footer');
             }
         }

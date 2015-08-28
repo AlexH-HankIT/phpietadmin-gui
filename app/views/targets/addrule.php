@@ -28,8 +28,8 @@
                         </tr>
                     </thead>
                         <tbody id="objectselection">
-                        <?php if (is_array($data['objects'])) { ?>
-                            <?php foreach ($data['objects'] as $value) { ?>
+                        <?php if (is_array($data)) { ?>
+                            <?php foreach ($data as $value) { ?>
                                 <tr>
                                     <td class="objectid" hidden><?php echo htmlspecialchars($value['objectid']); ?></td>
                                     <td class="col-md-1"><input class="objectcheckbox" type="checkbox"></td>
@@ -47,7 +47,7 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/addrule'],function(methods) {
+            require(['pages/target/addrule'],function(methods) {
                 methods.add_event_handler_addallowrulebutton();
                 methods.enable_filter_table_plugin();
             });

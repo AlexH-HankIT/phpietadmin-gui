@@ -3,6 +3,11 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     return Methods = {
         add_event_handler_maplunbutton: function() {
             $(document).ready(function(){
+                var configuretargetmenu = $('#configure_target_menu');
+
+                // display menu
+                configuretargetmenu.show();
+
                 $(document).once('click', '#maplunbutton', function(){
                     var targetselection =  $('#targetselection');
                     var iqn = targetselection.find("option:selected").val();

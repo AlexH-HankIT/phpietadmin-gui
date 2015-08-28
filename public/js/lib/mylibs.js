@@ -96,7 +96,41 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
             }
             return retVal;
         },
-        loadconfiguretargetbody: function(url, data, clicked) {
+        load_configure_target_body: function(iqn, link, clicked) {
+            var ajaxloader = $('#ajaxloader');
+            var ajax_error_sign = $('#ajax_error_sign');
+
+            $('#configure_target_body').remove();
+
+            ajax_error_sign.hide();
+            ajaxloader.show();
+
+            if (clicked !== undefined && clicked != '') {
+                $('#configure_target_menu').find('ul').children('li').removeClass('active');
+                clicked.parents('li').addClass('active');
+            }
+
+            $('#configure_target_body_wrapper').load(link, {iqn: iqn}, function (response, status) {
+                if (status == 'error') {
+                    $(this).html("<div id='configure_target_body'>" +
+                    "<div class='container'>" +
+                    "<div class='alert alert-warning' role='alert'>" +
+                    "<h3 align='center'>" +
+                    response +
+                    "</h3>" +
+                    "</div>" +
+                    '</div>' +
+                    '</div>');
+
+                    ajax_error_sign.show();
+                }
+            });
+
+            ajaxloader.delay(10).hide(10);
+
+            return false;
+        },
+        loadconfiguretargetbody_old: function(url, data, clicked) {
             var configuretargetbody = $('#configuretargetbody');
 
             if (clicked !== undefined && clicked != '') {
@@ -127,7 +161,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                 }
             });
         },
-        loadworkspace: function(clicked, site) {
+        loadworkspace_old: function(clicked, site) {
             // replace the slash in site with underscore
             // we will use this as class later
             var page = site.replace('/', '_');

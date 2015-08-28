@@ -1,4 +1,4 @@
-<div id="workspace">
+<div id='configure_target_body'>
     <div id='addtargetinput' class='container'>
         <!-- Hidden field to save default iqn -->
         <input value='<?php echo htmlspecialchars($data); ?>' id='defaultiqn' type='hidden'>

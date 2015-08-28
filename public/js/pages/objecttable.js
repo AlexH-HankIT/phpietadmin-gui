@@ -1,25 +1,25 @@
-define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
+define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     var methods;
 
     return methods = {
-        enable_filter_table_plugin: function() {
-            $(document).ready(function(){
+        enable_filter_table_plugin: function () {
+            $(document).ready(function () {
                 // Enable filter table plugin
-                $('.searchabletable').filterTable({minRows:0});
+                $('.searchabletable').filterTable({minRows: 0});
             });
         },
-        add_event_handler_addobjectrowbutton: function() {
-            $(document).ready(function(){
-                $(document).once('click', '#addobjectrowbutton', function() {
+        add_event_handler_addobjectrowbutton: function () {
+            $(document).ready(function () {
+                $(document).once('click', '#addobjectrowbutton', function () {
                     $('#template').clone().prependTo('#addobjectstbody').removeAttr('id hidden').addClass("newrow");
                     $('#addobjectrowbutton').hide();
                 });
             });
         },
-        add_event_handler_typeselection: function() {
-            $(document).ready(function(){
+        add_event_handler_typeselection: function () {
+            $(document).ready(function () {
                 // If type is "all" change input fields to "all"
-                $(document).once('change', '.typeselection', function() {
+                $(document).once('change', '.typeselection', function () {
                     var thisrow = $(this).closest("tr");
                     var type = thisrow.find(".typeselection option:selected").val();
                     var objectname = thisrow.find(".objectname");
@@ -43,9 +43,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 });
             });
         },
-        add_event_handler_saveobjectrow: function() {
-            $(document).ready(function(){
-                $(document).once('click', '.saveobjectrow', function(event) {
+        add_event_handler_saveobjectrow: function () {
+            $(document).ready(function () {
+                $(document).once('click', '.saveobjectrow', function (event) {
                     event.preventDefault();
                     var thisrow = $(this).closest("tr");
 
@@ -72,72 +72,83 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         thisrow.find(".objectvalue").next('.bestaetigung').show(500);
                         thisrow.find(".objectvalue").next('.bestaetigung').delay(2000).hide(0);
                     } else {
-                        var check = {
-                            value: value,
-                            check: "duplicated"
-                        };
+                        if (type == "hostv4" && !mylibs.validateipv4(value)) {
+                            thisrow.find(".objectvalue").addClass("focusedInputerror");
+                            thisrow.find(".objectvalue").next('.bestaetigung').addClass("label-danger");
+                            thisrow.find(".objectvalue").next('.bestaetigung').text("Invalid IPv4");
+                            thisrow.find(".objectvalue").next('.bestaetigung').show(500);
+                            thisrow.find(".objectvalue").next('.bestaetigung').delay(2000).hide(0);
+                        } else {
+                            if (type == "networkv4" && !mylibs.validateipv4network(value)) {
+                                thisrow.find(".objectvalue").addClass("focusedInputerror");
+                                thisrow.find(".objectvalue").next('.bestaetigung').addClass("label-danger");
+                                thisrow.find(".objectvalue").next('.bestaetigung').text("Invalid IPv4 Network");
+                                thisrow.find(".objectvalue").next('.bestaetigung').show(500);
+                                thisrow.find(".objectvalue").next('.bestaetigung').delay(2000).hide(0);
+                            } else {
+                                var thisrowobjectvalue = thisrow.find(".objectvalue");
+                                $.ajax({
+                                    url: '/phpietadmin/objects/add',
+                                    data: {
+                                        "type": type,
+                                        "name": name,
+                                        "value": value
+                                    },
+                                    dataType: 'json',
+                                    type: 'post',
+                                    success: function (data) {
+                                        if (data['code'] == 0) {
+                                            // replace input fields with values
+                                            thisrow.find(".objectvalue").replaceWith(thisrow.find(".objectvalue").val());
+                                            thisrow.find(".objectname").replaceWith(thisrow.find(".objectname").val());
+                                            thisrow.find(".typeselection").replaceWith(thisrow.find(".typeselection option:selected").val());
 
-                        var request = mylibs.doajax("/phpietadmin/objects/checkvalueexists", check);
+                                            // hide savebutton and show add button
+                                            thisrow.find('.saveobjectrow').hide();
+                                            $('#addobjectrowbutton').show();
 
-                        request.done(function () {
-                            if (request.readyState == 4 && request.status == 200) {
-                                if (request.responseText == "false") {
-                                    if (type == "hostv4" && !mylibs.validateipv4(value)) {
-                                        thisrow.find(".objectvalue").addClass("focusedInputerror");
-                                        thisrow.find(".objectvalue").next('.bestaetigung').addClass("label-danger");
-                                        thisrow.find(".objectvalue").next('.bestaetigung').text("Invalid IPv4");
-                                        thisrow.find(".objectvalue").next('.bestaetigung').show(500);
-                                        thisrow.find(".objectvalue").next('.bestaetigung').delay(2000).hide(0);
-                                    } else {
-                                        if (type == "networkv4" && !mylibs.validateipv4network(value)) {
-                                            thisrow.find(".objectvalue").addClass("focusedInputerror");
-                                            thisrow.find(".objectvalue").next('.bestaetigung').addClass("label-danger");
-                                            thisrow.find(".objectvalue").next('.bestaetigung').text("Invalid IPv4 Network");
-                                            thisrow.find(".objectvalue").next('.bestaetigung').show(500);
-                                            thisrow.find(".objectvalue").next('.bestaetigung').delay(2000).hide(0);
+                                            // delete new row class
+                                            thisrow.removeClass('newrow');
+                                        } else if (data['code'] == 4 || data['code'] == 6) {
+                                            if (data['field'] == 'value') {
+                                                thisrowobjectvalue.addClass("focusedInputerror");
+                                                thisrowobjectvalue.next('.bestaetigung').addClass("label-danger");
+                                                thisrowobjectvalue.next('.bestaetigung').text('Value already exists!');
+                                                thisrowobjectvalue.next('.bestaetigung').show(500);
+                                                thisrowobjectvalue.next('.bestaetigung').delay(2000).hide(0);
+                                            } else {
+                                                var thisrowobjectname = thisrow.find(".objectname");
+                                                thisrowobjectname.addClass("focusedInputerror");
+                                                thisrowobjectname.next('.bestaetigung').addClass("label-danger");
+                                                thisrowobjectname.next('.bestaetigung').text('Name already exists!');
+                                                thisrowobjectname.next('.bestaetigung').show(500);
+                                                thisrowobjectname.next('.bestaetigung').delay(2000).hide(0);
+                                            }
                                         } else {
-                                            var data = {
-                                                "type": type,
-                                                "name": name,
-                                                "value": value
-                                            };
-
-                                            request = mylibs.doajax("/phpietadmin/objects/add", data);
-
-                                            request.done(function () {
-                                                if (request.readyState == 4 && request.status == 200) {
-                                                    // replace input fields with values
-                                                    thisrow.find(".objectvalue").replaceWith(thisrow.find(".objectvalue").val());
-                                                    thisrow.find(".objectname").replaceWith(thisrow.find(".objectname").val());
-                                                    thisrow.find(".typeselection").replaceWith(thisrow.find(".typeselection option:selected").val());
-
-                                                    // hide savebutton and show add button
-                                                    thisrow.find('.saveobjectrow').hide();
-                                                    $('#addobjectrowbutton').show();
-
-                                                    // delete newrow class
-                                                    thisrow.removeClass('newrow');
-                                                }
-                                            });
+                                            thisrowobjectvalue.addClass("focusedInputerror");
+                                            thisrowobjectvalue.next('.bestaetigung').addClass("label-danger");
+                                            thisrowobjectvalue.next('.bestaetigung').text("Unknown error");
+                                            thisrowobjectvalue.next('.bestaetigung').show(500);
+                                            thisrowobjectvalue.next('.bestaetigung').delay(2000).hide(0);
                                         }
+                                    },
+                                    error: function () {
+                                        swal({
+                                            title: 'Error',
+                                            type: 'error',
+                                            text: 'Something went wrong while submitting!'
+                                        });
                                     }
-                                } else {
-                                    var thisrowobjectvalue = thisrow.find(".objectvalue");
-                                    thisrowobjectvalue.addClass("focusedInputerror");
-                                    thisrowobjectvalue.next('.bestaetigung').addClass("label-danger");
-                                    thisrowobjectvalue.next('.bestaetigung').text("Already exists");
-                                    thisrowobjectvalue.next('.bestaetigung').show(500);
-                                    thisrowobjectvalue.next('.bestaetigung').delay(2000).hide(0);
-                                }
+                                });
                             }
-                        });
+                        }
                     }
                 });
             });
         },
-        add_event_handler_objectvalue: function() {
-            $(document).ready(function(){
-                $(document).once('focus', '.objectvalue', function() {
+        add_event_handler_objectvalue: function () {
+            $(document).ready(function () {
+                $(document).once('focus', '.objectvalue', function () {
                     var objectvalue = $(".objectvalue");
                     if (objectvalue.hasClass("focusedInputerror")) {
                         objectvalue.removeClass("focusedInputerror");
@@ -145,9 +156,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 });
             });
         },
-        add_event_handler_objectname: function() {
-            $(document).ready(function(){
-                $(document).once('focus', '.objectname', function() {
+        add_event_handler_objectname: function () {
+            $(document).ready(function () {
+                $(document).once('focus', '.objectname', function () {
                     var objectname = $(".objectname");
                     if (objectname.hasClass("focusedInputerror")) {
                         objectname.removeClass("focusedInputerror");
@@ -155,9 +166,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                 });
             });
         },
-        add_event_handler_deleteobjectrow: function() {
-            $(document).ready(function(){
-                $(document).once('click', '.deleteobjectrow', function(event) {
+        add_event_handler_deleteobjectrow: function () {
+            $(document).ready(function () {
+                $(document).once('click', '.deleteobjectrow', function (event) {
                     event.preventDefault();
                     var sel = $(this).closest('tr');
 
@@ -174,18 +185,16 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 confirmButtonText: "Yes, delete it!",
                                 closeOnConfirm: false
                             },
-                            function(){
-                                var id = sel.find('.id').text();
-
-                                var data = {
-                                    "id": id
-                                };
-
-                                var request = mylibs.doajax("/phpietadmin/objects/delete", data);
-
-                                request.done(function () {
-                                    if (request.readyState == 4 && request.status == 200) {
-                                        if (request.responseText == "Success") {
+                            function () {
+                                $.ajax({
+                                    url: '/phpietadmin/objects/delete',
+                                    data: {
+                                        "id": sel.find('.id').text()
+                                    },
+                                    dataType: 'json',
+                                    type: 'post',
+                                    success: function (data) {
+                                        if (data['code'] == 0) {
                                             swal({
                                                     title: 'Success',
                                                     type: 'success'
@@ -195,16 +204,17 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                                 });
                                         } else {
                                             swal({
-                                                    title: 'Error',
-                                                    type: 'error',
-                                                    text: request.responseText
-                                                });
+                                                title: 'Error',
+                                                type: 'error',
+                                                text: data['message']
+                                            });
                                         }
-                                    } else {
+                                    },
+                                    error: function () {
                                         swal({
                                             title: 'Error',
                                             type: 'error',
-                                            text: request.responseText
+                                            text: 'Something went wrong while submitting!'
                                         });
                                     }
                                 });

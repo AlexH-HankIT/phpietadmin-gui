@@ -274,7 +274,7 @@ EOT;
      */
     public function get_object_by_value($value)
     {
-        $query = $this->prepare('SELECT objects.id, objects.value, objects.name, types.value as type from phpietadmin_object, types where objects.type_id = types.type_id and objects.value=:value');
+        $query = $this->prepare('SELECT phpietadmin_object_type.type_id, phpietadmin_object_type.value, phpietadmin_object_type.display_name, phpietadmin_object_type.value as type from phpietadmin_object, phpietadmin_object_type where phpietadmin_object_type.type_id = phpietadmin_object_type.type_id and phpietadmin_object_type.value=:value');
         $query->bindValue('value', $value, SQLITE3_TEXT);
         $query = $query->execute();
         return $query->fetchArray(SQLITE3_ASSOC);
@@ -317,7 +317,7 @@ EOT;
      */
     public function get_all_objects()
     {
-        $query = $this->prepare('select objects.id as objectid, objects.name as name, objects.value, types.display_name as type from phpietadmin_object, phpietadmin_object_type where objects.type_id=types.type_id');
+        $query = $this->prepare('select phpietadmin_object.id as objectid, phpietadmin_object.name as name, phpietadmin_object.value, phpietadmin_object_type.display_name as type from phpietadmin_object, phpietadmin_object_type where phpietadmin_object.type_id=phpietadmin_object_type.type_id');
         $query = $query->execute();
 
         $counter = 0;
@@ -345,7 +345,7 @@ EOT;
      */
     public function add_object($type, $name, $value)
     {
-        $query = $this->prepare('INSERT INTO objects (type_id, value, name) VALUES ((SELECT type_id FROM phpietadmin_object_type WHERE value=:type), :value, :name)');
+        $query = $this->prepare('INSERT INTO phpietadmin_object (type_id, value, name) VALUES ((SELECT type_id FROM phpietadmin_object_type WHERE value=:type), :value, :name)');
         $query->bindValue('type', $type, SQLITE3_TEXT);
         $query->bindValue('name', $name, SQLITE3_TEXT);
         $query->bindValue('value', $value, SQLITE3_TEXT);
@@ -545,7 +545,6 @@ EOT;
         }
 
         $query->bindValue('name', $name, SQLITE3_TEXT);
-        //$query->bindValue('option', $option, SQLITE3_TEXT);
         $query->bindValue('value', $value, SQLITE3_TEXT);
         $query->execute();
         return $this->return_last_error();

@@ -72,11 +72,11 @@ class Logic {
         echo "--debug/-d output debug information\n";
     }
 
-    /*****
-     *@dir - Directory to destroy
-     *@virtual[optional]- whether a virtual directory
-     *@link http://webdeveloperplus.com/php/21-really-useful-handy-php-code-snippets/
-     */
+    /**
+    * @dir - Directory to destroy
+    * @virtual[optional]- whether a virtual directory
+    * @link http://webdeveloperplus.com/php/21-really-useful-handy-php-code-snippets/
+    */
     protected function destroy_dir($dir, $virtual = false) {
         $ds = DIRECTORY_SEPARATOR;
         $dir = $virtual ? realpath($dir) : $dir;
@@ -106,7 +106,7 @@ class Logic {
     }
 
     protected function check_root() {
-        $this->log_debug('Checking if the script was exectued as root...');
+        $this->log_debug('Checking if the script was executed as root...');
         if (posix_getuid() != 0){
             throw new exception('This script requires root permissions!');
         }

@@ -1,4 +1,4 @@
-<div id="workspace">
+<div id='configure_target_body'>
     <div class="container">
         <div id="mapluncontent">
             <div class='panel panel-default'>
@@ -39,19 +39,20 @@
                 <div class='panel-footer'>
                     <div class='row'>
                         <div class='col-md-12'>
-                            <button id="maplunbutton" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                            <button id="maplunbutton" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        require(['common'],function() {
-            require(['pages/target/maplun'],function(methods) {
-                methods.add_event_handler_maplunbutton();
+        <script>
+            require(['common'], function () {
+                require(['pages/target/maplun'], function (methods) {
+                    methods.add_event_handler_maplunbutton();
+                });
             });
-        });
-    </script>
+        </script>
+    </div>
 </div>

@@ -1,4 +1,4 @@
-<div id="workspace">
+<div id='configure_target_body'>
     <div class="container">
         <div id='delete_user_panel' class="panel panel-default">
             <ol class='panel-heading breadcrumb'>

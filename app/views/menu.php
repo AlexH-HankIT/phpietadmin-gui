@@ -35,7 +35,7 @@
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"></span> <span class='hidden-sm hidden-md'>Targets</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a class="workspacetab" href='/phpietadmin/targets/addtarget'><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/targets/configuretarget'><span class="glyphicon glyphicon-pencil"></span> Configure</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/targets/configure'><span class="glyphicon glyphicon-pencil"></span> Configure</a></li>
                         <li class="divider"></li>
                         <li><a class="workspacetab" href='/phpietadmin/permission/adddisuser'><span class="glyphicon glyphicon-plus"></span> Add discovery user</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/permission/deletedisuser'><span class="glyphicon glyphicon-trash"></span> Delete discovery user</a></li>
@@ -75,13 +75,11 @@
                 </li>
 
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">Logs <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-list"></span> <span class='hidden-sm hidden-md'>Logs</span> <b class = "caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a class="workspacetab" href='/phpietadmin/log/show/access'>Access</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/log/show/action'>Action</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/log/show/debug'>Debug</a></li>
                         <li class="divider"></li>
-                        <li><a class="workspacetab" href='/phpietadmin/log/show/syslog'>Syslog</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/log/show/php'>PHP</a></li>
                         <li class="divider"></li>
                         <li><a class="workspacetab" href='/phpietadmin/log/config'>Config</a></li>

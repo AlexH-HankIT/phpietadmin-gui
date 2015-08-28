@@ -5,7 +5,7 @@ class Instructions extends Logic {
         parent::__construct($phpietadmin_base_dir);
     }
 
-    protected function update() {
+    /*protected function update() {
         $this->extract_phpietadmin_files();
         $this->update_package_database();
         $this->install_packages();
@@ -14,7 +14,7 @@ class Instructions extends Logic {
         $this->symlink_phpietadmin_apache_config();
         $this->restart_apache();
         $this->edit_database('update');
-    }
+    }*/
 
     protected function install() {
         $this->extract_phpietadmin_files();

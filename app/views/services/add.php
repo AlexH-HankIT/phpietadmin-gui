@@ -34,7 +34,7 @@
     </div>
     <script>
         require(['common'],function() {
-            require(['pages/servicesadd'],function(methods) {
+            require(['pages/services/add'],function(methods) {
                 methods.add_event_handler_addservice();
                 methods.add_event_handler_deleteservicebutton();
                 methods.add_event_handler_editservicebutton();

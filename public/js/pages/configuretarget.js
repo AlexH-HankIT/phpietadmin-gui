@@ -4,27 +4,37 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
     return Methods = {
         hide_menu: function () {
             $(document).ready(function() {
-                $('#configuretargetmenu').hide();
+                $('#configure_target_menu').hide();
             });
         },
         add_event_handler_targetselection: function () {
             $(document).ready(function(){
                 var targetselection = $('#targetselection');
+                var defaultvalue = targetselection.find('#default').val();
+                var configuretargetmenu = $('#configure_target_menu');
+                var ajaxloader = $('#ajaxloader');
+                var ajax_error_sign = $('#ajax_error_sign');
 
                 $(document).once('change', '#targetselection', function () {
-                    var defaultvalue = targetselection.find('#default').val();
                     var iqn = targetselection.find("option:selected").val();
-                    var configuretargetmenu = $('#configuretargetmenu');
 
                     // display menu
-                    configuretargetmenu.show();
-
                     if (iqn !== defaultvalue) {
-                        mylibs.loadconfiguretargetbody('/phpietadmin/targets/configure/maplun', '', $('#configuretargetlunsadd'))
+                        configuretargetmenu.show();
+
+                        return mylibs.load_configure_target_body(iqn, '/phpietadmin/targets/configure/maplun');
                     } else {
-                        $('#configuretargetbody').html('');
+                        $('#configure_target_body_wrapper').html('');
                         configuretargetmenu.hide();
                     }
+                });
+
+                $(document).once('click', '.configure_target_tab', function() {
+                    var $this = $(this);
+                    var link = $this.attr('href');
+                    var iqn = targetselection.find("option:selected").val();
+
+                    return mylibs.load_configure_target_body(iqn, link, $this);
                 });
             });
         },

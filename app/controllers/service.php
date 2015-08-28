@@ -1,87 +1,72 @@
 <?php
     class Service extends Controller {
         public function index() {
-            if (isset($_POST['servicename'])) {
-                $servicename = escapeshellarg($_POST['servicename']);
-                $sudo = $this->database->get_config('sudo');
-                $service = $this->database->get_config('service');
-                if (isset($_POST['start'])) {
-                    $command = escapeshellcmd($sudo . ' ' . $service . ' ' . $servicename .  ' start');
-                } else if (isset($_POST['stop'])) {
-                    $command = escapeshellcmd($sudo . ' ' . $service . ' ' . $servicename . ' stop');
-                } else if (isset($_POST['restart'])) {
-                    $command = escapeshellcmd($sudo . ' ' . $service . ' ' . $servicename . ' restart');
-                }
-
-                if (empty($command)) {
-                    echo 'Invalid command!';
-                } else {
-                    echo htmlspecialchars(shell_exec($command));
-                }
-            } else {
-                $this->view('services/overview', $this->database->get_services());
-            }
+			$data = $this->database->get_services();
+			if ($data === 0) {
+                $this->view('message', array('message' => 'Error - No services available!', 'type' => 'warning'));
+			} else {
+				$this->view('services/overview', $data);
+			}
         }
 
-        public function add() {
-            if (isset($_POST['servicename'])) {
-                if (isset($_POST['action'])) {
-                    // $_POST['action'] == 'enable' <-- enable service
-                    // $_POST['action'] == 'disable' <-- disable service
-                    // $_POST['action'] == 'delete' <-- delete service
-                    // $_POST['action'] == 'add' <-- add service
-                    if ($_POST['action'] == 'enable') {
-                        echo htmlspecialchars(($this->database->change_service($_POST['servicename'], 'enabled', '1')));
-                    } else if ($_POST['action'] == 'disable') {
-                        echo htmlspecialchars($this->database->change_service($_POST['servicename'], 'enabled', '0'));
-                    } else if ($_POST['action'] == 'delete') {
-                        echo htmlspecialchars($this->database->delete_service($_POST['servicename']));
-                    } else if ($_POST['action'] == 'add') {
-                        echo htmlspecialchars($this->database->add_service($_POST['servicename']));
-                    } else if ($_POST['action'] == 'edit') {
+		public function change_service_state() {
+			if (isset($_POST['servicename']) && !empty($_POST['servicename'])) {
+				if (isset($_POST['start'])) {
+					$service = $this->model('Service', $_POST['servicename']);
+					$service->action('start');
+					echo json_encode($service->get_action_result());
+				} else if (isset($_POST['stop'])) {
+                    $service = $this->model('Service', $_POST['servicename']);
+					$service->action('stop');
+					echo json_encode($service->get_action_result());
+				} else if (isset($_POST['restart'])) {
+                    $service = $this->model('Service', $_POST['servicename']);
+					$service->action('restart');
+					echo json_encode($service->get_action_result());
+				}
+			}
+		}
+
+		public function add() {
+            if (isset($_POST['servicename'], $_POST['action']) && !$this->std->mempty($_POST['servicename'], $_POST['action'])) {
+                switch($_POST['action']) {
+                    case 'enable':
+                        $service = $this->model('Service', $_POST['servicename']);
+                        $service->change_in_database('enable');
+                        echo json_encode($service->get_action_result());
+                        break;
+                    case 'disable';
+                        $service = $this->model('Service', $_POST['servicename']);
+                        $service->change_in_database('disable');
+                        echo json_encode($service->get_action_result());
+                        break;
+                    case 'delete':
+                        $service = $this->model('Service', $_POST['servicename']);
+                        $service->delete_from_db();
+                        echo json_encode($service->get_action_result());
+                        break;
+                    case 'add':
+                        $service = $this->model('Service', $_POST['servicename']);
+                        $service->add_to_db();
+                        echo json_encode($service->get_action_result());
+                        break;
+                    case 'rename':
                         if (isset($_POST['newvalue'])) {
-                            echo htmlspecialchars(($this->database->change_service($_POST['servicename'], 'name', $_POST['newvalue'])));
-                        } else {
-                            echo "Missing value";
+                            $service = $this->model('Service', $_POST['servicename']);
+                            $service->rename_in_database($_POST['newvalue']);
+                            echo json_encode($service->get_action_result());
                         }
-                    } else {
-                        echo "Invalid action";
-                    }
                 }
             } else {
-                $this->view('services/add', $this->database->get_services(true));
-            }
-        }
-
-        public function check_service_already_exists() {
-            if (isset($_POST['servicename'])) {
-                foreach ($this->database->get_services(true) as $key => $value) {
-                    $servicenames[$key] = $value['name'];
-                }
-
-                if (empty($servicenames)) {
-                    echo 'false';
+                $data = $this->database->get_services(true);
+                if ($data !== 0) {
+                    $this->view('services/add', $data);
                 } else {
-                    // if the action is edit, we check the new value
-                    if ($_POST['action'] == 'edit') {
-                        $service = $_POST['newvalue'];
-                    } else if ($_POST['action'] == 'add') {
-                        $service = $_POST['servicename'];
-                    } else {
-                        echo 'Invalid action';
-                        die();
-                    }
-
-                    $return = array_search($service, $servicenames);
-
-                    if ($return !== false) {
-                        echo 'true';
-                    } else {
-                        echo 'false';
-                    }
+                    $this->view('message', array('message' => 'Error - No services available!', 'type' => 'warning'));
                 }
             }
-        }
+		}
+
 
         public function hold() {
             if (isset($_POST['action'])) {

@@ -15,11 +15,19 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
                         'start': ''
                     };
 
-                    var request = mylibs.doajax('/phpietadmin/service/index', data);
-
-                    request.done(function() {
-                        if (request.readyState == 4 && request.status == 200) {
+                    $.ajax({
+                        url: '/phpietadmin/service/change_service_state',
+                        data: data,
+                        type: 'post',
+                        success: function(data) {
                             methods.set_service_status();
+                        },
+                        error: function() {
+                            swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: 'Something went wrong while submitting!'
+                            });
                         }
                     });
                 });
@@ -33,11 +41,19 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
                         'stop': ''
                     };
 
-                    var request = mylibs.doajax('/phpietadmin/service/index', data);
-
-                    request.done(function() {
-                        if (request.readyState == 4 && request.status == 200) {
+                    $.ajax({
+                        url: '/phpietadmin/service/change_service_state',
+                        data: data,
+                        type: 'post',
+                        success: function(data) {
                             methods.set_service_status();
+                        },
+                        error: function() {
+                            swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: 'Something went wrong while submitting!'
+                            });
                         }
                     });
                 });
@@ -51,11 +67,19 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
                         'restart': ''
                     };
 
-                    var request = mylibs.doajax('/phpietadmin/service/index', data);
-
-                    request.done(function() {
-                        if (request.readyState == 4 && request.status == 200) {
+                    $.ajax({
+                        url: '/phpietadmin/service/change_service_state',
+                        data: data,
+                        type: 'post',
+                        success: function(data) {
                             methods.set_service_status();
+                        },
+                        error: function() {
+                            swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: 'Something went wrong while submitting!'
+                            });
                         }
                     });
                 });

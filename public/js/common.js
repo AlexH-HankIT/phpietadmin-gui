@@ -23,9 +23,11 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
     return methods = {
         common: function() {
             $(function() {
+                // reload footer first time
+                mylibs.reloadfooter();
+
                 // check if server is alive
                 var uiBlocked = false;
-                //var ajaxloader =);
                 var mainmenu = $('#mainmenu');
                 var footer = $('#footer');
 
@@ -36,7 +38,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                     url: '/phpietadmin/connection/check_server_online',
                     timeout: 1000,
                     success: function(data, textStatus, XMLHttpRequest) {
-                        if (data == 'alive') {
+                        if (data == true) {
                             if (uiBlocked == true) {
                                 uiBlocked = false;
                                 $.unblockUI();
@@ -45,7 +47,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                             }
                         }
                     }, error: function(data, textStatus, XMLHttpRequest) {
-                        if (data != 'alive') {
+                        if (data != true) {
                             if (uiBlocked == false) {
                                 uiBlocked = true;
                                 mainmenu.hide();
@@ -117,18 +119,15 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                         // ignore the workspace and load only the container class
                         $('#workspace_wrapper').load(link, function(response, status) {
                             if (status == 'error') {
-                                $('#ajax_error_sign').qtip({
-                                    content: {
-                                        text: response
-                                    },
-                                    style: {
-                                        classes: 'qtip-youtube'
-                                    }
-                                });
-
-                                $(this).html("<div id='workspace'><div class='container'>" +
-                                "<h1 align='center'>" + response + '</h1>' +
-                                '</div></div>');
+                                $(this).html("<div id='workspace'>" +
+                                "<div class='container'>" +
+                                "<div class='alert alert-warning' role='alert'>" +
+                                "<h3 align='center'>" +
+                                response +
+                                "</h3>" +
+                                "</div>" +
+                                '</div>' +
+                                '</div>');
 
                                 ajax_error_sign.show();
                             }

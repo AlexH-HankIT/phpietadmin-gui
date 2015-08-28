@@ -1,5 +1,12 @@
 <?php namespace phpietadmin\app\models;
+
 class Std {
+	protected $database;
+
+	public function __construct() {
+		$this->database = new Database();
+	}
+
     /**
      * array_search for multidimensional arrays
      *
@@ -101,6 +108,7 @@ class Std {
      */
     protected function exec_and_return($command) {
         $return = [];
+        $this->log_debug_result();
         exec(escapeshellcmd($command) . ' 2>&1', $return['status'], $return['result']);
         $return['code_type'] = 'extern';
         return $return;
@@ -116,6 +124,9 @@ class Std {
      */
     public function mempty() {
         foreach (func_get_args() as $arg)
+            //if (!isset($arg)) {
+            //    continue;
+            //} else
             if (empty($arg))
                 continue;
             else

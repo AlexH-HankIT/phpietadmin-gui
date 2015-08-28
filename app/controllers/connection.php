@@ -9,10 +9,10 @@
          */
        public function status() {
            if (isset($_POST['servicename'])) {
-               $return = $this->std->get_service_status($_POST['servicename']);
-               echo htmlspecialchars($return[1]);
-           } else {
-               echo 'Undefined service name';
+               $service = $this->model('Service', $_POST['servicename']);
+               $service->action('status');
+               $return = $service->get_action_result();
+               echo htmlspecialchars($return['code']);
            }
        }
 
@@ -37,6 +37,6 @@
          *
          */
        public function check_server_online() {
-           echo 'alive';
+           echo true;
        }
     }

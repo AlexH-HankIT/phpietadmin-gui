@@ -24,8 +24,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     // disable shift button
                     if (e.shiftKey) {
                         e.preventDefault();
-                    } else if (e.which == 8) {
+                    } else if (e.which == 8 || e.which == 173 || e.which == 190) {
                         // keydown 8 is the deleted button
+                        // keydown 190 is a dot
+                        // keydown 173 is a minus
                         return true;
                         // prevent other special chars
                     } else if (e.which < 48 || (e.which > 57 && e.which < 65) || (e.which > 90 && e.which < 97) || e.which > 122) {

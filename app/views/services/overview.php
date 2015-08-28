@@ -35,7 +35,7 @@
 
         <script>
             require(['common'],function() {
-                require(['pages/servicesoverview'],function(methods) {
+                require(['pages/services/overview'],function(methods) {
                     methods.set_service_status();
                     methods.add_event_handler_servicestart();
                     methods.add_event_handler_servicestop();

@@ -3,7 +3,7 @@
         public function addtarget() {
             if (!empty($_POST['name'])) {
                 // constructor creates target if it's not existing
-                $target = $this->target_model($_POST['name']);
+                $target = $this->model('target\Target', $_POST['name']);
                 $result = $target->get_action_result();
 
                 if ($result['code'] != 0) {
@@ -31,62 +31,61 @@
             }
         }
 
-        public function configuretarget() {
-            $targets = $this->target_model('');
+        /*public function configuretarget() {
+            $targets = $this->model('target\Target', '');
 
             $data = $targets->return_target_data();
             if ($data === false) {
                 $result = $targets->get_action_result();
                 $this->view('message', array('message' => $result['message'], 'type' => 'error'));
             } else {
-                $this->view('targets/targetselect', $data);
-                $this->view('targets/configuretargetmenu');
+                $this->view('targets/configuretarget', $data);
             }
-        }
+        }*/
 
         public function configure($param = false) {
-            $targets = $this->target_model('');
+            $targets = $this->model('target\Target', '');
             $data = $targets->return_target_data();
 
             if ($data !== false) {
                 if ($param === false) {
-                    $this->view('targets/targetselect', $data);
-                    $this->view('targets/configuretargetmenu');
+                    $this->view('targets/configuretarget', $data);
                 } else if ($param == 'maplun') {
-                    if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                        // ToDo
-                        // If the target doesn't exist it will be created
-                        // This should never happen here
-                        // But maybe we should handle this anyway?
-                        $target = $this->target_model($_POST['target']);
+                        if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
+                            // ToDo
+                            // If the target doesn't exist it will be created
+                            // This should never happen here
+                            // But maybe we should handle this anyway?
+                            $target = $this->model('target\Target', $_POST['target']);
 
-                        if ($target->target_status !== false) {
-                            $target->add_lun($_POST['path'], $_POST['mode'], $_POST['type']);
+                            if ($target->target_status !== false) {
+                                $target->add_lun($_POST['path'], $_POST['mode'], $_POST['type']);
 
-                            echo json_encode($target->get_action_result());
+                                echo json_encode($target->get_action_result());
+                            } else {
+                                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                            }
                         } else {
-                            $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
-                        }
-                    } else {
-                        $lv = $this->lv_model(false, false);
+                            $lv = $this->model('lvm\lv\Lv', false, false);
 
-                        $unused_lun = $lv->get_unused_lun($targets->return_all_used_lun());
+                            $unused_lun = $lv->get_unused_lun($targets->return_all_used_lun());
 
-                        if (!empty($unused_lun) && $unused_lun !== false) {
-                            $this->view('targets/maplun', $unused_lun);
-                        } else {
-                            $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
+                            if (!empty($unused_lun) && $unused_lun !== false) {
+                                $this->view('targets/maplun', $unused_lun);
+                            } else {
+                                $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
+                            }
                         }
-                    }
                 } else if ($param == 'deletelun') {
                     if (isset($_POST['iqn'], $_POST['path'])) {
                         // delete lun with id
-                        $target = $this->target_model($_POST['iqn']);
+                        $target = $this->model('target\Target', $_POST['iqn']);
+
                         $target->delete_lun($_POST['path'], true);
                         echo json_encode($target->get_action_result());
                     } else if (isset($_POST['iqn'])) {
                         // fetch data via target model
-                        $target = $this->target_model($_POST['iqn']);
+                        $target = $this->model('target\Target', $_POST['iqn']);
                         $data = $target->return_target_data();
 
                         if ($target->target_status !== false) {
@@ -102,10 +101,10 @@
                     }
                 } else if ($param == 'adduser') {
                     if (isset($_POST['type'], $_POST['id'], $_POST['iqn'])) {
-                        $target = $this->target_model($_POST['iqn']);
+                        $target = $this->model('target\Target', $_POST['iqn']);
                         $target->add_user($_POST['id'], false, $_POST['type']);
                         echo json_encode($target->get_action_result());
-                    } else if ($_POST['iqn']){
+                    } else if (isset($_POST['iqn'])) {
                         $data = $this->database->get_all_usernames(true);
                         if ($data != 0) {
                             $this->view('targets/adduser', $data);
@@ -115,11 +114,11 @@
                     }
                 } else if ($param == 'deleteuser') {
                     if (isset($_POST['id'], $_POST['type'], $_POST['iqn'])) {
-                        $target = $this->target_model($_POST['iqn']);
+                        $target = $this->model('target\Target', $_POST['iqn']);
                         $target->delete_user($_POST['id'], false, $_POST['type']);
                         echo json_encode($target->get_action_result());
-                    } else if ($_POST['iqn']) {
-                        $target = $this->target_model($_POST['iqn']);
+                    } else if (isset($_POST['iqn'])) {
+                        $target = $this->model('target\Target', $_POST['iqn']);
 
                         $data = $target->get_user();
 
@@ -133,7 +132,7 @@
 
                 } else if ($param == 'deletesession') {
                     if (isset($_POST['iqn'], $_POST['sid'])) {
-                        $target = $this->target_model($_POST['iqn']);
+                        $target = $this->model('target\Target', $_POST['iqn']);
 
                         if ($target->target_status !== false) {
                             $target->disconnect_session($_POST['sid']);
@@ -142,7 +141,7 @@
                             $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
                         }
                     } else if (isset($_POST['iqn'])) {
-                        $target = $this->target_model($_POST['iqn']);
+                        $target = $this->model('target\Target', $_POST['iqn']);
                         $data = $target->return_target_data();
 
                         if (isset($data['session'])) {
@@ -164,11 +163,26 @@
                     } else if (isset($_POST['iqn'])) {
 
                     }
+                } else if ($param == 'addrule') {
+                    if (isset($_POST['iqn'], $_POST['type'], $_POST['id'])) {
+                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $target->add_acl($_POST['id'], $_POST['type']);
+                        echo json_encode($target->get_action_result());
+                    } else {
+                        $data = $this->database->get_all_objects();
+
+                        if ($data === 3) {
+                            $this->view('message', array('message' => 'Error - No objects available!', 'type' => 'warning'));
+                        } else {
+                            $this->view('targets/addrule', $data);
+                        }
+                    }
                 } else {
-                    $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
+                    http_response_code(404);
+                    echo 'Invalid url';
                 }
             } else {
-                $this->view('message', array('message' => 'No targets available', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - No targets available!', 'type' => 'warning'));
             }
         }
 

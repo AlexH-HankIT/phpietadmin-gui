@@ -33,32 +33,41 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             var $this = $(this);
                             var id = $this.closest('tr').find('.objectid').text();
 
-                            var data = {
-                                "iqn": iqn,
-                                "type": type,
-                                "id": id
-                            };
-
-                            var request = mylibs.doajax("/phpietadmin/permission/addrule", data);
-
-                            request.done(function() {
-                                if (request.readyState == 4 && request.status == 200) {
-                                    if (request.responseText == "Success") {
+                            $.ajax({
+                                url: '/phpietadmin/targets/configure/addrule',
+                                data: {
+                                    "iqn": iqn,
+                                    "type": type,
+                                    "id": id
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function(data) {
+                                    if (data['code'] == 0) {
                                         // uncheck all the checkbox
                                         $this.removeAttr('checked');
 
                                         swal({
                                             title: 'Success',
-                                            type: 'success'
+                                            type: 'success',
+                                            text: data['message']
                                         });
                                     } else {
                                         swal({
                                             title: 'Error',
                                             type: 'error',
-                                            text: request.responseText
+                                            text: data['message']
                                         });
                                     }
-                                    mylibs.loadconfiguretargetbody('/phpietadmin/permission/addrule', iqn);
+
+                                    return mylibs.load_configure_target_body(iqn, '/phpietadmin/targets/configure/addrule');
+                                },
+                                error: function() {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'Something went wrong while submitting!'
+                                    });
                                 }
                             });
                         });

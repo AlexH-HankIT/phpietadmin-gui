@@ -6,7 +6,7 @@
 
         public function show($param) {
             if ($param == 'action') {
-                $data = $this->std->tail('/var/log/phpietadmin/phpietadmin_action.log');
+                $data = $this->std->tail($this->database->get_config('log_base')['value'] . '/' . $this->database->get_config('action_log')['value']);
                 if ($data !== false) {
                     $view = array(
                         'title' => 'Action',
@@ -20,7 +20,7 @@
                             'type',
                             'method'
                         ),
-                        'body' => $data
+                        'body' => array_reverse($data)
                     );
 
                     $this->view('table', $view);
@@ -28,47 +28,28 @@
                     $this->view('message', array('message' => 'The action log file is empty!', 'type' => 'danger'));
                 }
             } else if ($param == 'access') {
-                $data = $this->std->tail('/var/log/phpietadmin/phpietadmin_access.log');
+                $data = $this->std->tail($this->database->get_config('log_base')['value'] . '/' . $this->database->get_config('access_log')['value']);
                 if ($data !== false) {
                     $view = array(
                         'title' => 'Access',
                         'heading' => array(
                             'timestamp',
+                            'user',
                             'ip',
                             'browser agent',
                             'session id',
-                            'command',
                             'message',
+                            'status',
+                            'type',
                             'method'
                         ),
-                        'body' => $data
+                        'body' => array_reverse($data)
                     );
 
                     $this->view('table', $view);
                 } else {
                     $this->view('message', array('message' => 'The access log file is empty!', 'type' => 'danger'));
                 }
-            } else if ($param == 'debug') {
-                $data = $this->std->tail('/var/log/phpietadmin/phpietadmin_debug.log');
-                if ($data !== false) {
-                    $view = array(
-                        'title' => 'Debug',
-                        'heading' => array(
-                            'timestamp',
-                            'ip',
-                            'browser agent',
-                            'session id',
-                            'command',
-                            'message'
-                        ),
-                        'body' => $data
-                    );
-                    $this->view('table', $view);
-                } else {
-                    $this->view('message', array('message' => 'The debug log file is empty!', 'type' => 'danger'));
-                }
-            } else if ($param == 'syslog') {
-                // ToDo
             } else if ($param == 'php') {
                 // ToDo
             } else {

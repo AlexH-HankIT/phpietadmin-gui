@@ -24,23 +24,9 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 ## Features
 Take a look at the github releases for detailed information about the features.
 
-## Since v0.5 has a few design issues, the bugs will all be fixed with version v0.6
-## Bugs in the beta of v0.5:
-## So far:
-- [x] Jquery/javascript is sometimes not executed, when loaded via ajax
-- [ ] Target acl cannot be deleted if no initiator acl exists (Page isn't displayed, only error)
-- [x] Discovery users are always already added, even if not
-- [ ] Adding of multiple discovery users to the daemon might fail
-- [x] Config menu update might not work
-- [ ] A few unnecessary page reloads
-- [ ] Installer isn't working <- should be fixed, to be tested
-- [x] Filter table jquery plugin displays hidden rows when searching
-- [ ] Login not possible under yet unknown conditions
-- [x] Password of discovery user max 12 chars
-- [ ] Enable a few special chars in Targets/Add
-- [ ] Fix dependencies between models
-    * Ietaddtarget->ietvolumes->parse_proc_volumes()
-    * IetVolumes->Ietaddtarget->get_proc_volume_content()
+## Bugs in 0.5.1:
+- [ ] Target model add acl: Duplication check doesn't work, Target acl is added to the initiator file
+- [ ] Dashboard read version from github (not from local file)
 
 ## Planned features and todo
 In version 0.6:
@@ -54,19 +40,17 @@ In version 0.6:
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
 
 * Frontend
-    - [ ] Config -> MISC -> Idle, no zeros
-    - [ ] Pie Chart for volume groups
+    - [ ] Disable the auto logout by using a 0 in the config menu
     - [x] Put hostname in title
-    - [ ] Bar for volume group usage
+    - [x] Bar for PV/VG usage
     - [ ] Bootstrap-table Table Select Checkbox
     - [ ] Display input validation with bootstrap css Validation states
     - [x] Nested tables for iet volumes and iet sessions (https://github.com/wenzhixin/bootstrap-table-examples/blob/master/options/sub-table.html)
     - [ ] Drag & Drop with HTML5
     - [ ] Menu to import orphaned objects into database
     - [x] Override option, if user is already logged in
-    - [ ] Use more html5 elements (like autofocus)
-    - [ ] Use json for tables
     - [ ] Create logging gui
+    - [x] Improved ajax menu with error handling
 
 * Backend
     - [ ] Prevent comments from being deleted, when editing a config file
@@ -74,7 +58,6 @@ In version 0.6:
     - [x] Create a lvm model
     - [ ] Write phpietadmin-cli
         - [ ] Install/Update
-        - [ ] Import orphaned objects into database
     - [x] Basic error logging
     - [x] Login/Logout logging
     - [x] Debug logging
@@ -82,7 +65,7 @@ In version 0.6:
     - [ ] Rework controller/models
         - [ ] Database model
         - [x] Dashboard
-        - [ ] Overview
+        - [x] Overview
         - [ ] Targets
             - [x] Lun
             - [ ] ACL
@@ -90,10 +73,10 @@ In version 0.6:
             - [x] Sessions
             - [ ] Settings
             - [ ] Delete
-        - [ ] Users
-        - [ ] Objects
+        - [x] Users
+        - [x] Objects
         - [ ] LVM
-        - [ ] Services
+        - [x] Services
         - [ ] Config
         - [ ] Login/Logout/Reboot/Shutdown
     - [x] Use namespaces with basic autoloader
@@ -113,6 +96,7 @@ In version 0.6:
 - [ ] Support for apcupsd
 - [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
 - [ ] HDD temp
+- [ ] Pie Chart for volume groups
 - [ ] Smart data
 - [ ] Config option for production and development
     * Production:
@@ -125,6 +109,8 @@ In version 0.6:
 - [ ] Create "consistency", which displays if the daemon config and the config file are identically
 - [ ] Use composer
 - [ ] Use unity testing
+- [ ] Use more html5 elements (like autofocus)
+- [ ] Use json for tables
 
 Items are completely random ;-)
 

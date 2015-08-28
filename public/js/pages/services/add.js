@@ -5,8 +5,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
         add_event_handler_addservice: function() {
             $(document).ready(function(){
                 $(document).once('click', '#addservice', function() {
-                    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-                    $('#addservicetablebody').append(
+                    $('#addservicetablebody').prepend(
                         '<tr class="newrow">' +
                         '<td class="col-md-2"><input class="serviceenabled" type="checkbox" checked> <span class="label bestaetigung label-success serviceenabledspan">Success</span></td>' +
                         '<td class="col-md-8"><input class="serviceinput" type="text"> <span class="label bestaetigung label-success serviceinputspan">Success</span></td>' +
@@ -37,30 +36,38 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
                                 closeOnConfirm: false
                             },
                             function(){
-                                var data = {
-                                    "servicename": row.find('.serviceinput').val(),
-                                    "action": 'delete'
-                                };
-
-                                var request = mylibs.doajax('/phpietadmin/service/add', data);
-
-                                request.done(function() {
-                                    if (request.readyState == 4 && request.status == 200) {
-                                        if (request.responseText != 0) {
+                                $.ajax({
+                                    url: '/phpietadmin/service/add',
+                                    data: {
+                                        "servicename": row.find('.serviceinput').val(),
+                                        "action": 'delete'
+                                    },
+                                    dataType: 'json',
+                                    type: 'post',
+                                    success: function(data) {
+                                        if (data['code'] == 0) {
                                             swal({
-                                                title: 'Error',
-                                                type: 'error',
-                                                text: request.responseText
-                                            });
-                                        } else {
-                                            swal({
-                                                    title: 'Success',
-                                                    type: 'success'
-                                                },
+                                                title: 'Success',
+                                                type: 'success',
+                                                text: data['message']
+                                            },
                                                 function () {
                                                     row.remove();
                                                 });
+                                        } else {
+                                            swal({
+                                                title: 'Error',
+                                                type: 'error',
+                                                text: data['message']
+                                            });
                                         }
+                                    },
+                                    error: function() {
+                                        swal({
+                                            title: 'Error',
+                                            type: 'error',
+                                            text: 'Something went wrong while submitting!'
+                                        });
                                     }
                                 });
                             });
@@ -117,47 +124,41 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
 
                             }
 
-                            // check if new or changed services is already used
-                            var request = mylibs.doajax('/phpietadmin/service/check_service_already_exists', data);
-
-                            request.done(function() {
-                                if (request.readyState == 4 && request.status == 200) {
-                                    if (request.responseText == 'false') {
-                                        request = mylibs.doajax('/phpietadmin/service/add', data);
-
-                                        request.done(function() {
-                                            if (request.readyState == 4 && request.status == 200) {
-                                                if (request.responseText != 0) {
-                                                    serviceinputspan.text('Failed');
-                                                    serviceinputspan.removeClass('label-success');
-                                                    serviceinputspan.addClass('label-danger');
-                                                    serviceinputspan.show(500);
-                                                    serviceinputspan.delay(2000).hide(0);
-                                                } else {
-                                                    serviceinputspan.text('Success');
-                                                    if (serviceinputspan.hasClass('label-warning')) {
-                                                        serviceinputspan.removeClass('label-warning');
-                                                    } else if (serviceinputspan.hasClass('label-danger')) {
-                                                        serviceinputspan.removeClass('label-danger');
-                                                    }
-                                                    serviceinputspan.addClass('label-success');
-                                                    serviceinputspan.show(500);
-                                                    serviceinputspan.delay(2000).hide(0);
-                                                    serviceinput.prop('disabled', true);
-                                                    editservicespan.removeClass('glyphicon-save');
-                                                    editservicespan.addClass('glyphicon-pencil');
-                                                    row.find('.serviceinputoldvalue').val(serviceinput.val());
-                                                    $('#addservice').show();
-                                                }
-                                            }
-                                        });
+                            $.ajax({
+                                url: '/phpietadmin/service/add',
+                                data: data,
+                                dataType: 'json',
+                                type: 'post',
+                                success: function(data) {
+                                    if (data['code'] == 0) {
+                                        serviceinputspan.text('Success');
+                                        if (serviceinputspan.hasClass('label-warning')) {
+                                            serviceinputspan.removeClass('label-warning');
+                                        } else if (serviceinputspan.hasClass('label-danger')) {
+                                            serviceinputspan.removeClass('label-danger');
+                                        }
+                                        serviceinputspan.addClass('label-success');
+                                        serviceinputspan.show(500);
+                                        serviceinputspan.delay(2000).hide(0);
+                                        serviceinput.prop('disabled', true);
+                                        editservicespan.removeClass('glyphicon-save');
+                                        editservicespan.addClass('glyphicon-pencil');
+                                        row.find('.serviceinputoldvalue').val(serviceinput.val());
+                                        $('#addservice').show();
                                     } else {
-                                        serviceinputspan.text('Already in use');
+                                        serviceinputspan.text('Failed');
                                         serviceinputspan.removeClass('label-success');
                                         serviceinputspan.addClass('label-danger');
                                         serviceinputspan.show(500);
                                         serviceinputspan.delay(2000).hide(0);
                                     }
+                                },
+                                error: function() {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'Something went wrong while submitting!'
+                                    });
                                 }
                             });
                         }
@@ -189,21 +190,31 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
                         };
                     }
 
-                    var request = mylibs.doajax('/phpietadmin/service/add', data);
 
-                    request.done(function() {
-                        if (request.readyState == 4 && request.status == 200) {
-                            var serviceenabledspan = row.find('.serviceenabledspan');
-                            if (request.responseText != 0) {
+                    var serviceenabledspan = row.find('.serviceenabledspan');
+                    $.ajax({
+                        url: '/phpietadmin/service/add',
+                        data: data,
+                        dataType: 'json',
+                        type: 'post',
+                        success: function(data) {
+                            if (data['code'] == 0) {
+                                serviceenabledspan.show(500);
+                                serviceenabledspan.delay(2000).hide(0);
+                            } else {
                                 serviceenabledspan.text('Failed');
                                 serviceenabledspan.removeClass('label-success');
                                 serviceenabledspan.addClass('label-danger');
                                 serviceenabledspan.show(500);
                                 serviceenabledspan.delay(2000).hide(0);
-                            } else {
-                                serviceenabledspan.show(500);
-                                serviceenabledspan.delay(2000).hide(0);
                             }
+                        },
+                        error: function() {
+                            swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: 'Something went wrong while submitting!'
+                            });
                         }
                     });
                     e.preventDefault();
