@@ -27,8 +27,9 @@ Take a look at the github releases for detailed information about the features.
 ## Bugs in 0.5.2:
 - [ ] Reload page after session disconnect
 - [ ] Delete lun: check if line contains default parameter
-- [ ] Session: After overwrite, you have to login again
-               After session expire logout, you have to login twice
+- [ ] Session:
+    - [ ] After overwrite, you have to login again
+    - [ ] After session expire logout, you have to login twice
 - [ ] Error while submitting
 
 ## Roadmap
@@ -105,11 +106,11 @@ In version 0.7:
     - [ ] Create complete documentation on https://readthedocs.org/
     - [ ] Use unity testing
 
-In version 0.8:
+* In version 0.8:
     - [ ] Support for DRBD (show status)
     - [ ] Support for HA Clusters (Corosync & Pacemaker, only for iet)
 
-In version 0.9:
+* In version 0.9:
     - [ ] Support for nfs
 
 ## More
