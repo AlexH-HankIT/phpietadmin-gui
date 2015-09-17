@@ -28,15 +28,27 @@ DROP TABLE IF EXISTS phpietadmin_phpietadmin_user;
 CREATE TABLE phpietadmin_phpietadmin_user(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(50) NOT NULL,
-  password varchar(64) NOT NULL /* for sha256 hash */
+  password varchar(64) NOT NULL, /* for sha256 hash */
+  permission varchar(64) DEFAULT NULL, /* admin/user, not implemented yet */
+  phpietadmin_session_id INTEGER DEFAULT NULL /* primary key from the phpietadmin_session table */
+);
+
+DROP TABLE IF EXISTS phpietadmin_session;
+CREATE TABLE phpietadmin_session(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  session_id varchar,
+  last_activity INT NOT NULL,
+  user_agent varchar NOT NULL,
+  remote_address varchar NOT NULL,
+  data varchar
 );
 
 DROP TABLE IF EXISTS phpietadmin_object;
 CREATE TABLE phpietadmin_object(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   type_id INTEGER NOT NULL,
-  value varchar(50) NOT NULL,
-  name varchar(50) NOT NULL
+  value varchar NOT NULL,
+  name varchar NOT NULL
 );
 
 DROP TABLE IF EXISTS phpietadmin_object_type;
@@ -69,16 +81,6 @@ CREATE TABLE phpietadmin_service(
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   name varchar(50),
   enabled numeric boolean
-);
-
-DROP TABLE IF EXISTS phpietadmin_session;
-CREATE TABLE phpietadmin_session(
-  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  session_id varchar(64) NOT NULL,
-  username_id varchar(50) NOT NULL,
-  login_time varchar(64) NOT NULL,
-  source_ip varchar(15) NOT NULL,
-  browser_agent varchar(200) NOT NULL
 );
 
 DROP TABLE IF EXISTS phpietadmin_volume_group;
@@ -133,14 +135,16 @@ INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, desc
     ('service', 'service bin', 5, '/usr/sbin/service', "Path to the service binary", 4, 'input'),
     ('lsblk', 'lsblk bin', 4, '/bin/lsblk', "Path to the lsblk binary", 4, 'input'),
     ('shutdown', 'shutdown bin', 5, '/sbin/shutdown', "Path to the shutdown binary", 4, 'input'),
-    ('idle', 'idle time', 1, 15, 'Time until the user is automatically logged out in minutes', 3, 'input'),
+    ('idle', 'idle time', 1, 15, 'Time until the user is automatically logged out in minutes, 0 means disabled', 3, 'input'),
     ('log_base', 'Log folder', 3, '/var/log/phpietadmin', 'Base dir for the phpietadmin log files', 5, 'input'),
     ('debug_log', 'Debug log filename', 2, 'debug.log', 'Filename of the debug log file', 5, 'input'),
     ('action_log', 'Action log filename', 2, 'action.log', 'Filename of the action log file', 5, 'input'),
     ('access_log', 'Access log filename', 2, 'access.log', 'Filename of the access log file', 5, 'input'),
-    ('debug_log_enabled', 'Enable debug log', 1, 0, 'Log debug information', 5, 'input'),
-    ('action_log_enabled', 'Enable action log', 1, 1, 'Log action information', 5, 'select'),
-    ('access_log_enabled', 'Enable access log', 1, 1, 'Log access information', 5, 'select');
+    ('database_log', 'Database log filename', 2, 'database.log', 'Filename of the database log file', 5, 'input'),
+    ('debug_log_enabled', 'Enable debug log', 6, 0, 'Log debug information', 5, 'input'),
+    ('action_log_enabled', 'Enable action log', 6, 1, 'Log action information', 5, 'input'),
+    ('access_log_enabled', 'Enable access log', 6, 1, 'Log access information', 5, 'input'),
+    ('database_log_enabled', 'Enable database log', 6, 1, 'Log database information', 5, 'input');
 
 INSERT INTO phpietadmin_config_category (category) VALUES
     ('iet'),
@@ -163,9 +167,10 @@ INSERT INTO phpietadmin_config_type(type) VALUES
   ('file'),
   ('folder'),
   ('bin'),
-  ('subin');
+  ('subin'),
+  ('bool');
 
-INSERT INTO phpietadmin_object (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from types where value='all'));
+INSERT INTO phpietadmin_object (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from phpietadmin_object_type where value='all'));
 
 INSERT INTO phpietadmin_service (name, enabled) VALUES
   ('cron', 1),

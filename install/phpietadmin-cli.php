@@ -5,6 +5,7 @@
 // add remove feature (for testing purpose)
 // add /var/log/phpietadmin directory
 // add logrotation for log files
+// create phar archive
 
 class Logic {
     protected $phpietadmin_base_dir;

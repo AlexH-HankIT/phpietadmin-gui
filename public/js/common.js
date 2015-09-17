@@ -2,6 +2,8 @@ requirejs.config({
     baseUrl: "/phpietadmin/js",
     paths: {
         jquery: 'lib/jquery-2.1.3.min',
+        jqueryui: 'lib/jquery-ui.min',
+        jqueryui_slider: 'lib/jquery-ui-slider-pips',
         bootstrap: 'lib/bootstrap.min.amd',
         filtertable: 'lib/jquery.filtertable.min.amd',
         qtip: 'lib/jquery.qtip.min',
@@ -13,7 +15,17 @@ requirejs.config({
         blockUI: 'lib/jquery.blockUI.min',
         once: 'lib/once',
         bootstraptable: 'lib/bootstrap-table',
-        jqueryui: 'lib/jquery-ui'
+        touchspin: 'lib/jquery.bootstrap-touchspin.min.amd'
+    },
+    shim: {
+        jqueryui: {
+            export:"$" ,
+            deps: ['jquery']
+        },
+        jqueryui_slider: {
+            export:"$" ,
+            deps: ['jqueryui']
+        }
     }
 });
 
@@ -37,7 +49,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                     cache: false,
                     url: '/phpietadmin/connection/check_server_online',
                     timeout: 1000,
-                    success: function(data, textStatus, XMLHttpRequest) {
+                    success: function(data) {
                         if (data == true) {
                             if (uiBlocked == true) {
                                 uiBlocked = false;
@@ -46,7 +58,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                                 footer.show();
                             }
                         }
-                    }, error: function(data, textStatus, XMLHttpRequest) {
+                    }, error: function(data) {
                         if (data != true) {
                             if (uiBlocked == false) {
                                 uiBlocked = true;
@@ -89,56 +101,11 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                 });
             });
         },
-        load_workspace: function() {
+        load_workspace_event_handler: function() {
             // load workspace and perform error handling
-            $(document).ready(function(){
-                    $(document).once('click', '.workspacetab', function() {
-                        var $this = $(this);
-                        var link = $this.attr('href');
-                        var ajaxloader = $('#ajaxloader');
-                        var ajax_error_sign = $('#ajax_error_sign');
-
-                        ajax_error_sign.hide();
-
-                        // select menu
-                        if ($this != '') {
-                            $('#mainmenu').find('ul').children('li').removeClass('active');
-                            $this.parents('li').addClass('active');
-                        }
-
-                        ajaxloader.show();
-
-                        // remove the previously loaded workspace (only we the site was called directly, via F5 for example)
-                        // content loaded via ajax is inside the #workspace_wrapper div
-                        // normally we wouldn't need this
-                        // just load everything into the workspace div and let the load() function only insert the container div
-                        // unfortunately the load() function strips all <script> tags if its called with a selector
-                        // this is a workaround for this
-                        $('#workspace').remove();
-
-                        // ignore the workspace and load only the container class
-                        $('#workspace_wrapper').load(link, function(response, status) {
-                            if (status == 'error') {
-                                $(this).html("<div id='workspace'>" +
-                                "<div class='container'>" +
-                                "<div class='alert alert-warning' role='alert'>" +
-                                "<h3 align='center'>" +
-                                response +
-                                "</h3>" +
-                                "</div>" +
-                                '</div>' +
-                                '</div>');
-
-                                ajax_error_sign.show();
-                            }
-                        });
-
-                        window.history.pushState({path: link}, '', link);
-
-                        ajaxloader.delay(10).hide(10);
-
-                        return false;
-                    });
+            $(document).once('click', '.workspacetab', function () {
+                var $this = $(this);
+                return mylibs.load_workspace($this.attr('href'), $this);
             });
         },
         add_event_handler_shutdown: function() {

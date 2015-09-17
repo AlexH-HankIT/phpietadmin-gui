@@ -1,13 +1,11 @@
 <?php namespace phpietadmin\app\models\logging;
-    use phpietadmin\app\models;
+	use phpietadmin\app\models,
+		phpietadmin\app\core;
 
-    // ToDo: Remove duplicated usage of std (extended and created)
-
-    class Logging extends models\Std {
+    class Logging {
         private $action_result;
         private $access_result;
         private $debug_result;
-        protected $std;
         private $write_debug_log;
         private $write_access_log;
         private $write_action_log;
@@ -15,13 +13,12 @@
 		private $action_log_file_path;
 		private $debug_log_file_path;
 		private $access_log_file_path;
+		private $database;
 
         public function __construct() {
-			parent::__construct();
-
-            $this->std = new models\std();
-
 			// log file paths
+			$registry = core\Registry::getInstance();
+			$this->database = $registry->get('database');
 			$this->log_dir_path = $this->database->get_config('log_base')['value'];
 			$this->action_log_file_path = $this->log_dir_path . '/' . $this->database->get_config('action_log')['value'];
 			$this->debug_log_file_path = $this->log_dir_path . '/' . $this->database->get_config('debug_log')['value'];

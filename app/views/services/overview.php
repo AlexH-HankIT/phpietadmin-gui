@@ -33,15 +33,15 @@
         </div>
     </div>
 
-        <script>
-            require(['common'],function() {
-                require(['pages/services/overview'],function(methods) {
-                    methods.set_service_status();
-                    methods.add_event_handler_servicestart();
-                    methods.add_event_handler_servicestop();
-                    methods.add_event_handler_servicerestart();
-                });
+    <script>
+        require(['common'], function () {
+            require(['pages/services/overview'], function (methods) {
+                methods.set_service_status();
+                methods.add_event_handler_servicestart();
+                methods.add_event_handler_servicestop();
+                methods.add_event_handler_servicerestart();
             });
-        </script>
+        });
+    </script>
 </div>
 

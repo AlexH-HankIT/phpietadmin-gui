@@ -1,5 +1,7 @@
-<?php
-    class Overview extends Controller {
+<?php namespace phpietadmin\app\controllers;
+use phpietadmin\app\core;
+
+    class Overview extends core\BaseController {
         public function disks() {
             $disk = $this->model('Disks');
             $data = $disk->get_disks();
@@ -16,7 +18,7 @@
             $data = $targets->return_target_data();
 
             $view['data'] = $data;
-            $data = $targets->get_action_result();
+            $data = $targets->logging->get_action_result();
 
             if ($view['data'] !== false) {
                 if ($param == 'session') {
@@ -102,7 +104,7 @@
 
                     $this->view('lvm_table', $view);
                 } else {
-                    $data = $model->get_action_result();
+                    $data = $model->logging->get_action_result();
                     $this->view('message', array('message' => $data['message'], 'type' => 'danger'));
                 }
             }

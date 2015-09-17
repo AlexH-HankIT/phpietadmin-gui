@@ -1,19 +1,16 @@
 <?php namespace phpietadmin\app\models\lvm\logic;
 
     class Parser extends Exec {
-        public function __construct() {
-            parent::__construct();
-        }
-
         /**
          *
          * Parse the output of pvs/vgs/lvs and return a associative array
          *
          * @param    string  $type  output which should be parsed pv/vg/lv
+         * @param    bool   $snaps if $type = 'lv', true = parse snapshots | false = don't parse snapshots
          * @return   int|array
          *
          */
-        protected function parse_lvm($type) {
+        protected function parse_lvm($type, $snaps = false) {
             $data = $this->get_lvm_output($type);
 
             if ($data === false) {
@@ -42,7 +39,7 @@
                     foreach ($row as $rowkey => $property) {
                         // strip the g and replace the comma with a dot
                         // otherwise we can't calculate with these values
-                        if ($heading[$rowkey] == 'VSize' || $heading[$rowkey] == 'VFree' || $heading[$rowkey] == 'LSize' || $heading[$rowkey] == 'PSize' || $heading[$rowkey] == 'PFree') {
+                        if ($heading[$rowkey] == 'VSize' || $heading[$rowkey] == 'VFree' || $heading[$rowkey] == 'LSize' || $heading[$rowkey] == 'PSize' || $heading[$rowkey] == 'PFree' || $heading[$rowkey] === 'Data%') {
                             $volumegroups[$key][$heading[$rowkey]] = str_replace(',', '.', str_replace('g', '', $property));
                         } else {
                             $volumegroups[$key][$heading[$rowkey]] = $property;

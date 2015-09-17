@@ -19,7 +19,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!--<p><span style="font-size:smaller;"><input id="check" type="checkbox" value="uc" name="Show"> Manual input</span></p>-->
                     </div>
                     <div class="row top-buffer">
                         <div class="col-md-6">

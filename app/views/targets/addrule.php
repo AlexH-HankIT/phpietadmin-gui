@@ -10,10 +10,10 @@
                 <button id="addallowrulebutton" type="button" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Allow</button>
                 <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-default active">
-                        <input type="Radio" id="initiatorcheckbox" name="type" value="initiator" checked="checked">Initiator
+                        <input type="Radio" id="initiatorcheckbox" name="type" value="initiators" checked="checked">Initiator
                     </label>
                     <label class="btn btn-default">
-                        <input id="targetcheckbox" type="Radio" name="type" value="target">Target
+                        <input id="targetcheckbox" type="Radio" name="type" value="targets">Target
                     </label>
                 </div>
             </div>

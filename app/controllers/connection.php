@@ -1,5 +1,8 @@
-<?php
-    class connection extends Controller {
+<?php namespace phpietadmin\app\controllers;
+use phpietadmin\app\core,
+    phpietadmin\app\models;
+
+    class connection extends core\BaseController {
         /**
          *
          * echos a service status
@@ -11,8 +14,7 @@
            if (isset($_POST['servicename'])) {
                $service = $this->model('Service', $_POST['servicename']);
                $service->action('status');
-               $return = $service->get_action_result();
-               echo htmlspecialchars($return['code']);
+               echo json_encode($service->logging->get_action_result());
            }
        }
 
@@ -24,9 +26,9 @@
          *
          */
        public function check_session_expired() {
-           // if the session is expired the function check_loggedin in core/Controller.php will return false
+           // if the session is expired the client will get no output
            // else we will return true here
-           echo 'true';
+           echo true;
        }
 
         /**

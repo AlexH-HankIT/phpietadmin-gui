@@ -1,54 +1,40 @@
 define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'bootstrap'], function($, qtip, filterTable, mylibs, swal, blockUI) {
     var Methods;
     return Methods = {
-        // ajax request
-        doajax: function(url, data) {
-            var request;
-            if (typeof data === 'undefined') {
-                return request = $.ajax({
-                    url: url,
-                    type: "post"
-                });
-            } else {
-                return request = $.ajax({
-                    url: url,
-                    type: "post",
-                    data: data
-                });
-            }
-        },
         reloadfooter: function() {
             if (window.location.pathname !== "/phpietadmin/auth/login") {
-                var data = {
-                    "servicename" : 'iscsitarget'
-                };
 
-                var request = Methods.doajax('/phpietadmin/connection/status', data);
-
-                request.done(function () {
-                    if (request.readyState == 4 && request.status == 200) {
-                        if (request.responseText == 0) {
+                $.ajax({
+                    url: '/phpietadmin/connection/status',
+                    data:  {
+                        "servicename" : 'iscsitarget'
+                    },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function(data) {
+                        if (data['code'] == 0) {
                             $("#ietdstatus").html('<a class = "navbar-btn btn-success btn pull-left"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> ietd running</a>');
-                        } else if (request.responseText == 3) {
-                            $("#ietdstatus").html('<a class = "navbar-btn btn-danger btn pull-left"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> ietd not running</a>');
                         } else {
-                            $("#ietdstatus").html('<a class = "navbar-btn btn-warning btn pull-left"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> ietd status unkown</a>');
+                            $("#ietdstatus").html('<a class = "navbar-btn btn-danger btn pull-left"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> ietd not running</a>');
                         }
+                    },
+                    error: function() {
+                        $("#ietdstatus").html('<a class = "navbar-btn btn-warning btn pull-left"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> ietd status unkown</a>');
                     }
                 });
             }
         },
         check_session_expired: function() {
             if (window.location.pathname !== '/phpietadmin/auth/login') {
-                var request = Methods.doajax('/phpietadmin/connection/check_session_expired');
-
-                request.done(function () {
-                        if (request.readyState == 4 && request.status == 200) {
-                            if (request.responseText == 'false') {
-                                // reload the page to display the login form
-                                window.location.reload();
-                            }
+                $.ajax({
+                    url: '/phpietadmin/connection/check_session_expired',
+                    type: 'post',
+                    success: function(data) {
+                        if (data == '') {
+                            // reload the page to display the login form
+                            window.location.reload();
                         }
+                    }
                 });
             }
         },
@@ -96,9 +82,10 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
             }
             return retVal;
         },
-        load_configure_target_body: function(iqn, link, clicked) {
+        load_configure_target_body: function(link, clicked) {
             var ajaxloader = $('#ajaxloader');
             var ajax_error_sign = $('#ajax_error_sign');
+            var iqn = $('#target_selector').find("option:selected").val();
 
             $('#configure_target_body').remove();
 
@@ -130,112 +117,151 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
 
             return false;
         },
-        loadconfiguretargetbody_old: function(url, data, clicked) {
-            var configuretargetbody = $('#configuretargetbody');
+        load_lvm_target_body: function(link, clicked) {
+            var ajaxloader = $('#ajaxloader');
+            var ajax_error_sign = $('#ajax_error_sign');
+            var logical_volume_selector = $('#logical_volume_selector');
+            var lv = logical_volume_selector.find("option:selected").attr('data-lv');
+            var vg = logical_volume_selector.find("option:selected").attr('data-vg');
+
+            $('#configure_lvm_body').remove();
+
+            ajax_error_sign.hide();
+            ajaxloader.show();
 
             if (clicked !== undefined && clicked != '') {
-                $('#configuretargetmenu').find('ul').children('li').removeClass('active');
+                $('#configure_lvm_menu').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
-            var request;
-            if (data === undefined) {
-                // if type is undefined, not data will be passed
-                request = Methods.doajax(url);
-            } else if (typeof data == 'string') {
-                // if type is string an array will be created an posted
-                var array = {
-                    iqn: data
-                };
 
-                request = Methods.doajax(url, array);
-            } else {
-                // else data is already an array
-                request = Methods.doajax(url, data);
-            }
+            $('#configure_lvm_body_wrapper').load(link, {lv: lv, vg: vg}, function (response, status) {
+                if (status == 'error') {
+                    $(this).html("<div id='configure_lvm_body'>" +
+                    "<div class='container'>" +
+                    "<div class='alert alert-warning' role='alert'>" +
+                    "<h3 align='center'>" +
+                    response +
+                    "</h3>" +
+                    "</div>" +
+                    '</div>' +
+                    '</div>');
 
-            request.done(function () {
-                if (request.readyState == 4 && request.status == 200) {
-                    configuretargetbody.html('');
-                    configuretargetbody.html(request.responseText);
-                    configuretargetbody.removeClass();
+                    ajax_error_sign.show();
                 }
             });
+
+            ajaxloader.delay(10).hide(10);
+
+            return false;
         },
-        loadworkspace_old: function(clicked, site) {
-            // replace the slash in site with underscore
-            // we will use this as class later
-            var page = site.replace('/', '_');
+        load_data: function(link) {
+            var ajax_loader = $('#ajaxloader');
+            var ajax_error_sign = $('#ajax_error_sign');
+            var data = $('#data');
+            var iqn = $('#target_selector').find("option:selected").val();
 
-            // define workspace
-            var workspace = $('#workspace');
+            // clean div
+            data.html('');
 
-            // select menu
-            if (clicked != '') {
-                $('#mainmenu').find('ul').children('li').removeClass('active');
-                clicked.parents('li').addClass('active');
-            }
+            ajax_error_sign.hide();
+            ajax_loader.show();
 
-            // load only if url is not identical
-            if(site + '#' != window.location.pathname) {
-                if (site != window.location.pathname) {
-                    var ajaxloader = $('#ajaxloader');
-                    ajaxloader.show();
-                    var request = Methods.doajax(site);
-                    request.done(function () {
-                        if (request.readyState == 4 && request.status == 200) {
-                            // change url
-                            window.history.pushState({path: site}, '', site);
+            data.load(link, {iqn: iqn}, function (response, status) {
+                if (status == 'error') {
+                    $(this).html("<div id='configure_target_control'>" +
+                    "<div class='container'>" +
+                    "<div class='alert alert-warning' role='alert'>" +
+                    "<h3 align='center'>" +
+                    response +
+                    "</h3>" +
+                    "</div>" +
+                    '</div>' +
+                    '</div>');
 
-                            // delete previous loaded workspace
-                            workspace.html('');
-
-                            // delete workspaces, which are not loaded via ajax
-                            $('.workspacedirect').html('');
-
-                            // add new workspace
-                            workspace.html(request.responseText);
-
-                            // delete all classes from workspace
-                            workspace.removeClass();
-
-                            // add current loaded page as class to workspace
-                            workspace.addClass(page);
-                        }
-                    });
-                    ajaxloader.delay(10).hide(10);
+                    ajax_error_sign.show();
                 }
-            }
+            });
+
+            ajax_loader.delay(10).hide(10);
+
+            return false;
         },
         is_int: function(value) {
             return (parseFloat(value) == parseInt(value)) && !isNaN(value);
         },
         check_service_status: function(row) {
+            var service_status = row.closest('tr').find('.servicestatus');
+            var service_name = row.closest('tr').find('.servicename');
 
-            var data = {
-                "servicename": row.text()
-            };
-
-            var request = Methods.doajax('/phpietadmin/connection/status', data);
-
-            row = row.closest('tr').find('.servicestatus');
-
-            request.done(function () {
-                if (request.readyState == 4 && request.status == 200) {
-                    if (request.responseText != 0) {
-                        if (row.hasClass('label label-success')) {
-                            row.removeClass('label label-success')
+            $.ajax({
+                url: '/phpietadmin/connection/status',
+                data:  {
+                    "servicename": service_name.text()
+                },
+                dataType: 'json',
+                type: 'post',
+                success: function(data) {
+                    if (data['code'] !== 0) {
+                        if (service_status.hasClass('label label-success')) {
+                            service_status.removeClass('label label-success')
                         }
-                        row.text('Not running');
-                        row.addClass('label label-danger')
+                        service_status.text('Not running');
+                        service_status.addClass('label label-danger')
                     } else {
-                        if (row.hasClass('label label-danger')) {
-                            row.removeClass('label label-danger')
+                        if (service_status.hasClass('label label-danger')) {
+                            service_status.removeClass('label label-danger')
                         }
-                        row.text('Running');
-                        row.addClass('label label-success')
+                        service_status.text('Running');
+                        service_status.addClass('label label-success')
                     }
                 }
             });
+        },
+        load_workspace: function (link, clicked) {
+            $(document).ready(function () {
+                var ajaxloader = $('#ajaxloader');
+                var ajax_error_sign = $('#ajax_error_sign');
+
+                ajax_error_sign.hide();
+
+                // select menu
+                if (clicked !== undefined && clicked != '') {
+                    $('#mainmenu').find('ul').children('li').removeClass('active');
+                    clicked.parents('li').addClass('active');
+                }
+
+                ajaxloader.show();
+
+                // remove the previously loaded workspace (only we the site was called directly, via F5 for example)
+                // content loaded via ajax is inside the #workspace_wrapper div
+                // normally we wouldn't need this
+                // just load everything into the workspace div and let the load() function only insert the container div
+                // unfortunately the load() function strips all <script> tags if its called with a selector
+                // this is a workaround for this
+                $('#workspace').remove();
+
+                // ignore the workspace and load only the container class
+                $('#workspace_wrapper').load(link, function (response, status) {
+                    if (status == 'error') {
+                        $(this).html("<div id='workspace'>" +
+                        "<div class='container'>" +
+                        "<div class='alert alert-warning' role='alert'>" +
+                        "<h3 align='center'>" +
+                        response +
+                        "</h3>" +
+                        "</div>" +
+                        '</div>' +
+                        '</div>');
+
+                        ajax_error_sign.show();
+                    }
+                });
+
+                window.history.pushState({path: link}, '', link);
+
+                ajaxloader.delay(10).hide(10);
+            });
+            return false;
         }
     }
 });

@@ -105,3 +105,11 @@ input, select{
 #ajax_error_sign {
     display: none;
 }
+
+#extend_size {
+    width:80px;
+}
+
+div.ui-slider-range.ui-widget-header {
+    background: #5cb85c;
+}

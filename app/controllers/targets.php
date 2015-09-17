@@ -1,10 +1,12 @@
-<?php
-    class targets extends controller {
+<?php namespace phpietadmin\app\controllers;
+use phpietadmin\app\core;
+
+    class targets extends core\BaseController {
         public function addtarget() {
             if (!empty($_POST['name'])) {
                 // constructor creates target if it's not existing
                 $target = $this->model('target\Target', $_POST['name']);
-                $result = $target->get_action_result();
+                $result = $target->logging->get_action_result();
 
                 if ($result['code'] != 0) {
                     $json = array(
@@ -27,31 +29,59 @@
 
                 echo json_encode($json);
             } else {
-                $this->view('targets/addtarget', $this->database->get_config('iqn')['value'] . ":");
+                $this->view('targets/addtarget', $this->base_model->database->get_config('iqn')['value'] . ":");
             }
         }
 
-        /*public function configuretarget() {
-            $targets = $this->model('target\Target', '');
-
-            $data = $targets->return_target_data();
-            if ($data === false) {
-                $result = $targets->get_action_result();
-                $this->view('message', array('message' => $result['message'], 'type' => 'error'));
+        public function adddisuser() {
+            if (isset($_POST['id'], $_POST['type'])) {
+                if ($_POST['type'] == 'Incoming') {
+                    $type = 'IncomingUser';
+                } else if ($_POST['type'] == 'Outgoing') {
+                    $type = 'OutgoingUser';
+                } else {
+                    echo "The type value is invalid!";
+                    die();
+                }
+                $target = $this->model('target\Target');
+                $target->add_user($_POST['id'], true, $type);
+                echo json_encode($target->logging->get_action_result());
             } else {
-                $this->view('targets/configuretarget', $data);
-            }
-        }*/
+                $data = $this->base_model->database->get_all_usernames(true);
 
-        public function configure($param = false) {
+                if ($data != 0) {
+                    $this->view('targets/add_dis_user', $data);
+                } else {
+                    $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+                }
+            }
+        }
+
+        public function deletedisuser() {
+            if (isset($_POST['type'], $_POST['id'])) {
+                $target = $this->model('target\Target');
+                $target->delete_user($_POST['id'], true, $_POST['type']);
+                echo json_encode($target->logging->get_action_result());
+            } else {
+                $target = $this->model('target\Target');
+                $data = $target->get_user(true);
+                if ($data !== false) {
+                    $this->view('targets/delete_dis_user', $data);
+                } else {
+                    $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+                }
+            }
+        }
+
+        public function configure($param1 = false, $param2 = false) {
             $targets = $this->model('target\Target', '');
             $data = $targets->return_target_data();
 
             if ($data !== false) {
-                if ($param === false) {
+                if ($param1 === false) {
                     $this->view('targets/configuretarget', $data);
-                } else if ($param == 'maplun') {
-                        if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
+                } else if ($param1 == 'maplun') {
+                        if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->base_model->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
                             // ToDo
                             // If the target doesn't exist it will be created
                             // This should never happen here
@@ -76,13 +106,13 @@
                                 $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
                             }
                         }
-                } else if ($param == 'deletelun') {
+                } else if ($param1 == 'deletelun') {
                     if (isset($_POST['iqn'], $_POST['path'])) {
                         // delete lun with id
                         $target = $this->model('target\Target', $_POST['iqn']);
 
-                        $target->delete_lun($_POST['path'], true);
-                        echo json_encode($target->get_action_result());
+                        $target->detach_lun($_POST['path'], true);
+                        echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
                         // fetch data via target model
                         $target = $this->model('target\Target', $_POST['iqn']);
@@ -99,24 +129,24 @@
                             $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
                         }
                     }
-                } else if ($param == 'adduser') {
+                } else if ($param1 == 'adduser') {
                     if (isset($_POST['type'], $_POST['id'], $_POST['iqn'])) {
                         $target = $this->model('target\Target', $_POST['iqn']);
                         $target->add_user($_POST['id'], false, $_POST['type']);
-                        echo json_encode($target->get_action_result());
+                        echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
-                        $data = $this->database->get_all_usernames(true);
+                        $data = $this->base_model->database->get_all_usernames(true);
                         if ($data != 0) {
                             $this->view('targets/adduser', $data);
                         } else {
                             $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
                         }
                     }
-                } else if ($param == 'deleteuser') {
+                } else if ($param1 == 'deleteuser') {
                     if (isset($_POST['id'], $_POST['type'], $_POST['iqn'])) {
                         $target = $this->model('target\Target', $_POST['iqn']);
                         $target->delete_user($_POST['id'], false, $_POST['type']);
-                        echo json_encode($target->get_action_result());
+                        echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
                         $target = $this->model('target\Target', $_POST['iqn']);
 
@@ -128,15 +158,22 @@
                             $this->view('targets/deleteuser', $data);
                         }
                     }
-                } else if ($param == 'deletetarget') {
-
-                } else if ($param == 'deletesession') {
+                } else if ($param1 == 'deletetarget') {
+                    if (isset($_POST['iqn'], $_POST['delete_acl'], $_POST['force'], $_POST['delete_lun'])) {
+                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $target->delete_target(boolval($_POST['force']), boolval($_POST['delete_acl']), boolval($_POST['delete_lun']));
+                        echo json_encode($target->logging->get_action_result());
+                    } else if (isset($_POST['iqn'])) {
+                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $this->view('targets/delete_target', $target->return_target_data());
+                    }
+                } else if ($param1 == 'deletesession') {
                     if (isset($_POST['iqn'], $_POST['sid'])) {
                         $target = $this->model('target\Target', $_POST['iqn']);
 
                         if ($target->target_status !== false) {
                             $target->disconnect_session($_POST['sid']);
-                            echo json_encode($target->get_action_result());
+                            echo json_encode($target->logging->get_action_result());
                         } else {
                             $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
                         }
@@ -153,23 +190,27 @@
                             $this->view('message', array('message' => 'Error - The target has no open sessions!', 'type' => 'warning'));
                         }
                     }
-                } else if ($param == 'settings') {
-                    // get_all_settings
-
-                    if (isset($_POST['option'], $_POST['oldvalue'], $_POST['newvalue'], $_POST['iqn'], $_POST['type'])) {
-
-                    } else if (isset($_POST['option'], $_POST['value'], $_POST['iqn']) && $_POST['action'] == 'reset') {
-
+                } else if ($param1 == 'settings') {
+                    if (isset($_POST['option'], $_POST['newvalue'], $_POST['iqn'])) {
+						$target = $this->model('target\Target', $_POST['iqn']);
+						$target->add_setting($_POST['option'], $_POST['newvalue']);
+						echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
-
+						$target = $this->model('target\Target', $_POST['iqn']);
+						$data = $target->get_all_settings();
+						// cut array in two pieces
+						$len = count($data);
+						$view_data[0] = array_slice($data, 0, $len / 2);
+						$view_data[1] = array_slice($data, $len / 2);
+						$this->view('targets/settings_table', $view_data);
                     }
-                } else if ($param == 'addrule') {
+                } else if ($param1 == 'addrule') {
                     if (isset($_POST['iqn'], $_POST['type'], $_POST['id'])) {
                         $target = $this->model('target\Target', $_POST['iqn']);
                         $target->add_acl($_POST['id'], $_POST['type']);
-                        echo json_encode($target->get_action_result());
+                        echo json_encode($target->logging->get_action_result());
                     } else {
-                        $data = $this->database->get_all_objects();
+                        $data = $this->base_model->database->get_all_objects();
 
                         if ($data === 3) {
                             $this->view('message', array('message' => 'Error - No objects available!', 'type' => 'warning'));
@@ -177,239 +218,52 @@
                             $this->view('targets/addrule', $data);
                         }
                     }
+				} else if ($param1 == 'deleterule') {
+					if (isset($_POST['iqn'], $_POST['value'], $_POST['rule_type'])) {
+						$target = $this->model('target\Target', $_POST['iqn']);
+						$target->delete_acl($_POST['value'], $_POST['rule_type']);
+						echo json_encode($target->logging->get_action_result());
+					} else if (isset($_POST['iqn'])) {
+						// display body here
+						$target = $this->model('target\Target', $_POST['iqn']);
+						$data = $target->get_acls();
+
+						if ($data !== false) {
+							if ($param2 == 'targets') {
+								if (isset($data['targets'])) {
+									// delete the iqn
+									unset($data['targets'][0]);
+									// display target type
+									$this->view('targets/delete_rule', $data['targets']);
+								} else {
+									$this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning'));
+								}
+							} else if ($param2 == 'initiators') {
+								if (isset($data['initiators'])) {
+									// delete the iqn
+									unset($data['initiators'][0]);
+									// display initiator acl as default
+									$this->view('targets/delete_rule', $data['initiators']);
+								} else {
+									$this->view('message', array('message' => 'Error - No initiator acl available!', 'type' => 'warning'));
+								}
+							} else if ($param2 == 'control') {
+								// display control
+								$this->view('targets/delete_rule_control');
+							} else {
+								http_response_code(404);
+								echo 'Invalid url';
+							}
+						} else {
+							$this->view('message', array('message' => 'Error - No acl available!', 'type' => 'warning'));
+						}
+					}
                 } else {
                     http_response_code(404);
                     echo 'Invalid url';
                 }
             } else {
                 $this->view('message', array('message' => 'Error - No targets available!', 'type' => 'warning'));
-            }
-        }
-
-        public function deletetarget() {
-            if (isset($_POST['iqn'], $_POST['action'], $_POST['deleteaacl'], $_POST['force'])) {
-                // Get tid of target
-                $tid = $this->ietadd->get_tid($_POST['iqn']);
-
-                // Get luns for selected target
-                $data = $this->ietadd->get_targets_with_lun();
-
-                if (!empty($data)) {
-                    $luns = $this->ietdelete->get_all_luns_of_iqn($data, $_POST['iqn']);
-
-                    if (!is_int($luns)) {
-                        // luns are always deleted from the config file and the daemon
-                        foreach ($luns as $key => $lun) {
-                            try {
-                                // delete lun from daemon
-                                $return = $this->exec->delete_lun_from_daemon($tid, $_POST['lun']);
-
-                                if ($return != 0) {
-                                    throw new exception('Lun ' . $lun['lun'] . ' Error - Could not delete lun ' . $lun['lun'] . ' from daemon');
-                                } else {
-                                    // delete lun from config file
-                                    $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], 'Lun ' . $lun['lun'] . ' Type=' . $lun['type'] . ',IOMode=' . $lun['mode'] . ',Path=' . $lun['path'], $this->database->get_config('ietd_config_file'));
-
-                                    if ($return != 0) {
-                                        throw new exception('Lun ' . $lun['lun'] . ' Error - Could not delete lun ' . $lun['lun'] . ' from config');
-                                    } else {
-                                        if ($_POST['action'] == 'delete') {
-                                            $return = $this->exec->delete_logical_volume($lun['path']);
-
-                                            if ($return != 0) {
-                                                throw new exception('Lun ' . $lun['lun'] . ' Error - Cannot delete logical volume ' . $lun['path']);
-                                            } else {
-                                                echo 'Lun ' . $lun['lun']  . ': ' . ' Success. LV ' . $lun['path'] . ' deleted' . "\n";
-                                            }
-                                        } else {
-                                            echo 'Lun ' . $lun['lun'] . ': ' . ' Success' . "\n";
-                                        }
-                                    }
-                                }
-                            } catch (Exception $e) {
-                                echo $e->getMessage() . '. Please remove it manually!';
-                            }
-                        }
-                    } else {
-                        echo 'No luns attached!' . "\n";
-                    }
-                } else {
-                    echo 'No luns attached!' . "\n";
-                }
-
-                try {
-                    // delete acl if set
-                    if ($_POST['deleteaacl'] == 'true') {
-                        $files[0] = $this->database->get_config('ietd_init_allow')['value'];
-                        $files[1] = $this->database->get_config('ietd_target_allow')['value'];
-
-                        foreach ($files as $file) {
-                            $return = $this->ietdelete->delete_iqn_from_allow_file($_POST['iqn'], $file);
-                            if ($return != 0) {
-                                throw new exception('Error - Could not delete ACLs from file ' . $file);
-                            } else {
-                                echo 'Success: ACLs from ' . $file . " deleted. \n";
-                            }
-                        }
-                    }
-
-                    // just to be safe, delete all remaining options from $_POST['iqn']
-                    $return = $this->ietdelete->delete_all_options_from_iqn($_POST['iqn'], $this->database->get_config('ietd_config_file'));
-                    if ($return != 0) {
-                        throw new exception('Error - Could not delete other options from iqn ' . $_POST['iqn']);
-                    } else {
-                        // delete target from daemon
-
-                        if ($_POST['force'] == 'true') {
-                            if ($_POST['deleteaacl'] == 'true') {
-                                $sessions = $this->ietsessions->getIetSessionsforiqn($_POST['iqn']);
-
-                                if (is_array($sessions))
-                                // position 0 contains the iqn
-                                // we already have it
-                                unset($sessions[0][0]);
-
-                                // force deletion if set and acl is set
-                                foreach ($sessions[0] as $key => $session) {
-                                    $return = $this->ietdelete->delete_session($this->database->get_config('sudo') . " " . $this->database->get_config('ietadm'), $tid, $session['sid'], $session['cid']);
-
-                                    if ($return != 0) {
-                                        throw new exception('Error - Could not delete session ' . $session['sid']);
-                                    } else {
-                                        echo 'Success: Session ' . $session['sid'] .  " deleted. \n";
-                                    }
-                                }
-                            } else {
-                                throw new exception('Error - Cannot force delete without \'Delete acl\'');
-                            }
-                        }
-
-                        $return = $this->exec->delete_target_from_daemon($tid);
-                        if ($return != 0) {
-                            throw new exception('Error - Could not delete the iqn from the daemon. Maybe it\'s in use? Try the \'Force\' option');
-                        } else {
-                            // delete target from file
-                            $return = $this->ietdelete->delete_iqn_from_config_file($_POST['iqn'], $this->database->get_config('ietd_config_file'));
-                            if ($return != 0) {
-                                throw new exception('Error - Could not delete the iqn from the config file');
-                            } else {
-                                echo 'Target deleted successfully' . "\n";
-                            }
-                        }
-                    }
-                } catch (Exception $e) {
-                    echo $e->getMessage() . '. Please remove it manually!' . "\n";
-                }
-            } else {
-                $this->view('targets/deletetarget');
-            }
-        }
-
-        public function settings() {
-            // change or set value
-            if (isset($_POST['option'], $_POST['oldvalue'], $_POST['newvalue'], $_POST['iqn'], $_POST['type'])) {
-                // This is already validated on the client and should normally not occur
-                if ($_POST['oldvalue'] == $_POST['newvalue']) {
-                    echo "No changes!";
-                } else {
-                    // Change option in daemon config
-                    $tid = $this->ietadd->get_tid($_POST['iqn']);
-
-                    $return = $this->exec->add_config_to_daemon($tid, $_POST['option'], $_POST['newvalue']);
-
-                    if ($return !== 0) {
-                        echo 'Could not change the daemon config!';
-                    } else {
-                        // if the default value is the new value, we don't add or delete it to/from the config file
-                        $default_settings = $this->database->get_iet_settings();
-                        $key = $this->std->recursive_array_search($_POST['option'], $default_settings);
-                        
-                        $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $_POST['option'] . ' ' . $_POST['oldvalue'], $this->database->get_config('ietd_config_file'));
-
-                        // $return == 0 => option deleted from config file
-                        // $return == 1 => file is not found
-                        // $return == 3 => option not found in config file
-                        if ($return == 1) {
-                            echo 'Config file is read-only!';
-                        } else {
-                            if ($_POST['type'] == 'input') {
-                                $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);
-                            } else if ($_POST['type'] == 'select') {
-                                // if the type is 'select', we have to check for the default value
-
-                                if ($default_settings[$key]['defaultvalue'] !== $_POST['newvalue']) {
-                                    $return = $this->ietadd->add_option_to_iqn_in_file($_POST['iqn'], $this->database->get_config('ietd_config_file'), $_POST['option'] . ' ' . $_POST['newvalue']);
-                                }
-                            }
-
-                            if ($return == 1) {
-                                echo 'Config file is read-only!';
-                            } else if ($return == 3) {
-                                echo 'Target not found!';
-                            } else {
-                                echo 'Success';
-                            }
-                        }
-                    }
-                }
-            // Resets value to default
-            } else if (isset($_POST['option'], $_POST['value'], $_POST['iqn']) && $_POST['action'] == 'reset') {
-                // delete value from daemon config
-                $tid = $this->ietadd->get_tid($_POST['iqn']);
-                $return = $this->std->exec_and_return($this->database->get_config('sudo') . ' ' . $this->database->get_config('ietadm') . ' --op update --tid=' . $tid . ' --params=' . $_POST['option'] . '=');
-
-                if ($return !== 0) {
-                    echo 'error';
-                } else {
-                    // reset value to default
-                    $return = $this->ietdelete->delete_option_from_iqn($_POST['iqn'], $_POST['option'] . ' ' . $_POST['value'], $this->database->get_config('ietd_config_file'));
-
-                    if ($return !== 0) {
-                        echo 'error';
-                    } else {
-                        $default_settings = $this->database->get_iet_settings();
-                        $key = $this->std->recursive_array_search($_POST['option'], $default_settings);
-                        echo htmlspecialchars($default_settings[$key]['defaultvalue']);
-                    }
-                }
-            } else if (isset($_POST['iqn'])) {
-                // get options with values
-                $data = $this->ietadd->get_all_options_from_iqn($_POST['iqn'], $this->database->get_config('ietd_config_file'));
-
-                $default_settings = $this->database->get_iet_settings();
-
-                // Insert configured data into default settings array to display user made changes
-                if (!empty($data)) {
-                    // every array with more than two indexes contains a target or a lun definition
-                    foreach ($data as $key => $value) {
-                        if (count($data[$key]) > 2) {
-                            unset($data[$key]);
-                        }
-                    }
-
-                    foreach ($data as $value) {
-                        $key = $this->std->recursive_array_search($value[0], $default_settings);
-
-                        if ($key !== false) {
-                            $string = trim(preg_replace('/\s+/', ' ', $value[1]));
-                            if ($default_settings[$key]['type'] == 'input') {
-                                $default_settings[$key]['defaultvalue'] = $string;
-                            } else if ($default_settings[$key]['type'] == 'select') {
-                                if ($default_settings[$key]['defaultvalue'] != $string) {
-                                    $default_settings[$key]['othervalue1'] = $default_settings[$key]['defaultvalue'];
-                                    $default_settings[$key]['defaultvalue'] = $string;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // cut array in to pieces
-                $len = count($default_settings);
-                $viewdata[0] = array_slice($default_settings, 0, $len / 2);
-                $viewdata[1] = array_slice($default_settings, $len / 2);
-
-                $this->view('targets/settingstable', $viewdata);
             }
         }
     }

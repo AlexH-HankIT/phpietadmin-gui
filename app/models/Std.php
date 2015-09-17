@@ -1,10 +1,12 @@
 <?php namespace phpietadmin\app\models;
+use phpietadmin\app\core;
 
 class Std {
-	protected $database;
+	private $logging;
 
 	public function __construct() {
-		$this->database = new Database();
+		$registry = core\Registry::getInstance();
+		$this->logging = $registry->get('logging');
 	}
 
     /**
@@ -106,9 +108,9 @@ class Std {
      * @return   array
      *
      */
-    protected function exec_and_return($command) {
+    public function exec_and_return($command) {
         $return = [];
-        $this->log_debug_result();
+        $this->logging->log_debug_result();
         exec(escapeshellcmd($command) . ' 2>&1', $return['status'], $return['result']);
         $return['code_type'] = 'extern';
         return $return;

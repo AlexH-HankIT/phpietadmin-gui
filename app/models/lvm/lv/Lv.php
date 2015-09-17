@@ -1,6 +1,5 @@
 <?php namespace phpietadmin\app\models\lvm\lv;
-    use phpietadmin\app\models,
-        phpietadmin\app\models\lvm\vg;
+    use phpietadmin\app\models\lvm\vg;
 
     /* ToDo:
         lv_attr:
@@ -26,8 +25,6 @@
          *
          */
         public function __construct($vg_name, $lv_name = false) {
-            $this->set_database(new models\Database());
-
             // make vg name globally available
             $this->set_lv_name($lv_name);
             $this->set_vg_name($vg_name);
@@ -50,45 +47,49 @@
             }
         }
 
+        public function return_lv_status() {
+            return $this->lv_status;
+        }
+
         /* Logical volume specific methods - start */
         /* These methods are only working, if the object was instantiated with $lv_name != false */
         public function add_lv($size) {
             $this->check();
 
-            $this->log_action_result('The logical volume ' . $this->lv_name . ' was successfully added to the volume group ' . $this->vg_name, array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
-
             if ($this->check_vg_enough_space($size) === false) {
-                $this->log_action_result('The volume group ' . $this->vg_name . ' has not enough space to create the logical volume ' . $this->lv_name, array('result' => 8, 'code_type' => 'intern'), __METHOD__);
+                $this->logging->log_action_result('The volume group ' . $this->vg_name . ' has not enough space to create the logical volume ' . $this->lv_name, array('result' => 8, 'code_type' => 'intern'), __METHOD__);
             } else {
                 if ($this->lv_status === false) {
                     $return = $this->add_logical_volume($size);
 
                     if ($return['result'] != 0) {
-                        $this->log_action_result('The logical volume ' . $this->lv_name . ' was not added to the volume group ' . $this->vg_name, $return, __METHOD__);
+                        $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was not added to the volume group ' . $this->vg_name, $return, __METHOD__);
                     } else {
+                        $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was successfully added to the volume group ' . $this->vg_name, array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                         $this->lv_status = true;
                     }
                 } else {
-                    $this->log_action_result('The logical volume ' . $this->lv_name . ' does already exist in the volume group ' . $this->vg_name, array('result' => 4, 'code_type' => 'intern'),  __METHOD__);
+                    $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does already exist in the volume group ' . $this->vg_name, array('result' => 4, 'code_type' => 'intern'),  __METHOD__);
                 }
             }
         }
 
         public function snapshot_lv($size) {
             $this->check();
-            $this->log_action_result('The snapshot of the logical volume ' . $this->lv_name . ' was successfully created', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
             if ($this->lv_status === true) {
                 if ($this->check_vg_enough_space($size) === false) {
-                    $this->log_action_result('The volume group ' . $this->vg_name . ' has not enough space to create a ' . $size . ' snapshot of the logical volume ' . $this->lv_name, array('result' => 4, 'code_type' => 'intern'),  __METHOD__);
+                    $this->logging->log_action_result('The volume group ' . $this->vg_name . ' has not enough space to create a ' . $size . ' snapshot of the logical volume ' . $this->lv_name, array('result' => 4, 'code_type' => 'intern'),  __METHOD__);
                 } else {
                     $return = $this->create_lv_snapshot($size);
                     if ($return['result'] != 0) {
-                        $this->log_action_result('The snapshot of the logical volume ' . $this->lv_name . ' was not created!', $return,  __METHOD__);
+                        $this->logging->log_action_result('A snapshot of the logical volume ' . $this->lv_name . ' was not created!', $return,  __METHOD__);
+                    } else {
+                        $this->logging->log_action_result('A snapshot of the logical volume ' . $this->lv_name . ' was successfully created', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
             } else {
-                $this->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
+                $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
             }
         }
 
@@ -97,10 +98,10 @@
             $this->check();
             $data = $this->return_snapshots();
 
-            $this->log_action_result('The snapshots of the logical volume ' . $this->lv_name . ' were successfully fetched', array('result' => 0, 'code_type' => 'intern'),  __METHOD__, true);
+            $this->logging->log_action_result('The snapshots of the logical volume ' . $this->lv_name . ' were successfully fetched', array('result' => 0, 'code_type' => 'intern'),  __METHOD__, true);
 
             if ($data === false) {
-                $this->log_action_result('The logical volume ' . $this->lv_name . ' has no snapshots! ', array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
+                $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' has no snapshots! ', array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
                 return false;
             } else {
                 return $data;
@@ -110,41 +111,41 @@
         public function remove_lv() {
             $this->check();
 
-            $this->log_action_result('The logical volume ' . $this->lv_name . ' was successfully removed from the volume group ' . $this->vg_name, array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+            $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was successfully removed from the volume group ' . $this->vg_name, array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
             if ($this->lv_status === true) {
                 $return = $this->delete_logical_volume();
 
                 if ($return['result'] != 0) {
-                    $this->log_action_result('The logical volume ' . $this->lv_name . ' was not removed from the volume group ' . $this->vg_name, $return, __METHOD__);
+                    $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was not removed from the volume group ' . $this->vg_name, $return, __METHOD__);
                 }
             } else {
-                $this->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
+                $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
             }
         }
 
         public function rename_lv($new_lv_name) {
             $this->check();
 
-            $this->log_action_result('The logical volume ' . $this->lv_name . ' was successfully renamed to ' . $new_lv_name, array('result' => 0, 'code_type' => 'intern'), true);
+            $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was successfully renamed to ' . $new_lv_name, array('result' => 0, 'code_type' => 'intern'), true);
 
             if ($this->lv_status === false) {
-                $this->log_action_result('The logical volume ' . $this->lv_name . ' does not exist!', array('result' => 3, 'code_type' => 'intern'),  __METHOD__, true);
+                $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does not exist!', array('result' => 3, 'code_type' => 'intern'),  __METHOD__, true);
             } else {
                 if ($new_lv_name == $this->lv_name) {
-                    $this->log_action_result('The new name is the same!', array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
+                    $this->logging->log_action_result('The new name is the same!', array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
                 } else {
                     $data = $this->get_all_volumes_from_this_vg();
 
-                    $key = $this->recursive_array_search($new_lv_name, $data);
+                    $key = $this->std->recursive_array_search($new_lv_name, $data);
 
                     if ($key !== false) {
-                        $this->log_action_result('A logical volume with the name ' . $new_lv_name . ' does already exist!', array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
+                        $this->logging->log_action_result('A logical volume with the name ' . $new_lv_name . ' does already exist!', array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
                     } else {
                         $return = $this->change_lv_name($new_lv_name);
 
                         if ($return['result'] != 0) {
-                            $this->log_action_result('The logical volume was not renamed!', $return,  __METHOD__);
+                            $this->logging->log_action_result('The logical volume was not renamed!', $return,  __METHOD__);
                         } else {
                             $this->lv_name = $new_lv_name;
                         }
@@ -156,7 +157,7 @@
         /**
          * Extend $this->lv_name
          *
-         * @param string $new_size target size of the volume, e.g. if you have a volume, which is 4g you have to specify 5g to add 1g
+         * @param string $new_size target size of the volume, e.g. if you have a volume, which is 4g you have to specify 5 to add 1g
          *
          */
         public function extend_lv($new_size) {
@@ -166,22 +167,22 @@
 
             $extend_size = $new_size - $data[0]['LSize'];
 
-            $this->log_action_result('The logical volume ' . $this->lv_name . ' was successfully extended to ' . $new_size . 'gb', array('result' => 0, 'code_type' => 'intern'),  __METHOD__, true);
-
             if ($extend_size <= 0) {
-                $this->log_action_result('The size cannot be smaller or equal!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+                $this->logging->log_action_result('The size cannot be smaller or equal!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
             } else {
                 if($this->check_vg_enough_space($extend_size) === false) {
-                    $this->log_action_result('The volume group ' . $this->vg_name . ' has not enough space to extend the logical volume ' . $this->lv_name, array('result' => 8, 'code_type' => 'intern'), __METHOD__);
+                    $this->logging->log_action_result('The volume group ' . $this->vg_name . ' has not enough space to extend the logical volume ' . $this->lv_name, array('result' => 8, 'code_type' => 'intern'), __METHOD__);
                 } else {
                     if ($this->lv_status === true) {
                         $return = $this->extend_lv_size($new_size);
 
                         if ($return['result'] != 0) {
-                            $this->log_action_result('The logical volume ' . $this->lv_name . ' was not extended to ' . $new_size . 'gb', $return,  __METHOD__);
+                            $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was not extended to ' . $new_size . 'gb', $return,  __METHOD__);
+                        } else {
+                            $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was successfully extended to ' . $new_size . 'gb', array('result' => 0, 'code_type' => 'intern'),  __METHOD__);
                         }
                     } else {
-                        $this->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
+                        $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
                     }
                 }
             }
@@ -190,32 +191,32 @@
         public function reduce_lv($new_size) {
             $this->check();
 
-            $this->log_action_result('The logical volume ' . $this->lv_name . ' was successfully reduced to ' . $new_size . 'gb', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+            $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was successfully reduced to ' . $new_size . 'gb', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
             if ($this->lv_status === true) {
                 $return = $this->reduce_lv_size($new_size);
 
                 if ($return['result'] != 0) {
-                    $this->log_action_result('The logical volume ' . $this->lv_name . ' was not reduced to ' . $new_size . 'gb', $return,  __METHOD__);
+                    $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was not reduced to ' . $new_size . 'gb', $return,  __METHOD__);
                 }
             } else {
-                $this->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
+                $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
             }
         }
 
         public function merge_snapshot() {
             $this->check();
 
-            $this->log_action_result('The snapshot ' . $this->lv_name . ' was successfully merged', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+            $this->logging->log_action_result('The snapshot ' . $this->lv_name . ' was successfully merged', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
             if ($this->is_snapshot() === true) {
                 $return = $this->merge_lv_snapshot();
 
                 if ($return['result'] != 0) {
-                    $this->log_action_result('The snapshot ' . $this->lv_name . ' was not merged', $return,  __METHOD__);
+                    $this->logging->log_action_result('The snapshot ' . $this->lv_name . ' was not merged', $return,  __METHOD__);
                 }
             } else {
-                $this->log_action_result('The logical volume ' . $this->lv_name . ' is not a snapshot!', array('result' => 3, 'code_type' => 'intern'), __METHOD__, true);
+                $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' is not a snapshot!', array('result' => 3, 'code_type' => 'intern'), __METHOD__, true);
             }
         }
 
@@ -223,20 +224,39 @@
 
         /* Methods which are working without a logical volume - start */
         // return array with all *normal* (non-snapshot) volumes
-        public function get_lv() {
+        /**
+         * @param bool $snapshots return also snapshots?
+         * @return array|bool|int
+         */
+        public function get_lv($snapshots = false) {
             if ($this->lv_name !== false) {
-                $this->log_action_result('The data of the logical volume ' . $this->lv_name . ' was successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+                $this->logging->log_action_result('The data of the logical volume ' . $this->lv_name . ' was successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
             } else {
-                $this->log_action_result('The data of the logical volumes were successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+                $this->logging->log_action_result('The data of the logical volumes were successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
             }
 
             $return = $this->parse_lvm('lv');
 
             if ($return === false) {
-                $this->log_action_result('The logical volume ' . $this->lv_name . ' does not exist or another error occurred!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+                $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does not exist or another error occurred!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
                 return false;
             } else {
-                return $return;
+                if ($snapshots === false) {
+                    foreach ($return as $key => $lv) {
+                        if ($lv['Attr'][0] == 's') {
+                            unset($return[$key]);
+                        }
+                    }
+
+                    // should normally not happen, but we handle it anyway
+                    if (empty($return)) {
+                        return false;
+                    } else {
+                        return $return;
+                    }
+                } else {
+                    return $return;
+                }
             }
         }
 

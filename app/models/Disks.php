@@ -1,15 +1,11 @@
 <?php namespace phpietadmin\app\models;
-    use phpietadmin\app\models\logging;
+    use phpietadmin\app\models\logging,
+		phpietadmin\app\core;
 
-    class Disks extends logging\Logging {
-        protected $database;
-
-        public function __construct() {
-            $this->database = new Database();
-        }
+    class Disks extends core\BaseModel {
 
         public function get_disks() {
-            $return = $this->exec_and_return($this->database->get_config('lsblk')['value'] . ' --pairs');
+            $return = $this->std->exec_and_return($this->database->get_config('lsblk')['value'] . ' --pairs');
 
             if ($return['result'] == 0) {
                 if (!empty($return['status'])) {

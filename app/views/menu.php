@@ -35,10 +35,10 @@
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"></span> <span class='hidden-sm hidden-md'>Targets</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a class="workspacetab" href='/phpietadmin/targets/addtarget'><span class="glyphicon glyphicon-plus"></span> Add</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/targets/configure'><span class="glyphicon glyphicon-pencil"></span> Configure</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/targets/configure'><span class="glyphicon glyphicon-wrench"></span> Configure</a></li>
                         <li class="divider"></li>
-                        <li><a class="workspacetab" href='/phpietadmin/permission/adddisuser'><span class="glyphicon glyphicon-plus"></span> Add discovery user</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/permission/deletedisuser'><span class="glyphicon glyphicon-trash"></span> Delete discovery user</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/targets/adddisuser'><span class="glyphicon glyphicon-plus"></span> Add discovery user</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/targets/deletedisuser'><span class="glyphicon glyphicon-trash"></span> Delete discovery user</a></li>
                     </ul>
                 </li>
 
@@ -49,8 +49,8 @@
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">LVM <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a class="workspacetab" href='/phpietadmin/lvm/add'><span class="glyphicon glyphicon-plus"></span> Add logical volume</a></li>
-                        <li><a class="workspacetab" href='/phpietadmin/lvm/delete'><span class="glyphicon glyphicon-trash"></span> Delete logical volume</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/lvm/add'><span class="glyphicon glyphicon-plus"></span> Add</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/lvm/configure'><span class="glyphicon glyphicon-wrench"></span> Configure</a></li>
                     </ul>
                 </li>
 
@@ -81,8 +81,6 @@
                         <li><a class="workspacetab" href='/phpietadmin/log/show/action'>Action</a></li>
                         <li class="divider"></li>
                         <li><a class="workspacetab" href='/phpietadmin/log/show/php'>PHP</a></li>
-                        <li class="divider"></li>
-                        <li><a class="workspacetab" href='/phpietadmin/log/config'>Config</a></li>
                     </ul>
                 </li>
 
@@ -104,7 +102,7 @@
 <script>
     require(['common'],function(methods) {
         methods.common();
-        methods.load_workspace();
+        methods.load_workspace_event_handler();
         methods.add_event_handler_shutdown();
         methods.add_event_handler_reboot();
     });

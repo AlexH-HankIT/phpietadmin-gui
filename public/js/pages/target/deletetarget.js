@@ -5,43 +5,61 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         add_event_handler_deletetargetbutton: function() {
             $(document).ready(function(){
                 $(document).once('click', '#deletetargetbutton', function() {
-                    var deleteaacl;
+                    var deleteacl;
                     if($("#deleteacl").prop('checked')) {
-                        deleteaacl = 'true';
+                        deleteacl = 1;
                     } else {
-                        deleteaacl = 'false';
+                        deleteacl = 0;
                     }
 
                     var force;
                     if($('#force').prop('checked')) {
-                        force = 'true';
+                        force = 1;
                     } else {
-                        force = 'false';
+                        force = 0;
                     }
 
-                    if (force == 'true' && deleteaacl == 'false') {
+                    if (force == 1 && deleteacl == 0) {
                         swal({
                             title: 'Error',
                             type: 'error',
-                            text: 'Force needs the Delete acl option!'
+                            text: 'Force needs the \'Delete acl\' option!'
                         });
                     } else {
-                        var data = {
-                            "iqn": $('#targetselection').find("option:selected").val(),
-                            "action": $("input[name='lundeletion']:checked").val(),
-                            "deleteaacl": deleteaacl,
-                            "force": force
-                        };
-
-                        var request = mylibs.doajax("/phpietadmin/targets/deletetarget", data);
-
-                        request.done(function() {
-                            if (request.readyState == 4 && request.status == 200) {
+                        $.ajax({
+                            url: '/phpietadmin/targets/configure/deletetarget',
+                            data: {
+                                "iqn": $('#targetselection').find("option:selected").val(),
+                                "delete_lun": $("input[name='lundeletion']:checked").val(),
+                                "delete_acl": deleteacl,
+                                "force": force
+                            },
+                            dataType: 'json',
+                            type: 'post',
+                            success: function(data) {
+                                if (data['code'] == 0) {
+                                    swal({
+                                        title: 'Success',
+                                        type: 'success',
+                                        text: data['message']
+                                    },function() {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: data['message']
+                                    },function() {
+                                        window.location.reload();
+                                    });
+                                }
+                            },
+                            error: function() {
                                 swal({
-                                    title: "Result",
-                                    text: request.responseText
-                                },function() {
-                                    window.location.reload();
+                                    title: 'Error',
+                                    type: 'error',
+                                    text: 'Something went wrong while submitting!'
                                 });
                             }
                         });

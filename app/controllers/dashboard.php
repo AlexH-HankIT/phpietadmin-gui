@@ -1,5 +1,7 @@
-<?php
-    class Dashboard extends Controller {
+<?php namespace phpietadmin\app\controllers;
+	use phpietadmin\app\core;
+
+    class Dashboard extends core\BaseController {
         /**
          *
          * Display the dashboard page
@@ -8,7 +10,7 @@
          *
          */
         public function index() {
-            $data = $this->std->get_dashboard_data();
+            $data = $this->base_model->std->get_dashboard_data();
             $this->view('dashboard', $data);
         }
 
@@ -16,15 +18,11 @@
          *
          * Get the up2date phpietadmin version from github
          *
-         * FROM GITHUB, not the local file
-         *
-         * ToDo: Fix this
-         *
          * @return      void
          *
          */
 
         public function get_version() {
-            echo file_get_contents(__DIR__ . '/../../version.json');
+            echo file_get_contents('https://raw.githubusercontent.com/MrCrankHank/phpietadmin/master/version.json');
         }
     }

@@ -1,7 +1,7 @@
 <?php namespace phpietadmin\app\models\lvm\logic;
-    use phpietadmin\app\models\logging\Logging;
+    use phpietadmin\app\core;
 
-    class Exec extends Logging {
+    class Exec extends core\BaseModel {
         private $lvcreate;
         private $lvremove;
         private $lvrename;
@@ -11,13 +11,14 @@
         private $vgs;
         private $pvs;
         private $lvs;
-        protected $database;
         protected $vg_name;
         protected $pv_name;
         protected $lv_name;
         protected $vg;
 
         public function __construct() {
+            parent::__construct();
+
             $this->lvcreate = $this->database->get_config('lvcreate')['value'];
             $this->lvremove = $this->database->get_config('lvremove')['value'];
             $this->vgs = $this->database->get_config('vgs')['value'];
@@ -27,10 +28,6 @@
             $this->lvextend = $this->database->get_config('lvextend')['value'];
             $this->lvreduce = $this->database->get_config('lvreduce')['value'];
             $this->lvconvert = $this->database->get_config('lvconvert')['value'];
-        }
-
-        protected function set_database($database) {
-            $this->database = $database;
         }
 
         protected function set_vg_name($vg_name) {
@@ -54,7 +51,7 @@
          *
          */
         protected function add_logical_volume($size) {
-            return $this->exec_and_return($this->lvcreate . ' -L ' . $size . 'g -n' . $this->lv_name . ' ' . $this->vg_name);
+            return $this->std->exec_and_return($this->lvcreate . ' -L ' . $size . 'g -n' . $this->lv_name . ' ' . $this->vg_name);
         }
 
         /**
@@ -65,27 +62,27 @@
          *
          */
         protected function delete_logical_volume() {
-            return $this->exec_and_return($this->lvremove . ' --force /' . '/dev/' . $this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvremove . ' --force /' . '/dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         protected function create_lv_snapshot($size) {
-            return $this->exec_and_return($this->lvcreate . ' --snapshot --size ' . $size . 'g --name ' . '/dev/' . $this->vg_name . '/' . $this->lv_name . '_snapshot_' . time() . ' /dev/' .$this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvcreate . ' --snapshot --size ' . $size . 'g --name ' . '/dev/' . $this->vg_name . '/' . $this->lv_name . '_snapshot_' . time() . ' /dev/' .$this->vg_name . '/' . $this->lv_name);
         }
 
         protected function change_lv_name($new_name) {
-            return $this->exec_and_return($this->lvrename . ' /dev/' . $this->vg_name . '/' . $this->lv_name . ' /dev/' . $this->vg_name . '/' . $new_name);
+            return $this->std->exec_and_return($this->lvrename . ' /dev/' . $this->vg_name . '/' . $this->lv_name . ' /dev/' . $this->vg_name . '/' . $new_name);
         }
 
         protected function extend_lv_size($size) {
-            return $this->exec_and_return($this->lvextend . ' --force -L' . $size . 'G' . ' /dev/' . $this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvextend . ' --force -L' . $size . 'G' . ' /dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         protected function reduce_lv_size($size) {
-            return $this->exec_and_return($this->lvreduce . ' --force -L' . $size . 'G' . ' /dev/' . $this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvreduce . ' --force -L' . $size . 'G' . ' /dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         protected function merge_lv_snapshot() {
-            return $this->exec_and_return($this->lvconvert . ' --merge /dev/' . $this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvconvert . ' --merge /dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         /**

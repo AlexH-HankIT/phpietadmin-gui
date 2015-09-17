@@ -10,35 +10,24 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         add_event_handler_addallowrulebutton: function() {
             $(document).ready(function(){
                 $(document).once('click', '#addallowrulebutton', function(){
-                    var selector_targetselection = $('#targetselection');
-                    var iqn = selector_targetselection.find("option:selected").val();
-                    var defaultvalue = selector_targetselection.find('#default').val();
+                    var checkboxes = $(".objectcheckbox:checked");
 
-                    if (iqn == defaultvalue) {
-                        swal({
-                            title: 'Error',
-                            type: 'error',
-                            text: 'Please select a iqn!'
-                        });
-                    } else if (!$(".objectcheckbox:checked").val()) {
+                    if (!checkboxes.val()) {
                         swal({
                             title: 'Error',
                             type: 'error',
                             text: 'Please select a object!'
                         });
                     } else {
-                        var type = $("input[name='type']:checked").val();
-
-                        $(".objectcheckbox:checked").each(function () {
+                        checkboxes.each(function () {
                             var $this = $(this);
-                            var id = $this.closest('tr').find('.objectid').text();
 
                             $.ajax({
                                 url: '/phpietadmin/targets/configure/addrule',
                                 data: {
-                                    "iqn": iqn,
-                                    "type": type,
-                                    "id": id
+                                    "iqn": $('#targetselection').find("option:selected").val(),
+                                    "type":  $("input[name='type']:checked").val(),
+                                    "id": $this.closest('tr').find('.objectid').text()
                                 },
                                 dataType: 'json',
                                 type: 'post',
@@ -59,8 +48,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                             text: data['message']
                                         });
                                     }
-
-                                    return mylibs.load_configure_target_body(iqn, '/phpietadmin/targets/configure/addrule');
                                 },
                                 error: function() {
                                     swal({

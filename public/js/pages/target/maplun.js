@@ -34,10 +34,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                     var selectedvolume = logicalvolume.find("option:selected");
                                     selectedvolume.remove();
 
-                                    if((logicalvolume.find('option').length) == 1) {
-                                        $('#configuretargetbody').replaceWith('<div id="configuretargetbody">' +
+                                    if(logicalvolume.find('option').length == 1) {
+                                        $('#configure_target_body').replaceWith('<div id="configure_target_body">' +
                                         '<div class = "container">' +
-                                        '<div class="alert alert-danger" role="alert"><h3 align="center">Error - No logical volumes available!</h3></div>' +
+                                        '<div class="alert alert-warning" role="alert"><h3 align="center">Error - No logical volumes available!</h3></div>' +
                                         '</div>' +
                                         '</div>')
                                     }

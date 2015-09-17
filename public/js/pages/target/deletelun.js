@@ -22,7 +22,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                                 deletelunlunselection.find('option:selected').remove();
 
                                 if((deletelunlunselection.has('option').length) == 0) {
-                                    $('#configuretargetbody').replaceWith('<div id="configuretargetbody">' +
+                                    $('#configure_target_body').replaceWith('<div id="configure_target_body">' +
                                     '<div class = "container">' +
                                     '<div class="alert alert-warning" role="alert"><h3 align="center">Error - No lun available!</h3></div>' +
                                     '</div>' +

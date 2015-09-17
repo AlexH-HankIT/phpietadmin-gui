@@ -24,36 +24,34 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 ## Features
 Take a look at the github releases for detailed information about the features.
 
-## Bugs in 0.5.1:
-- [ ] Target model add acl: Duplication check doesn't work, Target acl is added to the initiator file
-- [ ] Dashboard read version from github (not from local file)
+## Bugs in 0.5.2:
+- [ ] Reload page after session disconnect
+- [ ] Delete lun: check if line contains default parameter
+- [ ] Session: After overwrite, you have to login again
+               After session expire logout, you have to login twice
+- [ ] Error while submitting
 
-## Planned features and todo
+## Roadmap
 In version 0.6:
 * LVM
-    - [x] Lvm snapshots
+    - [x] Lvm snapshots (No merging...)
     - [x] Add lvextend, lvremove, lvrename features
-    - [ ] Volume group menu (select which volume groups phpietadmin should use)
-    - [ ] Optional lv prefix (append LV_ or some other user chosen string)
-
-* IET
-    - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
 
 * Frontend
-    - [ ] Disable the auto logout by using a 0 in the config menu
+    - [x] Disable the auto logout by using a 0 in the config menu
     - [x] Put hostname in title
     - [x] Bar for PV/VG usage
-    - [ ] Bootstrap-table Table Select Checkbox
-    - [ ] Display input validation with bootstrap css Validation states
+    - [x] Cool sliders (http://www.jqueryrain.com/?ot4e1H_o)
+    - [x] Better counter (html5 number doesn't look so good... http://www.virtuosoft.eu/code/bootstrap-touchspin/)
     - [x] Nested tables for iet volumes and iet sessions (https://github.com/wenzhixin/bootstrap-table-examples/blob/master/options/sub-table.html)
-    - [ ] Drag & Drop with HTML5
-    - [ ] Menu to import orphaned objects into database
     - [x] Override option, if user is already logged in
-    - [ ] Create logging gui
+    - [x] Create logging gui
     - [x] Improved ajax menu with error handling
+    - [ ] Release "compressed" javascript files
+    - [x] Use custom data attributes to store data in dom
+    - [ ] Configure target: Show if target has open sessions
 
 * Backend
-    - [ ] Prevent comments from being deleted, when editing a config file
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
     - [x] Create a lvm model
     - [ ] Write phpietadmin-cli
@@ -61,56 +59,81 @@ In version 0.6:
     - [x] Basic error logging
     - [x] Login/Logout logging
     - [x] Debug logging
+    - [x] New session implementation
+    - [ ] Database error log
     - [ ] Log also successful messages
     - [ ] Rework controller/models
         - [ ] Database model
+        - [x] User model
+        - [ ] Config model
         - [x] Dashboard
         - [x] Overview
-        - [ ] Targets
-            - [x] Lun
-            - [ ] ACL
-            - [x] Users
-            - [x] Sessions
-            - [ ] Settings
-            - [ ] Delete
+        - [x] Targets
         - [x] Users
         - [x] Objects
         - [ ] LVM
-        - [x] Services
+        - [ ] Services
         - [ ] Config
-        - [ ] Login/Logout/Reboot/Shutdown
+        - [ ] PHPietadmin user/session menu
+        - [ ] Stop/Reboot/Logout
     - [x] Use namespaces with basic autoloader
     - [x] New lsblk parser
     - [x] Replace version file with .json
+    - [ ] Use bcrypt for storing passwords
+    - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
+
+* Misc
+    - [ ] Create development branch after release of v0.6 (master should be stable)
+
+In version 0.7:
+* LVM
+    - [ ] Volume group menu (select which volume groups phpietadmin should use)
+    - [ ] Optional lv prefix (append LV_ or some other user chosen string)
+    - [ ] Add snapshot merge feature to gui
+    - [ ] Add enable/disable logical volume feature to gui
+
+* Frontend
+    - [ ] Use jwindow to dynamically display the status of running commands
+    - [ ] Drag & Drop with HTML5
+    - [ ] Menu to import orphaned objects into database
+    - [ ] Display input validation with bootstrap css Validation states (http://formvalidation.io/validators/integer/)
+    - [ ] Bootstrap-table Table Select Checkbox
+    - [ ] Awesome checkboxes (https://github.com/designmodo/Flat-UI)
+
+* Backend
+    - [ ] Write process class to execute commands in the background
+    - [ ] Create complete documentation on https://readthedocs.org/
+    - [ ] Use unity testing
+
+In version 0.8:
+    - [ ] Support for DRBD (show status)
+    - [ ] Support for HA Clusters (Corosync & Pacemaker, only for iet)
+
+In version 0.9:
+    - [ ] Support for nfs
 
 ## More
-- [ ] Handle "Device or resource busy" error when trying to delete a target in use (Don't display targets in use for deletion)
 - [ ] Software raid status
-- [ ] Support for HA Clusters (Corosync & Pacemaker) <-- hard one
-- [ ] Support for nfs
-- [ ] Support for DRBD
 - [ ] Support for samba shares
 - [ ] Show and configure network settings
 - [ ] Enable/Disable features
-- [ ] Delete lun: Display if target is in use
 - [ ] Support for apcupsd
-- [ ] Manual selection of block devices (input menu already implemented, but logic is missing)
+- [ ] Manual selection of block devices
 - [ ] HDD temp
 - [ ] Pie Chart for volume groups
 - [ ] Smart data
-- [ ] Config option for production and development
-    * Production:
-        * minifized html and javascript generated at the release will be used
-    * Development
-        * normal versions will be used
 - [ ] Backup config files (http://code.stephenmorley.org/php/diff-implementation/)
 - [ ] Menu to restore config files
 - [ ] function naming convention in models (prepend class name to function name)
 - [ ] Create "consistency", which displays if the daemon config and the config file are identically
 - [ ] Use composer
-- [ ] Use unity testing
-- [ ] Use more html5 elements (like autofocus)
 - [ ] Use json for tables
+- [ ] Change duplication check (Try to select the specific value from the database)
+- [ ] Add "Generate random id" button to the "Add target" menu
+- [ ] Use own exception class for error handling
+- [ ] Prevent comments from being deleted, when editing a config file
+- [ ] Sign archives
+- [ ] Separate database models
 
 Items are completely random ;-)
 

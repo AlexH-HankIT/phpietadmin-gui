@@ -1,12 +1,10 @@
-<?php
-    class Log extends Controller {
-        public function config() {
+<?php namespace phpietadmin\app\controllers;
+use phpietadmin\app\core;
 
-        }
-
+    class Log extends core\BaseController {
         public function show($param) {
             if ($param == 'action') {
-                $data = $this->std->tail($this->database->get_config('log_base')['value'] . '/' . $this->database->get_config('action_log')['value']);
+                $data = $this->base_model->std->tail($this->base_model->database->get_config('log_base')['value'] . '/' . $this->base_model->database->get_config('action_log')['value']);
                 if ($data !== false) {
                     $view = array(
                         'title' => 'Action',
@@ -28,7 +26,7 @@
                     $this->view('message', array('message' => 'The action log file is empty!', 'type' => 'danger'));
                 }
             } else if ($param == 'access') {
-                $data = $this->std->tail($this->database->get_config('log_base')['value'] . '/' . $this->database->get_config('access_log')['value']);
+                $data = $this->base_model->std->tail($this->base_model->database->get_config('log_base')['value'] . '/' . $this->base_model->database->get_config('access_log')['value']);
                 if ($data !== false) {
                     $view = array(
                         'title' => 'Access',

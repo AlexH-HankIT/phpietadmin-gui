@@ -1,15 +1,11 @@
 <?php namespace phpietadmin\app\models\target;
-    use phpietadmin\app\models\logging\Logging;
+    use phpietadmin\app\core;
 
-    class Parser extends Logging {
+    class Parser extends core\BaseModel {
         protected $iqn;
         protected $target_data;
         protected $tid;
         protected $ietd_config_file;
-
-        public function __construct() {
-            Logging::__construct();
-        }
 
         protected function set_iqn($iqn) {
             $this->iqn = $iqn;

@@ -1,9 +1,5 @@
 <?php namespace phpietadmin\app\models\target;
     class Logic extends Parser {
-        public function __construct() {
-            Parser::__construct();
-        }
-
         /**
          *
          * Check if the specified name is already in use by a target
@@ -50,7 +46,7 @@
                 if (empty($luns) || empty($iqns)) {
                     return false;
                 } else {
-                    $key = $this->recursive_array_search($path, $luns);
+                    $key = $this->std->recursive_array_search($path, $luns);
 
                     if ($key !== false) {
                         return $iqns[$key];
@@ -122,8 +118,9 @@
 
                         if (isset($value) && !empty($value)) {
                             $data[$index][$i] = array(
-                                'id' => $value['id'],
+                                'id' => $value['type_id'],
                                 'value' => $value['value'],
+                                'display_name' => $value['display_name'],
                                 'name' => $value['name'],
                                 'type' => $value['type']
                             );
@@ -155,22 +152,22 @@
 
             if ($type == "targets") {
                 if (isset($data['targets'])) {
-                    $value = $this->std->recursive_array_search($id, $data['targets']);
+                    $value = $this->std->recursive_array_search($this->database->get_object_value($id), $data['targets']);
                 } else {
                     $value = false;
                 }
             } else {
                 if (isset($data['initiators'])) {
-                    $value = $this->std->recursive_array_search($id, $data['initiators']);
+                    $value = $this->std->recursive_array_search($this->database->get_object_value($id), $data['initiators']);
                 } else {
                     $value = false;
                 }
             }
 
-            if ($value !== false) {
-                return true;
-            } else {
+            if ($value === false) {
                 return false;
+            } else {
+                return true;
             }
         }
 
