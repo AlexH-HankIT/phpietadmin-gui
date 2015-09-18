@@ -3,13 +3,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
     return methods = {
         enable_filter_table_plugin: function() {
-            $(document).ready(function(){
+            $(function() {
                 // Enable filter table plugin
                 $('.searchabletable').filterTable({minRows:0});
             });
         },
         add_event_handler_deleteuserbutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 var seltargetselection = $('#targetselection');
 
                 $(document).once('click', '#deleteuserbutton', function(){

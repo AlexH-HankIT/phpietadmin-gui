@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
 
     return methods = {
         add_event_handler_settings_table_checkbox: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('input', '.value', function () {
                     var oldvalue = $(this).closest('tr').find('.default_value_before_change').val();
                     var newvalue = $(this).val();
@@ -18,7 +18,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
             });
         },
         add_event_handler_save_value: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '.savevalueinput', function (e) {
                     var thisrow = $(this).closest('tr');
 
@@ -96,7 +96,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
             });
         },
         remove_error: function () {
-            $(document).ready(function () {
+            $(function() {
                 var input = $('.value');
                 /* remove error if field is clicked */
                 input.click(function () {

@@ -4,7 +4,7 @@ define(['jquery'], function ($) {
     return methods = {
         add_event_handler_config: function () {
             /* Configuration menu */
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '#config-menu a', function () {
                     if ($('span', this).hasClass('glyphicon-pencil')) {
                         var input = $(this).prev();

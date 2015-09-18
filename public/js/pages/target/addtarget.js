@@ -4,7 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
     return methods = {
         disable_special_chars: function () {
-            $(document).ready(function(){
+            $(function() {
                 var iqninput = $('#iqninput');
 
                 // Save default input for later restore
@@ -38,14 +38,14 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         focus_input: function () {
             // html5 autofocus does not work in firefox when loaded via ajax
-            $(document).ready(function() {
+            $(function() {
                 var iqninput = $('#iqninput');
                 // Focus the iqninput when the site is loaded
                 iqninput.focus();
             });
         },
         remove_error: function () {
-            $(document).ready(function(){
+            $(function() {
                 var iqninput = $('#iqninput');
                 /* remove error if field is clicked */
                 iqninput.click(function () {
@@ -54,7 +54,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_addtargetbutton: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '#addtargetbutton', function () {
                     var iqninput = $('#iqninput');
                     var def = $('#defaultiqn').val();

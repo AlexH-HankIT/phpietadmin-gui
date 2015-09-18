@@ -3,7 +3,7 @@ define(['jquery', 'qtip'], function($, qtip) {
 
     return methods = {
         add_qtip: function() {
-            $(document).ready(function(){
+            $(function() {
                 $('#HeaderDigest').qtip({
                     content: {
                         text: 'Optional. If set to "CRC32C" and  the  initiator  is  configured ' +

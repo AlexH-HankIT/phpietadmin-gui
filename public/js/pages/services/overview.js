@@ -3,12 +3,14 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
 
     return methods = {
         set_service_status: function() {
-            $('.servicename').each(function() {
-                mylibs.check_service_status($(this));
+            $(function() {
+                $('.servicename').each(function() {
+                    mylibs.check_service_status($(this));
+                });
             });
         },
         add_event_handler_servicestart: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '.servicestart', function() {
                     var data = {
                         'servicename': $(this).closest('tr').find('.servicename').text(),
@@ -34,7 +36,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
             });
         },
         add_event_handler_servicestop: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '.servicestop', function() {
                     var data = {
                         'servicename': $(this).closest('tr').find('.servicename').text(),
@@ -60,7 +62,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
             });
         },
         add_event_handler_servicerestart: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '.servicerestart', function() {
                     var data = {
                         'servicename': $(this).closest('tr').find('.servicename').text(),

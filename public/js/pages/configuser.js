@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'sha256'], function($, mylibs, swal, s
 
     return methods = {
         add_event_handler_editpassword: function() {
-            $(document).ready(function(){
+            $(function() {
                 var password1 = $('.password1');
                 var password2 = $('.password2');
                 var editpassword = $('#editpassword');
@@ -33,7 +33,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'sha256'], function($, mylibs, swal, s
             });
         },
         add_event_handler_savepassword: function() {
-            $(document).ready(function(){
+            $(function() {
                 var password1 = $('.password1');
                 var password2 = $('.password2');
 

@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
     return methods = {
         add_event_handler_passwordfield1: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('mouseover', '.passwordfield', function() {
                     $(this).find('.passwordfieldplaceholder').hide();
                     $(this).find('.password').show();
@@ -11,13 +11,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             });
         },
         enable_filter_table_plugin: function() {
-            $(document).ready(function(){
+            $(function() {
                 // Enable filter table plugin
                 $('.searchabletable').filterTable({minRows:0});
             });
         },
         add_event_handler_passwordfield2: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('mouseout', '.passwordfield', function() {
                     $(this).find('.passwordfieldplaceholder').show();
                     $(this).find('.password').hide();
@@ -25,7 +25,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             });
         },
         add_event_handler_deleteuserrow: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '.deleteuserrow', function() {
                     var thisrow = $(this).closest('tr');
 
@@ -81,7 +81,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             });
         },
         add_event_handler_adduserrowbutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '#adduserrowbutton', function() {
                     $('#adduserrowbutton').hide();
 

@@ -3,23 +3,25 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
     return methods = {
         enable_filter_table_plugin: function () {
-            $(document).ready(function () {
+            $(function() {
                 // Enable filter table plugin
                 $('.searchabletable').filterTable({minRows: 0});
             });
         },
         load_data: function (param) {
-            $(document).ready(function () {
+            $(function() {
                 mylibs.load_data('/phpietadmin/targets/configure/deleterule/' + param);
             });
         },
         add_event_handler_delete_rule_type: function() {
-            $(document).once('change', 'input[name="delete_rule_type"]', function () {
-                mylibs.load_data('/phpietadmin/targets/configure/deleterule/' + $(this).val());
+            $(function() {
+                $(document).once('change', 'input[name="delete_rule_type"]', function () {
+                    mylibs.load_data('/phpietadmin/targets/configure/deleterule/' + $(this).val());
+                });
             });
         },
         toggle_checkboxes: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '#object_delete_checkbox_all', function () {
                     $('.object_delete_checkbox').each(function () {
                         var $this = $(this);
@@ -29,7 +31,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_deleterulebutton: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '#deleterulebutton', function () {
                     var iqn = $('#targetselection').find("option:selected").val();
                     var ruletype = $("input[name='delete_rule_type']:checked").val();

@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
 
     return methods = {
         add_event_handler_addservice: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '#addservice', function() {
                     $('#addservicetablebody').prepend(
                         '<tr class="newrow">' +
@@ -20,7 +20,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
             });
         },
         add_event_handler_deleteservicebutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '.deleteservice', function(e) {
                     var row = $(this).closest('tr');
                     if (row.hasClass('newrow')) {
@@ -77,7 +77,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
             });
         },
         add_event_handler_editservicebutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '.editservice', function(e) {
                     var row = $(this).closest('tr');
                     var serviceinput = row.find('.serviceinput');
@@ -172,7 +172,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
             });
         },
         add_event_handler_serviceenabled: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('change', '.serviceenabled', function(e) {
                     var data;
                     var row = $(this).closest('tr');

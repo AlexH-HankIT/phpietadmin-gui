@@ -3,7 +3,7 @@ define(['jquery', 'mylibs'], function($, mylibs) {
     var Methods;
     return Methods = {
         checkversion: function() {
-            $(document).ready(function(){
+            $(function() {
                 var versioncheck = $('#versioncheck');
 
                 $.ajax({

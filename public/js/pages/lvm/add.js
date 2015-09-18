@@ -3,13 +3,15 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
 
     return Methods = {
         slider: function() {
-            $(document).ready(function(){
+            $(function() {
                 var slider = $('#add_slider');
                 var size_input = $('#size_input');
+                var name_input = $('#name_input');
+                var input_name_row = $('#input_name_row');
                 var vg_selector = $('#vg_selector');
                 var size_row = $('#size_row');
                 var add_lv_panel_footer = $('#add_lv_panel_footer');
-                var to_small_row = $('#to_small_row');
+                var too_small_row = $('#too_small_row');
 
                 vg_selector.once('change', function() {
                     // get this via ajax
@@ -17,15 +19,17 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
 
                     if (selected.attr('id') !== 'default') {
                         var data = selected.data();
-
                         var free = parseInt(data.free);
 
                         if (free === 0 || free === 1) {
                             add_lv_panel_footer.hide();
                             size_row.hide();
-                            to_small_row.show();
+                            input_name_row.hide();
+                            too_small_row.show();
                         } else {
-                            to_small_row.hide();
+                            input_name_row.show();
+                            name_input.focus();
+                            too_small_row.hide();
 
                             size_input.TouchSpin({
                                 min: 1,
@@ -39,10 +43,10 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
                                 value: 1,
                                 animate: "fast",
                                 slide: function( event, ui ) {
-                                    $('#size_input').val(ui.value);
+                                    size_input.val(ui.value);
                                 },
                                 change: function( event, ui ) {
-                                    $('#size_input').val(ui.value);
+                                    size_input.val(ui.value);
                                 }
                             }).slider("pips").slider("float");
 
@@ -57,11 +61,15 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
                         if (size_row.is(":visible")) {
                             size_row.hide();
                         }
-                        if (to_small_row.is(":visible")) {
-                            to_small_row.hide();
+                        if (too_small_row.is(":visible")) {
+                            too_small_row.hide();
                         }
                         if (add_lv_panel_footer.is(":visible")) {
                             add_lv_panel_footer.hide();
+                        }
+
+                        if (input_name_row.is(":visible")) {
+                            input_name_row.hide();
                         }
                     }
                 });
@@ -89,9 +97,8 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
                 });
 
                 $('#create_volume_button').once('click', function() {
-                    var vg = vg_selector.find('option:selected').data('vg');
-                    var name = $('#name_input').val();
-                    var size = $('#size_input').val();
+                    var name = name_input.val();
+                    var url = '/phpietadmin/lvm/add';
 
                     if (name === '' || name === undefined) {
                         swal({
@@ -101,11 +108,11 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
                         });
                     } else {
                         $.ajax({
-                            url: '/phpietadmin/lvm/add',
+                            url: url,
                             data: {
-                                "vg": vg,
+                                "vg": vg_selector.find('option:selected').data('vg'),
                                 "name": name,
-                                "size": size
+                                "size": size_input.val()
                             },
                             dataType: 'json',
                             type: 'post',
@@ -116,7 +123,7 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
                                         type: 'success',
                                         text: data['message']
                                     }, function() {
-                                        return mylibs.load_workspace('/phpietadmin/lvm/add');
+                                        return mylibs.load_workspace(url);
                                     });
                                 } else {
                                     swal({

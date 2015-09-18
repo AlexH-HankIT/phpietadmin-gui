@@ -3,16 +3,18 @@ define(['jquery', 'mylibs'], function($, mylibs) {
 
     return methods = {
         change_expand_row_button: function() {
-            $(document).once('click', '.clickable', function() {
-                var $this = $(this).closest('tr').find('.expandrow');
+            $(function() {
+                $(document).once('click', '.clickable', function() {
+                    var $this = $(this).closest('tr').find('.expandrow');
 
-                if ($this.hasClass('minus')) {
-                    $this.html('<span class="glyphicon glyphicon-15 glyphicon-plus">');
-                    $this.removeClass('minus');
-                } else {
-                    $this.html('<span class="glyphicon glyphicon-15 glyphicon-minus">');
-                    $this.addClass('minus');
-                }
+                    if ($this.hasClass('minus')) {
+                        $this.html('<span class="glyphicon glyphicon-15 glyphicon-plus">');
+                        $this.removeClass('minus');
+                    } else {
+                        $this.html('<span class="glyphicon glyphicon-15 glyphicon-minus">');
+                        $this.addClass('minus');
+                    }
+                });
             });
         }
     }

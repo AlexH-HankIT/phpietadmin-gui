@@ -2,7 +2,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     var Methods;
     return Methods = {
         add_event_handler_maplunbutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 var configuretargetmenu = $('#configure_target_menu');
 
                 // display menu

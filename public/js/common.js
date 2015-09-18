@@ -109,9 +109,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
             });
         },
         add_event_handler_shutdown: function() {
-            $(document).ready(function(){
-                $(document).off('click', '#menushutdownbutton');
-                $(document).on('click', '#menushutdownbutton', function(e) {
+            $(function() {
+                $(document).once('click', '#menushutdownbutton', function(e) {
                         swal({
                                 title: "Are you sure?",
                                 type: "warning",
@@ -138,9 +137,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
             });
         },
         add_event_handler_reboot: function() {
-            $(document).ready(function(){
-                $(document).off('click', '#menurebootbutton');
-                $(document).on('click', '#menurebootbutton', function(e) {
+            $(function() {
+                $(document).once('click', '#menurebootbutton', function(e) {
                     swal({
                             title: "Are you sure?",
                             type: "warning",

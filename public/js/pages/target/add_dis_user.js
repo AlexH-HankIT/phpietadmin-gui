@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
     return Methods = {
         add_event_handler_adddisuserbutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '#adddisuserbutton', function() {
                     var type = $("input[name='type']:checked").val();
                     var checkbox = $(".adddisusercheckbox:checked");
@@ -56,7 +56,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
             });
         },
         enable_filter_table_plugin: function() {
-            $(document).ready(function(){
+            $(function() {
                 // Enable filter table plugin
                 $('.searchabletable').filterTable({minRows:0});
             });

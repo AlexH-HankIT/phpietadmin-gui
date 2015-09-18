@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
 
     return methods = {
         add_qtip_sessiondeletebutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 $('.sessiondeletebutton').qtip({
                     content: {
                         text: 'Normally the initiator immediately reconnects. ' +
@@ -17,7 +17,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
             });
         },
         add_event_handler_sessiondeletebutton: function() {
-            $(document).ready(function(){
+            $(function() {
                 $(document).once('click', '.sessiondeletebutton', function() {
                     var iqn = $('#targetselection').find("option:selected").val();
 

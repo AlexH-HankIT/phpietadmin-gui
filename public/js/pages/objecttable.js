@@ -3,13 +3,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
     return methods = {
         enable_filter_table_plugin: function () {
-            $(document).ready(function () {
+            $(function() {
                 // Enable filter table plugin
                 $('.searchabletable').filterTable({minRows: 0});
             });
         },
         add_event_handler_addobjectrowbutton: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '#addobjectrowbutton', function () {
                     $('#template').clone().prependTo('#addobjectstbody').removeAttr('id hidden').addClass("newrow");
                     $('#addobjectrowbutton').hide();
@@ -17,7 +17,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_typeselection: function () {
-            $(document).ready(function () {
+            $(function() {
                 // If type is "all" change input fields to "all"
                 $(document).once('change', '.typeselection', function () {
                     var thisrow = $(this).closest("tr");
@@ -44,7 +44,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_saveobjectrow: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '.saveobjectrow', function (event) {
                     event.preventDefault();
                     var thisrow = $(this).closest("tr");
@@ -147,7 +147,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_objectvalue: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('focus', '.objectvalue', function () {
                     var objectvalue = $(".objectvalue");
                     if (objectvalue.hasClass("focusedInputerror")) {
@@ -157,7 +157,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_objectname: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('focus', '.objectname', function () {
                     var objectname = $(".objectname");
                     if (objectname.hasClass("focusedInputerror")) {
@@ -167,7 +167,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_deleteobjectrow: function () {
-            $(document).ready(function () {
+            $(function() {
                 $(document).once('click', '.deleteobjectrow', function (event) {
                     event.preventDefault();
                     var sel = $(this).closest('tr');

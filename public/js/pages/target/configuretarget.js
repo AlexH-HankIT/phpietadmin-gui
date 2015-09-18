@@ -3,7 +3,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
 
     return Methods = {
         add_event_handler: function () {
-            $(document).ready(function(){
+            $(function() {
                 var target_selection = $('#target_selector');
                 var default_value = target_selection.find('#default').val();
                 var configure_target_menu = $('#configure_target_menu');

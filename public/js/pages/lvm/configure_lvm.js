@@ -3,7 +3,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
 
     return Methods = {
         add_event_handler: function () {
-            $(document).ready(function(){
+            $(function() {
                 var logical_volume_selector = $('#logical_volume_selector');
                 var default_value = logical_volume_selector.find('#default').val();
                 var configure_lvm_menu = $('#configure_lvm_menu');
