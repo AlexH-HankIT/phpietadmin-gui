@@ -10,7 +10,7 @@
          * @return   int|array
          *
          */
-        protected function parse_lvm($type, $snaps = false) {
+        protected function parse_lvm($type) {
             $data = $this->get_lvm_output($type);
 
             if ($data === false) {

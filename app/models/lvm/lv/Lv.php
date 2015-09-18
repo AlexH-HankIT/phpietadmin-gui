@@ -111,13 +111,12 @@
         public function remove_lv() {
             $this->check();
 
-            $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was successfully removed from the volume group ' . $this->vg_name, array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
-
-            if ($this->lv_status === true) {
+            if ($this->lv_status === true || $this->is_snapshot() === true ) {
                 $return = $this->delete_logical_volume();
-
                 if ($return['result'] != 0) {
                     $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was not removed from the volume group ' . $this->vg_name, $return, __METHOD__);
+                } else {
+                    $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' was successfully removed from the volume group ' . $this->vg_name, array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                 }
             } else {
                 $this->logging->log_action_result('The logical volume ' . $this->lv_name . ' does not exist in the volume group ' . $this->vg_name, array('result' => 3, 'code_type' => 'intern'),  __METHOD__);
