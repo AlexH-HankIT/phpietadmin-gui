@@ -31,7 +31,7 @@ use phpietadmin\app\core,
 		}
 
 		public function add() {
-            if (isset($_POST['servicename'], $_POST['action']) && !$this->std->mempty($_POST['servicename'], $_POST['action'])) {
+            if (isset($_POST['servicename'], $_POST['action']) && !$this->base_model->std->mempty($_POST['servicename'], $_POST['action'])) {
                 switch($_POST['action']) {
                     case 'enable':
                         $service = $this->model('Service', $_POST['servicename']);
