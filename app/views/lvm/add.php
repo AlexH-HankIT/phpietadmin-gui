@@ -17,9 +17,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="row top-buffer">
+                <div class="row top-buffer" id="input_name_row" hidden>
                     <div class="col-md-12">
-                        <input type="text" id="name_input" class="form-control" placeholder="Name..." required autofocus>
+                        <input type="text" id="name_input" class="form-control" placeholder="Name..." required>
                     </div>
                 </div>
                 <div class="row top-buffer" hidden id="size_row">
@@ -30,7 +30,7 @@
                         <div id="add_slider" class="slider"></div>
                     </div>
                 </div>
-                <div class="row top-buffer" hidden id="to_small_row">
+                <div class="row top-buffer" hidden id="too_small_row">
                     <div class="col-md-12">
                         <div class="alert alert-warning" role="alert"><h3 align="center">The volume group has not enough space left!</h3></div>
                     </div>
