@@ -88,19 +88,19 @@ class Lvm extends core\BaseController {
                         } else if (isset($_POST['lv'], $_POST['vg'])) {
                             $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
                             $data['lv'] = $lv->get_lv(false);
-
                             if ($data['lv'] !== false) {
                                 $vg = $this->model('lvm\vg\Vg', $_POST['vg']);
                                 $data['vg'] = $vg->get_vg();
-
                                 $this->view('lvm/add_snapshot', $data);
                             } else {
                                 // lv doesn't exist
                             }
                         }
                     } else if ($param2 === 'delete') {
-                        if (isset($_POST['lv'], $_POST['vg'], $_POST['path'])) {
-
+                        if (isset($_POST['vg'], $_POST['snapshot'])) {
+                            $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['snapshot']);
+                            $lv->remove_lv();
+                            echo json_encode($lv->logging->get_action_result());
                         } else if (isset($_POST['lv'], $_POST['vg'])) {
                             $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
                             $data['lv'] = $lv->get_snapshot();

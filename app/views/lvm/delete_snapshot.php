@@ -12,17 +12,50 @@
                 <li class='active'>Delete</li>
             </ol>
             <div class="panel-body">
-                <pre>
-                    <?php print_r($data) ?>
-                    <!--
-                    Add table here
-                    Add progress bar for snapshot usage
-                    -->
-                </pre>
+
+                <!--
+                Add progress bar for snapshot usage
+                -->
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>LV</th>
+                        <th>VG</th>
+                        <th>Attr</th>
+                        <th>LSize</th>
+                        <th>Pool</th>
+                        <th>Origin</th>
+                        <th>Data%</th>
+                        <th>Move</th>
+                        <th>Log</th>
+                        <th>Cpy%Sync</th>
+                        <th>Convert</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($data['lv'] as $lv) { ?>
+                        <tr>
+                            <td><input type="checkbox" class="delete_snapshot checkbox"></td>
+                            <td class="delete_snapshot lv_name"><?php echo $lv['LV'] ?></td>
+                            <td><?php echo $lv['VG'] ?></td>
+                            <td><?php echo $lv['Attr'] ?></td>
+                            <td><?php echo $lv['LSize'] ?></td>
+                            <td><?php echo $lv['Pool'] ?></td>
+                            <td><?php echo $lv['Origin'] ?></td>
+                            <td><?php echo $lv['Data%'] ?></td>
+                            <td><?php echo $lv['Move'] ?></td>
+                            <td><?php echo $lv['Log'] ?></td>
+                            <td><?php echo $lv['Cpy%Sync'] ?></td>
+                            <td><?php echo $lv['Convert'] ?></td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
             </div>
 
             <div class="panel-footer">
-                <button id="delete_snapshot_button" class="btn btn-danger" type='submit'><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                <button class="delete_snapshot btn btn-danger" class="" type='submit'><span class="glyphicon glyphicon-trash"></span> Delete</button>
             </div>
         </div>
     </div>
