@@ -123,9 +123,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                         ajaxloader.delay(10).hide(10);
                     }
                 });
-
-                return false;
             });
+            return false;
         },
         load_lvm_target_body: function (link, clicked) {
             $(function () {
@@ -162,8 +161,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                         ajaxloader.delay(10).hide(10);
                     }
                 });
-                return false;
             });
+            return false;
         },
         load_data: function(link) {
             $(function() {
@@ -195,9 +194,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                         ajax_loader.delay(10).hide(10);
                     }
                 });
-
-                return false;
             });
+            return false;
         },
         is_int: function(value) {
             $(function() {
