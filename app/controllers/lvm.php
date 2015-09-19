@@ -87,7 +87,7 @@ class Lvm extends core\BaseController {
                             echo json_encode($lv->logging->get_action_result());
                         } else if (isset($_POST['lv'], $_POST['vg'])) {
                             $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
-                            $data['lv'] = $lv->get_lv(false);
+                            $data['lv'] = $lv->get_lv();
                             if ($data['lv'] !== false) {
                                 $vg = $this->model('lvm\vg\Vg', $_POST['vg']);
                                 $data['vg'] = $vg->get_vg();
@@ -115,6 +115,15 @@ class Lvm extends core\BaseController {
                 }
                 break;
             case 'rename':
+				if (isset($_POST['lv'], $_POST['vg'], $_POST['name'])) {
+					$lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+					$lv->rename_lv($_POST['name']);
+					echo json_encode($lv->logging->get_action_result());
+				} else if (isset($_POST['lv'], $_POST['vg'])) {
+					$lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+					$data['lv'] = $lv->get_lv();
+					$this->view('lvm/rename', $data);
+				}
                 break;
             case 'disable':
                 break;

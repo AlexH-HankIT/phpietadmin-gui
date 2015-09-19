@@ -3,8 +3,7 @@ use phpietadmin\app\core;
 
     class config extends core\BaseController
 	{
-		public function vg()
-		{
+		public function vg() {
 			$this->view('config/vg');
 
 		}
@@ -17,8 +16,7 @@ use phpietadmin\app\core;
 		 * @return      void
 		 *
 		 */
-		public function user($param1)
-		{
+		public function user($param1) {
 			switch ($param1) {
 				case 'show':
 					$users = $this->model('User');
@@ -56,12 +54,8 @@ use phpietadmin\app\core;
 			}
 		}
 
-		public function show($param)
-		{
+		public function show($param) {
 			switch ($param) {
-				case 'lvm':
-					$data = $this->base_model->database->get_config_by_category('lvm');
-					break;
 				case 'iet':
 					$data = $this->base_model->database->get_config_by_category('iet');
 					break;
@@ -83,8 +77,7 @@ use phpietadmin\app\core;
 			}
 		}
 
-		public function edit_config()
-		{
+		public function edit_config() {
 			if (isset($_POST['option'], $_POST['value'])) {
 				$config = $this->model('Config', $_POST['option']);
 				$config->change_config('value', $_POST['value']);

@@ -73,7 +73,7 @@ In version 0.6:
         - [x] Users
         - [x] Objects
         - [ ] LVM
-        - [ ] Services
+        - [x] Services
         - [ ] Config
         - [ ] PHPietadmin user/session menu
         - [ ] Stop/Reboot/Logout
@@ -102,7 +102,7 @@ In version 0.7:
     - [ ] Awesome checkboxes (https://github.com/designmodo/Flat-UI)
 
 * Backend
-    - [ ] Write process class to execute commands in the background
+    - [ ] Write process class to execute commands in the background (+ jwindow)
     - [ ] Create complete documentation on https://readthedocs.org/
     - [ ] Use unity testing
 

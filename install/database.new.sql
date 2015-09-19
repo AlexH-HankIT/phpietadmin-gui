@@ -129,7 +129,6 @@ INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, desc
     ('lvextend', 'lvextend bin', 5, '/sbin/lvextend', "Path to the lvextend binary", 4, 'input'),
     ('lvremove', 'lvremove bin', 5, '/sbin/lvremove', "Path to the lvremove binary", 4, 'input'),
     ('lvconvert', 'lvconvert bin', 5, '/sbin/lvconvert', "Path to the lvconvert binary", 4, 'input'),
-    ('prefix', 'Prefix', 1, '', 'Prefix for newly created logical volumes', 2, 'input'),
     ('mdstat', '/proc mdstat', 2, '/proc/mdstat', "Path to the mdstat file", 3, 'input'),
     ('sudo', 'subo bin', 4, '/usr/bin/sudo', "Path to the sudo binary", 4, 'input'),
     ('service', 'service bin', 5, '/usr/sbin/service', "Path to the service binary", 4, 'input'),

@@ -62,11 +62,11 @@
          *
          */
         protected function delete_logical_volume() {
-            return $this->std->exec_and_return($this->lvremove . ' --force /' . '/dev/' . $this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvremove . ' --force /dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         protected function create_lv_snapshot($size) {
-            return $this->std->exec_and_return($this->lvcreate . ' --snapshot --size ' . $size . 'g --name ' . '/dev/' . $this->vg_name . '/' . $this->lv_name . '_snapshot_' . time() . ' /dev/' .$this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvcreate . ' --snapshot --size ' . $size . 'g --name /dev/' . $this->vg_name . '/' . $this->lv_name . '_snapshot_' . time() . ' /dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         protected function change_lv_name($new_name) {
@@ -74,11 +74,11 @@
         }
 
         protected function extend_lv_size($size) {
-            return $this->std->exec_and_return($this->lvextend . ' --force -L' . $size . 'G' . ' /dev/' . $this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvextend . ' --force -L' . $size . 'G /dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         protected function reduce_lv_size($size) {
-            return $this->std->exec_and_return($this->lvreduce . ' --force -L' . $size . 'G' . ' /dev/' . $this->vg_name . '/' . $this->lv_name);
+            return $this->std->exec_and_return($this->lvreduce . ' --force -L' . $size . 'G /dev/' . $this->vg_name . '/' . $this->lv_name);
         }
 
         protected function merge_lv_snapshot() {
@@ -98,13 +98,13 @@
                 if ($this->vg_name !== false) {
                     exec($this->vgs . ' --units g --separator "*" ' . escapeshellarg($this->vg_name) . ' 2>&1', $data, $result);
                 } else {
-                    exec($this->vgs . ' --units g --separator "*" ' . ' 2>&1', $data, $result);
+                    exec($this->vgs . ' --units g --separator "*" 2>&1', $data, $result);
                 }
             } else if ($type == 'pv') {
                 if ($this->pv_name !== false) {
                     exec($this->pvs . ' --units g --separator "*" ' . escapeshellarg($this->pv_name) . ' 2>&1', $data, $result);
                 } else {
-                    exec($this->pvs . ' --units g --separator "*"' . ' 2>&1', $data, $result);
+                    exec($this->pvs . ' --units g --separator "*" 2>&1', $data, $result);
                 }
             } else {
                 if (!empty($this->lv_name) && $this->lv_name !== false) {
@@ -112,7 +112,7 @@
                 } else if ($this->vg_name !== false) {
                     exec($this->lvs . ' --units g --separator "*" /dev/' . escapeshellarg($this->vg_name) . ' 2>&1', $data, $result);
                 } else {
-                    exec($this->lvs . ' --units g --separator "*"' . ' 2>&1', $data, $result);
+                    exec($this->lvs . ' --units g --separator "*" 2>&1', $data, $result);
                 }
             }
 

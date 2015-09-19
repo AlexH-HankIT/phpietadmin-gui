@@ -65,7 +65,6 @@
                 <li class = "dropdown">
                     <a href='#' id="menuconfig" class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-cog"></span> <span class='hidden-sm hidden-md'>Config</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
-                        <li><a class="workspacetab" href='/phpietadmin/config/show/lvm'>LVM config</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/config/show/iet'>IET config</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/config/show/misc'>Misc config</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/config/show/bin'>Bin config</a></li>
@@ -79,8 +78,6 @@
                     <ul class="dropdown-menu">
                         <li><a class="workspacetab" href='/phpietadmin/log/show/access'>Access</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/log/show/action'>Action</a></li>
-                        <li class="divider"></li>
-                        <li><a class="workspacetab" href='/phpietadmin/log/show/php'>PHP</a></li>
                     </ul>
                 </li>
 

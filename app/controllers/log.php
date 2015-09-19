@@ -48,8 +48,6 @@ use phpietadmin\app\core;
                 } else {
                     $this->view('message', array('message' => 'The access log file is empty!', 'type' => 'danger'));
                 }
-            } else if ($param == 'php') {
-                // ToDo
             } else {
                 $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
             }
