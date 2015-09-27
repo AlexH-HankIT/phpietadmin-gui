@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="/phpietadmin/css/bootstrap.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/bootstrap-table.min.css" rel="stylesheet">
-<link href="/phpietadmin/css/jquery.qtip.css" rel="stylesheet">
+<link href="/phpietadmin/css/jquery.qtip.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/sweetalert.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery-ui.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery-ui-slider-pips.css" rel="stylesheet">
