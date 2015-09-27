@@ -25,7 +25,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 Take a look at the github releases for detailed information about the features.
 
 ## Bugs in 0.5.2:
-- [ ] Reload page after session disconnect
+- [x] Reload page after session disconnect
 - [ ] Delete lun: check if line contains default parameter
 
 ## Roadmap
@@ -49,6 +49,7 @@ In version 0.6:
     - [x] Configure target: Show if target has open sessions
     - [ ] Add bar to snapshot delete gui
     - [ ] Select all checkbox in snapshot delete gui
+    - [ ] Rework the javascript code
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
@@ -80,7 +81,6 @@ In version 0.6:
     - [x] Replace version file with .json
     - [ ] Use bcrypt for storing passwords
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
-    - [ ] Rework the javascript code
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
