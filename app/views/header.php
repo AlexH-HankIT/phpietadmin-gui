@@ -5,7 +5,7 @@
 <link href="/phpietadmin/css/bootstrap.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/bootstrap-table.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery.qtip.min.css" rel="stylesheet">
-<link href="/phpietadmin/css/sweetalert.css" rel="stylesheet">
+<link href="/phpietadmin/css/sweetalert.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery-ui.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery-ui-slider-pips.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
