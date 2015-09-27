@@ -203,6 +203,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                                     sel.remove();
                                                 });
                                         } else {
+                                            console.log();
                                             swal({
                                                 title: 'Error',
                                                 type: 'error',

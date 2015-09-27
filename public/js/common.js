@@ -15,7 +15,8 @@ requirejs.config({
         blockUI: 'lib/jquery.blockUI.min',
         once: 'lib/once',
         bootstraptable: 'lib/bootstrap-table',
-        touchspin: 'lib/jquery.bootstrap-touchspin.min.amd'
+        touchspin: 'lib/jquery.bootstrap-touchspin.min.amd',
+        domReady: 'lib/domReady'
     },
     shim: {
         jqueryui: {
@@ -40,7 +41,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
 
                 // check if server is alive
                 var uiBlocked = false;
-                var mainmenu = $('#mainmenu');
+                var main_menu = $('#mainmenu');
                 var footer = $('#footer');
 
                 setInterval(function() {
@@ -50,19 +51,19 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                     url: '/phpietadmin/connection/check_server_online',
                     timeout: 1000,
                     success: function(data) {
-                        if (data == true) {
-                            if (uiBlocked == true) {
+                        if (data === true) {
+                            if (uiBlocked === true) {
                                 uiBlocked = false;
                                 $.unblockUI();
-                                mainmenu.show();
+                                main_menu.show();
                                 footer.show();
                             }
                         }
                     }, error: function(data) {
                         if (data != true) {
-                            if (uiBlocked == false) {
+                            if (uiBlocked === false) {
                                 uiBlocked = true;
-                                mainmenu.hide();
+                                main_menu.hide();
                                 footer.hide();
 
                                 $.blockUI({
@@ -91,11 +92,11 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                 path = path.replace(/\/$/, "");
                 path = decodeURIComponent(path);
 
-                $('.nav a').each(function(){
-                    if ($(this).attr('href') != undefined) {
-                        if ($(this).attr('href') == path) {
-                            $(this).closest('li').addClass('active');
-                            $(this).closest('li').parents().addClass('active');
+                $('#main_menu_bar').find('a').each(function(){
+                    var $this = $(this);
+                    if ($this.attr('href') !== undefined) {
+                        if ($this.attr('href') === path) {
+                            $this.closest('li').addClass('active').parents().addClass('active');
                         }
                     }
                 });
@@ -103,14 +104,14 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
         },
         load_workspace_event_handler: function() {
             // load workspace and perform error handling
-            $(document).once('click', '.workspacetab', function () {
+            $("#main_menu_bar").once("click", "a", function() {
                 var $this = $(this);
                 return mylibs.load_workspace($this.attr('href'), $this);
             });
         },
         add_event_handler_shutdown: function() {
             $(function() {
-                $(document).once('click', '#menushutdownbutton', function(e) {
+                $('#menushutdownbutton').once('click', function() {
                         swal({
                                 title: "Are you sure?",
                                 type: "warning",
@@ -132,7 +133,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                                     text: 'It can take up to 20 seconds till the server shuts down!'
                                 });
                             });
-                    e.preventDefault();
+                    return false;
                 });
             });
         },

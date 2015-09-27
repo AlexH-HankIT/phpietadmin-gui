@@ -1,7 +1,7 @@
 <?php use phpietadmin\app\models;
 
 // require the class
-require_once __DIR__ . '/../../app/models/autoloader.php';
+require_once __DIR__ . '/registry.php';
 
 $database = new models\Database();
 

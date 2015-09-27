@@ -12,7 +12,6 @@ class Database extends \SQLite3 {
      *
      * Open database connection
      *
-     *
      */
     public function __construct(){
         if (is_writable(DBPATH)) {
@@ -32,6 +31,27 @@ class Database extends \SQLite3 {
             echo "<h1>Database connection failed</h1>";
             die();
         }
+    }
+
+    /**
+     * Generic update/insert query
+     *
+     * ['query'] = query
+     * ['param'] =
+     *      [name] = name
+     *      [value] = value
+     *      [type] = type (SQLITE3_TEXT, SQLITE3_INTEGER)
+     *
+     * @param array $data
+     * @return int
+     */
+    public function change(array $data) {
+        $query = $this->prepare($data['query']);
+        foreach ($data['params'] as $param) {
+            $query->bindValue($param['name'], $param['value'], $param['type']);
+        }
+        $query->execute();
+        return $this->return_last_error();
     }
 
 	private function write_to_database_log_file() {
@@ -167,7 +187,7 @@ EOT;
     public function update_config($option, $value, $row) {
         $query = $this->prepare('UPDATE phpietadmin_config SET :row = :value WHERE option = :option');
 		if ($query !== false ) {
-			$query->bindValue('row', $row, SQLITE3_TEXT);
+			$query->bindValue('line', $row, SQLITE3_TEXT);
 			$query->bindValue('value', $value, SQLITE3_TEXT);
 			$query->bindValue('option', $option, SQLITE3_TEXT);
 			$query->execute();
@@ -242,123 +262,6 @@ EOT;
 		}
     }
 
-    public function get_session($session_id) {
-        $query = $this->prepare('SELECT last_activity, user_agent, remote_address, data FROM phpietadmin_session where session_id = :session_id');
-
-		if ($query === false) {
-			return false;
-		} else {
-			$query->bindValue('session_id', $session_id, SQLITE3_TEXT);
-			$query = $query->execute();
-			$data = $query->fetchArray(SQLITE3_ASSOC);
-
-			if (empty($data)) {
-				return false;
-			} else {
-				return $data;
-			}
-		}
-    }
-
-    public function add_session($session_id) {
-		$sql = <<< EOT
-		INSERT INTO phpietadmin_session (session_id, last_activity, user_agent, remote_address) values (:session_id, :last_activity, :user_agent, :remote_address)
-EOT;
-		$query = $this->prepare($sql);
-
-		if ($query === false) {
-			return false;
-		} else {
-			$query->bindValue('session_id', $session_id, SQLITE3_TEXT);
-			$query->bindValue('last_activity', time(), SQLITE3_TEXT);
-			$query->bindValue('user_agent', $_SERVER['HTTP_USER_AGENT'], SQLITE3_TEXT);
-			$query->bindValue('remote_address', $_SERVER['REMOTE_ADDR'], SQLITE3_TEXT);
-			$query->execute();
-			return $this->return_last_error();
-		}
-    }
-
-    public function delete_session($session_id) {
-        $query = $this->prepare('DELETE FROM phpietadmin_session WHERE session_id = :session_id');
-        $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    public function update_session_data($session_id, $data) {
-        $query = $this->prepare('UPDATE phpietadmin_session SET data=:data WHERE session_id = :session_id');
-        $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
-        $query->bindValue('data', $data, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    public function update_session_activity($session_id) {
-        $query = $this->prepare('UPDATE phpietadmin_session SET last_activity = strftime(\'%s\', \'now\') WHERE session_id = :session_id');
-        $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    public function delete_session_garbage($max_life_time) {
-        // also delete phpietadmin_session_id from phpietadmin_phpietadmin_user table
-        $query = $this->prepare('DELETE FROM phpietadmin_session WHERE last_activity > strftime(\'%s\', \'now\') + :max_life_time');
-		$query->bindValue('max_life_time', $max_life_time, SQLITE3_INTEGER);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    public function update_session_for_user($username, $session_id) {
-		if ($session_id === NULL) {
-			$query = $this->prepare('UPDATE phpietadmin_phpietadmin_user SET phpietadmin_session_id = ""');
-		} else {
-			$query = $this->prepare('UPDATE phpietadmin_phpietadmin_user SET phpietadmin_session_id = (SELECT id FROM phpietadmin_session WHERE phpietadmin_session.session_id = :session_id) WHERE phpietadmin_phpietadmin_user.username = :username');
-			$query->bindValue('session_id', $session_id, SQLITE3_TEXT);
-			$query->bindValue('username', $username, SQLITE3_TEXT);
-		}
-
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    /**
-     *
-     * Fetch session data for username
-     *
-     * @return     array, boolean
-     *
-     */
-    public function get_session_by_username($username) {
-		$sql = <<< EOT
-		SELECT phpietadmin_phpietadmin_user.username,
-	   phpietadmin_phpietadmin_user.password,
-	   phpietadmin_phpietadmin_user.permission,
-	   phpietadmin_session.session_id as session_id,
-	   phpietadmin_session.last_activity,
-	   phpietadmin_session.user_agent,
-	   phpietadmin_session.remote_address,
-	   phpietadmin_session.data FROM
-	   phpietadmin_phpietadmin_user,
-	   phpietadmin_session WHERE
-	   phpietadmin_phpietadmin_user.phpietadmin_session_id = phpietadmin_session.id AND
-	   phpietadmin_phpietadmin_user.username = :username;
-EOT;
-
-        $query = $this->prepare($sql);
-
-        $query->bindValue('username', $username, SQLITE3_TEXT);
-
-        $result = $query->execute();
-
-        $result = $result->fetchArray(SQLITE3_ASSOC);
-
-        if (empty($result)) {
-            return false;
-        } else {
-            return $result;
-        }
-    }
-
 	// Rework everything down here
 
     /**
@@ -368,8 +271,7 @@ EOT;
      * @return    int
      *
      */
-    public function get_object_types()
-    {
+    public function get_object_types() {
         $query = $this->query('select value from phpietadmin_object_type');
 
         $counter = 0;
@@ -382,30 +284,13 @@ EOT;
 
     /**
      *
-     * Get all objects type, e.g. regex, iqn, ipv4 host
-     *
-     * @param     int $id id of the object, which should be deleted
-     * @return    int
-     *
-     */
-    public function delete_object($id)
-    {
-        $query = $this->prepare('DELETE FROM phpietadmin_object where id=:id');
-        $query->bindValue('id', intval($id), SQLITE3_INTEGER);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    /**
-     *
      * Get value of an object identified by its id
      *
      * @param     int $id id of the object which should be fetched
      * @return    string
      *
      */
-    public function get_object_value($id)
-    {
+    public function get_object_value($id) {
         $query = $this->prepare('SELECT value from phpietadmin_object where id=:id');
         $query->bindValue('id', $id, SQLITE3_INTEGER);
         $query = $query->execute();
@@ -421,8 +306,7 @@ EOT;
      * @return    array
      *
      */
-    public function get_object_by_value($value)
-    {
+    public function get_object_by_value($value) {
         $query = $this->prepare('SELECT phpietadmin_object.type_id, phpietadmin_object.value, phpietadmin_object_type.display_name, phpietadmin_object.name, phpietadmin_object_type.value as type from phpietadmin_object, phpietadmin_object_type where phpietadmin_object.type_id = phpietadmin_object_type.type_id and phpietadmin_object.value=:value');
         $query->bindValue('value', $value, SQLITE3_TEXT);
         $query = $query->execute();
@@ -480,26 +364,6 @@ EOT;
         } else {
             return 3;
         }
-    }
-
-    /**
-     *
-     * Get value of an object identified by its value
-     *
-     * @param     string $type type of the object (from types table)
-     * @param     string $name name of the object
-     * @param     string $value value of the object which should be fetched
-     * @return    int
-     *
-     */
-    public function add_object($type, $name, $value)
-    {
-        $query = $this->prepare('INSERT INTO phpietadmin_object (type_id, value, name) VALUES ((SELECT type_id FROM phpietadmin_object_type WHERE value=:type), :value, :name)');
-        $query->bindValue('type', $type, SQLITE3_TEXT);
-        $query->bindValue('name', $name, SQLITE3_TEXT);
-        $query->bindValue('value', $value, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
     }
 
     /**
@@ -630,102 +494,6 @@ EOT;
 
     /**
      *
-     * Add a iet user to the database
-     *
-     * @param     string $username name of the user
-     * @param     string $password plain text password of the user
-     * @return    array|int
-     *
-     */
-    public function add_iet_user($username, $password)
-    {
-        $query = $this->prepare('INSERT INTO phpietadmin_iet_user (username, password) VALUES (:username, :password)');
-        $query->bindValue('username', $username, SQLITE3_TEXT);
-        $query->bindValue('password', $password, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    /**
-     *
-     * Delete a iet user from the database
-     *
-     * @param     string $username
-     * @return    int
-     *
-     */
-    public function delete_iet_user($username)
-    {
-        $data = $this->prepare('DELETE FROM phpietadmin_iet_user WHERE username=:username');
-        $data->bindValue('username', $username, SQLITE3_TEXT);
-        $data->execute();
-        return $this->return_last_error();
-    }
-
-    /**
-     *
-     * Change a service state
-     *
-     * @param     string $name name of the service
-     * @param     string $option the option that should be changed, (right now only 'enabled')
-     * @param     string $value
-     * @return    array|int
-     *
-     */
-    public function change_service($name, $option, $value)
-    {
-        // $name: servicename
-        // $option: option to be changed
-        // $value: new value
-        if ($option == 'enabled') {
-            $query = $this->prepare('UPDATE phpietadmin_service set enabled=:value where name = :name');
-        } else if ($option == 'name') {
-            $query = $this->prepare('UPDATE phpietadmin_service set name=:value where name = :name');
-        } else {
-            return 1;
-        }
-
-        $query->bindValue('name', $name, SQLITE3_TEXT);
-        $query->bindValue('value', $value, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-
-    /**
-     *
-     * Delete a service from the database
-     *
-     * @param     string $name name of the service
-     * @return    int
-     *
-     */
-    public function delete_service($name)
-    {
-        $query = $this->prepare('DELETE FROM phpietadmin_service where name = :name');
-        $query->bindValue('name', $name, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    /**
-     *
-     * Add a service from the database
-     *
-     * @param     string $name name of the service
-     * @return    int
-     *
-     */
-    public function add_service($name)
-    {
-        $query = $this->prepare("INSERT INTO phpietadmin_service ('name', 'enabled') VALUES (:name, 1)");
-        $query->bindValue('name', $name, SQLITE3_TEXT);
-        $query->execute();
-        return $this->return_last_error();
-    }
-
-    /**
-     *
      * Get all services or all enabled services
      *
      * @param     boolean $all fetch all services or only enabled once, default is false
@@ -779,6 +547,141 @@ EOT;
             return false;
         } else {
             return $data;
+        }
+    }
+
+    public function get_session($session_id) {
+        $query = $this->prepare('SELECT last_activity, user_agent, remote_address, data FROM phpietadmin_session where session_id = :session_id');
+
+        if ($query === false) {
+            return false;
+        } else {
+            $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
+            $query = $query->execute();
+            $data = $query->fetchArray(SQLITE3_ASSOC);
+
+            if (empty($data)) {
+                return false;
+            } else {
+                return $data;
+            }
+        }
+    }
+
+    /**
+     * @param $session_id
+     * @param $status int 0/1 1
+     * @return int
+     */
+    public function set_session_status($session_id, $status) {
+        $query = $this->prepare('UPDATE phpietadmin_session set logged_in = :status where session_id = :session_id');
+        if ($query === false) {
+            return false;
+        } else {
+            $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
+            $query->bindValue('status', $status, SQLITE3_INTEGER);
+            $query->execute();
+            return $this->return_last_error();
+        }
+    }
+
+    public function add_session($session_id) {
+        $sql = <<< EOT
+		INSERT INTO phpietadmin_session (session_id, last_activity, user_agent, remote_address) values (:session_id, :last_activity, :user_agent, :remote_address)
+EOT;
+        $query = $this->prepare($sql);
+
+        if ($query === false) {
+            return false;
+        } else {
+            $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
+            $query->bindValue('last_activity', time(), SQLITE3_TEXT);
+            $query->bindValue('user_agent', $_SERVER['HTTP_USER_AGENT'], SQLITE3_TEXT);
+            $query->bindValue('remote_address', $_SERVER['REMOTE_ADDR'], SQLITE3_TEXT);
+            $query->execute();
+            return $this->return_last_error();
+        }
+    }
+
+    public function delete_session($session_id) {
+        $query = $this->prepare('DELETE FROM phpietadmin_session WHERE session_id = :session_id');
+        $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
+        $query->execute();
+        return $this->return_last_error();
+    }
+
+    public function update_session_data($session_id, $data) {
+        $query = $this->prepare('UPDATE phpietadmin_session SET data=:data WHERE session_id = :session_id');
+        $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
+        $query->bindValue('data', $data, SQLITE3_TEXT);
+        $query->execute();
+        return $this->return_last_error();
+    }
+
+    public function update_session_activity($session_id) {
+        $query = $this->prepare('UPDATE phpietadmin_session SET last_activity = :time WHERE session_id = :session_id');
+        $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
+        $query->bindValue('time', time(), SQLITE3_INTEGER);
+        $query->execute();
+        return $this->return_last_error();
+    }
+
+    public function delete_session_garbage($max_life_time) {
+        $query = $this->prepare('DELETE FROM phpietadmin_session WHERE last_activity + :max_life_time < :time');
+        $query->bindValue('max_life_time', $max_life_time, SQLITE3_INTEGER);
+        $query->bindValue('time', time(), SQLITE3_INTEGER);
+        $query->execute();
+        return $this->return_last_error();
+    }
+
+    public function update_session_for_user($username, $session_id) {
+        if ($session_id === NULL) {
+            $query = $this->prepare('UPDATE phpietadmin_phpietadmin_user SET phpietadmin_session_id = ""');
+        } else {
+            $query = $this->prepare('UPDATE phpietadmin_phpietadmin_user SET phpietadmin_session_id = (SELECT id FROM phpietadmin_session WHERE phpietadmin_session.session_id = :session_id) WHERE phpietadmin_phpietadmin_user.username = :username');
+            $query->bindValue('session_id', $session_id, SQLITE3_TEXT);
+            $query->bindValue('username', $username, SQLITE3_TEXT);
+        }
+
+        $query->execute();
+        return $this->return_last_error();
+    }
+
+    /**
+     *
+     * Fetch session data for username
+     *
+     * @return     array, boolean
+     *
+     */
+    public function get_session_by_username($username) {
+        $sql = <<< EOT
+		SELECT phpietadmin_phpietadmin_user.username,
+	   phpietadmin_phpietadmin_user.password,
+	   phpietadmin_phpietadmin_user.permission,
+	   phpietadmin_session.session_id as session_id,
+	   phpietadmin_session.last_activity,
+	   phpietadmin_session.user_agent,
+	   phpietadmin_session.remote_address,
+	   phpietadmin_session.data FROM
+	   phpietadmin_phpietadmin_user,
+	   phpietadmin_session WHERE
+	   phpietadmin_phpietadmin_user.phpietadmin_session_id = phpietadmin_session.id AND
+	   phpietadmin_phpietadmin_user.username = :username;
+EOT;
+
+        $query = $this->prepare($sql);
+
+        $query->bindValue('username', $username, SQLITE3_TEXT);
+
+        $result = $query->execute();
+
+        $result = $result->fetchArray(SQLITE3_ASSOC);
+
+        if (empty($result)) {
+            return false;
+        } else {
+            return $result;
         }
     }
 

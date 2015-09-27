@@ -70,7 +70,6 @@ use phpietadmin\app\core,
             }
 		}
 
-
         public function hold() {
             if (isset($_POST['action'])) {
                 sleep(5);

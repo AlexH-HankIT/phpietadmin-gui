@@ -20,7 +20,7 @@
                                 <td><?php echo htmlspecialchars($value['optioningui']); ?></td>
                                 <td>
                                     <input size="80" type="text" name="fname" value="<?php echo htmlspecialchars($value['value']); ?>" disabled>
-                                    <a href="#<?php echo htmlspecialchars($value['optioningui']); ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                    <a href="#<?php echo htmlspecialchars($value['option']); ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                                     <span class="label label-success bestaetigung">Success</span>
                                 </td>
                                 <td><?php if (isset($value['description'])) echo htmlspecialchars($value['description']) ?></td>

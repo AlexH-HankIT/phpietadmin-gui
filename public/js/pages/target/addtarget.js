@@ -73,7 +73,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             dataType: 'json',
                             type: 'post',
                             success: function(data) {
-                                if (data['status'] == 'Success') {
+                                if (data['code'] === 0) {
                                     iqninput.focus();
                                     swal({
                                             title: 'Success',
@@ -83,7 +83,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         function () {
                                             iqninput.val('');
                                         });
-                                } else if (data['status'] == 'Error') {
+                                } else {
                                     swal({
                                             title: 'Error',
                                             type: 'error',

@@ -1,7 +1,7 @@
 <div id='configure_target_body'>
     <div class="container">
         <?php if (isset($data['session'])) { ?>
-            <div align="center" class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Warning - Target has open sessions!</h3></div>
+            <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Warning - Target has sessions!</h3></div>
         <?php } ?>
 
         <div class='panel panel-default'>

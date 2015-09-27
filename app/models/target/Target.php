@@ -28,9 +28,6 @@
 
                     // Check if we deal with an existing or new target
                     if ($return === false) {
-                        // default message
-                        $this->logging->log_action_result('The target ' . $iqn . ' was successfully added', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-
                         // target is a new target
                         $this->target_status = false;
 
@@ -41,17 +38,20 @@
                             $return = $this->add_iqn_to_file();
                             if ($return != 0) {
                                 if ($return == 1) {
-                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it\'s read only.' . $iqn, array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it\'s read only.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                                 } else if ($return == 3) {
-                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it was already there.' . $iqn, array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it was already there.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                                 } else {
-                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file. Reason is unknown.' . $iqn, array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file. Reason is unknown.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                                 }
+                            } else {
+                                $this->logging->log_action_result('The target ' . $iqn . ' was successfully added', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                             }
                         }
                         // fill object with data from new target
                         $this->get_target_data();
                     } else {
+                        $this->logging->log_action_result('The target ' . $iqn . ' is already in use!', $return, __METHOD__);
                         $this->target_status = true;
                     }
                 } else {
@@ -715,5 +715,23 @@
             } else {
                 return false;
             }
+        }
+
+        public function is_lun($path) {
+            $data = $this->return_all_used_lun();
+            if ($data !== false) {
+                $return = $this->std->recursive_array_search($path, $data);
+                if ($return !== false) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+
+
+
+
         }
     }

@@ -1,7 +1,6 @@
-
-define(['jquery', 'mylibs'], function($, mylibs) {
-    var Methods;
-    return Methods = {
+define(['jquery'], function($) {
+    var methods;
+    return methods = {
         checkversion: function() {
             $(function() {
                 var versioncheck = $('#versioncheck');

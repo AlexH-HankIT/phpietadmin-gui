@@ -1,31 +1,38 @@
-<div id="workspace">
-    <div class = "container">
-        <div class="panel panel-default">
-            <ol class='panel-heading breadcrumb'>
-                <li><a href='#'>LVM</a></li>
-                <li class='active'>Delete logical volume</li>
-            </ol>
+<div id="configure_lvm_body">
+	<div class="container">
+		<?php if ($data['lv'][0]['Attr'][5] === 'o') { ?>
+			<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> The selected logical volume is in use!</div>
+		<?php } ?>
 
-            <div class="panel-body">
-                <select id="logicalvolumedeleteselection" class="form-control">
-                    <option id="default">Select...</option>
-                    <?php foreach ($data as $row) { ?>
-                        <option value="<?php echo htmlspecialchars($row); ?>"> <?php echo htmlspecialchars($row); ?> </option>
-                    <?php } ?>
-                </select>
-            </div>
+		<?php if ($data['lv'][0]['Attr'][0] === 'o') { ?>
+			<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> The selected logical volume has snapshots, which will be automatically deleted!</div>
+		<?php } ?>
 
-            <div class="panel-footer">
-                <button id="logicalvolumedeletebutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete</button>
-            </div>
-        </div>
+		<div class='panel panel-default'>
+			<ol class='panel-heading breadcrumb'>
+				<li><a href='#'>LVM</a></li>
+				<li><a href='#'>Configure</a></li>
+				<li class='active'>Delete</li>
+			</ol>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-12">
+						<label><input type="checkbox" id="safety_checkbox"> I understand, that this will delete all data stored on this volume</label>
+					</div>
+				</div>
+			</div>
 
-    <script>
-        require(['common'],function() {
-            require(['pages/lvmdelete'],function(methods) {
-                methods.add_qtip_logicalvolumedeletebutton();
-                methods.add_event_handler_logicalvolumedeletebutton();
-            });
-        });
-    </script>
+			<div class='panel-footer'>
+				<button id="delete_volume_button" class="btn btn-danger" type='submit'><span class="glyphicon glyphicon-trash"></span> Delete</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		require(['common'], function () {
+			require(['pages/lvm/delete'], function (methods) {
+				methods.remove();
+			});
+		});
+	</script>
 </div>

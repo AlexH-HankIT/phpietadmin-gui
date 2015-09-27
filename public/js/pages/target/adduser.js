@@ -10,11 +10,12 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         add_event_handler_adduserbutton: function () {
             $(function() {
-                $(document).once('click', '#adduserbutton', function () {
-                    var selector_targetselection = $('#targetselection');
+                $('#adduserbutton').once('click', function () {
+                    var selector_targetselection = $('#target_selector');
                     var iqn = selector_targetselection.find("option:selected").val();
+                    var addusercheckbox_checked = $(".addusercheckbox:checked");
 
-                    if (!$(".addusercheckbox:checked").val()) {
+                    if (!addusercheckbox_checked.val()) {
                         swal({
                             title: 'Error',
                             type: 'error',
@@ -25,7 +26,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         var type = $("input[name='type']:checked").val();
 
                         // loop through checkboxes
-                        $(".addusercheckbox:checked").each(function () {
+                        addusercheckbox_checked.each(function () {
                             var $this = $(this);
                             var id = $this.closest('tr').find('.userid').text();
 
@@ -55,7 +56,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                             text: data['message']
                                         });
                                     }
-                                    mylibs.loadconfiguretargetbody('/phpietadmin/targets/configure/adduser', iqn);
+                                    mylibs.load_configure_target_body('/phpietadmin/targets/configure/adduser');
                                 },
                                 error: function() {
                                     swal({

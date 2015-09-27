@@ -30,7 +30,18 @@
 
 		public function add_to_db() {
 			if ($this->service_status === false) {
-				$return = $this->database->add_service($this->service_name);
+                $return = $this->database->change(array(
+                        'query' => "INSERT INTO phpietadmin_service ('name', 'enabled') VALUES (:name, 1)",
+                        'params' => array(
+                            0 => array(
+                                'name' => 'name',
+                                'value' => str_replace(' ', '', $this->service_name),
+                                'type' => SQLITE3_TEXT
+                            )
+                        )
+                    )
+                );
+
 				if ($return == 0) {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was added!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 				} else {
@@ -43,7 +54,18 @@
 
 		public function delete_from_db() {
 			if ($this->service_status === true) {
-				$return = $this->database->delete_service($this->service_name);
+                $return = $this->database->change(array(
+                        'query' => 'DELETE FROM phpietadmin_service where name = :name',
+                        'params' => array(
+                            0 => array(
+                                'name' => 'name',
+                                'value' => str_replace(' ', '', $this->service_name),
+                                'type' => SQLITE3_TEXT
+                            )
+                        )
+                    )
+                );
+
 				if ($return == 0) {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was deleted!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 				} else {
@@ -56,7 +78,23 @@
 
 		public function rename_in_database($new_service_name) {
 			if ($this->service_status === true) {
-				$return = $this->database->change_service($this->service_name, 'name', $new_service_name);
+                $return = $this->database->change(array(
+                        'query' => 'UPDATE phpietadmin_service set name=:value where name = :name',
+                        'params' => array(
+                            0 => array(
+                                'name' => 'name',
+                                'value' => str_replace(' ', '', $this->service_name),
+                                'type' => SQLITE3_TEXT
+                            ),
+                            1 => array(
+                                'name' => 'value',
+                                'value' => $new_service_name,
+                                'type' => SQLITE3_TEXT
+                            )
+                        )
+                    )
+                );
+
 				if ($return == 0) {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was renamed to ' . $new_service_name, array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					$this->service_name = $new_service_name;
@@ -71,14 +109,44 @@
 		public function change_in_database($param) {
 			if ($this->service_status === true) {
 				if ($param == 'enable') {
-					$return = $this->database->change_service($this->service_name, 'enabled', 1);
+                    $return = $this->database->change(array(
+                            'query' => 'UPDATE phpietadmin_service set enabled=:value where name = :name',
+                            'params' => array(
+                                0 => array(
+                                    'name' => 'name',
+                                    'value' => str_replace(' ', '', $this->service_name),
+                                    'type' => SQLITE3_TEXT
+                                ),
+                                1 => array(
+                                    'name' => 'value',
+                                    'value' => 1,
+                                    'type' => SQLITE3_TEXT
+                                )
+                            )
+                        )
+                    );
 					if ($return == 0) {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was enabled!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					} else {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was not enabled!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					}
 				} else if ($param == 'disable') {
-					$return = $this->database->change_service($this->service_name, 'enabled', 0);
+                    $return = $this->database->change(array(
+                            'query' => 'UPDATE phpietadmin_service set enabled=:value where name = :name',
+                            'params' => array(
+                                0 => array(
+                                    'name' => 'name',
+                                    'value' => str_replace(' ', '', $this->service_name),
+                                    'type' => SQLITE3_TEXT
+                                ),
+                                1 => array(
+                                    'name' => 'value',
+                                    'value' => 0,
+                                    'type' => SQLITE3_TEXT
+                                )
+                            )
+                        )
+                    );
 					if ($return == 0) {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was disabled!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					} else {

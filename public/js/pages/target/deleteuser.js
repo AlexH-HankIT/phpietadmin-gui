@@ -10,7 +10,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
         },
         add_event_handler_deleteuserbutton: function() {
             $(function() {
-                var seltargetselection = $('#targetselection');
+                var seltargetselection = $('#target_selector');
 
                 $(document).once('click', '#deleteuserbutton', function(){
                     var iqn = seltargetselection.find("option:selected").val();

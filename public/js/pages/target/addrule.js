@@ -25,7 +25,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             $.ajax({
                                 url: '/phpietadmin/targets/configure/addrule',
                                 data: {
-                                    "iqn": $('#targetselection').find("option:selected").val(),
+                                    "iqn": $('#target_selector').find("option:selected").val(),
                                     "type":  $("input[name='type']:checked").val(),
                                     "id": $this.closest('tr').find('.objectid').text()
                                 },

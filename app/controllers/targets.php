@@ -6,28 +6,7 @@ use phpietadmin\app\core;
             if (!empty($_POST['name'])) {
                 // constructor creates target if it's not existing
                 $target = $this->model('target\Target', $_POST['name']);
-                $result = $target->logging->get_action_result();
-
-                if ($result['code'] != 0) {
-                    $json = array(
-                        'status' => 'Error',
-                        'message' => $result['message']
-                    );
-                } else {
-                    if ($target->target_status === true) {
-                        $json = array(
-                            'status' => 'Error',
-                            'message' => 'The target ' . $_POST['name'] . ' already exists!'
-                        );
-                    } else {
-                        $json = array(
-                            'status' => 'Success',
-                            'message' => $result['message']
-                        );
-                    }
-                }
-
-                echo json_encode($json);
+                echo json_encode($target->logging->get_action_result());
             } else {
                 $this->view('targets/addtarget', $this->base_model->database->get_config('iqn')['value'] . ":");
             }
@@ -81,31 +60,28 @@ use phpietadmin\app\core;
                 if ($param1 === false) {
                     $this->view('targets/configuretarget', $data);
                 } else if ($param1 == 'maplun') {
-                        if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->base_model->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                            // ToDo
-                            // If the target doesn't exist it will be created
-                            // This should never happen here
-                            // But maybe we should handle this anyway?
-                            $target = $this->model('target\Target', $_POST['target']);
+                    if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->base_model->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
+                        // ToDo
+                        // If the target doesn't exist it will be created
+                        // This should never happen here
+                        // But maybe we should handle this anyway?
+                        $target = $this->model('target\Target', $_POST['target']);
 
-                            if ($target->target_status !== false) {
-                                $target->add_lun($_POST['path'], $_POST['mode'], $_POST['type']);
-
-                                echo json_encode($target->get_action_result());
-                            } else {
-                                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
-                            }
+                        if ($target->target_status !== false) {
+                            $target->add_lun($_POST['path'], $_POST['mode'], $_POST['type']);
+                            echo json_encode($target->logging->get_action_result());
                         } else {
-                            $lv = $this->model('lvm\lv\Lv', false, false);
-
-                            $unused_lun = $lv->get_unused_lun($targets->return_all_used_lun());
-
-                            if (!empty($unused_lun) && $unused_lun !== false) {
-                                $this->view('targets/maplun', $unused_lun);
-                            } else {
-                                $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
-                            }
+                            $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
                         }
+                    } else {
+                        $lv = $this->model('lvm\lv\Lv', false, false);
+                        $unused_lun = $lv->get_unused_lun($targets->return_all_used_lun());
+                        if (!empty($unused_lun) && $unused_lun !== false) {
+                            $this->view('targets/maplun', $unused_lun);
+                        } else {
+                            $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
+                        }
+                    }
                 } else if ($param1 == 'deletelun') {
                     if (isset($_POST['iqn'], $_POST['path'])) {
                         // delete lun with id

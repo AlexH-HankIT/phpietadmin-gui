@@ -1,5 +1,5 @@
 <?php namespace phpietadmin\app\models;
-	use phpietadmin\app\core;
+        use phpietadmin\app\core;
 
 	// bugs
 	// if a user is logged out due to inactivity
@@ -35,6 +35,7 @@ class Session extends core\BaseModel {
 
 	private function check_already_logged_in() {
 		$data = $this->database->get_phpietadmin_user($this->username);
+
 		// if there is already a session id the user is logged in
 		if (empty($data[0]['session_id'])) {
 			return false;
@@ -44,6 +45,12 @@ class Session extends core\BaseModel {
 	}
 
 	public function open() {
+		/*$database = new Database();
+		//$session = $database->get_session(session_id());
+		//if ($session === false || !is_array($session)) {
+			shell_exec('touch /tmp/write_in_open');
+			$database->add_session(session_id());
+		}*/
 		return true;
 	}
 
@@ -54,7 +61,6 @@ class Session extends core\BaseModel {
 	public function read($session_id) {
 		// select session data from table
 		$data = $this->database->get_session($session_id);
-
 		if ($data !== false && !empty($data['data'])) {
 			return $data['data'];
 		} else if($data !== false && !empty($data['last_activity']) && !empty($data['user_agent']) && !empty($data['remote_address'])) {
@@ -64,7 +70,6 @@ class Session extends core\BaseModel {
 			return '';
 		}
 	}
-
 	public function write($session_id, $data) {
 		$database = new Database();
 		$database->update_session_data($session_id, $data);
@@ -88,11 +93,8 @@ class Session extends core\BaseModel {
 
 	public function gc($max_life_time) {
         $database = new Database();
-
         // delete all sessions which reached max life time
 		$database->delete_session_garbage($max_life_time);
-		$database->update_session_for_user($this->username, session_id());
-
 		return true;
 	}
 
@@ -103,6 +105,7 @@ class Session extends core\BaseModel {
 			$return = $this->check_already_logged_in($this->username);
 			if ($return === false) {
 				$_SESSION['logged_in'] = true;
+				$this->database->set_session_status(session_id(), 1);
 				$this->database->update_session_for_user($this->username, session_id());
                 $this->logging->log_access_result('The user ' . $this->username . ' was successfully logged in!', 0, 'login', __METHOD__);
 				return array(
@@ -110,7 +113,8 @@ class Session extends core\BaseModel {
 					'status' => 'ok'
 				);
 			} else {
-				$_SESSION['logged_in'] = true;
+				$_SESSION['logged_in'] = false;
+				$this->database->set_session_status(session_id(), 0);
                 $this->logging->log_access_result('The user ' . $this->username . ' is already logged in!', 1, 'login', __METHOD__);
 				// declare var so the override function can check
 				// if it should really override
@@ -123,6 +127,7 @@ class Session extends core\BaseModel {
 		} else {
             $this->logging->log_access_result('The user ' . $this->username . ' was not logged in. Wrong password!', 1, 'login', __METHOD__);
 			$_SESSION['logged_in'] = false;
+			$this->database->set_session_status(session_id(), 0);
 			return array(
 				'login' => false,
 				'status' => 'wrong'
@@ -141,9 +146,9 @@ class Session extends core\BaseModel {
 				$data = $this->database->get_session(session_id());
 
 				if ($data['user_agent'] === $_SERVER['HTTP_USER_AGENT'] && $data['remote_address'] === $_SERVER['REMOTE_ADDR']) {
-					$idle_value = intval($this->database->get_config('idle')['value']);
-					if ($idle_value !== 0) {
-						if (time() - $data['last_activity'] < $idle_value * 60) {
+					//$idle_value = intval($this->database->get_config('idle')['value']);
+					//if ($idle_value !== 0) {
+						//if (time() - $data['last_activity'] < $idle_value * 60) {
 							// only update the timestamp if the inactivity logout feature is actually enabled
 							// Update time
 							// Don't update if controller is connection
@@ -152,12 +157,12 @@ class Session extends core\BaseModel {
 							if ($controller !== 'phpietadmin\app\controllers\connection') {
 								$this->database->update_session_activity(session_id());
 							}
-						} else {
-							$this->logging->log_access_result('The user ' . $this->username . ' will be logged out due to inactivity!', 1, 'check_logged_in', __METHOD__);
-							$this->logout();
-							return false;
-						}
-					}
+						//} else {
+							//$this->logging->log_access_result('The user ' . $this->username . ' will be logged out due to inactivity!', 1, 'check_logged_in', __METHOD__);
+							//$this->logout();
+							//return false;
+						//}
+					//}
 					return true;
 				} else {
 					return false;

@@ -15,8 +15,9 @@ define(['jquery'], function ($) {
                         var clicked = $(this);
                         var option = clicked.attr("href").substring(1);
                         var value = clicked.prev().val();
+                        console.log(option);
                         $.ajax({
-                            url: "/phpietadmin/config/edit?option=" + option + "&value=" + value,
+                            url: "/phpietadmin/config/edit_config?option=" + option + "&value=" + value,
                             success: function (result) {
                                 console.log(result);
                                 if (result.indexOf("Success") >= 0) {

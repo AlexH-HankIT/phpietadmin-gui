@@ -40,7 +40,8 @@ CREATE TABLE phpietadmin_session(
   last_activity INT NOT NULL,
   user_agent varchar NOT NULL,
   remote_address varchar NOT NULL,
-  data varchar
+  data varchar,
+  logged_in NUMERIC BOOLEAN DEFAULT 0
 );
 
 DROP TABLE IF EXISTS phpietadmin_object;

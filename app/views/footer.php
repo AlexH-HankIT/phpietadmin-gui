@@ -1,4 +1,4 @@
-<div id='footer' class = 'navbar navbar-default navbar-fixed-bottom'>
+<footer class = 'navbar navbar-default navbar-fixed-bottom'>
     <div class = 'container'>
         <div class='hidden-xs hidden-sm'>
             <div class='row'>
@@ -19,6 +19,6 @@
             </div>
         </div>
     </div>
-</div>
+</footer>
 </body>
 </html>

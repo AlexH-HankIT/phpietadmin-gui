@@ -49,10 +49,9 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
                             "option": thisrow.find('.option').text(),
                             "oldvalue": oldvalue,
                             "newvalue": newvalue,
-                            "iqn": $('#targetselection').find("option:selected").val(),
+                            "iqn": $('#target_selector').find("option:selected").val(),
                             "type": type
                         };
-
 
                         $.ajax({
                             url: '/phpietadmin/targets/configure/settings',

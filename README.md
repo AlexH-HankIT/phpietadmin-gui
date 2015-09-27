@@ -11,7 +11,7 @@ directly to the daemon via php’s „exec“ function. This prevents any incons
 daemon live config.
 
 ## Compatibility
-Phpietadmin is tested on 8. But it’s not limited to Debian.
+Phpietadmin is tested on 8. But it’s not limited to debian.
 It should run just fine on any other linux distribution.
 
 ## Docs
@@ -27,10 +27,6 @@ Take a look at the github releases for detailed information about the features.
 ## Bugs in 0.5.2:
 - [ ] Reload page after session disconnect
 - [ ] Delete lun: check if line contains default parameter
-- [ ] Session:
-    - [ ] After overwrite, you have to login again
-    - [ ] After session expire logout, you have to login twice
-- [ ] Error while submitting
 
 ## Roadmap
 In version 0.6:
@@ -50,7 +46,9 @@ In version 0.6:
     - [x] Improved ajax menu with error handling
     - [ ] Release "compressed" javascript files
     - [x] Use custom data attributes to store data in dom
-    - [ ] Configure target: Show if target has open sessions
+    - [x] Configure target: Show if target has open sessions
+    - [ ] Add bar to snapshot delete gui
+    - [ ] Select all checkbox in snapshot delete gui
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
@@ -60,7 +58,7 @@ In version 0.6:
     - [x] Basic error logging
     - [x] Login/Logout logging
     - [x] Debug logging
-    - [x] New session implementation
+    - [ ] New session implementation
     - [ ] Database error log
     - [ ] Log also successful messages
     - [ ] Rework controller/models
@@ -72,7 +70,7 @@ In version 0.6:
         - [x] Targets
         - [x] Users
         - [x] Objects
-        - [ ] LVM
+        - [x] LVM
         - [x] Services
         - [ ] Config
         - [ ] PHPietadmin user/session menu
@@ -82,6 +80,7 @@ In version 0.6:
     - [x] Replace version file with .json
     - [ ] Use bcrypt for storing passwords
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
+    - [ ] Rework the javascript code
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
@@ -100,6 +99,8 @@ In version 0.7:
     - [ ] Display input validation with bootstrap css Validation states (http://formvalidation.io/validators/integer/)
     - [ ] Bootstrap-table Table Select Checkbox
     - [ ] Awesome checkboxes (https://github.com/designmodo/Flat-UI)
+    - [ ] Improve configure target settings menu
+    - [ ] Improve nested table row handling
 
 * Backend
     - [ ] Write process class to execute commands in the background (+ jwindow)

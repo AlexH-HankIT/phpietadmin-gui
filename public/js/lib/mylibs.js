@@ -79,16 +79,14 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                 }
             });
         },
-        generatePassword: function()  {
-            $(function() {
-                var length = 16,
-                    charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-                    retVal = "";
-                for (var i = 0, n = charset.length; i < length; ++i) {
-                    retVal += charset.charAt(Math.floor(Math.random() * n));
-                }
-                return retVal;
-            });
+        generatePassword: function() {
+            var length = 16,
+                charset = "abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            return retVal;
         },
         load_configure_target_body: function(link, clicked) {
             $(function() {

@@ -9,12 +9,10 @@
                 <span class = "icon-bar"></span>
             </button>
         </div>
-        <div class = "collapse navbar-collapse navHeaderCollapse">
+        <div id="main_menu_bar" class = "collapse navbar-collapse navHeaderCollapse">
             <ul class = "nav navbar-nav navbar-right">
                 <li class='hidden-sm hidden-md'><a><img hidden id="ajaxloader" src="/phpietadmin/img/ajax-loader.gif"></a></li>
-
                 <li class='hidden-sm hidden-md'><a><span id='ajax_error_sign' class='glyphicon glyphicon-warning-sign'></span></a></li>
-
                 <li><a id="menudashboard" class="workspacetab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'>Dashboard</span></a></li>
 
                 <li class = "dropdown">
@@ -43,7 +41,6 @@
                 </li>
 
                 <li><a class="workspacetab" href='/phpietadmin/ietusers'><span class="glyphicon glyphicon-user"></span> <span class='hidden-sm hidden-md'>Users</span></a></li>
-
                 <li><a class="workspacetab" href='/phpietadmin/objects'><span class="glyphicon glyphicon-list"></span> Objects</span></a></li>
 
                 <li class = "dropdown">

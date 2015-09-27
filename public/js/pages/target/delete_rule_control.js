@@ -15,14 +15,14 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         add_event_handler_delete_rule_type: function() {
             $(function() {
-                $(document).once('change', 'input[name="delete_rule_type"]', function () {
+                $('input[name="delete_rule_type"]').once('change', function () {
                     mylibs.load_data('/phpietadmin/targets/configure/deleterule/' + $(this).val());
                 });
             });
         },
         toggle_checkboxes: function () {
             $(function() {
-                $(document).once('click', '#object_delete_checkbox_all', function () {
+                $('#object_delete_checkbox_all').once('click', function () {
                     $('.object_delete_checkbox').each(function () {
                         var $this = $(this);
                         $this.prop("checked", !$this.prop("checked"));
@@ -32,14 +32,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         add_event_handler_deleterulebutton: function () {
             $(function() {
-                $(document).once('click', '#deleterulebutton', function () {
+                $('#deleterulebutton').once('click', function () {
                     var iqn = $('#targetselection').find("option:selected").val();
                     var ruletype = $("input[name='delete_rule_type']:checked").val();
                     var objectdeletecheckbox = $(".object_delete_checkbox:checked");
                     var def = [];
 
                     // validate if checkboxes are checked
-
                     function load($this) {
                         return $.ajax({
                             url: '/phpietadmin/targets/configure/deleterule',

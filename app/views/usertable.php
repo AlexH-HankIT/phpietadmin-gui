@@ -12,7 +12,7 @@
                         <span class="label label-success bestaetigung">Success</span>
                     </td>
                     <td class="col-md-5 passwordcell">
-                        <a href="#"> <span id="generatepw" class="glyphicon glyphicon-hand-right glyphicon-20" aria-hidden="true"></span></a>&nbsp;&nbsp;
+                        <a href="#"><span class="glyphicon glyphicon-hand-right glyphicon-20 generate_pw" aria-hidden="true"></span></a>&nbsp;&nbsp;
                         <input class="password" maxlength="16" type="text" placeholder="Password">
                         <span class="label label-success bestaetigung">Success</span>
                     </td>
@@ -49,14 +49,16 @@
     </div>
 
     <script>
-        require(['common'], function () {
-            require(['pages/usertable'], function (methods) {
-                methods.add_event_handler_passwordfield1();
-                methods.add_event_handler_passwordfield2();
-                methods.add_event_handler_adduserrowbutton();
-                methods.add_event_handler_deleteuserrow();
-                methods.enable_filter_table_plugin();
-            });
-        });
+		require(['common'], function () {
+			require(['pages/usertable', 'domReady'], function (methods, domReady) {
+				domReady(function () {
+					methods.add_event_handler_passwordfield1();
+					methods.add_event_handler_passwordfield2();
+					methods.add_event_handler_adduserrowbutton();
+					methods.add_event_handler_deleteuserrow();
+					methods.enable_filter_table_plugin();
+				});
+			});
+		});
     </script>
 </div>

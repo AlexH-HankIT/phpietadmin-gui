@@ -7,7 +7,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                     var deletelunlunselection = $('#deletelunlunselection');
 
                     var data = {
-                        "iqn": $('#targetselection').find("option:selected").val(),
+                        "iqn": $('#target_selector').find("option:selected").val(),
                         "path": deletelunlunselection.find('option:selected').attr('name')
                     };
 

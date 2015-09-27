@@ -2,7 +2,7 @@
     <div class="container">
         <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> You have to resize your filesystem before shrinking otherwise you will loose data!</div>
 
-        <?php if ($data['lv'][0]['Attr'][6] === 'o') {?>
+        <?php if ($data['lv'][0]['Attr'][5] === 'o') {?>
             <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> The selected logical volume is in use!</div>
         <?php } ?>
 
@@ -19,7 +19,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <input id="shrink_input" type="text" class="form-control" required>
+                        <input id="shrink_input" type="text" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <div data-max="<?php echo $data['lv'][0]['LSize'] ?>"

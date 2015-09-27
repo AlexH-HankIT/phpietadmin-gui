@@ -29,7 +29,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         $.ajax({
                             url: '/phpietadmin/targets/configure/deletetarget',
                             data: {
-                                "iqn": $('#targetselection').find("option:selected").val(),
+                                "iqn": $('#target_selector').find("option:selected").val(),
                                 "delete_lun": $("input[name='lundeletion']:checked").val(),
                                 "delete_acl": deleteacl,
                                 "force": force

@@ -24,7 +24,32 @@ use phpietadmin\app\core;
                             throw new \exception('name');
                         }
                     }
-                    if ($this->base_model->database->add_object($_POST['type'], $_POST['name'], $_POST['value']) != 0) {
+
+                    $return = $this->base_model->database->change(array(
+                            'query' => 'INSERT INTO phpietadmin_object (type_id, value, name) VALUES ((SELECT type_id FROM phpietadmin_object_type WHERE value=:type), :value, :name)',
+                            'params' => array(
+                                0 => array(
+                                    'name' => 'type',
+                                    'value' => str_replace(' ', '', $_POST['type']),
+                                    'type' => SQLITE3_TEXT
+                                ),
+                                1 => array(
+                                    'name' => 'name',
+                                    'value' => str_replace(' ', '', $_POST['name']),
+                                    'type' => SQLITE3_TEXT
+                                ),
+                                2 => array(
+                                    'name' => 'value',
+                                    'value' => str_replace(' ', '', $_POST['value']),
+                                    'type' => SQLITE3_TEXT
+                                )
+                            )
+                        )
+                    );
+
+
+                    //if ($this->base_model->database->add_object($_POST['type'], $_POST['name'], $_POST['value']) != 0) {
+                    if ($return != 0) {
                         echo json_encode(array('code' => 6, 'message' => 'DB error'));
                     } else {
                         echo json_encode(array('code' => 0, 'message' => 'Success'));
@@ -38,7 +63,18 @@ use phpietadmin\app\core;
 
         public function delete() {
             if (!empty($_POST['id'])) {
-                $return = $this->base_model->database->delete_object(intval($_POST['id']));
+                $return = $this->base_model->database->change(array(
+                        'query' => 'DELETE FROM phpietadmin_object where id=:id',
+                        'params' => array(
+                            0 => array(
+                                'name' => 'id',
+                                'value' => intval($_POST['id']),
+                                'type' => SQLITE3_INTEGER
+                            )
+                        )
+                    )
+                );
+
                 if ($return !== 0) {
                     echo json_encode(array('code' => $return, 'message' => 'Database error!'));
                 } else {

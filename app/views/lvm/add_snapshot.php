@@ -1,6 +1,6 @@
 <div id="configure_lvm_body">
     <div class="container">
-        <?php if ($data['lv'][0]['Attr'][6] === 'o') {?>
+        <?php if ($data['lv'][0]['Attr'][5] === 'o') {?>
             <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> The selected logical volume is in use!</div>
         <?php } ?>
 
@@ -25,7 +25,7 @@
                         <input id="add_snapshot_size_input" type="text" class="form-control" required>
                     </div>
                     <div class="col-md-6">
-                        <div data-max="<?php echo $data['vg'][0]['VFree'] - 1 ?>" id="add_snapshot_size_slider" class="slider"></div>
+                        <div data-max="<?php echo $data['vg'][0]['VFree'] ?>" id="add_snapshot_size_slider" class="slider"></div>
                     </div>
                 </div>
             </div>

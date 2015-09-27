@@ -1,6 +1,6 @@
 <div id="configure_lvm_body">
 	<div class="container">
-        <?php if ($data['lv'][0]['Attr'][6] === 'o') {?>
+        <?php if ($data['lv'][0]['Attr'][5] === 'o') {?>
             <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> The selected logical volume is in use!</div>
         <?php } ?>
 
@@ -19,6 +19,11 @@
                     <div class="col-md-6">
                         <input id="extend_size" type="text" value="<?php echo intval($data['lv'][0]['LSize']) ?>" class="form-control">
                     </div>
+
+                    <div class="hidden-md hidden-lg">
+                        <br>
+                    </div>
+
                     <div class="col-md-6">
                         <div data-max="<?php echo $data['lv'][0]['LSize'] + $data['vg'][0]['VFree'] - 1 ?>"
                              data-min="<?php echo $data['lv'][0]['LSize'] ?>"

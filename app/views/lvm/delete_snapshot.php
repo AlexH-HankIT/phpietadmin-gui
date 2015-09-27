@@ -1,6 +1,7 @@
 <div id="configure_lvm_body">
     <div class="container">
-        <?php if ($data['lv'][0]['Attr'][6] === 'o') {?>
+
+        <?php if ($data['lv'][0]['Attr'][5] === 'o') {?>
             <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> The selected logical volume is in use!</div>
         <?php } ?>
 

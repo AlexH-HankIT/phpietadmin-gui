@@ -19,10 +19,11 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
         add_event_handler_sessiondeletebutton: function() {
             $(function() {
                 $(document).once('click', '.sessiondeletebutton', function() {
-                    var iqn = $('#targetselection').find("option:selected").val();
+                    var iqn = $('#target_selector').find("option:selected").val();
 
+                    var url = '/phpietadmin/targets/configure/deletesession';
                     $.ajax({
-                        url: '/phpietadmin/targets/configure/deletesession',
+                        url: url,
                         data: {
                             iqn: iqn,
                             sid: $(this).closest('tr').find('.sid').text()
@@ -35,31 +36,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
                                     title: 'Success',
                                     type: 'success',
                                     text: data['message']
-                                });
-
-                                $.ajax({
-                                    url: '/phpietadmin/targets/configure/deletesession',
-                                    data: {iqn: iqn},
-                                    dataType: 'html',
-                                    type: 'post',
-                                    success: function (data) {
-                                        var url= 'targets/deletesession';
-                                        var page = url.replace('/', '_');
-                                        url = '/phpietadmin/' + url;
-
-                                        var configuretargetbody = $('#configuretargetbody');
-                                        configuretargetbody.html('');
-                                        configuretargetbody.html(data);
-                                        configuretargetbody.removeClass();
-                                        configuretargetbody.addClass(page);
-                                    },
-                                    error: function() {
-                                        swal({
-                                            title: 'Error',
-                                            type: 'error',
-                                            text: 'Something went wrong while reloading!'
-                                        });
-                                    }
+                                }, function() {
+                                    mylibs.load_configure_target_body(url);
                                 });
                             } else {
                                 swal({
