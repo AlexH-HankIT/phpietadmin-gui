@@ -16,7 +16,7 @@ requirejs.config({
         once: 'lib/once',
         bootstraptable: 'lib/bootstrap-table',
         touchspin: 'lib/jquery.bootstrap-touchspin.min.amd',
-        domReady: 'lib/domReady'
+        domReady: 'lib/domReady.min'
     },
     shim: {
         jqueryui: {
