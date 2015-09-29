@@ -9,15 +9,12 @@
             <div class='panel-body'>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="maplunautoselection">
-                            <select name="path" id="logicalvolume" class="form-control">
-                                <option id="logicalvolumedefault">Select logical volume</option>
-                                <?php foreach ($data as $value) { ?>
-                                    <option
-                                        value="<?php echo htmlspecialchars($value) ?>"> <?php echo htmlspecialchars($value) ?> </option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                        <select name="path" id="logical_volume_selector" class="form-control">
+                            <option id="default">Select logical volume</option>
+                            <?php foreach ($data as $value) { ?>
+                                <option><?php echo htmlspecialchars($value) ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                 </div>
                 <div class="row top-buffer">
@@ -38,7 +35,7 @@
             <div class='panel-footer'>
                 <div class='row'>
                     <div class='col-md-12'>
-                        <button id="maplunbutton" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>
+                        <button id="map_lun_button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>
                             Add
                         </button>
                     </div>
@@ -48,8 +45,10 @@
 
         <script>
             require(['common'], function () {
-                require(['pages/target/maplun'], function (methods) {
-                    methods.add_event_handler_maplunbutton();
+                require(['pages/target/maplun', 'domReady'], function (methods, domReady) {
+                    domReady(function () {
+                        methods.add_event_handler_maplunbutton();
+                    });
                 });
             });
         </script>

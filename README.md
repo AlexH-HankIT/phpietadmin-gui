@@ -50,6 +50,17 @@ In version 0.6:
     - [ ] Add bar to snapshot delete gui
     - [ ] Select all checkbox in snapshot delete gui
     - [ ] Rework the javascript code
+        - [x] Dashboard
+        - [ ] Target
+            - [x] Add target
+            - [ ] Configure
+        - [ ] Users
+        - [ ] Objects
+        - [ ] LVM
+        - [ ] Services
+        - [ ] Config
+        - [ ] Logs
+        - [ ] Logout
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target

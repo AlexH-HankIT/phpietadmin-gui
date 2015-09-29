@@ -67,10 +67,11 @@
 
         <script>
             require(['common'],function() {
-                require(['pages/dashboard'],function(methods) {
+                require(['pages/dashboard', 'domReady'],function(methods, domReady) {
+                    domReady(function () {
                         methods.checkversion();
-                    }
-                );
+                    });
+                });
             });
         </script>
     </div>

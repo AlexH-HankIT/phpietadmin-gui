@@ -44,9 +44,11 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/target/adduser'], function (methods) {
-                methods.add_event_handler_adduserbutton();
-                methods.enable_filter_table_plugin();
+            require(['pages/target/adduser', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+                    methods.add_event_handler_adduserbutton();
+                    methods.enable_filter_table_plugin();
+                });
             });
         });
     </script>

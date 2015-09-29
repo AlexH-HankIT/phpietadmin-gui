@@ -30,11 +30,13 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/target/addtarget'],function(methods) {
-                methods.disable_special_chars();
-                methods.focus_input();
-                methods.remove_error();
-                methods.add_event_handler_addtargetbutton();
+            require(['pages/target/addtarget', 'domReady'],function(methods, domReady) {
+                domReady(function () {
+                    methods.disable_special_chars();
+                    methods.focus_input();
+                    methods.remove_error();
+                    methods.add_event_handler_addtargetbutton();
+                });
             });
         });
     </script>

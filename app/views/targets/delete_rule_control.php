@@ -8,7 +8,7 @@
             </ol>
 
             <div class='panel-body'>
-                <button id="deleterulebutton" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
+                <button id="delete_rule_button" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
                 </button>
 
                 <div class="btn-group" data-toggle="buttons">
@@ -28,13 +28,14 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/target/delete_rule_control'],function(methods) {
-                methods.add_event_handler_deleterulebutton();
-                methods.enable_filter_table_plugin();
-                methods.load_data('initiators');
-				methods.toggle_checkboxes();
-				methods.add_event_handler_delete_rule_type();
+            require(['pages/target/delete_rule_control', 'domReady'],function(methods, domReady) {
+                domReady(function () {
+                    methods.add_event_handler_deleterulebutton();
+                    methods.enable_filter_table_plugin();
+                    methods.load_data('initiators');
+                    methods.toggle_checkboxes();
+                    methods.add_event_handler_delete_rule_type();
+                });
             });
         });
     </script>
-</div>
