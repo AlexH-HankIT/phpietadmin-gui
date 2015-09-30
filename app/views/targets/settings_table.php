@@ -50,13 +50,13 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/target/settings'], function (methods) {
-                methods.add_event_handler_settings_table_checkbox();
-                methods.add_event_handler_save_value();
-                methods.remove_error();
-            });
-            require(['pages/target/settingstableqtip'], function (methods) {
-                methods.add_qtip();
+            require(['pages/target/settings', 'domReady', 'pages/target/settingstableqtip'], function (methods, domReady, methods2) {
+                domReady(function () {
+                    methods.add_event_handler_settings_table_checkbox();
+                    methods.add_event_handler_save_value();
+                    methods.remove_error();
+                    methods2.add_qtip();
+                });
             });
         });
     </script>
