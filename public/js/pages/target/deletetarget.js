@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
     return methods = {
         add_event_handler_deletetargetbutton: function () {
-            $(document).once('click', '#deletetargetbutton', function () {
+            $('#deletetargetbutton').once('click', function () {
                 var deleteacl;
                 if ($('#deleteacl').prop('checked')) {
                     deleteacl = 1;
@@ -18,7 +18,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     force = 0;
                 }
 
-                if (force == 1 && deleteacl == 0) {
+                if (force === 1 && deleteacl === 0) {
                     swal({
                         title: 'Error',
                         type: 'error',
