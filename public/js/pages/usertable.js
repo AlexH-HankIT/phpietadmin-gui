@@ -2,19 +2,23 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
     var methods;
 
     return methods = {
-        add_event_handler_passwordfield1: function () {
-            $('.passwordfield').once('mouseover', function () {
-                $(this).find('.passwordfieldplaceholder').hide().find('.password').show();
+        add_event_handler_passwordfield: function () {
+            // show/hide password on mouseover
+
+            var $passwordfield = $('.passwordfield');
+            var $placeholder = $(this).find('.passwordfieldplaceholder');
+
+            $passwordfield.once('mouseover', function () {
+                $placeholder.hide().find('.password').show();
+            });
+
+            $passwordfield.once('mouseout', function () {
+                $placeholder.show().find('.password').hide();
             });
         },
         enable_filter_table_plugin: function () {
             // Enable filter table plugin
             $('.searchabletable').filterTable({minRows: 0});
-        },
-        add_event_handler_passwordfield2: function () {
-            $('.passwordfield').once('mouseout', function () {
-                $(this).find('.passwordfieldplaceholder').show().find('.password').hide();
-            });
         },
         add_event_handler_deleteuserrow: function () {
             $('.deleteuserrow').once('click', function () {
@@ -71,39 +75,40 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_adduserrowbutton: function () {
-            var $add_user_table_body = $('#addusertablebody');
-            var $generate_pw = $('.generate_pw', $add_user_table_body);
-
-            $add_user_table_body.once('click', $generate_pw, function () {
-                $('.password').val(mylibs.generatePassword());
-            });
-
-            $generate_pw.qtip({
-                content: {
-                    text: 'An sixteen char password containing upper and lower case letters and digits will be generated.' +
-                    'Note: Passwords for discovery users can be at most 12 chars long!'
-                },
-                style: {
-                    classes: 'qtip-youtube'
-                }
-            });
-
-            $('.password').once('focus', function () {
-                var $selpassword = $('.password');
-                if ($selpassword.hasClass('focusedInputerror')) {
-                    $selpassword.removeClass('focusedInputerror');
-                }
-            });
-
-            $('.username').once('focus', function () {
-                var $selusername = $('.username');
-                if ($selusername.hasClass('focusedInputerror')) {
-                    $selusername.removeClass('focusedInputerror');
-                }
-            });
-
             $('#adduserrowbutton').once('click', function () {
-                $('#adduserrowbutton').hide();
+                // hide add button
+                $(this).hide();
+
+                // add click event for password generator
+                $('#addusertablebody').once('click', '.generate_pw', function () {
+                    $('.password').val(mylibs.generatePassword());
+                });
+
+                $('.generate_pw').qtip({
+                    content: {
+                        text: 'An sixteen char password containing upper and lower case letters and digits will be generated.' +
+                        'Note: Passwords for discovery users can be at most 12 chars long!'
+                    },
+                    show: 'mouseover',
+                    hide: 'mouseout',
+                    style: {
+                        classes: 'qtip-youtube'
+                    }
+                });
+
+                $('.password').once('focus', function () {
+                    var $selpassword = $('.password');
+                    if ($selpassword.hasClass('focusedInputerror')) {
+                        $selpassword.removeClass('focusedInputerror');
+                    }
+                });
+
+                $('.username').once('focus', function () {
+                    var $selusername = $('.username');
+                    if ($selusername.hasClass('focusedInputerror')) {
+                        $selusername.removeClass('focusedInputerror');
+                    }
+                });
 
                 $('#template').clone().prependTo('#addusertablebody').removeAttr('id hidden').addClass('newrow');
 
