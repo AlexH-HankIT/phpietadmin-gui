@@ -8,15 +8,15 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         add_event_handler_deleteuserbutton: function () {
             $(document).once('click', '#deleteuserbutton', function () {
-                var userdeletecheckbox = $('.userdeletecheckbox:checked');
-                if (!userdeletecheckbox.val()) {
+                var $userdeletecheckbox = $('.userdeletecheckbox:checked');
+                if (!$userdeletecheckbox.val()) {
                     swal({
                         title: 'Error',
                         type: 'error',
                         text: 'Please select a user'
                     });
                 } else {
-                    userdeletecheckbox.each(function () {
+                    $userdeletecheckbox.each(function () {
                         var $this = $(this);
                         var $this_row = $this.closest('tr');
 
