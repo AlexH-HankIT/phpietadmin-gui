@@ -51,9 +51,9 @@ In version 0.6:
     - [ ] Select all checkbox in snapshot delete gui
     - [ ] Rework the javascript code
         - [x] Dashboard
-        - [ ] Target
+        - [x] Target
             - [x] Add target
-            - [ ] Configure
+            - [x] Configure
         - [ ] Users
         - [ ] Objects
         - [ ] LVM
