@@ -36,7 +36,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         dataType: 'json',
                         type: 'post',
                         success: function (data) {
-                            if (data['code'] == 0) {
+                            if (data['code'] === 0) {
                                 swal({
                                     title: 'Success',
                                     type: 'success',
