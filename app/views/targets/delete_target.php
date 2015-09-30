@@ -50,8 +50,10 @@
     </div>
     <script>
         require(['common'], function () {
-            require(['pages/target/deletetarget'], function (methods) {
-                methods.add_event_handler_deletetargetbutton();
+            require(['pages/target/deletetarget', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+                    methods.add_event_handler_deletetargetbutton();
+                });
             });
         });
     </script>
