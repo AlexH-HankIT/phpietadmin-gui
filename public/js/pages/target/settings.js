@@ -3,12 +3,14 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
 
     return methods = {
         add_event_handler_settings_table_checkbox: function () {
-            $(document).once('input', '.value', function () {
-                var oldvalue = $(this).closest('tr').find('.default_value_before_change').val();
-                var newvalue = $(this).val();
-                var settingstablecheckbox = $(this).closest('tr').find('.settingstablecheckbox');
+            $('.value').once('input', function () {
+                var $this = $(this);
+                var $this_row = $this.closest('tr');
+                var oldvalue = $this_row.find('.default_value_before_change').val();
+                var newvalue = $this.val();
+                var settingstablecheckbox = $this_row.find('.settingstablecheckbox');
 
-                if (oldvalue != newvalue) {
+                if (oldvalue !== newvalue) {
                     settingstablecheckbox.prop('checked', true)
                 } else {
                     settingstablecheckbox.prop('checked', false)
@@ -16,60 +18,58 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
             });
         },
         add_event_handler_save_value: function () {
-            $(document).once('click', '.savevalueinput', function (e) {
-                var thisrow = $(this).closest('tr');
+            $('.savevalueinput').once('click', function () {
+                var this_row = $(this).closest('tr');
 
                 var newvalue;
                 var type;
 
-                var oldvalue = thisrow.find('.default_value_before_change').val();
-                newvalue = thisrow.find('.value').val();
+                var oldvalue = this_row.find('.default_value_before_change').val();
+                newvalue = this_row.find('.value').val();
 
                 // If value is not defined
                 if (typeof newvalue === 'undefined') {
-                    newvalue = thisrow.find('.optionselector option:selected').text();
+                    newvalue = this_row.find('.optionselector option:selected').text();
                     type = 'select';
                 } else {
                     type = 'input';
                 }
 
-                if (oldvalue == newvalue) {
+                if (oldvalue === newvalue) {
                     swal({
                         title: 'Error',
                         type: 'error',
                         text: 'No changes made!'
                     });
-                } else if (newvalue == '') {
-                    thisrow.find('.value').addClass('focusedInputerror')
+                } else if (newvalue === '') {
+                    this_row.find('.value').addClass('focusedInputerror')
                 } else {
-                    var data = {
-                        "option": thisrow.find('.option').text(),
-                        "oldvalue": oldvalue,
-                        "newvalue": newvalue,
-                        "iqn": $('#target_selector').find("option:selected").val(),
-                        "type": type
-                    };
-
                     $.ajax({
                         url: '/phpietadmin/targets/configure/settings',
-                        data: data,
+                        data: {
+                            'option': this_row.find('.option').text(),
+                            'oldvalue': oldvalue,
+                            'newvalue': newvalue,
+                            'iqn': $('#target_selector').find('option:selected').val(),
+                            'type': type
+                        },
                         dataType: 'json',
                         type: 'post',
                         success: function (data) {
-                            if (data['code'] == 0) {
+                            if (data['code'] === 0) {
                                 swal({
                                     title: 'Success',
                                     type: 'success',
                                     text: data['message']
                                 }, function () {
-                                    newvalue = thisrow.find('.value').val();
+                                    newvalue = this_row.find('.value').val();
 
                                     // If value is not defined
                                     if (typeof newvalue === 'undefined') {
-                                        newvalue = thisrow.find('.optionselector option:selected').text();
+                                        newvalue = this_row.find('.optionselector option:selected').text();
                                     }
 
-                                    thisrow.find('.default_value_before_change').val(newvalue);
+                                    this_row.find('.default_value_before_change').val(newvalue);
                                 });
                             } else {
                                 swal({
@@ -94,7 +94,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
             var input = $('.value');
             /* remove error if field is clicked */
             input.click(function () {
-                input.removeClass("focusedInputerror");
+                input.removeClass('focusedInputerror');
             });
         }
     }
