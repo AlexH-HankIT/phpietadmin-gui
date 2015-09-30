@@ -27,7 +27,7 @@
                             <td><?php echo htmlspecialchars($value['state']) ?></td>
                             <td><?php echo htmlspecialchars($value['hd']) ?></td>
                             <td><?php echo htmlspecialchars($value['dd']) ?></td>
-                            <td><a class="sessiondeletebutton" href="#"><span class="glyphicon glyphicon glyphicon-trash glyphicon-20"></span></a></td>
+                            <td><a class="session_delete_button" href="#"><span class="glyphicon glyphicon glyphicon-trash glyphicon-20"></span></a></td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -38,9 +38,11 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/target/deletesession'], function (methods) {
-                methods.add_qtip_sessiondeletebutton();
-                methods.add_event_handler_sessiondeletebutton();
+            require(['pages/target/deletesession', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+                    methods.add_qtip_sessiondeletebutton();
+                    methods.add_event_handler_sessiondeletebutton();
+                });
             });
         });
     </script>
