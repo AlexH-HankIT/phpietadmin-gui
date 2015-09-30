@@ -1,81 +1,80 @@
-define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qtip) {
+define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
     var methods;
 
     return methods = {
-        add_event_handler_passwordfield1: function() {
-            $('.passwordfield').once('mouseover', function() {
+        add_event_handler_passwordfield1: function () {
+            $('.passwordfield').once('mouseover', function () {
                 $(this).find('.passwordfieldplaceholder').hide().find('.password').show();
             });
         },
-        enable_filter_table_plugin: function() {
+        enable_filter_table_plugin: function () {
             // Enable filter table plugin
-            $('.searchabletable').filterTable({minRows:0});
+            $('.searchabletable').filterTable({minRows: 0});
         },
-        add_event_handler_passwordfield2: function() {
+        add_event_handler_passwordfield2: function () {
             $('.passwordfield').once('mouseout', function () {
                 $(this).find('.passwordfieldplaceholder').show().find('.password').hide();
             });
         },
-        add_event_handler_deleteuserrow: function() {
-                $('.deleteuserrow').once('click', function() {
-                    var thisrow = $(this).closest('tr');
+        add_event_handler_deleteuserrow: function () {
+            $('.deleteuserrow').once('click', function () {
+                var $this_row = $(this).closest('tr');
 
-                    if (thisrow.hasClass('newrow')) {
-                        $('.newrow').remove();
-                    } else {
-                        swal({
-                                title: "Are you sure?",
-                                text: "The user won't be deleted from the iet config file!",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Yes, delete it!",
-                                closeOnConfirm: false
-                            },
-                            function () {
-                                $.ajax({
-                                    url: '/phpietadmin/ietusers/delete_from_db',
-                                    data: {
-                                        "username": thisrow.find('.username').text()
-                                    },
-                                    dataType: 'json',
-                                    type: 'post',
-                                    success: function (data) {
-                                        if (data['code'] == 0) {
-                                            swal({
-                                                title: 'Success',
-                                                type: 'success',
-                                                text: data['message']
-                                            }, function() {
-                                                location.reload();
-                                            });
-                                        } else {
-                                            swal({
-                                                title: 'Error',
-                                                type: 'error',
-                                                text: data['message']
-                                            });
-                                        }
-                                    },
-                                    error: function() {
+                if ($this_row.hasClass('newrow')) {
+                    $('.newrow').remove();
+                } else {
+                    swal({
+                            title: 'Are you sure?',
+                            text: 'The user won\'t be deleted from the iet config file!',
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#DD6B55',
+                            confirmButtonText: 'Yes, delete it!',
+                            closeOnConfirm: false
+                        },
+                        function () {
+                            $.ajax({
+                                url: '/phpietadmin/ietusers/delete_from_db',
+                                data: {
+                                    "username": $this_row.find('.username').text()
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function (data) {
+                                    if (data['code'] === 0) {
+                                        swal({
+                                            title: 'Success',
+                                            type: 'success',
+                                            text: data['message']
+                                        }, function () {
+                                            location.reload();
+                                        });
+                                    } else {
                                         swal({
                                             title: 'Error',
                                             type: 'error',
-                                            text: 'Something went wrong while submitting!'
+                                            text: data['message']
                                         });
                                     }
-                                });
+                                },
+                                error: function () {
+                                    swal({
+                                        title: 'Error',
+                                        type: 'error',
+                                        text: 'Something went wrong while submitting!'
+                                    });
+                                }
                             });
-                    }
-                    $('#adduserrowbutton').show();
-                });
+                        });
+                }
+                $('#adduserrowbutton').show();
+            });
         },
-        add_event_handler_adduserrowbutton: function() {
-            var add_user_table_body = $('#addusertablebody');
+        add_event_handler_adduserrowbutton: function () {
+            var $add_user_table_body = $('#addusertablebody');
+            var $generate_pw = $('.generate_pw', $add_user_table_body);
 
-            var $generate_pw = $('.generate_pw', add_user_table_body);
-
-            add_user_table_body.once('click', $generate_pw, function () {
+            $add_user_table_body.once('click', $generate_pw, function () {
                 $('.password').val(mylibs.generatePassword());
             });
 
@@ -90,54 +89,45 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
             });
 
             $('.password').once('focus', function () {
-                var selpassword = $(".password");
-                if (selpassword.hasClass("focusedInputerror")) {
-                    selpassword.removeClass("focusedInputerror");
+                var $selpassword = $('.password');
+                if ($selpassword.hasClass('focusedInputerror')) {
+                    $selpassword.removeClass('focusedInputerror');
                 }
             });
 
             $('.username').once('focus', function () {
-                var selusername = $(".username");
-                if (selusername.hasClass("focusedInputerror")) {
-                    selusername.removeClass("focusedInputerror");
+                var $selusername = $('.username');
+                if ($selusername.hasClass('focusedInputerror')) {
+                    $selusername.removeClass('focusedInputerror');
                 }
             });
 
             $('#adduserrowbutton').once('click', function () {
                 $('#adduserrowbutton').hide();
 
-                $('#template').clone().prependTo('#addusertablebody').removeAttr('id hidden').addClass("newrow");
+                $('#template').clone().prependTo('#addusertablebody').removeAttr('id hidden').addClass('newrow');
 
                 $('.saveuserrow').once('click', function () {
                     var $this = $(this);
 
                     // Check if username and password isset
-                    var selpassword = $this.closest("tr").find('.password');
-                    var selpasswordval = selpassword.val();
-                    var selpasswordconfirm = selpassword.next('.bestaetigung');
+                    var $selpassword = $this.closest('tr').find('.password');
+                    var selpasswordval = $selpassword.val();
+                    var $selpasswordconfirm = $selpassword.next('.bestaetigung');
 
-                    var selusername = $this.closest("tr").find('.username');
-                    var selusernameval = selusername.val();
-                    var selusernameconfirm = selusername.next('.bestaetigung');
+                    var $selusername = $this.closest('tr').find('.username');
+                    var selusernameval = $selusername.val();
+                    var $selusernameconfirm = $selusername.next('.bestaetigung');
 
-                    if (selusernameval == '') {
-                        selusername.addClass("focusedInputerror");
-                        selusernameconfirm.addClass("label-danger");
-                        selusernameconfirm.text("Required");
-                        selusernameconfirm.show(500);
-                        selusernameconfirm.delay(2000).hide(0);
-                    } else if (selpasswordval == '') {
-                        selpassword.addClass("focusedInputerror");
-                        selpasswordconfirm.addClass("label-danger");
-                        selpasswordconfirm.text("Required");
-                        selpasswordconfirm.show(500);
-                        selpasswordconfirm.delay(2000).hide(0);
+                    if (selusernameval === '') {
+                        $selusername.addClass('focusedInputerror');
+                        $selusernameconfirm.addClass('label-danger').text('Required').show(500).delay(2000).hide(0);
+                    } else if (selpasswordval === '') {
+                        $selpassword.addClass("focusedInputerror");
+                        $selpasswordconfirm.addClass('label-danger').text('Required').show(500).delay(2000).hide(0);
                     } else if (selpasswordval.length < 12) {
-                        selpassword.addClass("focusedInputerror");
-                        selpasswordconfirm.addClass("label-danger");
-                        selpasswordconfirm.text("Min 12 chars");
-                        selpasswordconfirm.show(500);
-                        selpasswordconfirm.delay(2000).hide(0);
+                        $selpassword.addClass("focusedInputerror");
+                        $selpasswordconfirm.addClass('label-danger').text('Min 12 chars').show(500).delay(2000).hide(0);
                     } else {
                         $.ajax({
                             url: '/phpietadmin/ietusers/add_to_db',
@@ -148,7 +138,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function($, mylibs, swal, qti
                             dataType: 'json',
                             type: 'post',
                             success: function (data) {
-                                if (data['code'] == 0) {
+                                if (data['code'] === 0) {
                                     swal({
                                         title: 'Success',
                                         type: 'success',
