@@ -45,8 +45,10 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/lvm/add'],function(methods) {
-                methods.slider();
+            require(['pages/lvm/add', 'domReady'],function(methods, domReady) {
+                domReady(function () {
+                    methods.slider();
+                });
             });
         });
     </script>
