@@ -38,8 +38,10 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/lvm/add_snapshot'], function (methods) {
-                methods.add_snapshot();
+            require(['pages/lvm/add_snapshot', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+                    methods.add_snapshot();
+                });
             });
         });
     </script>
