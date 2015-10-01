@@ -69,14 +69,16 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/objecttable'],function(methods) {
-                methods.add_event_handler_addobjectrowbutton();
-                methods.add_event_handler_typeselection();
-                methods.add_event_handler_saveobjectrow();
-                methods.add_event_handler_objectvalue();
-                methods.add_event_handler_objectname();
-                methods.add_event_handler_deleteobjectrow();
-                methods.enable_filter_table_plugin();
+            require(['pages/objecttable', 'domReady'],function(methods, domReady) {
+                domReady(function () {
+                    methods.add_event_handler_addobjectrowbutton();
+                    methods.add_event_handler_typeselection();
+                    methods.add_event_handler_saveobjectrow();
+                    methods.add_event_handler_objectvalue();
+                    methods.add_event_handler_objectname();
+                    methods.add_event_handler_deleteobjectrow();
+                    methods.enable_filter_table_plugin();
+                });
             });
         });
     </script>
