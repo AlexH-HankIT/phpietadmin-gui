@@ -30,8 +30,10 @@
 
 	<script>
 		require(['common'], function () {
-			require(['pages/lvm/rename'], function (methods) {
-				methods.rename();
+			require(['pages/lvm/rename', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+				    methods.rename();
+			    });
 			});
 		});
 	</script>
