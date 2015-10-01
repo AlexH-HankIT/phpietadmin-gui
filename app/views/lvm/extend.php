@@ -47,8 +47,10 @@
 
 	<script>
 		require(['common'], function () {
-			require(['pages/lvm/extend'], function (methods) {
-				methods.extend();
+			require(['pages/lvm/extend', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+				    methods.extend();
+			    });
 			});
 		});
 	</script>
