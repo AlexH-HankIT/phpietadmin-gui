@@ -56,15 +56,17 @@
             </div>
 
             <div class="panel-footer">
-                <button class="delete_snapshot btn btn-danger" class="" type='submit'><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                <button class="delete_snapshot btn btn-danger" type='submit'><span class="glyphicon glyphicon-trash"></span> Delete</button>
             </div>
         </div>
     </div>
 
     <script>
         require(['common'], function () {
-            require(['pages/lvm/delete_snapshot'], function (methods) {
-                methods.delete_snapshot();
+            require(['pages/lvm/delete_snapshot', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+                    methods.delete_snapshot();
+                });
             });
         });
     </script>
