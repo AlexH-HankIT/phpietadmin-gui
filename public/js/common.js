@@ -20,37 +20,36 @@ requirejs.config({
     },
     shim: {
         jqueryui: {
-            export:"$" ,
+            export: "$",
             deps: ['jquery']
         },
         jqueryui_slider: {
-            export:"$" ,
+            export: "$",
             deps: ['jqueryui']
         }
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function($, qtip, filterTable, mylibs, swal) {
+define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function ($, qtip, filterTable, mylibs, swal) {
     var methods;
 
     return methods = {
-        common: function() {
-            $(function() {
-                // reload footer first time
-                mylibs.reloadfooter();
+        common: function () {
+            // reload footer first time
+            mylibs.reloadfooter();
 
-                // check if server is alive
-                var uiBlocked = false;
-                var main_menu = $('#mainmenu');
-                var footer = $('#footer');
+            // check if server is alive
+            var uiBlocked = false;
+            var main_menu = $('#mainmenu');
+            var footer = $('#footer');
 
-                setInterval(function() {
-                    $.ajax({
+            setInterval(function () {
+                $.ajax({
                     type: 'post',
                     cache: false,
                     url: '/phpietadmin/connection/check_server_online',
                     timeout: 1000,
-                    success: function(data) {
+                    success: function (data) {
                         if (data === true) {
                             if (uiBlocked === true) {
                                 uiBlocked = false;
@@ -59,8 +58,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                                 footer.show();
                             }
                         }
-                    }, error: function(data) {
-                        if (data != true) {
+                    }, error: function (data) {
+                        if (data !== true) {
                             if (uiBlocked === false) {
                                 uiBlocked = true;
                                 main_menu.hide();
@@ -79,90 +78,92 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                             }
                         }
                     }
-                    })
-                }, 2000);
+                })
+            }, 2000);
 
-                // Updates footer in case ietd is stopped or started
-                // it also reloads the page, if the session terminates
-                setInterval(mylibs.reloadfooter, (11000));
-                setInterval(mylibs.check_session_expired, (15000));
+            // Updates footer in case ietd is stopped or started
+            // it also reloads the page, if the session terminates
+            setInterval(mylibs.reloadfooter, (11000));
+            setInterval(mylibs.check_session_expired, (15000));
 
-                // Select active menu element, when page is loaded manually
-                var path = window.location.pathname;
-                path = path.replace(/\/$/, "");
-                path = decodeURIComponent(path);
+            // Select active menu element, when page is loaded manually
+            var path = window.location.pathname;
+            path = path.replace(/\/$/, "");
+            path = decodeURIComponent(path);
 
-                $('#main_menu_bar').find('a').each(function(){
-                    var $this = $(this);
-                    if ($this.attr('href') !== undefined) {
-                        if ($this.attr('href') === path) {
-                            $this.closest('li').addClass('active').parents().addClass('active');
-                        }
+            $('#main_menu_bar').find('a').each(function () {
+                var $this = $(this);
+                if ($this.attr('href') !== undefined) {
+                    if ($this.attr('href') === path) {
+                        $this.closest('li').addClass('active').parents().addClass('active');
                     }
-                });
+                }
             });
+
         },
-        load_workspace_event_handler: function() {
+        load_workspace_event_handler: function () {
             // load workspace and perform error handling
-            $("#main_menu_bar").once("click", "a", function() {
+            $("#main_menu_bar").once("click", "a", function () {
                 var $this = $(this);
                 return mylibs.load_workspace($this.attr('href'), $this);
             });
         },
-        add_event_handler_shutdown: function() {
-            $(function() {
-                $('#menushutdownbutton').once('click', function() {
-                        swal({
-                                title: "Are you sure?",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Yes, do it!",
-                                closeOnConfirm: false
+        add_event_handler_shutdown: function () {
+            $('#menushutdownbutton').once('click', function () {
+                swal({
+                        title: "Are you sure?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, do it!",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax({
+                            type: 'post',
+                            url: '/phpietadmin/service/hold',
+                            data: {
+                                'action': 'shutdown'
                             },
-                            function(){
-                                var data = {
-                                    "action": 'shutdown'
-                                };
-
-                                var request = mylibs.doajax('/phpietadmin/service/hold', data);
-
+                            done: function () {
                                 swal({
                                     title: 'Success',
                                     type: 'success',
                                     text: 'It can take up to 20 seconds till the server shuts down!'
                                 });
-                            });
-                    return false;
-                });
+                            }
+                        });
+                    });
+                return false;
             });
         },
-        add_event_handler_reboot: function() {
-            $(function() {
-                $(document).once('click', '#menurebootbutton', function(e) {
-                    swal({
-                            title: "Are you sure?",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "Yes, do it!",
-                            closeOnConfirm: false
-                        },
-                        function(){
-                            var data = {
-                                "action": 'reboot'
-                            };
-
-                            var request = mylibs.doajax('/phpietadmin/service/hold', data);
-
-                            swal({
-                                title: 'Success',
-                                type: 'success',
-                                text: 'It can take up to 20 seconds till the server reboots!'
-                            });
+        add_event_handler_reboot: function () {
+            $('#menurebootbutton').once('click', function (e) {
+                swal({
+                        title: "Are you sure?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, do it!",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax({
+                            type: 'post',
+                            url: '/phpietadmin/service/hold',
+                            data: {
+                                'action': 'reboot'
+                            },
+                            done: function () {
+                                swal({
+                                    title: 'Success',
+                                    type: 'success',
+                                    text: 'It can take up to 20 seconds till the server reboots!'
+                                });
+                            }
                         });
-                    e.preventDefault();
-                });
+                    });
+                e.preventDefault();
             });
         }
     };

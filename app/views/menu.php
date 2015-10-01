@@ -94,10 +94,12 @@
 <div id='workspace_wrapper'></div>
 
 <script>
-    require(['common'],function(methods) {
-        methods.common();
-        methods.load_workspace_event_handler();
-        methods.add_event_handler_shutdown();
-        methods.add_event_handler_reboot();
+    require(['common', 'domReady'],function(methods, domReady) {
+        domReady(function () {
+            methods.common();
+            methods.load_workspace_event_handler();
+            methods.add_event_handler_shutdown();
+            methods.add_event_handler_reboot();
+        });
     });
 </script>
