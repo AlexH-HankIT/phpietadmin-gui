@@ -36,8 +36,10 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/lvm/shrink'], function (methods) {
-                methods.shrink();
+            require(['pages/lvm/shrink', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+                    methods.shrink();
+                });
             });
         });
     </script>
