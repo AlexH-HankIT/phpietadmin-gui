@@ -35,11 +35,13 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/services/overview'], function (methods) {
-                methods.set_service_status();
-                methods.add_event_handler_servicestart();
-                methods.add_event_handler_servicestop();
-                methods.add_event_handler_servicerestart();
+            require(['pages/services/overview', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+                    methods.set_service_status();
+                    methods.add_event_handler_servicestart();
+                    methods.add_event_handler_servicestop();
+                    methods.add_event_handler_servicerestart();
+                });
             });
         });
     </script>
