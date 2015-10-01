@@ -30,8 +30,10 @@
 
 	<script>
 		require(['common'], function () {
-			require(['pages/lvm/delete'], function (methods) {
-				methods.remove();
+			require(['pages/lvm/delete', 'domReady'], function (methods, domReady) {
+                domReady(function () {
+				    methods.remove();
+			    });
 			});
 		});
 	</script>
