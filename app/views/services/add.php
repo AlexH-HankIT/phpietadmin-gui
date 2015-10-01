@@ -34,11 +34,13 @@
     </div>
     <script>
         require(['common'],function() {
-            require(['pages/services/add'],function(methods) {
-                methods.add_event_handler_addservice();
-                methods.add_event_handler_deleteservicebutton();
-                methods.add_event_handler_editservicebutton();
-                methods.add_event_handler_serviceenabled();
+            require(['pages/services/add', 'domReady'],function(methods, domReady) {
+                domReady(function () {
+                    methods.add_event_handler_addservice();
+                    methods.add_event_handler_deleteservicebutton();
+                    methods.add_event_handler_editservicebutton();
+                    methods.add_event_handler_serviceenabled();
+                });
             });
         });
     </script>
