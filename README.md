@@ -49,18 +49,7 @@ In version 0.6:
     - [x] Configure target: Show if target has open sessions
     - [ ] Add bar to snapshot delete gui
     - [ ] Select all checkbox in snapshot delete gui
-    - [ ] Rework the javascript code
-        - [x] Dashboard
-        - [x] Target
-            - [x] Add target
-            - [x] Configure
-        - [ ] Users
-        - [ ] Objects
-        - [ ] LVM
-        - [ ] Services
-        - [ ] Config
-        - [ ] Logs
-        - [ ] Logout
+    - [x] Rework the javascript code
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
