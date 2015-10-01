@@ -51,7 +51,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                             type: 'success',
                                             text: data['message']
                                         }, function () {
-                                            location.reload();
+                                            return mylibs.load_workspace('/phpietadmin/ietusers');
                                         });
                                     } else {
                                         swal({
@@ -149,7 +149,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                         type: 'success',
                                         text: data['message']
                                     }, function () {
-                                        location.reload();
+                                        return mylibs.load_workspace('/phpietadmin/ietusers');
                                     });
                                 } else {
                                     swal({
