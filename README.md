@@ -24,9 +24,17 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 ## Features
 Take a look at the github releases for detailed information about the features.
 
-## Bugs in 0.5.2:
-- [x] Reload page after session disconnect
-- [ ] Delete lun: check if line contains default parameter
+## Bugs in 0.5.3:
+    - [x] Reload page after session disconnect
+    - [ ] Delete lun: check if line contains default parameter
+    - [ ] Forced delete of a target does not work if a "ALL" acl is configured
+    - [ ] Mousover to show passwords in /phpietadmin/ietusers does not work
+    - [ ] Password generator qtip does not work in /phpietadmin/ietusers
+    - [ ] LVM extend does not work
+    - [ ] Select all checkbox in LVM snapshot delete does not work
+    - [ ] Service add menu editing a service does not work
+    - [ ] Config menu editing does not work
+    - [ ] Shutdown/Restart does not work
 
 ## Roadmap
 In version 0.6:
@@ -44,22 +52,25 @@ In version 0.6:
     - [x] Override option, if user is already logged in
     - [x] Create logging gui
     - [x] Improved ajax menu with error handling
-    - [ ] Release "compressed" javascript files
     - [x] Use custom data attributes to store data in dom
     - [x] Configure target: Show if target has open sessions
+    - [x] Rework the javascript code
     - [ ] Add bar to snapshot delete gui
     - [ ] Select all checkbox in snapshot delete gui
-    - [x] Rework the javascript code
+    - [ ] Release "compressed" javascript files
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
     - [x] Create a lvm model
-    - [ ] Write phpietadmin-cli
-        - [ ] Install/Update
     - [x] Basic error logging
     - [x] Login/Logout logging
     - [x] Debug logging
+    - [x] Use namespaces with basic autoloader
+        - [x] New lsblk parser
+        - [x] Replace version file with .json
     - [ ] New session implementation
+    - [ ] Write phpietadmin-cli
+            - [ ] Install/Update
     - [ ] Database error log
     - [ ] Log also successful messages
     - [ ] Rework controller/models
@@ -76,9 +87,6 @@ In version 0.6:
         - [ ] Config
         - [ ] PHPietadmin user/session menu
         - [ ] Stop/Reboot/Logout
-    - [x] Use namespaces with basic autoloader
-    - [x] New lsblk parser
-    - [x] Replace version file with .json
     - [ ] Use bcrypt for storing passwords
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
 
