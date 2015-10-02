@@ -231,20 +231,9 @@ EOT;
 	 */
     public function get_phpietadmin_user($username = false) {
 		if ($username === false) {
-			$query = $this->prepare('SELECT phpietadmin_phpietadmin_user.id,
-                                    phpietadmin_phpietadmin_user.username,
-                                    phpietadmin_phpietadmin_user.password,
-                                    (SELECT phpietadmin_session.session_id FROM phpietadmin_session
-                                    WHERE phpietadmin_session.id = phpietadmin_phpietadmin_user.phpietadmin_session_id) as session_id
-                                    FROM phpietadmin_phpietadmin_user');
+			$query = $this->prepare('SELECT id, username, password, session_id FROM phpietadmin_user');
 		} else {
-            $query = $this->prepare('SELECT phpietadmin_phpietadmin_user.id,
-                                    phpietadmin_phpietadmin_user.username,
-                                    phpietadmin_phpietadmin_user.password,
-                                    (SELECT phpietadmin_session.session_id FROM phpietadmin_session
-                                    WHERE phpietadmin_session.id = phpietadmin_phpietadmin_user.phpietadmin_session_id) as session_id
-                                    FROM phpietadmin_phpietadmin_user
-                                    WHERE phpietadmin_phpietadmin_user.username = :username');
+            $query = $this->prepare('SELECT id, username, password, session_id FROM phpietadmin_user WHERE phpietadmin_phpietadmin_user.username = :username');
 			$query->bindValue('username', $username, SQLITE3_TEXT);
 		}
 
@@ -324,16 +313,12 @@ EOT;
     {
         $query = $this->prepare('SELECT value from phpietadmin_object');
         $query = $query->execute();
-        $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_NUM)) {
-            $data[$counter] = $result;
-            $counter++;
+            $data[] = $result;
         }
         if (isset($data) && !empty($data)) {
-            $counter = 0;
             foreach ($data as $value) {
-                $objects[$counter] = $value[0];
-                $counter++;
+                $objects[] = $value[0];
             }
             return $objects;
         } else {

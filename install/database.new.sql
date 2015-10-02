@@ -24,24 +24,12 @@ CREATE TABLE phpietadmin_config_type(
   type varchar(20) NOT NULL
 );
 
-DROP TABLE IF EXISTS phpietadmin_phpietadmin_user;
-CREATE TABLE phpietadmin_phpietadmin_user(
-  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+DROP TABLE IF EXISTS phpietadmin_user;
+CREATE TABLE phpietadmin_user(
+  user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(50) NOT NULL,
   password varchar(64) NOT NULL, /* for sha256 hash */
-  permission varchar(64) DEFAULT NULL, /* admin/user, not implemented yet */
-  phpietadmin_session_id INTEGER DEFAULT NULL /* primary key from the phpietadmin_session table */
-);
-
-DROP TABLE IF EXISTS phpietadmin_session;
-CREATE TABLE phpietadmin_session(
-  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  session_id varchar,
-  last_activity INT NOT NULL,
-  user_agent varchar NOT NULL,
-  remote_address varchar NOT NULL,
-  data varchar,
-  logged_in NUMERIC BOOLEAN DEFAULT 0
+  session_id INTEGER DEFAULT NULL
 );
 
 DROP TABLE IF EXISTS phpietadmin_object;
