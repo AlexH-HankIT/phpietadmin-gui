@@ -66,8 +66,8 @@ In version 0.6:
     - [x] Login/Logout logging
     - [x] Debug logging
     - [x] Use namespaces with basic autoloader
-        - [x] New lsblk parser
-        - [x] Replace version file with .json
+    - [x] New lsblk parser
+    - [x] Replace version file with .json
     - [ ] New session implementation
     - [ ] Write phpietadmin-cli
             - [ ] Install/Update
