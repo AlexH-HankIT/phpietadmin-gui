@@ -6,7 +6,6 @@
          * Parse the output of pvs/vgs/lvs and return a associative array
          *
          * @param    string  $type  output which should be parsed pv/vg/lv
-         * @param    bool   $snaps if $type = 'lv', true = parse snapshots | false = don't parse snapshots
          * @return   int|array
          *
          */
