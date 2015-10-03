@@ -20,8 +20,8 @@
                 <div class="row top-buffer">
                     <div class="col-md-6">
                         <select name="type" id="type" multiple class="form-control">
-                            <option value="fileio">fileio</option>
-                            <option selected value="blockio">blockio</option>
+                            <option selected value="fileio">fileio</option>
+                            <option value="blockio">blockio</option>
                         </select>
                     </div>
                     <div class="col-md-6">
