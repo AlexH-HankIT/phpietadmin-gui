@@ -10,6 +10,7 @@
     8 not enough space
     9 wrong usage
     10 passwords do not match
+    11 function not available
 
 
     http://manpages.ubuntu.com/manpages/trusty/man5/ietd.conf.5.html
