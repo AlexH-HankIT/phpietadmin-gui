@@ -10,45 +10,42 @@ use phpietadmin\app\core;
          *
          */
         public function login() {
-         	// first login
-            if (file_exists(__DIR__ . '/../../install/auth.xml')) {
-                // password1 = password
-                // password2 = password check
-                if (isset($_POST['username'], $_POST['password1'], $_POST['password2'], $_POST['auth_code']) && !$this->base_model->std->mempty($_POST['username'], $_POST['password1'], $_POST['password2'], $_POST['auth_code'])) {
-					$user = $this->model('User', $_POST['username']);
-					$user->add_first_user($_POST['auth_code'], $_POST['password1'], $_POST['password2']);
-                } else {
-                    // first login, display menu to add password
-                    $this->view('login/first_signin');
-                }
-            } else {
-                if (isset($_POST['username'], $_POST['password']) && !$this->base_model->std->mempty($_POST['username'], $_POST['password'])) {
-                    $session = $this->model('Session', $_POST['username']);
+			if (isset($_POST['username'], $_POST['password']) && !$this->base_model->std->mempty($_POST['username'], $_POST['password'])) {
+				// filter user input
+				$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+				$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-					$return = $session->login($_POST['password']);
+				// create session object
+				$session = $this->model('Session', $username);
 
+				// login user
+				$return = $session->login($password);
+
+				if (isset($_SESSION['overwrite']) && $_SESSION['overwrite'] === true) {
+					// update session id in user table
+					// redirect user to dashboard
+				} else {
 					if ($return['login'] === true) {
-						header("Location: /phpietadmin/dashboard");
-					} else {
-						if ($return['status'] === 'already') {
+						if ($return['status'] === 'ok') {
+							header("Location: /phpietadmin/dashboard");
+						} else if ($return['status'] === 'already') {
 							$this->view('login/overwrite', 'User is already logged in!');
-						} else if ($return['status'] == 'wrong') {
-							$this->view('message', 'Wrong username or password!');
-							header("refresh:2;url=/phpietadmin/auth/login");
+						} else {
 							die();
 						}
-					}
-                } else if (isset($_POST['overwrite'])) {
-					$session = $this->model('Session');
-					if (isset($_SESSION['overwrite'])) {
-						$session->overwrite();
-						header("Location: /phpietadmin/dashboard");
+					} else {
+						$this->view('message', 'Wrong username or password!');
+						header("refresh:2;url=/phpietadmin/auth/login");
 						die();
 					}
-                } else {
-					$this->view('login/signin');
 				}
-            }
+			} else if (isset($_POST['overwrite'])) {
+				if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+					$_SESSION['overwrite'] = true;
+				}
+			} else {
+				$this->view('login/signin');
+			}
         }
 
         /**
@@ -60,7 +57,7 @@ use phpietadmin\app\core;
          */
         public function logout() {
 			$session = $this->model('Session');
-			if (isset($_SESSION['username'], $_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+			if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
 				$session->logout();
 			}
 			header("Location: /phpietadmin/auth/login");;

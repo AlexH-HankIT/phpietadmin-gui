@@ -231,9 +231,9 @@ EOT;
 	 */
     public function get_phpietadmin_user($username = false) {
 		if ($username === false) {
-			$query = $this->prepare('SELECT id, username, password, session_id FROM phpietadmin_user');
+			$query = $this->prepare('SELECT user_id, username, password, session_id FROM phpietadmin_user');
 		} else {
-            $query = $this->prepare('SELECT id, username, password, session_id FROM phpietadmin_user WHERE phpietadmin_phpietadmin_user.username = :username');
+            $query = $this->prepare('SELECT user_id, username, password, session_id FROM phpietadmin_user WHERE username = :username');
 			$query->bindValue('username', $username, SQLITE3_TEXT);
 		}
 
@@ -244,10 +244,10 @@ EOT;
 			$data[] = $result;
 		}
 
-		if (!empty($data)) {
-			return $data;
-		} else {
+		if (empty($data)) {
 			return false;
+		} else {
+			return $data;
 		}
     }
 

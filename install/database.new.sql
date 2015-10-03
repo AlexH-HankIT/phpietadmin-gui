@@ -17,7 +17,6 @@ CREATE TABLE phpietadmin_config_category(
   category varchar(20) NOT NULL
 );
 
-
 DROP TABLE IF EXISTS phpietadmin_config_type;
 CREATE TABLE phpietadmin_config_type(
   config_type_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -27,8 +26,8 @@ CREATE TABLE phpietadmin_config_type(
 DROP TABLE IF EXISTS phpietadmin_user;
 CREATE TABLE phpietadmin_user(
   user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  username varchar(50) NOT NULL,
-  password varchar(64) NOT NULL, /* for sha256 hash */
+  username varchar(255) NOT NULL,
+  password char(60) NOT NULL, /* for bcrypt hash */
   session_id INTEGER DEFAULT NULL
 );
 

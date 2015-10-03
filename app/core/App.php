@@ -30,19 +30,28 @@ use phpietadmin\app\controllers,
 
             // auth controller is accessible without authentication
             if ($this->controller_name !== 'phpietadmin\app\controllers\auth') {
-				$session = $this->controller_object->model('Session');
-				$return = $session->check_logged_in($this->controller_name);
+				$this->controller_object->model('Session');
 
-                // if user is not logged in redirect him and stop execution
-                if ($return === false) {
-                    if ($this->controller_object->base_model->std->IsXHttpRequest()) {
-                        echo false;
-                        die();
-                    } else {
-                        header("Location: /phpietadmin/auth/login");
-                        die();
-                    }
-                }
+				if(isset($_SESSION['logged_in'])) {
+					// if user is not logged in redirect him and stop execution
+					if ($_SESSION['logged_in'] !== true) {
+						if ($this->controller_object->base_model->std->IsXHttpRequest()) {
+							echo false;
+							die();
+						} else {
+							header("Location: /phpietadmin/auth/login");
+							die();
+						}
+					}
+				} else {
+					if ($this->controller_object->base_model->std->IsXHttpRequest()) {
+						echo false;
+						die();
+					} else {
+						header("Location: /phpietadmin/auth/login");
+						die();
+					}
+				}
             }
 
             // If request is no ajax, display header, menu and footer
