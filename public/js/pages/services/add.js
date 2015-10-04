@@ -125,7 +125,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                     $service_input_span.text('Failed').removeClass('label-success').addClass('label-danger').show(500).delay(2000).hide(0);
                                 }
                             },
-                            error: function () {
+                            error: function (data) {
+                                console.log(data);
                                 swal({
                                     title: 'Error',
                                     type: 'error',
