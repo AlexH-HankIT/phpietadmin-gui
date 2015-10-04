@@ -53,12 +53,13 @@ use phpietadmin\app\core,
                         $service->add_to_db();
                         echo json_encode($service->logging->get_action_result());
                         break;
-                    case 'rename':
+                    case 'edit':
                         if (isset($_POST['newvalue'])) {
                             $service = $this->model('Service', $_POST['servicename']);
                             $service->rename_in_database($_POST['newvalue']);
                             echo json_encode($service->logging->get_action_result());
                         }
+						break;
                 }
             } else {
                 $data = $this->base_model->database->get_services(true);
