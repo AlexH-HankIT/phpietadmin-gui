@@ -75,15 +75,15 @@ In version 0.6:
     - [ ] Log also successful messages
     - [ ] Rework controller/models
         - [ ] Database model
-        - [x] User model
+        - [ ] User model
         - [ ] Config model
-        - [x] Dashboard
-        - [x] Overview
-        - [x] Targets
-        - [x] Users
-        - [x] Objects
-        - [x] LVM
-        - [x] Services
+        - [ ] Dashboard
+        - [ ] Overview
+        - [ ] Targets
+        - [ ] Users
+        - [ ] Objects
+        - [ ] LVM
+        - [ ] Services
         - [ ] Config
         - [ ] PHPietadmin user/session menu
         - [ ] Stop/Reboot/Logout
