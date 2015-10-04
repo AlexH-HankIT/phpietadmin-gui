@@ -114,6 +114,7 @@ In version 0.7:
     - [ ] Write process class to execute commands in the background (+ jwindow)
     - [ ] Create complete documentation on https://readthedocs.org/
     - [ ] Use unity testing
+    - [ ] Replace all error codes with exceptions
 
 * In version 0.8:
     - [ ] Support for DRBD (show status)
