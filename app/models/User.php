@@ -6,7 +6,7 @@ use phpietadmin\app\models\logging,
 class User extends core\BaseModel {
     private $username;
 
-    // contains username and password hash (sha256)
+    // contains username and password hash (bcrypt)
     private $data;
 
     // false if user doesn't exist
@@ -39,7 +39,7 @@ class User extends core\BaseModel {
 	}
 
 	private function hash_password($password) {
-		return hash('sha256', $password);
+		return password_hash($password, PASSWORD_BCRYPT);
 	}
 
 	public function add_first_user($user_input_auth_code, $password1, $password2) {
