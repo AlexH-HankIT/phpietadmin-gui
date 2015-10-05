@@ -199,7 +199,7 @@ EOT;
     }
 
     public function add_phpietadmin_user($username, $hash) {
-		$query = $this->prepare('INSERT INTO phpietadmin_phpietadmin_user (username, password) VALUES (:username, :pwhash)');
+		$query = $this->prepare('INSERT INTO phpietadmin_user (username, password) VALUES (:username, :pwhash)');
 		$query->bindValue('username', $username, SQLITE3_TEXT);
 		$query->bindValue('pwhash', $hash, SQLITE3_TEXT);
 		$query->execute();
@@ -207,14 +207,14 @@ EOT;
     }
 
     public function delete_phpietadmin_user($username) {
-		$query = $this->prepare('DELETE FROM phpietadmin_phpietadmin_user WHERE username: username');
+		$query = $this->prepare('DELETE FROM phpietadmin_user WHERE username: username');
 		$query->bindValue('username', $username, SQLITE3_TEXT);
 		$query->execute();
 		return $this->return_last_error();
     }
 
     public function update_phpietadmin_user($row, $value, $username) {
-		$query = $this->prepare('UPDATE phpietadmin_phpietadmin_user SET :row = :value WHERE username = :username');
+		$query = $this->prepare('UPDATE phpietadmin_user SET :row = :value WHERE username = :username');
 		$query->bindValue('row', $row, SQLITE3_TEXT);
 		$query->bindValue('value', $value, SQLITE3_TEXT);
 		$query->bindValue('username', $username, SQLITE3_TEXT);
