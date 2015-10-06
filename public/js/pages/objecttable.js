@@ -92,17 +92,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         add_event_handler_objectvalue: function () {
             $('#workspace').once('focus', '.objectvalue', function () {
                 var $objectvalue = $('.objectvalue');
-                if ($objectvalue.hasClass('focusedInputerror')) {
-                    $objectvalue.removeClass('focusedInputerror');
-                }
+                $objectvalue.hasClass('focusedInputerror') && $objectvalue.removeClass('focusedInputerror');
             });
         },
         add_event_handler_objectname: function () {
             $('#workspace').once('focus', '.objectname', function () {
                 var $objectname = $('.objectname');
-                if ($objectname.hasClass('focusedInputerror')) {
-                    $objectname.removeClass('focusedInputerror');
-                }
+                $objectname.hasClass('focusedInputerror') && $objectname.removeClass('focusedInputerror');
             });
         },
         add_event_handler_deleteobjectrow: function () {
