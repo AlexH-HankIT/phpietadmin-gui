@@ -90,6 +90,7 @@ In version 0.6:
     - [ ] Use bcrypt for storing passwords
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [ ] Rewrite file parser for the iet files
+    - [ ] Prevent iqn and objects from having whitespaces
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
