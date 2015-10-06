@@ -10,6 +10,34 @@ class Std {
 	}
 
     /**
+     * Recursive function to find a iqn in array
+     *
+     * @param string $iqn
+     * @param array $haystack
+     * @return int|bool
+     */
+    function array_find_iqn($iqn, array $haystack) {
+        foreach ($haystack as $key => $value) {
+            if (false !== stripos($value, $iqn)) {
+                // iqn is in $haystack[$key]
+                // but we need to be sure
+                // the first object and the iqn are separated by space
+                // extract the iqn and compare it
+                preg_match('([^\s]+)', $haystack[$key], $matches);
+
+                if ($matches[0] === $iqn) {
+                    return $key;
+                } else {
+                    unset($haystack[$key]);
+                    $this->array_find_iqn($iqn, $haystack);
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * array_search for multidimensional arrays
      *
      * @param string $needle
