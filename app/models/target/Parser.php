@@ -163,6 +163,29 @@
             }
         }
 
+        /**
+         * This function adds a global option to the config file
+         * Global options are inserted before any target definitions
+         * If the option is already added a error is returned
+         *
+         * @param string $option
+         * @param array $file
+         * @return array|bool
+         *
+         */
+        public function add_global_option_from_file($option, array $file) {
+            $option_index = array_search($option, $file);
+
+            if ($option_index === false) {
+                array_unshift($file, $option);
+                $return['file'] = $file;
+                return $return;
+            } else {
+                // option is already added
+                return 4;
+            }
+        }
+
         public function add_object_to_iqn($stringtoadd, $file) {
             if (!is_writeable($file)) {
                 return 1;
