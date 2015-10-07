@@ -147,6 +147,7 @@ In version 0.7:
 - [ ] Prevent comments from being deleted, when editing a config file
 - [ ] Sign archives
 - [ ] Separate database models
+- [ ] SSH login via web gui (https://github.com/liftoff/GateOne)
 
 Items are completely random ;-)
 
