@@ -105,7 +105,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
             // load workspace and perform error handling
             $("#main_menu_bar").once("click", "a", function () {
                 var $this = $(this);
-                console.log($this.attr('href'));
                 if ($this.attr('href') !== '/phpietadmin/auth/logout') {
                     return mylibs.load_workspace($this.attr('href'), $this);
                 } else {
