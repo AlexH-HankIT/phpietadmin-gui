@@ -33,6 +33,7 @@
 			require(['pages/lvm/rename', 'domReady'], function (methods, domReady) {
                 domReady(function () {
 				    methods.rename();
+                    methods.focusInput();
 			    });
 			});
 		});

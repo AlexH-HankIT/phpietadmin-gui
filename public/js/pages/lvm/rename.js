@@ -52,6 +52,9 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                     });
                 }
             });
+        },
+        focusInput: function() {
+            $('#name_input', '#configure_lvm_body').focus();
         }
     };
 });
