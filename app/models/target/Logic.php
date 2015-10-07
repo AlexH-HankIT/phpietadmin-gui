@@ -105,13 +105,18 @@
          * If the rule has an associated object in the database name and type will be also returned
          * If the rule is an orphane only the value will be returned
          *
+         * @param string $type
          * @return  array|bool
          *
          */
-        public function get_acls() {
-            $data = $this->parse_target_acl($this->iqn);
+        public function get_acls($type = 'initiator') {
+            if ($type === 'initiator') {
+                $data = $this->parse_file($this->database->get_config('ietd_init_allow')['value'], [$this, 'parse_target_acl'], array(), true, false);
+            } else {
+                $data = $this->parse_file($this->database->get_config('ietd_target_allow')['value'], [$this, 'parse_target_acl'], array(), true, false);
+            }
 
-            if ($data !== false) {
+            if ($data !== false && !is_int($data)) {
                 foreach ($data as $index => $acls) {
                     for ($i=1; $i < count($acls); $i++) {
                         $value = $this->database->get_object_by_value($acls[$i]);
@@ -187,7 +192,7 @@
                 // delete all luns
                 if (isset($data['lun']) && !empty($data['lun'])) {
                     foreach ($data['lun'] as $key => $lun) {
-                        $return[$key] = $this->delete_option_from_iqn('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode'] . ',Path=' . $data['lun'][$key]['path'], $this->database->get_config('ietd_config_file')['value']);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode'] . ',Path=' . $data['lun'][$key]['path']), false, false);
                     }
 
                     // return array with results
@@ -204,7 +209,7 @@
                 $key = $this->std->recursive_array_search($path, $data['lun']);
 
                 if (isset($key) && isset($data['lun'][$key])) {
-                    return $this->delete_option_from_iqn('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path'], $this->database->get_config('ietd_config_file')['value']);
+                    return $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path']), false, false);
                 } else {
                     return false;
                 }

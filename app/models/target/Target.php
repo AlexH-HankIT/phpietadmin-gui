@@ -35,11 +35,11 @@
                         if ($return['result'] != 0) {
                             $this->logging->log_action_result('Could not add target ' . $iqn, $return, __METHOD__);
                         } else {
-                            $return = $this->add_iqn_to_file();
-                            if ($return != 0) {
-                                if ($return == 1) {
+                            $return = $this->parse_file($this->ietd_config_file, [$this, 'add_iqn_to_file'], array(), false, false);
+                            if ($return !== 0) {
+                                if ($return === 1) {
                                     $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it\'s read only.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
-                                } else if ($return == 3) {
+                                } else if ($return === 3) {
                                     $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it was already there.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                                 } else {
                                     $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file. Reason is unknown.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
@@ -117,7 +117,7 @@
                     if ($return['result'] != 0) {
                         $this->logging->log_action_result('Could not add lun to target ' . $this->iqn, $return, __METHOD__);
                     } else {
-                        $return = $this->add_option_to_iqn_in_file('Lun ' . $lun . ' Type=' . $type . ',IOMode=' . $iomode . ',Path=' . $path);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'add_option_to_iqn'], array('Lun ' . $lun . ' Type=' . $type . ',IOMode=' . $iomode . ',Path=' . $path), false, false);
 
                         if ($return != 0) {
                             if ($return == 1) {
@@ -220,7 +220,7 @@
          * Deletes all lun from $this->iqn
          * No data is removed!
          *
-         * @param boolean   $ignore_session optional, delete lun even if a initiator is connected?
+         * @param bool   $ignore_session optional, delete lun even if a initiator is connected?
          * @return string|array|bool
          *
          */
@@ -273,9 +273,9 @@
             if ($return !== false) {
                 $this->logging->log_action_result('The object ' . $value . ' is already added!', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
             } else {
-                $return = $this->add_object_to_iqn($value, $file);
+                $return = $this->parse_file($file, [$this, 'add_object_to_iqn'], array($value), false, false);
 
-                if ($return != 0) {
+                if ($return !== 0) {
                     $this->logging->log_action_result('The object ' . $value . ' was not added!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 }
             }
@@ -294,15 +294,15 @@
 
             $this->logging->log_action_result('The object is successfully deleted!', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
-            if ($type == 'targets') {
+            if ($type === 'targets') {
                 $file = $this->database->get_config('ietd_target_allow')['value'];
             } else {
                 $file = $this->database->get_config('ietd_init_allow')['value'];
             }
 
-            $return = $this->delete_object_from_iqn($value, $file);
+            $return = $this->parse_file($file, [$this, 'delete_object_from_iqn'], array($value), false, false);
 
-            if ($return != 0) {
+            if ($return !== 0) {
                 $this->logging->log_action_result('Could not delete the object!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
             }
         }
@@ -328,14 +328,14 @@
             // the force option must be used with the deleteacl option
             if ($force === true && $delete_acl === true) {
                 // delete the allow rules
-                $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_target_allow')['value']);
+                $return = $this->parse_file($this->database->get_config('ietd_target_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
-                if ($return != 0) {
+                if ($return !== 0) {
                     $this->logging->log_action_result('The targets acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
-                    $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_init_allow')['value']);
+                    $return = $this->parse_file($this->database->get_config('ietd_init_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
-                    if ($return != 0) {
+                    if ($return !== 0) {
                         $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
@@ -351,15 +351,16 @@
                     }
                 }
             } else if ($delete_acl === true) {
-                // delete the allow rules
-                $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_target_allow')['value']);
+                // delete the allow rule
 
-                if ($return != 0) {
+                $return = $this->parse_file($this->database->get_config('ietd_target_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
+
+                if ($return !== 0) {
                     $this->logging->log_action_result('The targets acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
-                    $return = $this->delete_iqn_from_allow_file($this->database->get_config('ietd_init_allow')['value']);
+                    $return = $this->parse_file($this->database->get_config('ietd_init_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
-                    if ($return != 0) {
+                    if ($return !== 0) {
                         $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
@@ -370,7 +371,7 @@
                 foreach ($this->target_data['lun'] as $luns) {
                     $return = $this->delete_lun_from_daemon($luns['id']);
 
-                    if ($return['result'] != 0) {
+                    if ($return['result'] !== 0) {
                         $this->logging->log_action_result('Could not delete lun ' . $luns['path'] . ' from target ' . $this->iqn, $return, __METHOD__);
                     }
 
@@ -378,7 +379,7 @@
                         // delete the lvm volumes here
                         $return = $this->delete_logical_volume($luns['path']);
 
-                        if ($return['result'] != 0) {
+                        if ($return['result'] !== 0) {
                             $this->logging->log_action_result('Could not delete logical volume ' . $luns['path'], $return, __METHOD__);
                         }
                     }
@@ -386,20 +387,20 @@
             }
 
             // delete target options from ietd file
-            $return = $this->delete_all_options_from_iqn();
+            $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_all_options_from_iqn'], array(), false, false);
 
-            if ($return != 0) {
+            if ($return !== 0) {
                 $this->logging->log_action_result('Could not delete all config options from target ' . $this->iqn . ' You must delete them manually, or this will cause problems!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
             } else {
                 // delete target from daemon and ietd file
                 $return = $this->delete_target_from_daemon();
 
-                if ($return['result'] != 0) {
+                if ($return['result'] !== 0) {
                     $this->logging->log_action_result('Could not delete the target ' . $this->iqn . ' from the daemon!', $return, __METHOD__);
                 } else {
-                    $return = $this->delete_iqn_from_config_file();
+                    $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_iqn_from_config_file'], array(), false, false);
 
-                    if ($return != 0) {
+                    if ($return !== 0) {
                         $this->logging->log_action_result('Could not delete the target ' . $this->iqn . ' from the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
@@ -418,7 +419,7 @@
         public function get_settings() {
             $this->check();
 
-            return $this->get_all_options_from_iqn();
+            return $this->parse_file($this->ietd_config_file, [$this, 'get_all_options_from_iqn'], array(), true, false);
         }
 
         /**
@@ -432,7 +433,7 @@
             $this->check();
 
             // get options with values
-            $data = $this->get_all_options_from_iqn();
+            $data = $this->parse_file($this->ietd_config_file, [$this, 'get_all_options_from_iqn'], array(), true, false);
 
             $default_settings = $this->database->get_iet_settings();
 
@@ -496,9 +497,9 @@
 
                     // delete old value
                     if ($key !== false) {
-                        $return = $this->delete_option_from_iqn($option . ' ' . $targetsettings[$key][1]);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array($option . ' ' . $targetsettings[$key][1]), false, false);
 
-                        if ($return != 0) {
+                        if ($return !== 0) {
                             $this->logging->log_action_result('Could not delete the old value of the option ' . $option, array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                         }
                     }
@@ -506,21 +507,21 @@
 
                 if ($default_settings[$default_settings_key]['defaultvalue'] == $newvalue) {
                     if (isset($targetsettings[$key])) {
-                        $return = $this->delete_option_from_iqn($option . ' ' . $targetsettings[$key][1]);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array($option . ' ' . $targetsettings[$key][1]), false, false);
 
-                        if ($return != 0) {
+                        if ($return !== 0) {
                             $this->logging->log_action_result('The new value is the default value, so i just deleted it!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                         } else {
                             $return = $this->add_config_to_daemon($option, $newvalue);
 
-                            if ($return['result'] != 0) {
+                            if ($return['result'] !== 0) {
                                 $this->logging->log_action_result('Could not set the default value for ' . $option . ' in daemon config', $return, __METHOD__);
                             }
                         }
                     }
                 } else {
                     // add option
-                    $return = $this->add_option_to_iqn_in_file($option . ' ' . $newvalue);
+                    $return = $this->parse_file($this->ietd_config_file, [$this, 'add_option_to_iqn'], array($option . ' ' . $newvalue), false, false);
 
                     if ($return != 0) {
                         $this->logging->log_action_result('Could not add the value to the option ' . $option . ' in the config file', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
@@ -580,17 +581,17 @@
                         $return = $this->add_user_to_daemon($type, $userdata['username'], $userdata['password']);
                     }
 
-                    if ($return['result'] != 0) {
+                    if ($return['result'] !== 0) {
                         $this->logging->log_action_result('The user ' . $userdata['username'] . ' was not added to the daemon or the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     } else {
                         // add user to config file
                         if ($discovery === true) {
-                            $return = $this->add_global_option_to_file($type . ' ' . $userdata['username'] . ' ' . $userdata['password']);
+                            $return = $this->parse_file($this->ietd_config_file, [$this, 'add_option_to_iqn'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, false);
                         } else {
-                            $return = $this->add_option_to_iqn_in_file($type . ' ' . $userdata['username'] . ' ' . $userdata['password']);
+                            $return = $this->parse_file($this->ietd_config_file, [$this, 'add_option_to_iqn'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, false);
                         }
 
-                        if ($return != 0) {
+                        if ($return !== 0) {
                             $this->logging->log_action_result('The user ' . $userdata['username'] . ' was not added to the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                         }
                     }
@@ -615,7 +616,7 @@
             }
 
             // get the type
-            if ($type != 'IncomingUser') {
+            if ($type !== 'IncomingUser') {
                 $type = 'OutgoingUser';
             }
 
@@ -634,17 +635,17 @@
                     $return = $this->delete_user_from_daemon($type, $userdata['username']);
                 }
 
-                if ($return['result'] != 0) {
+                if ($return['result'] !== 0) {
                     $this->logging->log_action_result('The user ' . $userdata['username'] . ' could not be deleted from the daemon!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
                     if ($discovery === true) {
-                        $return = $this->delete_global_option_from_file($type . ' ' . $userdata['username'] . ' ' . $userdata['password']);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_global_option_from_file'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, true);
                     } else {
                         // delete user from config file
-                        $return = $this->delete_option_from_iqn($type . ' ' . $userdata['username'] . ' ' . $userdata['password']);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, true);
                     }
 
-                    if ($return != 0) {
+                    if ($return !== 0) {
                         $this->logging->log_action_result('The user ' . $userdata['username'] . ' could not be deleted from the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
@@ -667,7 +668,7 @@
 
             $iet_user = $this->get_configured_iet_users($discovery);
 
-            if (empty($iet_user) || $iet_user == 3) {
+            if (empty($iet_user) || $iet_user === 3) {
                 return false;
             } else {
                 $database_user = $this->database->get_all_usernames(true);
@@ -729,9 +730,5 @@
             } else {
                 return false;
             }
-
-
-
-
         }
     }

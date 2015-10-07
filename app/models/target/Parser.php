@@ -85,7 +85,6 @@
             if ($return_after_callback === true) {
                 return call_user_func_array($callback, $params);
             } else {
-                // call function and preserve indexes
                 $callback_data = call_user_func_array($callback, $params);
 
                 if (is_array($callback_data) === false) {
@@ -173,7 +172,7 @@
          * @return array|bool
          *
          */
-        public function add_global_option_from_file($option, array $file) {
+        private function add_global_option_to_file($option, array $file) {
             $option_index = array_search($option, $file);
 
             if ($option_index === false) {
@@ -186,302 +185,322 @@
             }
         }
 
-        public function add_object_to_iqn($stringtoadd, $file) {
-            if (!is_writeable($file)) {
-                return 1;
-            } else {
-                // Read data in array
-                $data = file($file);
+        /**
+         * This functions adds a target definition to the config file
+         * Duplications are handled
+         *
+         * @param array $file
+         * @return array|int
+         */
+        private function add_iqn_to_file(array $file) {
+            $iqn = 'Target ' . $this->iqn;
 
-                if (!$this->std->array_find($this->iqn, $data)) {
-                    if (end($data) == "\n") {
-                        // Last element is a newline, delete it and add rule
-                        array_pop($data);
-                        array_push($data, $this->iqn . " " . $stringtoadd . "\n");
-                    } else {
-                        array_push($data, $this->iqn . " " . $stringtoadd . "\n");
-                    }
-                } else {
-                    foreach ($data as $key => $value) {
-                        if (strpos($value, '#') === false) {
-                            // If iqn is there, we have to add a object to it
-                            if (strpos($value, $this->iqn) !== false) {
-                                $temp = trim(preg_replace('/\s\s+/', ' ', $value));
-                                $temp .= ", " . $stringtoadd . "\n";
-                                $data[$key] = $temp;
+            // Check if $iqn is already added
+            $key = array_search($iqn, $file);
+
+            if ($key === false) {
+                $file[] = $iqn;
+                $return['file'] = $file;
+                return $return;
+            } else {
+                return 4;
+            }
+        }
+
+        /**
+         * This function adds a entry to the ietd allow files
+         * $file needs to be the last parameter!
+         *
+         * @param string $object
+         * @param array $file
+         * @return array
+         */
+        private function add_object_to_iqn($object, array $file) {
+            $iqn_index = $this->std->array_find_iqn($this->iqn, $file);
+
+            if ($iqn_index !== false) {
+                if (end($file) === "\n") {
+                    // if last element is a newline, delete it
+                    array_pop($file);
+                }
+
+                $file[$iqn_index] .= ', ' . $object;
+            } else {
+                $file[] = $this->iqn . ' ' . $object;
+            }
+
+            $return['file'] = $file;
+            return $return;
+        }
+
+        /**
+         * This function adds a option to a target definition
+         * $file needs to be the last parameter!
+         * No duplication checks here, because the same option can be configured for multiple targets
+         *
+         * @param string $option
+         * @param array $file
+         * @return int|bool
+         */
+        private function add_option_to_iqn($option, array $file) {
+            $iqn = 'Target ' . $this->iqn;
+
+            // Search for the line containing the iqn
+            $key = array_search($iqn, $file);
+
+            // If key is false, the iqn doesn't exist
+            if($key !== false) {
+                // Add the option to the array, one line after the match
+                // The other indexes will be correct automatically
+                $file[$key] .= "\n" . $option;
+                $return['file'] = $file;
+                return $return;
+            } else {
+                return 3;
+            }
+        }
+
+        /**
+         * This function deletes all options from a iqn
+         * This will ensure, that no config pieces are left before a target is deleted
+         *
+         * @param array $file
+         * @return int
+         */
+        private function delete_all_options_from_iqn(array $file) {
+            $iqn = 'Target ' . $this->iqn;
+
+            // Get indexes of all target definitions
+            foreach ($file as $key => $line) {
+                // delete all whitespaces and check if the first six letters spell target
+                if (substr(preg_replace('/\s+/', '', $line), 0, 6) === 'Target') {
+                    $keys[] = $key;
+                }
+            }
+
+            if (isset($keys) && is_array($keys)) {
+                // Get index of the iqn from which the option should be deleted
+                $iqn_index = array_search($iqn, $file);
+
+                if ($iqn_index !== false) {
+                    // get key of this iqn
+                    $this_target_definition_key_index = array_search($iqn_index, $keys);
+
+                    if ($this_target_definition_key_index !== false) {
+                        if ($this_target_definition_key_index === count($keys) - 1) {
+                            // target is last one
+
+                            // get count of $file (-1 to match array indexes)
+                            $file_count = count($file) - 1;
+                            $options_count = $file_count - $keys[$this_target_definition_key_index];
+
+                            if ($options_count !== 0) {
+                                $this_target_definition_first_option = $keys[$this_target_definition_key_index] + 1;
+
+                                // since this is the last target, we can delete everything from here
+                                // save the values which will be deleted in array
+                                $return['deleted'] = array_slice($file, $this_target_definition_first_option, NULL, true);
+
+                                // delete options
+                                array_splice($file, $this_target_definition_first_option);
+                            } else {
+                                return 0;
+                            }
+                        } else {
+                            // target is not last one
+                            $this_target_definition_options_end = $keys[$this_target_definition_key_index + 1];
+                            $this_target_definition_options_start = $iqn_index + 1;
+                            $this_target_definition_count = $this_target_definition_options_end - $this_target_definition_options_start;
+
+                            if ($this_target_definition_count > 0) {
+                                // since this is the last target, we can delete everything from here
+                                // save the values which will be deleted in array
+                                $return['deleted'] = array_slice($file, $this_target_definition_options_start, $this_target_definition_count, true);
+                                array_splice($file, $this_target_definition_options_start, $this_target_definition_count);
+                            } else {
+                                return 0;
                             }
                         }
                     }
-                }
-            }
-
-            // Create string
-            $data = implode($data);
-
-            // Delete all empty lines from string
-            $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-
-            // Write back
-            file_put_contents($file, $data);
-
-            return 0;
-        }
-
-        /**
-         *
-         *  'Normal' options are added after a specific target definition
-         *  This function looks for the target and adds the option one line after the match to the file
-         *  Newlines are handled!
-         *  No duplication checks here, because the same option can be configured for multiple targets
-         *  This function will delete all comments!
-         *
-         * @param   string $option option to add
-         * @return   int
-         *
-         * ToDO: Don't delete comments
-         */
-        protected function add_option_to_iqn_in_file($option) {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
-            } else {
-                // Read data in array
-                $data = file($this->ietd_config_file);
-
-                // Delete all comments from file
-                foreach ($data as $key => $value) {
-                    if (strpos($value, '#') !== false) {
-                        unset($data[$key]);
-                    }
-                }
-
-                // Search for the line containing the iqn
-                $key = array_search('Target ' . $this->iqn . "\n", $data);
-
-                // If key is false, the iqn doesn't exist
-                if($key === false) {
-                    return 3;
+                    $return['file'] = $file;
+                    return $return;
                 } else {
-                    // Add the option to the array, one line after the match
-                    // The other indexes will be correct automatically
-                    array_splice($data, $key + 1, 0, $option . "\n");
+                    return 3;
                 }
-
-                // Create string
-                $data = implode($data);
-
-                // Delete all empty lines from string
-                $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-
-                // Write content back
-                file_put_contents($this->ietd_config_file, $data);
-
-                return 0;
+            } else {
+                return 3;
             }
         }
 
         /**
+         * This function deletes a option from target definitions
          *
-         *  This function deletes a specific option from a iqn
-         *  This will delete all comments from the config file
-         *
-         *
-         * @param   string $option option to delete
-         * @return  int
-         *
-         * ToDo: Don't remove comments
+         * @param string $option
+         * @param array $file
+         * @return array|int
          */
-        public function delete_option_from_iqn($option) {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
-            } else {
-                // Read data in array
-                $data = file($this->ietd_config_file);
+        private function delete_option_from_iqn($option, array $file) {
+            // Create iqn line
+            $iqn = 'Target ' . $this->iqn;
 
-                // Add a newline to the option
-                $option = $option . "\n";
-
-                // Create iqn line
-                $iqn = 'Target ' . $this->iqn . "\n";
-
-                // Get indexes of all target definitions
-                $counter = 0;
-                foreach ($data as $key => $value) {
-                    if (substr($value, 0, 6) == 'Target') {
-                        $keys[$counter] = $key;
-                        $counter++;
-                    }
+            // Get indexes of all target definitions
+            foreach ($file as $key => $line) {
+                if (substr(preg_replace('/\s+/', '', $line), 0, 6) === 'Target') {
+                    $keys[] = $key;
                 }
+            }
+
+            if (isset($keys) && is_array($keys)) {
                 // Get index of the iqn from which the option should be deleted
-                $key = array_search($iqn, $data);
+                $key = array_search($iqn, $file);
                 if ($key !== false) {
                     // Get the index of the position of the next target definition
                     $temp = array_search($key, $keys);
                     if ($temp !== false) {
-                        //if (is_int($temp)) {
                         // If $keys[$temp+1], there is another target definitions after this one
                         if (isset($keys[$temp + 1])) {
                             $end = $keys[$temp + 1];
                         } else {
                             // If it's not set, the count of the array will be the last line
-                            $end = count($data);
+                            end($file);
+                            $end = key($file);
                         }
-                        // Options for $iqn are defined between $key+1 and $end-1
+
+                        // Options for $iqn are defined from $key+1 till $end - $key
                         // Create array with iqn options
-                        $options = array_splice($data, $key, $end - $key);
+                        $options = array_slice($file, $key + 1, $end - $key - 1, true);
 
                         $val = array_search($option, $options);
+
                         if ($val !== false) {
-                            unset($options[$val]);
-                            $data = array_merge($data, $options);
+                            // delete option and index
+                            unset($file[$val]);
                         } else {
                             return 3;
                         }
 
-                        // Create string
-                        $data = implode($data);
-
-                        // Delete all empty lines from string
-                        $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-
-                        // Write back
-                        file_put_contents($this->ietd_config_file, $data);
-                        return 0;
+                        $return['deleted'] = $val;
+                        $return['file'] = $file;
+                        return $return;
                     } else {
                         return 3;
                     }
                 } else {
                     return 3;
                 }
+            } else {
+                return 3;
             }
         }
 
         /**
+         * This function deletes a target definition from the config ifle
+         * If the target has options, a error is returned
          *
-         *  This function deletes a iqn from the config file
-         *  No options of the iqn are deleted, so make sure it has none before calling this!
-         *  This will delete all comments from the config file
-         *
-         * @return  int
-         *
-         * ToDo: Don't remove comments
+         * @param array $file
+         * @return int|array
          */
-        public function delete_iqn_from_config_file() {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
-            } else {
-                // Add "Target" keyoword to the iqn
-                $iqn = 'Target ' . $this->iqn . "\n";
-                // Read file in array
-                $data = file($this->ietd_config_file);
-                // Delete all comments from file
-                foreach ($data as $key => $value) {
-                    if (strpos($value, '#') !== false) {
-                        unset($data[$key]);
-                    }
-                }
-                $key = array_search($iqn, $data);
-                // If $key is an integer, delete that postion from the array
-                if($key !== false) {
-                    // Delete the position only, if the next line contains 'Target', otherwise the iqn has options defined
-                    if (!isset($data[$key + 1]) or strpos($data[$key + 1], 'Target') !== false) {
-                        unset($data[$key]);
-                        // Create string from array
-                        $data = implode($data);
-                        // Delete all empty lines from string
-                        $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-                        // Write content back
-                        file_put_contents($this->ietd_config_file, $data);
-                        return 0;
+        private function delete_iqn_from_config_file(array $file) {
+            $iqn = 'Target ' . $this->iqn;
+
+            $key = array_search($iqn, $file);
+
+            if($key !== false) {
+                // Delete the position only, if the next line contains 'Target', otherwise the iqn has options defined
+                if (isset($file[$key + 1])) {
+                    if (substr(preg_replace('/\s+/', '', $file[$key + 1]), 0, 6) === 'Target') {
+                        unset($file[$key]);
+                        $return['deleted'] = $key;
+                        $return['file'] = $file;
+                        return $return;
                     } else {
                         return 4;
                     }
                 } else {
                     return 3;
                 }
+            } else {
+                return 3;
             }
         }
 
         /**
+         * Return all options of a target definition
+         * The array will contain two indexes. Index one contains the target definition.
+         * Index two contains another array with all gathered options
          *
-         *  This function is similar to the delete_option_from_iqn function
-         *  But it only returns all options from the target
-         *
-         * @return   array|int
+         * @param array $file
+         * @return bool|array
          *
          */
-        public function get_all_options_from_iqn() {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
-            } else {
-                // Read data in array
-                $data = file($this->ietd_config_file);
+        private function get_all_options_from_iqn(array $file) {
+            $iqn = 'Target ' . $this->iqn;
 
-                // Create iqn line
-                $iqn = 'Target ' . $this->iqn . "\n";
-
-                // Get indexes of all target definitions
-                $counter = 0;
-                foreach ($data as $key => $value) {
-                    if (substr($value, 0, 6) == 'Target') {
-                        $keys[$counter] = $key;
-                        $counter++;
-                    }
-                }
-
-                // Get index of the iqn from which the option should be deleted
-                $key = array_search($iqn, $data);
-
-                if($key !== false) {
-                    // Get the index of the position of the next target definition
-                    $temp = array_search($key, $keys);
-
-                    if($key !== false) {
-                        // If $keys[$temp+1], there is another target definitions after this one
-                        if (isset($keys[$temp + 1])) {
-                            $end = $keys[$temp + 1];
-                        } else {
-                            // If it's not set, the count of the array will be the last line
-                            $end = count($data);
-                        }
-
-
-                        // If key and ned have the same value, the target definition is only one line
-                        // This means there are not options to delete!
-                        if ($key + 1 == $end) {
-                            return 0;
-                        } else {
-                            // Options for $iqn are defined between $key+1 and $end-1
-                            // If they are the same, the iqn has only one option
-                            if (strcmp($data[$key + 1], $data[$end - 1]) == 0) {
-                                if (isset($data[$key + 1])) {
-                                    // return array so we can always use a loop
-                                    return array(0 => explode(' ', trim($iqn, "\n")),
-                                        1 => explode(" ", trim($data[$key + 1], "\n")));
-                                } else {
-                                    return 3;
-                                }
-                            } else {
-                                // Create array with iqn options
-                                $options = array_splice($data, $key, $end - $key);
-                                // Position 0 contains the iqn
-                                // If there is only one option, this never gets executed
-                                // Therefore we check for index 2 to be sure
-                                if (!isset($options[2])) {
-                                    return 3;
-                                } else {
-                                    foreach ($options as $key => $value) {
-                                        $return[$key] = explode(' ', trim($value, "\n"));
-                                    }
-                                    return $return;
-                                }
-                            }
-                        }
-                    } else {
-                        return 3;
-                    }
+            // Get indexes of all target definitions
+            foreach ($file as $key => $line) {
+                if (substr(preg_replace('/\s+/', '', $line), 0, 6) === 'Target') {
+                    $keys[] = $key;
                 }
             }
+
+            // Get index of the iqn from which the option should be deleted
+            $key = array_search($iqn, $file);
+
+            if($key !== false) {
+                // Get the index of the position of the next target definition
+                $temp = array_search($key, $keys);
+
+                if($key !== false) {
+                    // If $keys[$temp+1], there is another target definitions after this one
+                    if (isset($keys[$temp + 1])) {
+                        $end = $keys[$temp + 1];
+                    } else {
+                        // If it's not set, the count of the array will be the last line
+                        $end = count($file);
+                    }
+
+                    // If key and ned have the same value, the target definition is only one line
+                    // This means there are no options to delete!
+                    if ($key + 1 == $end) {
+                        return 0;
+                    } else {
+                        // Options for $iqn are defined between $key+1 and $end-1
+                        // If they are the same, the iqn has only one option
+                        if (strcmp($file[$key + 1], $file[$end - 1]) === 0) {
+                            if (isset($file[$key + 1])) {
+                                // return array so we can always use a loop
+                                return array(
+                                    0 => explode(' ', trim($iqn, "\n")),
+                                    1 => explode(' ', trim($file[$key + 1], "\n"))
+                                );
+                            } else {
+                                return 3;
+                            }
+                        } else {
+                            // Create array with iqn options
+                            $options = array_splice($file, $key, $end - $key);
+                            // Position 0 contains the iqn
+                            // If there is only one option, this never gets executed
+                            // Therefore we check for index 2 to be sure
+                            if (!isset($options[2])) {
+                                return 3;
+                            } else {
+                                foreach ($options as $key => $value) {
+                                    $return[$key] = explode(' ', trim($value, "\n"));
+                                }
+
+                                return $return;
+                            }
+                        }
+                    }
+                } else {
+                    return 3;
+                }
+            } else {
+                return 3;
+            }
         }
+
 
         /**
          *
@@ -631,367 +650,153 @@
         }
 
         /**
+         * Get all information from a iet allow file
          *
-         * Parse all information from the iet allow files
-         * return false if nothing was found or an array with the index 'initiators' and 'targets' for the data
+         * If no rules for this iqn are found, this function might return the 'ALL ALL' rule if available
          *
-         * @param   $iqn string optional, only return acl for this iqn
-         * @return   array, boolean
+         * @param array $file
+         * @return array|bool
          *
          */
-        protected function parse_target_acl($iqn = '') {
-            $files = array(
-                'initiators' => $this->database->get_config('ietd_init_allow')['value'],
-                'targets' => $this->database->get_config('ietd_target_allow')['value']
-            );
+        private function parse_target_acl(array $file) {
+            foreach ($file as $key => $line) {
+                $acls[$key] = explode(',', $line);
+            }
 
-            foreach ($files as $fileindex => $file) {
-                $data[$fileindex] = file($file);
+            if (!empty($acls)) {
+                $acls = array_values($acls);
 
-                if (!empty($data[$fileindex])) {
-                    foreach ($data[$fileindex] as $key => $line) {
-                        $temp = trim($line, ' ');
-                        if ($temp[0] != '#' && !empty($line) && $line != "\n") {
-                            $acls[$fileindex][$key] = explode(',', $line);
-                        }
-                    }
+                foreach ($acls as $key => $acl) {
+                    $acl[0] = trim(trim($acl[0], ' '), "\n");
 
-                    if (isset($acls[$fileindex]) && !empty($acls[$fileindex])) {
-                        $acls[$fileindex] = array_values($acls[$fileindex]);
+                    $values[$key] = explode(' ', $acl[0]);
+                    unset($acl[0]);
 
-                        foreach ($acls[$fileindex] as $key => $acl) {
-                            $acl[0] = trim(trim($acl[0], ' '), "\n");
-
-                            $values[$fileindex][$key] = explode(' ', $acl[0]);
-                            unset($acl[0]);
-
-                            foreach ($acl as $rule) {
-                                array_push($values[$fileindex][$key], trim(trim($rule, ' '), "\n"));
-                            }
-                        }
+                    foreach ($acl as $rule) {
+                        array_push($values[$key], trim(trim($rule, ' '), "\n"));
                     }
                 }
+            } else {
+                return 3;
             }
 
             if (!empty($values)) {
-                if (!empty($iqn)) {
-                    if (isset($values['initiators'])) {
-                        foreach ($values['initiators'] as $value) {
-                            if ($value[0] == $iqn) {
-                                $return['initiators'] = $value;
-                            }
-                        }
-                    }
+                $key = array_search($this->iqn, $values);
+                return $values[$key];
+            } else {
+                return 3;
+            }
+        }
 
-                    if (isset($values['targets'])) {
-                        foreach ($values['targets'] as $value) {
-                            if ($value[0] == $iqn) {
-                                $return['targets'] = $value;
-                            }
-                        }
-                    }
+        /**
+         * This function deletes a object from a iqn definition (initiator & target allow files)
+         * Valid separators between the objects are ',' and ', '
+         * If a line contains only the iqn and a object, it will be deleted completely
+         * Multiple spaces in the line which is edited will be replaced by a single one
+         *
+         * @param string $object
+         * @param array $file
+         * @return int|array
+         *
+         */
+        private function delete_object_from_iqn($object, array $file) {
+            $iqn_index = $this->std->array_find_iqn($this->iqn, $file);
 
-                    if (!empty($return)) {
+            if ($iqn_index !== false) {
+                // replace multiple spaces with a single on
+                $file[$iqn_index] = preg_replace('!\s+!', ' ', $file[$iqn_index]);
+                $object_length = strlen($object);
+                $line_length = strlen($file[$iqn_index]);
+                $iqn_length = strlen($this->iqn);
+                $object_start_position = strpos($file[$iqn_index], $object);
+
+                if ($object_start_position !== false) {
+                    // check if $object is the only one in this line
+                    // if that's true we also delete the iqn, which means we kill the whole line
+                    if ($iqn_length + 1 + $object_length === $line_length) {
+                        unset($file[$iqn_index]);
+                        $return['file'] = $file;
+                        $return['deleted'] = $iqn_index;
                         return $return;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return $values;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        /**
-         *
-         * This function appends a target to the config file
-         * Newlines and duplications are handled!
-         * This function will delete all comments!
-         * Don't bother with the 'Target ', it's added automatically
-         *
-         * @return   int
-         *
-         * ToDO: Don't delete comments
-         */
-        public function add_iqn_to_file() {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
-            } else {
-                // Add "Target" keyoword to the iqn
-                $iqn = 'Target ' . $this->iqn . "\n";
-
-                // Read file in array
-                $data = file($this->ietd_config_file);
-
-                // Delete all comments from file
-                foreach ($data as $key => $value) {
-                    if (strpos($value, '#') !== false) {
-                        unset($data[$key]);
-                    }
-                }
-
-                // Check if $option already exists
-                $key = array_search($iqn, $data);
-
-                // If $key is a integer, the option already exists
-                if($key === false) {
-                    // If last line is empty, replace it
-                    if (end($data) == "\n") {
-                        // Delete last array element
-                        array_pop($data);
-
-                        // Add data
-                        array_push($data, $iqn);
-                    } else {
-                        // Add data
-                        array_push($data, $iqn);
                     }
 
-                    // Create string from array
-                    $data = implode($data);
+                    // Check if object is the last one
+                    // If start position + object length is as long as the whole line
+                    // we have a winner
+                    if ($object_start_position + $object_length === $line_length) {
+                        $line_with_deleted_object = str_replace(', ' . $object, '', $file[$iqn_index], $count);
 
-                    // Delete all empty lines from string
-                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-
-                    // Write content back
-                    file_put_contents($this->ietd_config_file, $data);
-
-                    return 0;
-                } else {
-                    return 4;
-                }
-            }
-        }
-
-        public function delete_object_from_iqn($stringtodelete, $file) {
-            if (!is_writeable($file)) {
-                return 1;
-            } else {
-                // Read data in array
-                $data = file($file);
-
-                foreach ($data as $key => $value) {
-                    if (strpos($value, '#') === false) {
-                        if (strpos($value, $this->iqn) !== false) {
-                            $strtodeletepo = strpos($value, $stringtodelete);
-                            if ($strtodeletepo !== false) {
-                                $strtodeletelen = strlen($stringtodelete);
-
-                                // If the $stringtodelete isn't the last, we have to delete a space and a comma after the string ended
-                                if ($value[$strtodeletepo + $strtodeletelen] == ',') {
-                                    $temp = substr_replace($value, '', $strtodeletepo, $strtodeletelen + 1);
-
-                                    // check if there is really a space
-                                    // some people don't do that
-                                    if ($value[$strtodeletepo + $strtodeletelen +1] == ' ') {
-                                        $temp = substr_replace($value, '', $strtodeletepo, $strtodeletelen + 2);
-                                    }
-
-                                    // write back into array
-                                    $data[$key] = $temp;
-                                } else {
-                                    // If the string is the last, we have to remove the previous space and comma
-                                    $temp = substr_replace($value, '', $strtodeletepo - 2, $strtodeletelen + 2);
-                                    $data[$key] = $temp;
-                                }
-
-                                // If iqn has the same length than value, there is only the iqn in this line
-                                // therefore we just delete it
-                                if (strlen($this->iqn) == strlen($temp)) {
-                                    unset($data[$key]);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // Insert a newline at the end to prevent some issues
-                if (end($data) !== "\n") {
-                    array_push($data, "\n");
-                }
-
-                // Create string
-                $data = implode($data);
-
-                // Delete all empty lines from string
-                $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-
-                // Write back
-                file_put_contents($file, $data);
-
-                return 0;
-            }
-        }
-
-        /**
-         *
-         *  This function deletes a iqn from (+ all acls) from one ietd allow file
-         *  This will delete all comments from the config file
-         *
-         *
-         * @param   string $file file from which the the iqn should be deleted
-         * @return  int
-         *
-         * ToDo: Don't remove comments
-         */
-        public function delete_iqn_from_allow_file($file) {
-            if (!is_writeable($file)) {
-                return 1;
-            } else {
-                // Read data in array
-                $data = file($file);
-
-                if ($this->std->array_find($this->iqn, $data)) {
-                    foreach ($data as $key => $value) {
-                        if (strpos($value, '#') !== true) {
-                            if (strpos($value, $this->iqn) !== false) {
-                                // Unset line containing iqn
-                                unset($data[$key]);
-                            }
-                        }
-                    }
-                    // Create string from array
-                    $data = implode($data);
-                    // Delete all empty lines from string
-                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-                    // Write content back
-                    file_put_contents($file, $data);
-                }
-                return 0;
-            }
-        }
-
-        /**
-         *
-         *  This function is similar to the delete_option_from_iqn function,
-         *  But it deletes all options from the target (target with luns cannot be deleted)
-         *  This functions makes sure, that no config pieces are left over, when a target is deleted
-         *
-         * @return  int
-         *
-         */
-        public function delete_all_options_from_iqn() {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
-            } else {
-                // Read data in array
-                $data = file($this->ietd_config_file);
-                // Create iqn line
-                $iqn = 'Target ' . $this->iqn . "\n";
-                // Get indexes of all target definitions
-                $counter = 0;
-                foreach ($data as $key => $value) {
-                    if (substr($value, 0, 6) == 'Target') {
-                        $keys[$counter] = $key;
-                        $counter++;
-                    }
-                }
-                // Get index of the iqn from which the option should be deleted
-                $key = array_search($iqn, $data);
-                if($key !== false) {
-                    // Get the index of the position of the next target definition
-                    $temp = array_search($key, $keys);
-                    if($key !== false) {
-                        // If $keys[$temp+1], there is another target definitions after this one
-                        if (isset($keys[$temp + 1])) {
-                            $end = $keys[$temp + 1];
+                        // Normally ist should only be one
+                        // but who knows?
+                        if ($count >= 1) {
+                            $file[$iqn_index] = $line_with_deleted_object;
+                            $return['file'] = $file;
+                            return $return;
                         } else {
-                            // If it's not set, the count of the array will be the last line
-                            $end = count($data);
-                        }
-                        // If key and end have the same value, the target definition is only one line
-                        // This means there are no options to delete!
-                        if ($key + 1 == $end) {
-                            return 0;
-                        } else {
-                            // Options for $iqn are defined between $key+1 and $end-1
-                            // If they are the same, the iqn has only one option
-                            if (strcmp($data[$key + 1], $data[$end - 1]) == 0) {
-                                if (isset($data[$key + 1])) {
-                                    unset($data[$key + 1]);
-                                } else {
-                                    return 3;
-                                }
+                            // try again here without space
+                            $line_with_deleted_object = str_replace(',' . $object, '', $file[$iqn_index], $count);
+
+                            if ($count >= 1) {
+                                $file[$iqn_index] = $line_with_deleted_object;
+                                $return['file'] = $file;
+                                return $return;
                             } else {
-                                // Create array with iqn options
-                                $options = array_splice($data, $key, $end - $key);
-                                // Position 0 contains the iqn
-                                // If there is only one option, this never gets executed
-                                // Therefore we check for index 2 to be sure
-                                if (!isset($options[2])) {
-                                    return 3;
-                                } else {
-                                    $count = count($options);
-                                    for ($i = 1; $i < $count; $i++) {
-                                        unset($options[$i]);
-                                    }
-                                    $data = array_merge($data, $options);
-                                }
+                                // something went really wrong
+                                // can't find the object
+                                return 3;
                             }
-                            // Create string
-                            $data = implode($data);
-                            // Delete all empty lines from string
-                            $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-                            // Write back
-                            file_put_contents($this->ietd_config_file, $data);
-                            return 0;
                         }
-                    } else {
-                        return 3;
-                    }
-                }
-            }
-        }
+                        // Check if object is first one
+                        // If the object start position - 1 (for the space between the first object and the iqn) is equal
+                        // to the iqn length we have a winner
+                    } else if ($object_start_position - 1 === $iqn_length) {
+                        $line_with_deleted_object = str_replace($object . ', ', '', $file[$iqn_index], $count);
 
-        /**
-         *
-         *  This function deletes a global option from the config file
-         *  Comments and empty lines are also deleted
-         *
-         *
-         * @param   string $option option to delete
-         * @return  int
-         *
-         * ToDo: Don't remove comments
-         * ToDo: Only parse until the first target definition
-         */
-        public function delete_global_option_from_file($option) {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
-            } else {
-                // Read file in array
-                $data = file($this->ietd_config_file);
-                // Add a newline to the option
-                $option = $option . "\n";
-                // Look for the first target definition
-                $counter = 0;
-                foreach ($data as $key => $value) {
-                    // Check for the positions of all target definitions
-                    if (substr($value, 0, 6) == 'Target') {
-                        // $keys[0] will contain the first target definition
-                        // Everything before $keys[0] is global
-                        $keys[$counter] = $key;
-                        $counter++;
+                        // Normally ist should only be one
+                        // but who knows?
+                        if ($count >= 1) {
+                            $file[$iqn_index] = $line_with_deleted_object;
+                            $return['file'] = $file;
+                            return $return;
+                        } else {
+                            // try again here without space
+                            $line_with_deleted_object = str_replace($object . ',', '', $file[$iqn_index], $count);
+
+                            if ($count >= 1) {
+                                $file[$iqn_index] = $line_with_deleted_object;
+                                $return['file'] = $file;
+                                return $return;
+                            } else {
+                                // something went really wrong
+                                // can't find the object
+                                return 3;
+                            }
+                        }
+                        // Object is somewhere in the middle
+                    } else {
+                        $line_with_deleted_object = str_replace($object . ', ', '', $file[$iqn_index], $count);
+
+                        // Normally ist should only be one
+                        // but who knows?
+                        if ($count >= 1) {
+                            $file[$iqn_index] = $line_with_deleted_object;
+                            $return['file'] = $file;
+                            return $return;
+                        } else {
+                            // try again here without space
+                            $line_with_deleted_object = str_replace($object . ',', '', $file[$iqn_index], $count);
+
+                            if ($count >= 1) {
+                                $file[$iqn_index] = $line_with_deleted_object;
+                                $return['file'] = $file;
+                                return $return;
+                            } else {
+                                // something went really wrong
+                                // can't find the object
+                                return 3;
+                            }
+                        }
                     }
-                }
-                // Extract the global section
-                $globalsection = array_splice($data, 0, $keys[0]);
-                // Search for the option which should be deleted
-                $key = array_search($option, $globalsection);
-                if($key !== false) {
-                    // Delete option from array
-                    unset($globalsection[$key]);
-                    // Merge data and globalsection array
-                    $data = array_merge($globalsection, $data);
-                    // Create string from array
-                    $data = implode($data);
-                    // Delete all empty lines from string
-                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-                    // Write content back
-                    file_put_contents($this->ietd_config_file, $data);
-                    return 0;
                 } else {
                     return 3;
                 }
@@ -1000,51 +805,67 @@
 
         /**
          *
-         *  This function adds a global option to the config file
-         *  Global options are inserted before any target definitions
-         *  Newlines and duplications are handled!
-         *  This function will delete all comments!
+         *  This function deletes a iqn from (+ all acls) from one ietd allow file
          *
-         * @param   string $option option to add
-         * @return   int
+         * @param   array $file
+         * @return  int
          *
-         * ToDo: Don't delete comments
-         * ToDo: Only parse until the first target definition
          */
-        public function add_global_option_to_file($option) {
-            if (!is_writeable($this->ietd_config_file)) {
-                return 1;
+        private function delete_iqn_from_allow_file(array $file) {
+            $iqn_index = $this->std->array_find_iqn($this->iqn, $file);
+
+            if ($iqn_index !== false) {
+                unset($file[$iqn_index]);
+                $return['deleted'] = $iqn_index;
+                $return['file'] = $file;
+                return $return;
             } else {
-                // Read data in array
-                $data = file($this->ietd_config_file);
+                return 3;
+            }
+        }
 
-                // Delete all comments from file
-                foreach ($data as $key => $value) {
-                    if (strpos($value, '#') !== false) {
-                        unset($data[$key]);
-                    }
+        /**
+         * This function deletes a global option from the config file
+         *
+         * @param string $option
+         * @param array $file
+         * @return array|int
+         */
+        private function delete_global_option_from_file($option, array $file) {
+            foreach ($file as $key => $line) {
+                if (substr(preg_replace('/\s+/', '', $line), 0, 6) === 'Target') {
+                    // $keys[0] will contain the first target definition
+                    // Everything before $keys[0] is global
+                    $keys[] = $key;
+                    break;
                 }
+            }
 
-                // Check if $option already exists
-                $key = array_search($option . "\n", $data);
+            if (isset($keys) && is_array($keys)) {
+                $global_section = array_splice($file, 0, $keys[0]);
+                $option_index = array_search($option, $global_section);
 
-                // If $key is a not false, the option already exists
-                if($key === false) {
-                    // Add option as first index, other indexes will be corrected
-                    array_unshift($data, $option . "\n");
-
-                    // Create string
-                    $data = implode($data);
-
-                    // Delete all empty lines from string
-                    $data = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $data);
-
-                    // Write data back
-                    file_put_contents($this->ietd_config_file, $data);
-
-                    return 0;
+                if ($option_index !== false) {
+                    unset($global_section[$option_index]);
+                    $return['file'] = array_merge($global_section, $file);
+                    $return['deleted'] = $option_index;
+                    return $return;
                 } else {
-                    return 4;
+                    // options not found
+                    return 3;
+                }
+            } else {
+                // no target definitions
+                // everything is global
+                $option_index = array_search($option, $file);
+                if ($option !== false) {
+                    unset($option[$option_index]);
+                    $return['file'] = $file;
+                    $return['deleted'] = $option_index;
+                    return $return;
+                } else {
+                    // option not found
+                    return 3;
                 }
             }
         }
