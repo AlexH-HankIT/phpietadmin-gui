@@ -16,7 +16,7 @@ class Std {
      * @param array $haystack
      * @return int|bool
      */
-    function array_find_iqn($iqn, array $haystack) {
+    public function array_find_iqn($iqn, array $haystack) {
         foreach ($haystack as $key => $value) {
             if (false !== stripos($value, $iqn)) {
                 // iqn is in $haystack[$key]
@@ -35,7 +35,6 @@ class Std {
         }
         return false;
     }
-
 
     /**
      * array_search for multidimensional arrays
