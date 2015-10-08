@@ -72,7 +72,6 @@ In version 0.6:
     - [x] Rewrite file parser for the iet files
     - [ ] New session implementation
     - [ ] Write phpietadmin-cli
-            - [ ] Install/Update
     - [ ] Database error log
     - [ ] Log also successful messages
     - [ ] Rework controller/models
