@@ -57,6 +57,9 @@
                             $comments[$key] = substr($file[$key], $offset);
                             $file[$key] = substr($line, 0, $offset);
                         }
+                    } else {
+                        // replace multiple whitespaces with single one
+                        $file[$key] = preg_replace('!\s+!', ' ', $file[$key]);
                     }
                 } else {
                     // save empty lines in comments array
@@ -688,8 +691,13 @@
             }
 
             if (!empty($values)) {
-                $key = array_search($this->iqn, $values);
-                return $values[$key];
+                $key = $this->std->recursive_array_search($this->iqn, $values);
+
+                if ($key !== false) {
+                    return $values[$key];
+                } else {
+                    return 3;
+                }
             } else {
                 return 3;
             }
@@ -710,8 +718,6 @@
             $iqn_index = $this->std->array_find_iqn($this->iqn, $file);
 
             if ($iqn_index !== false) {
-                // replace multiple spaces with a single on
-                $file[$iqn_index] = preg_replace('!\s+!', ' ', $file[$iqn_index]);
                 $object_length = strlen($object);
                 $line_length = strlen($file[$iqn_index]);
                 $iqn_length = strlen($this->iqn);
