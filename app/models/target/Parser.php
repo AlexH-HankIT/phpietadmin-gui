@@ -394,7 +394,7 @@
         }
 
         /**
-         * This function deletes a target definition from the config ifle
+         * This function deletes a target definition from the config file
          * If the target has options, a error is returned
          *
          * @param array $file
