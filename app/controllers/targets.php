@@ -6,6 +6,7 @@ use phpietadmin\app\core;
             if (!empty($_POST['name'])) {
                 // constructor creates target if it's not existing
                 $target = $this->model('target\Target', $_POST['name']);
+                $target->add();
                 echo json_encode($target->logging->get_action_result());
             } else {
                 $this->view('targets/addtarget', $this->base_model->database->get_config('iqn')['value'] . ":");
@@ -61,10 +62,6 @@ use phpietadmin\app\core;
                     $this->view('targets/configuretarget', $data);
                 } else if ($param1 == 'maplun') {
                     if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->base_model->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                        // ToDo
-                        // If the target doesn't exist it will be created
-                        // This should never happen here
-                        // But maybe we should handle this anyway?
                         $target = $this->model('target\Target', $_POST['target']);
 
                         if ($target->target_status !== false) {
