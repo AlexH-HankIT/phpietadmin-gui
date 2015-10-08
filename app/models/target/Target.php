@@ -6,57 +6,64 @@
         // false means target is a new target
         public $target_status;
 
-        public function __construct($iqn = '') {
+        public function __construct($iqn = false) {
             // Get paths for binaries in Exec class
             parent::__construct();
 
             $this->ietd_config_file = $this->database->get_config('ietd_config_file')['value'];
 
-            // if the iqn is empty, we get the data for every target
-            if (empty($iqn)) {
-                $this->target_data = $this->parse_target();
-            } else {
+            // if the iqn is false, we get the data for every target
+            if ($iqn !== false) {
                 $this->set_iqn($iqn);
                 $this->get_target_data();
                 $this->tid = $this->return_target_property('tid');
+            } else {
+                $this->target_data = $this->parse_target();
+            }
+        }
 
-                $service_check = $this->check_ietd_running();
+        /**
+         * Adds the target with $this->iqn
+         */
+        public function add() {
+            $this->check();
 
-                if ($service_check['result'] === 0) {
-                    // fill object with data
-                    $return = $this->get_target_data();
+            $service_check = $this->check_ietd_running();
 
-                    // Check if we deal with an existing or new target
-                    if ($return === false) {
-                        // target is a new target
-                        $this->target_status = false;
+            if ($service_check['result'] === 0) {
+                // fill object with data
+                $return = $this->get_target_data();
 
-                        $return = $this->add_target_to_daemon();
-                        if ($return['result'] != 0) {
-                            $this->logging->log_action_result('Could not add target ' . $iqn, $return, __METHOD__);
-                        } else {
-                            $return = $this->parse_file($this->ietd_config_file, [$this, 'add_iqn_to_file'], array(), false, false);
-                            if ($return !== 0) {
-                                if ($return === 1) {
-                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it\'s read only.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
-                                } else if ($return === 3) {
-                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file, because it was already there.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
-                                } else {
-                                    $this->logging->log_action_result('The target ' . $iqn . ' was added to the daemon, but not to the config file. Reason is unknown.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
-                                }
-                            } else {
-                                $this->logging->log_action_result('The target ' . $iqn . ' was successfully added', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-                            }
-                        }
-                        // fill object with data from new target
-                        $this->get_target_data();
+                // Check if we deal with an existing or new target
+                if ($return === false) {
+                    // target is a new target
+                    $this->target_status = false;
+
+                    $return = $this->add_target_to_daemon();
+                    if ($return['result'] !== 0) {
+                        $this->logging->log_action_result('Could not add target ' . $this->iqn, $return, __METHOD__);
                     } else {
-                        $this->logging->log_action_result('The target ' . $iqn . ' is already in use!', $return, __METHOD__);
-                        $this->target_status = true;
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'add_iqn_to_file'], array(), false, false);
+                        if ($return !== 0) {
+                            if ($return === 1) {
+                                $this->logging->log_action_result('The target ' . $this->iqn . ' was added to the daemon, but not to the config file, because it\'s read only.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                            } else if ($return === 3) {
+                                $this->logging->log_action_result('The target ' . $this->iqn . ' was added to the daemon, but not to the config file, because it was already there.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                            } else {
+                                $this->logging->log_action_result('The target ' . $this->iqn . ' was added to the daemon, but not to the config file. Reason is unknown.', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                            }
+                        } else {
+                            $this->logging->log_action_result('The target ' . $this->iqn . ' was successfully added', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+                        }
                     }
+                    // fill object with data from new target
+                    $this->get_target_data();
                 } else {
-                    $this->logging->log_action_result('The ietd service is not running!', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
+                    $this->logging->log_action_result('The target ' . $this->iqn . ' is already in use!', $return, __METHOD__);
+                    $this->target_status = true;
                 }
+            } else {
+                $this->logging->log_action_result('The ietd service is not running!', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
             }
         }
 
@@ -537,11 +544,6 @@
             }
         }
 
-        // reset setting to default value
-        public function reset_setting() {
-            // ToDo
-        }
-
         /**
          *
          * Add a user to $this->iqn
@@ -716,6 +718,23 @@
                 }
             } else {
                 return false;
+            }
+        }
+
+        /**
+         * Takes a path and checks if it's mapped on any target
+         *
+         * @param string $path
+         * @return bool|array
+         */
+        public function get_iqn_for_lun($path) {
+            if ($this->iqn === false) {
+                $data = $this->return_target_data();
+
+                // search for $path in $data
+                // return $data array or false
+            } else {
+                // error
             }
         }
 
