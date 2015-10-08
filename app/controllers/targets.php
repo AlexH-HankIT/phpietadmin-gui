@@ -4,7 +4,6 @@ use phpietadmin\app\core;
     class targets extends core\BaseController {
         public function addtarget() {
             if (!empty($_POST['name'])) {
-                // constructor creates target if it's not existing
                 $target = $this->model('target\Target', $_POST['name']);
                 $target->add();
                 echo json_encode($target->logging->get_action_result());
