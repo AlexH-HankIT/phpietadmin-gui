@@ -3,8 +3,9 @@ use phpietadmin\app\core;
 
     class targets extends core\BaseController {
         public function addtarget() {
-            if (!empty($_POST['name'])) {
-                $target = $this->model('target\Target', $_POST['name']);
+            if (!empty($name)) {
+                $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+                $target = $this->model('target\Target', $name);
                 $target->add();
                 echo json_encode($target->logging->get_action_result());
             } else {
@@ -14,16 +15,19 @@ use phpietadmin\app\core;
 
         public function adddisuser() {
             if (isset($_POST['id'], $_POST['type'])) {
-                if ($_POST['type'] == 'Incoming') {
+                $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+                $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+                if ($type === 'Incoming') {
                     $type = 'IncomingUser';
-                } else if ($_POST['type'] == 'Outgoing') {
+                } else if ($type === 'Outgoing') {
                     $type = 'OutgoingUser';
                 } else {
                     echo "The type value is invalid!";
                     die();
                 }
                 $target = $this->model('target\Target');
-                $target->add_user($_POST['id'], true, $type);
+                $target->add_user($id, true, $type);
                 echo json_encode($target->logging->get_action_result());
             } else {
                 $data = $this->base_model->database->get_all_usernames(true);
@@ -38,8 +42,11 @@ use phpietadmin\app\core;
 
         public function deletedisuser() {
             if (isset($_POST['type'], $_POST['id'])) {
+                $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+                $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
                 $target = $this->model('target\Target');
-                $target->delete_user($_POST['id'], true, $_POST['type']);
+                $target->delete_user($id, true, $type);
                 echo json_encode($target->logging->get_action_result());
             } else {
                 $target = $this->model('target\Target');
@@ -61,10 +68,15 @@ use phpietadmin\app\core;
                     $this->view('targets/configuretarget', $data);
                 } else if ($param1 == 'maplun') {
                     if (isset($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path']) && !$this->base_model->std->mempty($_POST['target'], $_POST['type'], $_POST['mode'], $_POST['path'])) {
-                        $target = $this->model('target\Target', $_POST['target']);
+                        $target = filter_input(INPUT_POST, 'target', FILTER_SANITIZE_STRING);
+                        $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+                        $mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRING);
+                        $path = filter_input(INPUT_POST, 'path', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $target);
 
                         if ($target->target_status !== false) {
-                            $target->add_lun($_POST['path'], $_POST['mode'], $_POST['type']);
+                            $target->add_lun($path, $mode, $type);
                             echo json_encode($target->logging->get_action_result());
                         } else {
                             $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
@@ -80,14 +92,19 @@ use phpietadmin\app\core;
                     }
                 } else if ($param1 == 'deletelun') {
                     if (isset($_POST['iqn'], $_POST['path'])) {
-                        // delete lun with id
-                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+                        $path = filter_input(INPUT_POST, 'path', FILTER_SANITIZE_STRING);
 
-                        $target->detach_lun($_POST['path'], true);
+                        // delete lun with id
+                        $target = $this->model('target\Target', $iqn);
+
+                        $target->detach_lun($path, true);
                         echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
                         // fetch data via target model
-                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $target = $this->model('target\Target', $iqn);
                         $data = $target->return_target_data();
 
                         if ($target->target_status !== false) {
@@ -103,8 +120,12 @@ use phpietadmin\app\core;
                     }
                 } else if ($param1 == 'adduser') {
                     if (isset($_POST['type'], $_POST['id'], $_POST['iqn'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
-                        $target->add_user($_POST['id'], false, $_POST['type']);
+                        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+                        $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $iqn);
+                        $target->add_user($id, false, $type);
                         echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
                         $data = $this->base_model->database->get_all_usernames(true);
@@ -116,11 +137,17 @@ use phpietadmin\app\core;
                     }
                 } else if ($param1 == 'deleteuser') {
                     if (isset($_POST['id'], $_POST['type'], $_POST['iqn'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
-                        $target->delete_user($_POST['id'], false, $_POST['type']);
+                        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+                        $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $iqn);
+                        $target->delete_user($id, false, $type);
                         echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $iqn);
 
                         $data = $target->get_user();
 
@@ -132,25 +159,34 @@ use phpietadmin\app\core;
                     }
                 } else if ($param1 == 'deletetarget') {
                     if (isset($_POST['iqn'], $_POST['delete_acl'], $_POST['force'], $_POST['delete_lun'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $iqn);
                         $target->delete_target(boolval($_POST['force']), boolval($_POST['delete_acl']), boolval($_POST['delete_lun']));
                         echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $iqn);
                         $this->view('targets/delete_target', $target->return_target_data());
                     }
                 } else if ($param1 == 'deletesession') {
                     if (isset($_POST['iqn'], $_POST['sid'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+                        $sid = filter_input(INPUT_POST, 'sid', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $iqn);
 
                         if ($target->target_status !== false) {
-                            $target->disconnect_session($_POST['sid']);
+                            $target->disconnect_session($sid);
                             echo json_encode($target->logging->get_action_result());
                         } else {
                             $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
                         }
                     } else if (isset($_POST['iqn'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
+                        $target = $this->model('target\Target', $iqn);
                         $data = $target->return_target_data();
 
                         if (isset($data['session'])) {
@@ -164,11 +200,17 @@ use phpietadmin\app\core;
                     }
                 } else if ($param1 == 'settings') {
                     if (isset($_POST['option'], $_POST['newvalue'], $_POST['iqn'])) {
-						$target = $this->model('target\Target', $_POST['iqn']);
-						$target->add_setting($_POST['option'], $_POST['newvalue']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+                        $option = filter_input(INPUT_POST, 'option', FILTER_SANITIZE_STRING);
+                        $newvalue = filter_input(INPUT_POST, 'newvalue', FILTER_SANITIZE_STRING);
+
+						$target = $this->model('target\Target', $iqn);
+						$target->add_setting($option, $newvalue);
 						echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
-						$target = $this->model('target\Target', $_POST['iqn']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
+						$target = $this->model('target\Target', $iqn);
 						$data = $target->get_all_settings();
 						// cut array in two pieces
 						$len = count($data);
@@ -178,8 +220,12 @@ use phpietadmin\app\core;
                     }
                 } else if ($param1 == 'addrule') {
                     if (isset($_POST['iqn'], $_POST['type'], $_POST['id'])) {
-                        $target = $this->model('target\Target', $_POST['iqn']);
-                        $target->add_acl($_POST['id'], $_POST['type']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+                        $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+                        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+                        $target = $this->model('target\Target', $iqn);
+                        $target->add_acl($id, $type);
                         echo json_encode($target->logging->get_action_result());
                     } else {
                         $data = $this->base_model->database->get_all_objects();
@@ -192,12 +238,18 @@ use phpietadmin\app\core;
                     }
 				} else if ($param1 == 'deleterule') {
 					if (isset($_POST['iqn'], $_POST['value'], $_POST['rule_type'])) {
-						$target = $this->model('target\Target', $_POST['iqn']);
-						$target->delete_acl($_POST['value'], $_POST['rule_type']);
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+                        $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
+                        $rule_type = filter_input(INPUT_POST, 'rule_type', FILTER_SANITIZE_STRING);
+
+						$target = $this->model('target\Target', $iqn);
+						$target->delete_acl($value, $rule_type);
 						echo json_encode($target->logging->get_action_result());
 					} else if (isset($_POST['iqn'])) {
+                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
+
 						// display body here
-						$target = $this->model('target\Target', $_POST['iqn']);
+						$target = $this->model('target\Target', $iqn);
 						$data = $target->get_acls();
 
 						if ($data !== false) {
