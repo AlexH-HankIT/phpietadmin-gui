@@ -32,7 +32,7 @@ Take a look at the github releases for detailed information about the features.
     - [ ] Password generator qtip does not work in /phpietadmin/ietusers
     - [ ] LVM extend does not work
     - [ ] Select all checkbox in LVM snapshot delete does not work
-    - [ ] Service add menu editing a service does not work
+    - [x] Service add menu editing a service does not work
     - [ ] Config menu editing does not work
     - [ ] Shutdown/Restart does not work
 
