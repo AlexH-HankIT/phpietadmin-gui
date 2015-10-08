@@ -68,6 +68,8 @@ In version 0.6:
     - [x] Use namespaces with basic autoloader
     - [x] New lsblk parser
     - [x] Replace version file with .json
+    - [x] Use bcrypt for storing passwords
+    - [x] Rewrite file parser for the iet files
     - [ ] New session implementation
     - [ ] Write phpietadmin-cli
             - [ ] Install/Update
@@ -87,9 +89,7 @@ In version 0.6:
         - [ ] Config
         - [ ] PHPietadmin user/session menu
         - [ ] Stop/Reboot/Logout
-    - [ ] Use bcrypt for storing passwords
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
-    - [ ] Rewrite file parser for the iet files
     - [ ] Prevent iqn and objects from having whitespaces
 
 * Misc
