@@ -46,7 +46,7 @@
             foreach ($file as $key => $line) {
                 if (!empty($line)) {
                     // check for comments
-                    $offset = stripos($line, '#');
+                    $offset = stripos(preg_replace('/\s+/', '', $line), '#');
                     if ($offset !== false) {
                         // extract the whole line if it's commented
                         if ($offset === 0) {
@@ -417,7 +417,14 @@
                         return 4;
                     }
                 } else {
-                    return 3;
+                    if (count($file) === $key + 1) {
+                        unset($file[$key]);
+                        $return['deleted'] = $key;
+                        $return['file'] = $file;
+                        return $return;
+                    } else {
+                        return 4;
+                    }
                 }
             } else {
                 return 3;
@@ -820,7 +827,8 @@
                 $return['file'] = $file;
                 return $return;
             } else {
-                return 3;
+                // return ok if there was nothing to do
+                return 0;
             }
         }
 

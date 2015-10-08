@@ -135,7 +135,6 @@
             }
         }
 
-
         /**
          *
          * Disconnect a session identified by $sid
@@ -331,7 +330,7 @@
                 $return = $this->parse_file($this->database->get_config('ietd_target_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
                 if ($return !== 0) {
-                    $this->logging->log_action_result('The targets acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                    $this->logging->log_action_result('The target acls of the target ' . $this->iqn . ' could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
                     $return = $this->parse_file($this->database->get_config('ietd_init_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
@@ -355,8 +354,10 @@
 
                 $return = $this->parse_file($this->database->get_config('ietd_target_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
+                var_dump($return);
+
                 if ($return !== 0) {
-                    $this->logging->log_action_result('The targets acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                    $this->logging->log_action_result('The target acls of the target ' . $this->iqn . ' could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
                     $return = $this->parse_file($this->database->get_config('ietd_init_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
