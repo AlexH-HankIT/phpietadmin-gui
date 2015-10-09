@@ -69,6 +69,7 @@ In version 0.6:
     - [x] New lsblk parser
     - [x] Replace version file with .json
     - [x] Use bcrypt for storing passwords
+    - [x] Prevent comments from being deleted, when editing a config file
     - [x] Rewrite file parser for the iet files
     - [ ] New session implementation
     - [ ] Write phpietadmin-cli
@@ -141,9 +142,7 @@ In version 0.7:
 - [ ] Use composer
 - [ ] Use json for tables
 - [ ] Change duplication check (Try to select the specific value from the database)
-- [ ] Add "Generate random id" button to the "Add target" menu
 - [ ] Use own exception class for error handling
-- [ ] Prevent comments from being deleted, when editing a config file
 - [ ] Sign archives
 - [ ] Separate database models
 - [ ] SSH login via web gui (https://github.com/liftoff/GateOne)
