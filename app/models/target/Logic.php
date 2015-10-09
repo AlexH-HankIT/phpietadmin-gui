@@ -192,7 +192,20 @@
                 // delete all luns
                 if (isset($data['lun']) && !empty($data['lun'])) {
                     foreach ($data['lun'] as $key => $lun) {
-                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode'] . ',Path=' . $data['lun'][$key]['path']), false, false);
+                        // delete lun and handle default parameter
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Path=' . $data['lun'][$key]['path']), false, false);
+
+                        if ($return !== 0) {
+                            $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path']), false, false);
+
+                            if ($return !== 0) {
+                                return $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path']), false, false);
+                            } else {
+                                return $return;
+                            }
+                        } else {
+                            return $return;
+                        }
                     }
 
                     // return array with results
@@ -209,7 +222,20 @@
                 $key = $this->std->recursive_array_search($path, $data['lun']);
 
                 if (isset($key) && isset($data['lun'][$key])) {
-                    return $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path']), false, false);
+                    // delete lun and handle default parameter
+                    $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Path=' . $data['lun'][$key]['path']), false, false);
+
+                    if ($return !== 0) {
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path']), false, false);
+
+                        if ($return !== 0) {
+                            return $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array('Lun ' . $data['lun'][$key]['id'] . ' Type=' . $data['lun'][$key]['iotype'] . ',IOMode=' . $data['lun'][$key]['iomode']. ',Path=' . $data['lun'][$key]['path']), false, false);
+                        } else {
+                            return $return;
+                        }
+                    } else {
+                        return $return;
+                    }
                 } else {
                     return false;
                 }
