@@ -1,5 +1,7 @@
 <div id='configure_target_body'>
     <div class="container">
+        <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> "Write back" is ignored by ietd, if you choose "blockio"!</div>
+
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>
                 <li><a href='#'>Targets</a></li>
@@ -27,6 +29,7 @@
                     <div class="col-md-6">
                         <select name="mode" id="mode" multiple class="form-control">
                             <option selected value="wt">Write through</option>
+                            <option value="wb">Write back</option>
                             <option value="ro">Read only</option>
                         </select>
                     </div>
