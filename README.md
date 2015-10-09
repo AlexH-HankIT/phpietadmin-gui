@@ -28,11 +28,11 @@ Take a look at the github releases for detailed information about the features.
     - [x] Reload page after session disconnect
     - [x] Delete lun: check if line contains default parameter
     - [x] Service add menu editing a service does not work
+    - [x] Select all checkbox in LVM snapshot delete does not work
     - [ ] Forced delete of a target does not work if a "ALL" acl is configured
     - [ ] Mousover to show passwords in /phpietadmin/ietusers does not work
     - [ ] Password generator qtip does not work in /phpietadmin/ietusers
     - [ ] LVM extend does not work
-    - [ ] Select all checkbox in LVM snapshot delete does not work
     - [ ] Config menu editing does not work
     - [ ] Shutdown/Restart does not work
     - [ ] ACLs are not displayed in "Delete ACL" menu
