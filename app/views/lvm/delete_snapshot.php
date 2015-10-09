@@ -20,7 +20,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th><input type="checkbox"></th>
+                        <th><input type="checkbox" id="master_checkbox"></th>
                         <th>LV</th>
                         <th>VG</th>
                         <th>Attr</th>
