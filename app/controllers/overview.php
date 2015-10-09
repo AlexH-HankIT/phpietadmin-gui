@@ -14,7 +14,7 @@ use phpietadmin\app\core;
         }
 
         public function iet($param) {
-            $targets = $this->model('target\Target', '');
+            $targets = $this->model('target\Target', false);
             $data = $targets->return_target_data();
 
             $view['data'] = $data;
