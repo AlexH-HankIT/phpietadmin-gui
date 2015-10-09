@@ -13,10 +13,6 @@
                 <li class='active'>Delete</li>
             </ol>
             <div class="panel-body">
-
-                <!--
-                Add progress bar for snapshot usage
-                -->
                 <table class="table">
                     <thead>
                     <tr>
