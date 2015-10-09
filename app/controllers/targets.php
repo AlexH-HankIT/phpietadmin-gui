@@ -3,7 +3,7 @@ use phpietadmin\app\core;
 
     class targets extends core\BaseController {
         public function addtarget() {
-            if (!empty($name)) {
+            if (!empty($_POST['name'])) {
                 $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
                 $target = $this->model('target\Target', $name);
                 $target->add();
