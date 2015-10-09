@@ -60,7 +60,7 @@ use phpietadmin\app\core;
         }
 
         public function configure($param1 = false, $param2 = false) {
-            $targets = $this->model('target\Target', '');
+            $targets = $this->model('target\Target', false);
             $data = $targets->return_target_data();
 
             if ($data !== false) {
