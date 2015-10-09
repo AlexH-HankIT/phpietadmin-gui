@@ -21,7 +21,7 @@
                 <table class="table table-striped searchabletable">
                     <thead>
                         <tr>
-                            <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                            <th class="col-md-1"><input id="master_checkbox" type="checkbox"></th>
                             <th class="col-md-3">Type</th>
                             <th class="col-md-4">Name</th>
                             <th class="col-md-4">Value</th>

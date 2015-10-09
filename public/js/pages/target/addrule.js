@@ -7,6 +7,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
         },
         add_event_handler_addallowrulebutton: function () {
+            mylibs.select_all_checkbox($('#master_checkbox'));
+
             $('#add_allow_rule_button').once('click', function () {
                 var checkboxes = $('.object_checkbox:checked');
 

@@ -274,6 +274,11 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                 });
             });
             return false;
+        },
+        select_all_checkbox: function(checkbox) {
+            checkbox.once('click', function() {
+                $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+            });
         }
     }
 });
