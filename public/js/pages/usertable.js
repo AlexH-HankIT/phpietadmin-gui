@@ -144,13 +144,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                             type: 'post',
                             success: function (data) {
                                 if (data['code'] === 0) {
-                                    swal({
-                                        title: 'Success',
-                                        type: 'success',
-                                        text: data['message']
-                                    }, function () {
-                                        return mylibs.load_workspace('/phpietadmin/ietusers');
-                                    });
+                                    return mylibs.load_workspace('/phpietadmin/ietusers');
                                 } else {
                                     swal({
                                         title: 'Error',
