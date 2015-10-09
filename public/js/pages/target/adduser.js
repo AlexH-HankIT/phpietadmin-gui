@@ -7,6 +7,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             $('.searchabletable').filterTable({minRows: 0});
         },
         add_event_handler_adduserbutton: function () {
+            mylibs.select_all_checkbox($('#master_checkbox'));
+
             $('#adduserbutton').once('click', function () {
                 var addusercheckbox_checked = $('.addusercheckbox:checked');
 

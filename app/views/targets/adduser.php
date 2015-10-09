@@ -24,7 +24,7 @@
                 <table id="addusertable" data-click-to-select="true" class="table table-striped searchabletable">
                     <thead>
                     <tr>
-                        <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                        <th class="col-md-1"><input id="master_checkbox" type="checkbox"></th>
                         <th class="col-md-11">Username</th>
                     </tr>
                     </thead>
