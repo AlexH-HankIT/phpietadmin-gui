@@ -56,8 +56,8 @@ In version 0.6:
     - [x] Use custom data attributes to store data in dom
     - [x] Configure target: Show if target has open sessions
     - [x] Rework the javascript code
+    - [x] Select all checkbox
     - [ ] Add bar to snapshot delete gui
-    - [ ] Select all checkbox in snapshot delete gui
     - [ ] Release "compressed" javascript files
 
 * Backend
