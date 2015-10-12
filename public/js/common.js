@@ -51,7 +51,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                     timeout: 1000,
                     success: function (data) {
                         if (Boolean(data)) {
-                            console.log("yeah");
                             if (uiBlocked === true) {
                                 uiBlocked = false;
                                 $.unblockUI();
