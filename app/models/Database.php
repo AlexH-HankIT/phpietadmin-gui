@@ -182,20 +182,28 @@ EOT;
      * @param $value
      * @param $row
      * @return int
-	 * ToDo: Check if config is really editable via gui!!
      */
     public function update_config($option, $value, $row) {
-        $query = $this->prepare('UPDATE phpietadmin_config SET :row = :value WHERE option = :option');
-		if ($query !== false ) {
-			$query->bindValue('line', $row, SQLITE3_TEXT);
-			$query->bindValue('value', $value, SQLITE3_TEXT);
-			$query->bindValue('option', $option, SQLITE3_TEXT);
-			$query->execute();
-			return $this->return_last_error();
-		} else {
-			$this->log_database_result('Unable to prepare statement!', __METHOD__);
-			return false;
-		}
+        $data = $this->get_config($option);
+
+        if ($data !== false && $data['editable_via_gui'] === 1) {
+            // $row is no user input
+            // so it's save to use it without prepare
+            // also table and column names cannot use placeholders
+            $query = $this->prepare('UPDATE phpietadmin_config SET ' . $row . ' = :value WHERE option = :option');
+            if ($query !== false ) {
+                $query->bindValue('value', $value, SQLITE3_TEXT);
+                $query->bindValue('option', $option, SQLITE3_TEXT);
+                $query->execute();
+                return $this->return_last_error();
+            } else {
+                $this->log_database_result('Unable to prepare statement!', __METHOD__);
+                return false;
+            }
+        } else {
+            $this->log_database_result('This option is not editable via gui!', __METHOD__);
+            return false;
+        }
     }
 
     public function add_phpietadmin_user($username, $hash) {

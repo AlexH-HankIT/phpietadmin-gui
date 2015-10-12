@@ -76,9 +76,9 @@ use phpietadmin\app\core;
 		}
 
 		public function edit_config() {
-			if (isset($_GET['option'], $_GET['value'])) {
-				$config = $this->model('Config', $_GET['option']);
-				$config->change_config('value', $_GET['value']);
+			if (isset($_POST['option'], $_POST['value'])) {
+				$config = $this->model('Config', $_POST['option']);
+				$config->change_config('value', $_POST['value']);
 				echo json_encode($config->logging->get_action_result());
 			}
 		}
