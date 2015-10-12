@@ -81,14 +81,15 @@ In version 0.6:
         - [x] Targets
         - [x] Users
         - [x] User model
+        - [x] Config
+        - [x] Config model
         - [ ] Database model
-        - [ ] Config model
         - [ ] Dashboard
         - [ ] Overview
         - [ ] Objects
         - [ ] LVM
         - [ ] Services
-        - [ ] Config
+
         - [ ] PHPietadmin user/session menu
         - [ ] Stop/Reboot/Logout
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
