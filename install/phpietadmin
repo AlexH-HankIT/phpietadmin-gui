@@ -6,14 +6,23 @@ Alias /phpietadmin /usr/share/phpietadmin/public/
 
         <Directory /var/www/>
                 Options Indexes FollowSymLinks MultiViews
-                AllowOverride all
+                AllowOverride None
                 Order allow,deny
                 Allow from all
         </Directory>
 
-        <Directory /usr/share/phpietadmin>
-                AllowOverride All
+        <Directory /usr/share/phpietadmin/public>
+               Options -MultiViews
+               RewriteEngine On
+               RewriteBase /phpietadmin
+               RewriteCond %{REQUEST_FILENAME} !-d
+               RewriteCond %{REQUEST_FILENAME} !-f
+               RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
         </Directory>
+
+        <Directory /usr/share/phpietadmin/public>
+            Options -Indexes
+         </Directory>
 
         ErrorLog ${APACHE_LOG_DIR}/error.log
 
