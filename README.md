@@ -76,12 +76,12 @@ In version 0.6:
     - [ ] Database error log
     - [ ] Log also successful messages
     - [ ] Rework controller/models
+        - [x] Targets
         - [ ] Database model
         - [ ] User model
         - [ ] Config model
         - [ ] Dashboard
         - [ ] Overview
-        - [x] Targets
         - [ ] Users
         - [ ] Objects
         - [ ] LVM
@@ -91,6 +91,8 @@ In version 0.6:
         - [ ] Stop/Reboot/Logout
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [ ] Prevent iqn and objects from having whitespaces
+    - [ ] Delete Services/Add menu (Allow only a few services)
+    - [ ] Delete the "Detach/delete lun" functions
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
