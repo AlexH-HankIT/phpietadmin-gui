@@ -33,11 +33,12 @@ class Lvm extends core\BaseController {
                 }
                 break;
             case 'extent':
-                if (isset($_POST['lv'], $_POST['vg'], $_POST['size'], $_POST['remap'])) {
+                if (isset($_POST['lv'], $_POST['vg'], $_POST['size'])) {
                     $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
                     $lv->extend_lv($_POST['size']);
 
-                    if ($_POST['remap'] === true) {
+                    // remap lun on target to update the size
+                    if (isset($_POST['remap']) && $_POST['remap'] === true) {
                         $target = $this->model('target\Target', '');
 
                         // check if lv is a lun
@@ -49,6 +50,7 @@ class Lvm extends core\BaseController {
                             // do nothing
                         }
                     }
+
                     echo json_encode($lv->logging->get_action_result());
                 } else if (isset($_POST['lv'], $_POST['vg'])) {
                     $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
