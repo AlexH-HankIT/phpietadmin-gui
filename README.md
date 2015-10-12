@@ -115,6 +115,7 @@ In version 0.7:
     - [ ] Awesome checkboxes (https://github.com/designmodo/Flat-UI)
     - [ ] Improve configure target settings menu
     - [ ] Improve nested table row handling
+    - [ ] Add target and lvm name to url
 
 * Backend
     - [ ] Write process class to execute commands in the background (+ jwindow)
