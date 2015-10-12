@@ -120,7 +120,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Yes, do it!",
-                        closeOnConfirm: false
+                        closeOnConfirm: true
                     },
                     function () {
                         $.ajax({
@@ -128,13 +128,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                             url: '/phpietadmin/service/hold',
                             data: {
                                 'action': 'shutdown'
-                            },
-                            done: function () {
-                                swal({
-                                    title: 'Success',
-                                    type: 'success',
-                                    text: 'It can take up to 20 seconds till the server shuts down!'
-                                });
                             }
                         });
                     });
@@ -142,14 +135,14 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
             });
         },
         add_event_handler_reboot: function () {
-            $('#menurebootbutton').once('click', function (e) {
+            $('#menurebootbutton').once('click', function () {
                 swal({
                         title: "Are you sure?",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonColor: "#DD6B55",
                         confirmButtonText: "Yes, do it!",
-                        closeOnConfirm: false
+                        closeOnConfirm: true
                     },
                     function () {
                         $.ajax({
@@ -157,17 +150,10 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                             url: '/phpietadmin/service/hold',
                             data: {
                                 'action': 'reboot'
-                            },
-                            done: function () {
-                                swal({
-                                    title: 'Success',
-                                    type: 'success',
-                                    text: 'It can take up to 20 seconds till the server reboots!'
-                                });
                             }
                         });
                     });
-                e.preventDefault();
+                return false;
             });
         }
     };

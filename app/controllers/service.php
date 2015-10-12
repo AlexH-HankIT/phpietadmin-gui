@@ -79,10 +79,10 @@ use phpietadmin\app\core,
         public function hold() {
             if (isset($_POST['action'])) {
                 sleep(5);
-                if ($_POST['action'] == 'reboot') {
-                    shell_exec($this->base_model->database->get_config('sudo') . ' ' . $this->base_model->database->get_config('shutdown') . ' --reboot now');
-                } else if ($_POST['action'] == 'shutdown') {
-                    shell_exec($this->base_model->database->get_config('sudo') . ' ' . $this->base_model->database->get_config('shutdown') . ' --poweroff now');
+                if ($_POST['action'] === 'reboot') {
+                    shell_exec($this->base_model->database->get_config('shutdown')['value'] . ' --reboot now');
+                } else if ($_POST['action'] === 'shutdown') {
+                    shell_exec($this->base_model->database->get_config('shutdown')['value'] . ' --poweroff now');
                 } else {
                     echo "Invalid action";
                 }
