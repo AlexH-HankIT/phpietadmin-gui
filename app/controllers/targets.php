@@ -162,7 +162,7 @@ use phpietadmin\app\core;
                         $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
 
                         $target = $this->model('target\Target', $iqn);
-                        $target->delete_target(boolval($_POST['force']), boolval($_POST['delete_acl']), boolval($_POST['delete_lun']));
+                        $target->delete_target(boolval($_POST['force']), boolval($_POST['delete_acl']));
                         echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
                         $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);

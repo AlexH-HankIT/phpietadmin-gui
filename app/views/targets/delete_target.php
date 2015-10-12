@@ -4,6 +4,10 @@
             <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Warning - Target has sessions!</h3></div>
         <?php } ?>
 
+        <?php if (isset($data['lun'])) { ?>
+            <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Warning - Target has luns!</h3></div>
+        <?php } ?>
+
         <div class="panel panel-default">
             <ol class='panel-heading breadcrumb'>
                 <li><a href='#'>Targets</a></li>
@@ -12,20 +16,6 @@
             </ol>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <label>
-                            <input type="radio" name="lundeletion" checked value="0"> Detach LUN(s)
-                        </label> (No data will be deleted)
-                    </div>
-                </div>
-                <div class="row top-buffer">
-                    <div class="col-md-12">
-                        <label>
-                            <input type="radio" name="lundeletion" value="1"> Delete attached LUN(s)
-                        </label> (LVM only, data will be deleted!)
-                    </div>
-                </div>
-                <div class="row top-buffer">
                     <div class="col-md-12">
                         <label>
                             <input id="deleteacl" type="checkbox" checked <?php if (isset($data['session'])) echo 'disabled' ?>> Delete acl

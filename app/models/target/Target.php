@@ -319,7 +319,7 @@
          * @return  bool|array
          *
          */
-        public function delete_target($force, $delete_acl, $delete_lun) {
+        public function delete_target($force, $delete_acl) {
             $this->check();
 
             // get all data for $this->iqn
@@ -362,26 +362,6 @@
 
                     if ($return !== 0) {
                         $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
-                    }
-                }
-            }
-
-            // delete luns from daemon and config file here
-            if (!empty($this->target_data['lun'])) {
-                foreach ($this->target_data['lun'] as $luns) {
-                    $return = $this->delete_lun_from_daemon($luns['id']);
-
-                    if ($return['result'] !== 0) {
-                        $this->logging->log_action_result('Could not delete lun ' . $luns['path'] . ' from target ' . $this->iqn, $return, __METHOD__);
-                    }
-
-                    if ($delete_lun === true) {
-                        // delete the lvm volumes here
-                        $return = $this->delete_logical_volume($luns['path']);
-
-                        if ($return['result'] !== 0) {
-                            $this->logging->log_action_result('Could not delete logical volume ' . $luns['path'], $return, __METHOD__);
-                        }
                     }
                 }
             }

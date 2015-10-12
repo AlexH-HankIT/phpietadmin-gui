@@ -92,7 +92,7 @@ In version 0.6:
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [ ] Prevent iqn and objects from having whitespaces
     - [ ] Delete Services/Add menu (Allow only a few services)
-    - [ ] Delete the "Detach/delete lun" functions
+    - [x] Delete the "Detach/delete lun" functions
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
