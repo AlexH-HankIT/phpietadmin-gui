@@ -20,7 +20,7 @@ Alias /phpietadmin /usr/share/phpietadmin/public/
                RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
         </Directory>
 
-        <Directory /usr/share/phpietadmin/public>
+        <Directory /usr/share/phpietadmin/app>
             Options -Indexes
          </Directory>
 
