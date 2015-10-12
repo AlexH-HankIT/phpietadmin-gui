@@ -153,7 +153,7 @@
                 );
             }
 
-            array_push($this->action_result, $temp);
+            $this->action_result[] = $temp;
 
             // if there is an error write it to the log file
             if ($return['result'] != 0) {
@@ -179,7 +179,7 @@
                 $temp['message'] = $message;
             };
 
-            array_push($this->debug_result, $temp);
+            $this->debug_result[] = $temp;
 
             $this->write_to_debug_log_file();
         }
@@ -210,7 +210,7 @@
                 'method' => $function
             );
 
-            array_push($this->access_result, $temp);
+            $this->access_result[] = $temp;
 
             $this->write_to_access_log_file();
         }
