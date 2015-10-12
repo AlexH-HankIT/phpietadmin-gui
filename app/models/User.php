@@ -112,14 +112,14 @@ class User extends core\BaseModel {
 		}
     }
 
-    public function change($row, $value) {
+    public function change($value) {
 		if ($this->username !== false && $this->status !== false) {
-			$return = $this->database->update_phpietadmin_user($row, $value, $this->username);
+			$return = $this->database->updatePhpietadminUserPassword($value, $this->username);
 
 			if ($return != 0) {
-				$this->logging->log_action_result('The row ' . $row . ' was not changed', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
+				$this->logging->log_action_result('The password was not changed', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 			} else {
-				$this->logging->log_action_result('The row ' . $row . ' was successfully changed', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+				$this->logging->log_action_result('The password was successfully changed', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
 
 				// fetch up2date data
 				$this->data = $this->database->get_phpietadmin_user($this->username);
