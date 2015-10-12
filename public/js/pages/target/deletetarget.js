@@ -25,11 +25,12 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         text: 'Force needs the \'Delete acl\' option!'
                     });
                 } else {
+                    var url = '/phpietadmin/targets/configure/deletetarget';
+
                     $.ajax({
-                        url: '/phpietadmin/targets/configure/deletetarget',
+                        url: url,
                         data: {
                             "iqn": $('#target_selector').find("option:selected").val(),
-                            "delete_lun": $("input[name='lundeletion']:checked").val(),
                             "delete_acl": deleteacl,
                             "force": force
                         },
@@ -42,15 +43,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     type: 'success',
                                     text: data['message']
                                 }, function () {
-                                    window.location.reload();
+                                    mylibs.load_configure_target_body(url);
                                 });
                             } else {
                                 swal({
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
-                                }, function () {
-                                    window.location.reload();
                                 });
                             }
                         },
