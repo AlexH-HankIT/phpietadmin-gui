@@ -65,6 +65,7 @@ In version 0.6:
     - [x] Rewrite file parser for the iet files
     - [x] New session implementation
     - [x] Delete the "Detach/delete lun" functions
+    - [x] Prevent iqn and objects from having whitespaces
     - [ ] Write phpietadmin-cli
     - [ ] Database error log
     - [ ] Log also successful messages
@@ -83,7 +84,6 @@ In version 0.6:
         - [ ] Services
         - [ ] phpietadmin user
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
-    - [ ] Prevent iqn and objects from having whitespaces
     - [ ] Delete Services/Add menu (Allow only a few services)
 
 * Misc
