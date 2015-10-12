@@ -221,9 +221,8 @@ EOT;
 		return $this->return_last_error();
     }
 
-    public function update_phpietadmin_user($row, $value, $username) {
-		$query = $this->prepare('UPDATE phpietadmin_user SET :row = :value WHERE username = :username');
-		$query->bindValue('row', $row, SQLITE3_TEXT);
+    public function updatePhpietadminUserPassword($value, $username) {
+		$query = $this->prepare('UPDATE phpietadmin_user SET password = :value WHERE username = :username');
 		$query->bindValue('value', $value, SQLITE3_TEXT);
 		$query->bindValue('username', $username, SQLITE3_TEXT);
 		$query->execute();
