@@ -87,8 +87,8 @@ In version 0.6:
         - [x] Overview
         - [x] Stop/Reboot/Logout
         - [x] Objects
+        - [x] LVM
         - [ ] Database model
-        - [ ] LVM
         - [ ] Services
         - [ ] phpietadmin user
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)

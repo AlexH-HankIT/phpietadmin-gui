@@ -4,8 +4,12 @@ use phpietadmin\app\core;
 class Lvm extends core\BaseController {
     public function add() {
         if (isset($_POST['vg'], $_POST['name'], $_POST['size'])) {
-            $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['name']);
-            $lv->add_lv($_POST['size']);
+            $size = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_NUMBER_FLOAT);
+            $vg = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+            $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+
+            $lv = $this->model('lvm\lv\Lv', $vg, $name);
+            $lv->add_lv(floatval($size));
             echo json_encode($lv->logging->get_action_result());
         } else {
             $vgs = $this->model('lvm\vg\Vg', false);
@@ -34,15 +38,19 @@ class Lvm extends core\BaseController {
                 break;
             case 'extent':
                 if (isset($_POST['lv'], $_POST['vg'], $_POST['size'])) {
-                    $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
-                    $lv->extend_lv($_POST['size']);
+                    $size = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_NUMBER_FLOAT);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
+                    $lv->extend_lv($size);
 
                     // remap lun on target to update the size
                     if (isset($_POST['remap']) && $_POST['remap'] === true) {
                         $target = $this->model('target\Target', '');
 
                         // check if lv is a lun
-                        if ($target->is_lun($_POST['lv']) !== false) {
+                        if ($target->is_lun($lv_name) !== false) {
                             // get iqn somehow
                             // create target object with iqn
                             // detach and add lun
@@ -53,11 +61,14 @@ class Lvm extends core\BaseController {
 
                     echo json_encode($lv->logging->get_action_result());
                 } else if (isset($_POST['lv'], $_POST['vg'])) {
-                    $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
                     $data['lv'] = $lv->get_lv(false);
 
                     if ($data['lv'] !== false) {
-                        $vg = $this->model('lvm\vg\Vg', $_POST['vg']);
+                        $vg = $this->model('lvm\vg\Vg', $vg_name);
                         $data['vg'] = $vg->get_vg();
 
                         if ($data['vg'][0]['VFree'] <= 2) {
@@ -72,14 +83,21 @@ class Lvm extends core\BaseController {
                 break;
             case 'shrink':
                 if (isset($_POST['lv'], $_POST['vg'], $_POST['size'])) {
-                    $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
-                    $lv->reduce_lv($_POST['size']);
+                    $size = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
+                    $lv->reduce_lv($size);
                     echo json_encode($lv->logging->get_action_result());
                 } else if (isset($_POST['lv'], $_POST['vg'])) {
-                    $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
                     $data['lv'] = $lv->get_lv(false);
                     if ($data['lv'] !== false) {
-                        $vg = $this->model('lvm\vg\Vg', $_POST['vg']);
+                        $vg = $this->model('lvm\vg\Vg', $vg_name);
                         $data['vg'] = $vg->get_vg();
 
                         if ($data['lv'][0]['LSize'] <= 1) {
@@ -96,14 +114,21 @@ class Lvm extends core\BaseController {
                 if ($param2 !== false) {
                     if ($param2 === 'add') {
                         if (isset($_POST['lv'], $_POST['vg'], $_POST['size'])) {
-                            $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
-                            $lv->snapshot_lv($_POST['size']);
+                            $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+                            $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+                            $size = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
+
+                            $lv = $this->model('lvm\lv\Lv', $vg_name,$lv_name);
+                            $lv->snapshot_lv($size);
                             echo json_encode($lv->logging->get_action_result());
                         } else if (isset($_POST['lv'], $_POST['vg'])) {
-                            $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+                            $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+                            $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+
+                            $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
                             $data['lv'] = $lv->get_lv();
                             if ($data['lv'] !== false) {
-                                $vg = $this->model('lvm\vg\Vg', $_POST['vg']);
+                                $vg = $this->model('lvm\vg\Vg', $vg_name);
                                 $data['vg'] = $vg->get_vg();
                                 if (floatval($data['vg'][0]['VFree']) > 1.1) {
                                     $this->view('lvm/add_snapshot', $data);
@@ -116,11 +141,17 @@ class Lvm extends core\BaseController {
                         }
                     } else if ($param2 === 'delete') {
                         if (isset($_POST['vg'], $_POST['snapshot'])) {
-                            $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['snapshot']);
+                            $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+                            $snapshot_name = filter_input(INPUT_POST, 'snapshot', FILTER_SANITIZE_STRING);
+
+                            $lv = $this->model('lvm\lv\Lv', $vg_name, $snapshot_name);
                             $lv->remove_lv();
                             echo json_encode($lv->logging->get_action_result());
                         } else if (isset($_POST['lv'], $_POST['vg'])) {
-                            $lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+                            $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+                            $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+
+                            $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
                             $data['lv'] = $lv->get_snapshot();
 
                             if ($data['lv'] !== false) {
@@ -134,22 +165,35 @@ class Lvm extends core\BaseController {
                 break;
             case 'rename':
 				if (isset($_POST['lv'], $_POST['vg'], $_POST['name'])) {
-					$lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
-					$lv->rename_lv($_POST['name']);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+                    $new_name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+
+					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
+					$lv->rename_lv($new_name);
 					echo json_encode($lv->logging->get_action_result());
 				} else if (isset($_POST['lv'], $_POST['vg'])) {
-					$lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+
+					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
 					$data['lv'] = $lv->get_lv();
 					$this->view('lvm/rename', $data);
 				}
                 break;
             case 'delete':
 				if (isset($_POST['lv'], $_POST['vg'], $_POST['delete'])) {
-					$lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+
+					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
 					$lv->remove_lv();
 					echo json_encode($lv->logging->get_action_result());
 				} else if (isset($_POST['lv'], $_POST['vg'])) {
-					$lv = $this->model('lvm\lv\Lv', $_POST['vg'], $_POST['lv']);
+                    $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
+                    $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
+
+					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
 					$data['lv'] = $lv->get_lv();
 					$this->view('lvm/delete', $data);
 				}
