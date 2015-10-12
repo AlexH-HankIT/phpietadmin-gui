@@ -16,7 +16,6 @@ It should run just fine on any other linux distribution.
 
 ## Docs
 * https://github.com/MrCrankHank/phpietadmin/wiki/Installation-v05
-* https://github.com/MrCrankHank/phpietadmin/wiki/Update-v04-to-v05
 
 ## Screens
 https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
