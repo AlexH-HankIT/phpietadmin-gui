@@ -71,7 +71,7 @@ In version 0.6:
     - [x] Use bcrypt for storing passwords
     - [x] Prevent comments from being deleted, when editing a config file
     - [x] Rewrite file parser for the iet files
-    - [ ] New session implementation
+    - [x] New session implementation
     - [ ] Write phpietadmin-cli
     - [ ] Database error log
     - [ ] Log also successful messages
