@@ -1,1 +1,11 @@
-www-data ALL=NOPASSWD: /usr/sbin/service, /sbin/vgs, /sbin/pvs, /sbin/lvs, /usr/sbin/ietadm, /sbin/lvcreate, /sbin/lvremove, /sbin/lvextend, /sbin/lvreduce, /sbin/lvrename, /sbin/shutdown
+www-data ALL=NOPASSWD: /usr/sbin/service, \
+                       /sbin/vgs, \
+                       /sbin/pvs, \
+                       /sbin/lvs, \
+                       /usr/sbin/ietadm, \
+                       /sbin/lvcreate, \
+                       /sbin/lvremove, \
+                       /sbin/lvextend, \
+                       /sbin/lvreduce, \
+                       /sbin/lvrename, \
+                       /sbin/shutdown
