@@ -2,10 +2,6 @@
 use phpietadmin\app\core;
 
     class config extends core\BaseController {
-		public function vg() {
-			$this->view('config/vg');
-		}
-
 		/**
 		 *
 		 * Displays the phpietadmin user config menu
@@ -28,22 +24,27 @@ use phpietadmin\app\core;
 					break;
 				case 'delete':
 					if (isset($_POST['username'])) {
-						$user = $this->model('User', $_POST['username']);
+                        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+						$user = $this->model('User', $username);
 						$user->delete();
 						echo json_encode($user->logging->get_action_log());
 					}
 					break;
 				case 'add':
 					if (isset($_POST['username'], $_POST['password'])) {
-						$user = $this->model('User', $_POST['username']);
-						$user->add($_POST['password']);
+                        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+						$user = $this->model('User', $username);
+						$user->add($password);
 						echo json_encode($user->logging->get_action_log());
 					}
 					break;
 				case 'change':
 					if (isset($_POST['username'], $_POST['row'], $_POST['value'])) {
-						$user = $this->model('User', $_POST['username']);
-						$user->change($_POST['row'], $_POST['value']);
+                        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                        $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
+						$user = $this->model('User', $username);
+						$user->change($value);
 						echo json_encode($user->logging->get_action_log());
 					}
 					break;
@@ -77,8 +78,10 @@ use phpietadmin\app\core;
 
 		public function edit_config() {
 			if (isset($_POST['option'], $_POST['value'])) {
-				$config = $this->model('Config', $_POST['option']);
-				$config->change_config('value', $_POST['value']);
+                $option = filter_input(INPUT_POST, 'option', FILTER_SANITIZE_STRING);
+                $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
+				$config = $this->model('Config', $option);
+				$config->change_config('value', $value);
 				echo json_encode($config->logging->get_action_result());
 			}
 		}
