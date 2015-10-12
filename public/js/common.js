@@ -41,7 +41,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
             // check if server is alive
             var uiBlocked = false;
             var main_menu = $('#mainmenu');
-            var footer = $('#footer');
+            var footer = $('footer');
 
             setInterval(function () {
                 $.ajax({
@@ -50,7 +50,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                     url: '/phpietadmin/connection/check_server_online',
                     timeout: 1000,
                     success: function (data) {
-                        if (data === true) {
+                        if (Boolean(data)) {
+                            console.log("yeah");
                             if (uiBlocked === true) {
                                 uiBlocked = false;
                                 $.unblockUI();
@@ -59,23 +60,21 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
                             }
                         }
                     }, error: function (data) {
-                        if (data !== true) {
-                            if (uiBlocked === false) {
-                                uiBlocked = true;
-                                main_menu.hide();
-                                footer.hide();
+                        if (uiBlocked === false) {
+                            uiBlocked = true;
+                            main_menu.hide();
+                            footer.hide();
 
-                                $.blockUI({
-                                    message: $('#offlinemessage'),
-                                    css: {
-                                        border: 'none',
-                                        padding: '15px',
-                                        backgroundColor: '#222',
-                                        opacity: .5,
-                                        color: '#fff'
-                                    }
-                                });
-                            }
+                            $.blockUI({
+                                message: $('#offlinemessage'),
+                                css: {
+                                    border: 'none',
+                                    padding: '15px',
+                                    backgroundColor: '#222',
+                                    opacity: .5,
+                                    color: '#fff'
+                                }
+                            });
                         }
                     }
                 })
@@ -88,7 +87,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
 
             // Select active menu element, when page is loaded manually
             var path = window.location.pathname;
-            path = path.replace(/\/$/, "");
+            path = path.replace(/\/$/, '');
             path = decodeURIComponent(path);
 
             $('#main_menu_bar').find('a').each(function () {
