@@ -81,7 +81,7 @@ In version 0.6:
         - [ ] Config model
         - [ ] Dashboard
         - [ ] Overview
-        - [ ] Targets
+        - [x] Targets
         - [ ] Users
         - [ ] Objects
         - [ ] LVM
