@@ -85,12 +85,12 @@ In version 0.6:
         - [x] Config model
         - [x] Dashboard
         - [x] Overview
+        - [x] Stop/Reboot/Logout
         - [ ] Database model
         - [ ] Objects
         - [ ] LVM
         - [ ] Services
-        - [ ] PHPietadmin user/session menu
-        - [ ] Stop/Reboot/Logout
+        - [ ] phpietadmin user
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [ ] Prevent iqn and objects from having whitespaces
     - [ ] Delete Services/Add menu (Allow only a few services)
