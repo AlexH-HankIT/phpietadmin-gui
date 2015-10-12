@@ -43,7 +43,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     type: 'success',
                                     text: data['message']
                                 }, function () {
-                                    mylibs.load_configure_target_body(url);
+                                    return mylibs.load_workspace(url);
                                 });
                             } else {
                                 swal({
