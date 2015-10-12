@@ -1,11 +1,9 @@
 <?php namespace phpietadmin\app\controllers;
 use phpietadmin\app\core;
 
-    class config extends core\BaseController
-	{
+    class config extends core\BaseController {
 		public function vg() {
 			$this->view('config/vg');
-
 		}
 
 		/**
