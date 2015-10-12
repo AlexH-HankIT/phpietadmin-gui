@@ -51,7 +51,7 @@ class Config extends core\BaseModel {
     public function change_config($row, $value) {
         if ($this->status === true) {
             if ($this->data['type'] === 'file' || $this->data['type'] === 'bin' || $this->data['type'] === 'subin') {
-                if (file_exists($this->data['value'])) {
+                if (file_exists($value)) {
                     $return = $this->database->update_config($this->option, $value, $row);
                     if ($return != 0) {
                         $this->logging->log_action_result('The file path ' . $this->data['value'] . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
@@ -62,7 +62,7 @@ class Config extends core\BaseModel {
                     $this->logging->log_action_result('The file ' . $this->data['value'] . ' was not found!', array('result' => 1, 'code_type' => 'intern'), __METHOD__);
                 }
             } else if ($this->data['type'] === 'folder') {
-                if (is_dir($this->data['value'])) {
+                if (is_dir($value)) {
                     $return = $this->database->update_config($this->option, $value, $row);
                     if ($return != 0) {
                         $this->logging->log_action_result('The folder directory ' . $this->data['value'] . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
