@@ -187,7 +187,7 @@
         /**
          * @param $message string error/success message
          * @param $status string success/failure
-         * @param $type string login/logout/timeout_logout/first_login/override
+         * @param $type string login/logout/timeout_logout/first_login/override/check
          * @param $function string __METHOD__
          *
          */
