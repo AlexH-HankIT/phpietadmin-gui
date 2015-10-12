@@ -36,6 +36,7 @@ Take a look at the github releases for detailed information about the features.
     - [ ] Forced delete of a target does not work if a "ALL" acl is configured
     - [ ] Mousover to show passwords in /phpietadmin/ietusers does not work
     - [ ] Password generator qtip does not work in /phpietadmin/ietusers
+    - [ ] add_iqn_to_file() function might remove comments
 
 ## Roadmap
 In version 0.6:
@@ -72,6 +73,7 @@ In version 0.6:
     - [x] Prevent comments from being deleted, when editing a config file
     - [x] Rewrite file parser for the iet files
     - [x] New session implementation
+    - [x] Delete the "Detach/delete lun" functions
     - [ ] Write phpietadmin-cli
     - [ ] Database error log
     - [ ] Log also successful messages
@@ -92,7 +94,6 @@ In version 0.6:
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [ ] Prevent iqn and objects from having whitespaces
     - [ ] Delete Services/Add menu (Allow only a few services)
-    - [x] Delete the "Detach/delete lun" functions
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
