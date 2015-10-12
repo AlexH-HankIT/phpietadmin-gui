@@ -158,7 +158,7 @@ use phpietadmin\app\core;
                         }
                     }
                 } else if ($param1 == 'deletetarget') {
-                    if (isset($_POST['iqn'], $_POST['delete_acl'], $_POST['force'], $_POST['delete_lun'])) {
+                    if (isset($_POST['iqn'], $_POST['delete_acl'], $_POST['force'])) {
                         $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
 
                         $target = $this->model('target\Target', $iqn);
