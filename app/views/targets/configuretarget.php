@@ -50,8 +50,10 @@
 	<div id='configure_target_body_wrapper'></div>
 	<script>
 		require(['common'],function() {
-			require(['pages/target/configuretarget'],function(methods) {
-				methods.add_event_handler();
+			require(['pages/target/configuretarget', 'domReady'],function(methods, domReady) {
+                domReady(function () {
+				    methods.add_event_handler();
+			    });
 			});
 		});
 	</script>
