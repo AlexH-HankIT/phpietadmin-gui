@@ -79,12 +79,12 @@ In version 0.6:
     - [ ] Log also successful messages
     - [ ] Rework controller/models
         - [x] Targets
+        - [x] Users
+        - [x] User model
         - [ ] Database model
-        - [ ] User model
         - [ ] Config model
         - [ ] Dashboard
         - [ ] Overview
-        - [ ] Users
         - [ ] Objects
         - [ ] LVM
         - [ ] Services
@@ -121,6 +121,7 @@ In version 0.7:
     - [ ] Use unity testing
     - [ ] Replace all error codes with exceptions
     - [ ] Support "All" permission in ietd config files
+    - [ ] User Model: Delete user, develope better way to check if user is in use
 
 * In version 0.8:
     - [ ] Support for DRBD (show status)
