@@ -1,7 +1,7 @@
 {
   "version": [
     {"name": "phpietadmin"},
-    {"version_nr": "0.5.3"},
+    {"version_nr": "0.5.4"},
     {"downloadurl": "https://github.com/MrCrankHank/phpietadmin/archive/v0.5.3.zip"},
     {"release": "beta"}
   ]
