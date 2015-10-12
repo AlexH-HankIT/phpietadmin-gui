@@ -117,26 +117,23 @@
             }
 
             if ($data !== false && !is_int($data)) {
-                foreach ($data as $index => $acls) {
-                    for ($i=1; $i < count($acls); $i++) {
-                        $value = $this->database->get_object_by_value($acls[$i]);
+                for ($i = 1; $i < count($data); $i++) {
+                    $value = $this->database->get_object_by_value($data[$i]);
 
-                        if (isset($value) && !empty($value)) {
-                            $data[$index][$i] = array(
-                                'id' => $value['type_id'],
-                                'value' => $value['value'],
-                                'display_name' => $value['display_name'],
-                                'name' => $value['name'],
-                                'type' => $value['type']
-                            );
-                        } else {
-                            $data[$index][$i] = array(
-                                'value' => $acls[$i]
-                            );
-                        }
+                    if (isset($value) && !empty($value)) {
+                        $data[$i] = array(
+                            'id' => $value['type_id'],
+                            'value' => $value['value'],
+                            'display_name' => $value['display_name'],
+                            'name' => $value['name'],
+                            'type' => $value['type']
+                        );
+                    } else {
+                        $data[$i] = array(
+                            'value' => $data[$i]
+                        );
                     }
                 }
-
                 return $data;
             } else {
                 return false;

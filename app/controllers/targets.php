@@ -250,37 +250,34 @@ use phpietadmin\app\core;
 
 						// display body here
 						$target = $this->model('target\Target', $iqn);
-						$data = $target->get_acls();
 
-						if ($data !== false) {
-							if ($param2 == 'targets') {
-								if (isset($data['targets'])) {
-									// delete the iqn
-									unset($data['targets'][0]);
-									// display target type
-									$this->view('targets/delete_rule', $data['targets']);
-								} else {
-									$this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning'));
-								}
-							} else if ($param2 == 'initiators') {
-								if (isset($data['initiators'])) {
-									// delete the iqn
-									unset($data['initiators'][0]);
-									// display initiator acl as default
-									$this->view('targets/delete_rule', $data['initiators']);
-								} else {
-									$this->view('message', array('message' => 'Error - No initiator acl available!', 'type' => 'warning'));
-								}
-							} else if ($param2 == 'control') {
-								// display control
-								$this->view('targets/delete_rule_control');
-							} else {
-								http_response_code(404);
-								echo 'Invalid url';
-							}
-						} else {
-							$this->view('message', array('message' => 'Error - No acl available!', 'type' => 'warning'));
-						}
+                        if ($param2 == 'targets') {
+                            $data = $target->get_acls('target');
+                            if ($data !== false) {
+                                // delete the iqn
+                                unset($data[0]);
+                                // display target type
+                                $this->view('targets/delete_rule', $data);
+                            } else {
+                                $this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning'));
+                            }
+                        } else if ($param2 == 'initiators') {
+                            $data = $target->get_acls('initiator');
+                            if ($data !== false) {
+                                // delete the iqn
+                                unset($data[0]);
+                                // display initiator acl as default
+                                $this->view('targets/delete_rule', $data);
+                            } else {
+                                $this->view('message', array('message' => 'Error - No initiator acl available!', 'type' => 'warning'));
+                            }
+                        } else if ($param2 == 'control') {
+                            // display control
+                            $this->view('targets/delete_rule_control');
+                        } else {
+                            http_response_code(404);
+                            echo 'Invalid url';
+                        }
 					}
                 } else {
                     http_response_code(404);
