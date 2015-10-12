@@ -10,17 +10,21 @@ use phpietadmin\app\core;
 
         public function add() {
             if (isset($_POST['type'], $_POST['name'], $_POST['value']) && !$this->base_model->std->mempty($_POST['type'], $_POST['name'], $_POST['value'])) {
+                $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+                $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+                $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
+
                 // delete whitespaces from the user input
-                $_POST['type'] = str_replace(' ', '', $_POST['type']);
-                $_POST['name'] = str_replace(' ', '', $_POST['name']);
-                $_POST['value'] = str_replace(' ', '', $_POST['value']);
+                $type = str_replace(' ', '', $type);
+                $name = str_replace(' ', '', $name);
+                $value = str_replace(' ', '', $value);
 
                 $data = $this->base_model->database->get_all_objects();
                 try {
                     if (is_array($data)) {
-                        if ($this->base_model->std->recursive_array_search($_POST['value'], $data) !== false) {
+                        if ($this->base_model->std->recursive_array_search($value, $data) !== false) {
                             throw new \exception('value');
-                        } else if($this->base_model->std->recursive_array_search($_POST['name'], $data) !== false) {
+                        } else if($this->base_model->std->recursive_array_search($name, $data) !== false) {
                             throw new \exception('name');
                         }
                     }
@@ -30,26 +34,25 @@ use phpietadmin\app\core;
                             'params' => array(
                                 0 => array(
                                     'name' => 'type',
-                                    'value' => str_replace(' ', '', $_POST['type']),
+                                    'value' => str_replace(' ', '', $type),
                                     'type' => SQLITE3_TEXT
                                 ),
                                 1 => array(
                                     'name' => 'name',
-                                    'value' => str_replace(' ', '', $_POST['name']),
+                                    'value' => str_replace(' ', '', $name),
                                     'type' => SQLITE3_TEXT
                                 ),
                                 2 => array(
                                     'name' => 'value',
-                                    'value' => str_replace(' ', '', $_POST['value']),
+                                    'value' => str_replace(' ', '', $value),
                                     'type' => SQLITE3_TEXT
                                 )
                             )
                         )
                     );
 
-
                     //if ($this->base_model->database->add_object($_POST['type'], $_POST['name'], $_POST['value']) != 0) {
-                    if ($return != 0) {
+                    if ($return !== 0) {
                         echo json_encode(array('code' => 6, 'message' => 'DB error'));
                     } else {
                         echo json_encode(array('code' => 0, 'message' => 'Success'));
@@ -63,12 +66,14 @@ use phpietadmin\app\core;
 
         public function delete() {
             if (!empty($_POST['id'])) {
+                $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
                 $return = $this->base_model->database->change(array(
                         'query' => 'DELETE FROM phpietadmin_object where id=:id',
                         'params' => array(
                             0 => array(
                                 'name' => 'id',
-                                'value' => intval($_POST['id']),
+                                'value' => intval($id),
                                 'type' => SQLITE3_INTEGER
                             )
                         )

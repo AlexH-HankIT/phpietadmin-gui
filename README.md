@@ -86,8 +86,8 @@ In version 0.6:
         - [x] Dashboard
         - [x] Overview
         - [x] Stop/Reboot/Logout
+        - [x] Objects
         - [ ] Database model
-        - [ ] Objects
         - [ ] LVM
         - [ ] Services
         - [ ] phpietadmin user
