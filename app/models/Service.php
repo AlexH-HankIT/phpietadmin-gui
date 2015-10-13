@@ -42,7 +42,7 @@
                     )
                 );
 
-				if ($return == 0) {
+				if ($return === 0) {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was added!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 				} else {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was not added!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
@@ -66,7 +66,7 @@
                     )
                 );
 
-				if ($return == 0) {
+				if ($return === 0) {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was deleted!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 				} else {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was not deleted!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
@@ -95,7 +95,7 @@
                     )
                 );
 
-				if ($return == 0) {
+				if ($return === 0) {
 					$this->logging->log_action_result('The service ' . $this->service_name . ' was renamed to ' . $new_service_name, array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					$this->service_name = $new_service_name;
 				} else {
@@ -108,7 +108,7 @@
 
 		public function change_in_database($param) {
 			if ($this->service_status === true) {
-				if ($param == 'enable') {
+				if ($param === 'enable') {
                     $return = $this->database->change(array(
                             'query' => 'UPDATE phpietadmin_service set enabled=:value where name = :name',
                             'params' => array(
@@ -125,12 +125,12 @@
                             )
                         )
                     );
-					if ($return == 0) {
+					if ($return === 0) {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was enabled!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					} else {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was not enabled!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					}
-				} else if ($param == 'disable') {
+				} else if ($param === 'disable') {
                     $return = $this->database->change(array(
                             'query' => 'UPDATE phpietadmin_service set enabled=:value where name = :name',
                             'params' => array(
@@ -147,7 +147,7 @@
                             )
                         )
                     );
-					if ($return == 0) {
+					if ($return === 0) {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was disabled!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					} else {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was not disabled!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
@@ -170,7 +170,7 @@
 					} else {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was not started!', $return, __METHOD__);
 					}
-				} else if ($param == 'stop') {
+				} else if ($param === 'stop') {
 					$this->logging->log_debug_result($this->service_bin . ' ' . $this->service_name . ' stop', __METHOD__, 'exec()');
 					$return = $this->std->exec_and_return($this->service_bin . ' ' . $this->service_name . ' stop');
 					if ($return['result'] === 0) {
@@ -178,7 +178,7 @@
 					} else {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was not stopped!', $return, __METHOD__);
 					}
-				} else if ($param == 'restart') {
+				} else if ($param === 'restart') {
 					$this->logging->log_debug_result($this->service_bin . ' ' . $this->service_name . ' restart', __METHOD__, 'exec()');
 					$return = $this->std->exec_and_return($this->service_bin . ' ' . $this->service_name . ' restart');
 					if ($return['result'] === 0) {
@@ -186,7 +186,7 @@
 					} else {
 						$this->logging->log_action_result('The service ' . $this->service_name . ' was not restarted!', $return, __METHOD__);
 					}
-				} else if ($param == 'status') {
+				} else if ($param === 'status') {
 					$this->logging->log_debug_result($this->service_bin . ' ' . $this->service_name . ' status', __METHOD__, 'exec()');
 					$return = $this->std->exec_and_return($this->service_bin . ' ' . $this->service_name . ' status');
 
