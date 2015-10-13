@@ -23,7 +23,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 ## Features
 Take a look at the github releases for detailed information about the features.
 
-## Bugs in 0.5.4:
+## Bugs in 0.5.5:
     - [ ] Forced delete of a target does not work if a "ALL" acl is configured
     - [ ] Mousover to show passwords in /phpietadmin/ietusers does not work
     - [ ] Password generator qtip does not work in /phpietadmin/ietusers
