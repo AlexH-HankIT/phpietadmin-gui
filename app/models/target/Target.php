@@ -315,7 +315,6 @@
          *
          * @param   bool $force delete the target even if initiators are connected (requires $deleteacl = true)
          * @param   bool $delete_acl delete all acls from the ietd files regarding this target
-         * @param   bool $delete_lun if set to true, all luns of the target will be deleted (data will be lost, works only for lvm), if set to false the luns will be detached
          * @return  bool|array
          *
          */
