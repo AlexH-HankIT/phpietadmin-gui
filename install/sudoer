@@ -7,9 +7,9 @@ www-data ALL=NOPASSWD: /sbin/vgs, \
                        /sbin/lvextend, \
                        /sbin/lvreduce, \
                        /sbin/lvrename, \
-                       /sbin/shutdown \
-                       /usr/sbin/service cron * \
-                       /usr/sbin/service ssh * \
-                       /usr/sbin/service iscsitarget * \
-                       /usr/sbin/service rsyslog * \
-                       /usr/sbin/service apache2
+                       /sbin/shutdown, \
+                       /usr/sbin/service cron *, \
+                       /usr/sbin/service ssh *, \
+                       /usr/sbin/service iscsitarget *, \
+                       /usr/sbin/service rsyslog *, \
+                       /usr/sbin/service apache2 *
