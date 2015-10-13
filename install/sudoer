@@ -1,5 +1,4 @@
-www-data ALL=NOPASSWD: /usr/sbin/service, \
-                       /sbin/vgs, \
+www-data ALL=NOPASSWD: /sbin/vgs, \
                        /sbin/pvs, \
                        /sbin/lvs, \
                        /usr/sbin/ietadm, \
@@ -8,4 +7,9 @@ www-data ALL=NOPASSWD: /usr/sbin/service, \
                        /sbin/lvextend, \
                        /sbin/lvreduce, \
                        /sbin/lvrename, \
-                       /sbin/shutdown
+                       /sbin/shutdown \
+                       /usr/sbin/service cron * \
+                       /usr/sbin/service ssh * \
+                       /usr/sbin/service iscsitarget * \
+                       /usr/sbin/service rsyslog * \
+                       /usr/sbin/service apache2
