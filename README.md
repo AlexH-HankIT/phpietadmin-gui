@@ -83,6 +83,7 @@ In version 0.6:
         - [ ] phpietadmin user
     - [ ] Database error log
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
+    - [ ] Create backup before editing a config file
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
