@@ -66,7 +66,6 @@ In version 0.6:
     - [x] New session implementation
     - [x] Delete the "Detach/delete lun" functions
     - [x] Prevent iqn and objects from having whitespaces
-    - [ ] Database error log
     - [x] Log also successful messages
     - [ ] Rework controller/models
         - [x] Targets
@@ -82,6 +81,7 @@ In version 0.6:
         - [x] Services
         - [ ] Database model
         - [ ] phpietadmin user
+    - [ ] Database error log
     - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
 
 * Misc
