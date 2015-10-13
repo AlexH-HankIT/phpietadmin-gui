@@ -32,6 +32,8 @@ Take a look at the github releases for detailed information about the features.
     - [ ] LVM/Add logical volume: When a letter is entered it displays NaN (it should automatically switch to the lowest)
     - [ ] Can't add logical volumes
     - [ ] Can't extend logical volume ("The size cannot be smaller or equal!")
+    - [ ] Bootstrap table jumbs back to top, if a nested table is displayed
+    - [ ] JavaScript problems in ietusers menu
 
 ## Roadmap
 In version 0.6:
@@ -54,6 +56,7 @@ In version 0.6:
     - [x] Rework the javascript code
     - [x] Select all checkbox
     - [ ] Release "compressed" javascript files
+    - [ ] Searchable table for overview menu
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
