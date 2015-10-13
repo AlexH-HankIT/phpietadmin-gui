@@ -18,15 +18,15 @@
                     </tr>
                     </thead>
                     <tbody id='addservicetablebody'>
-                        <?php foreach ($data as $row) { ?>
-                            <tr>
-                                <td class='col-md-2'><input class='serviceenabled' type='checkbox' <?php if ($row['enabled'] == 1) echo 'checked' ?>> <span class='label bestaetigung label-success serviceenabledspan'>Success</span></td>
-                                <td class='col-md-8'><input class='serviceinput' type='text' value="<?php echo htmlspecialchars($row['name']) ?>" disabled> <span class='label bestaetigung label-success serviceinputspan'>Success</span></td>
-                                <td><input class='serviceinputoldvalue' type='text' value="<?php echo htmlspecialchars($row['name']) ?>" hidden></td>
-                                <td class='col-md-1'><a class='editservice' href='#'><span class='glyphicon glyphicon-pencil glyphicon-20'></span></a></td>
-                                <td class='col-md-1'><a class='deleteservice' href='#'><span class='glyphicon glyphicon-trash glyphicon-20'></span></a></td>
-                            </tr>
-                        <?php } ?>
+                    <?php foreach ($data as $row) { ?>
+                        <tr>
+                            <td class='col-md-2'><input class='serviceenabled' type='checkbox' <?php if ($row['enabled'] == 1) echo 'checked' ?>> <span class='label bestaetigung label-success serviceenabledspan'>Success</span></td>
+                            <td class='col-md-8'><input class='serviceinput' type='text' value="<?php echo htmlspecialchars($row['name']) ?>" disabled> <span class='label bestaetigung label-success serviceinputspan'>Success</span></td>
+                            <td><input class='serviceinputoldvalue' type='text' value="<?php echo htmlspecialchars($row['name']) ?>" hidden></td>
+                            <td class='col-md-1'><a class='editservice' href='#'><span class='glyphicon glyphicon-pencil glyphicon-20'></span></a></td>
+                            <td class='col-md-1'><a class='deleteservice' href='#'><span class='glyphicon glyphicon-trash glyphicon-20'></span></a></td>
+                        </tr>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>
