@@ -270,10 +270,8 @@ EOT;
     public function get_object_types() {
         $query = $this->query('select value from phpietadmin_object_type');
 
-        $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_NUM)) {
-            $types[$counter] = $result;
-            $counter++;
+            $types[] = $result;
         }
         return $types;
     }
