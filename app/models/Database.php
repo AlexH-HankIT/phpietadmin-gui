@@ -343,10 +343,8 @@ EOT;
         $query = $this->prepare('select phpietadmin_object.id as objectid, phpietadmin_object.name as name, phpietadmin_object.value, phpietadmin_object_type.display_name as type from phpietadmin_object, phpietadmin_object_type where phpietadmin_object.type_id=phpietadmin_object_type.type_id');
         $query = $query->execute();
 
-        $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
-            $data[$counter] = $result;
-            $counter++;
+            $data[] = $result;
         }
 
         if (!empty($data)) {
@@ -368,10 +366,8 @@ EOT;
         $query = $this->prepare('SELECT id, username, password FROM phpietadmin_iet_user');
         $query = $query->execute();
 
-        $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
-            $data[$counter] = $result;
-            $counter++;
+            $data[] = $result;
         }
 
         if (!empty($data)) {
@@ -458,20 +454,16 @@ EOT;
             $query = $this->prepare('SELECT username from phpietadmin_iet_user');
             $query = $query->execute();
 
-            $counter = 0;
             while ($result = $query->fetchArray(SQLITE3_NUM)) {
-                $data[$counter] = $result[0];
-                $counter++;
+                $data[] = $result[0];
             }
 
         } else {
             $query = $this->prepare('SELECT id, username from phpietadmin_iet_user');
             $query = $query->execute();
 
-            $counter = 0;
             while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
-                $data[$counter] = $result;
-                $counter++;
+                $data[] = $result;
             }
         }
 
@@ -502,10 +494,8 @@ EOT;
 
         $query = $query->execute();
 
-        $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
-            $data[$counter] = $result;
-            $counter++;
+            $data[] = $result;
         }
 
         if (empty($data)) {
@@ -527,10 +517,8 @@ EOT;
         $query = $this->prepare('SELECT option, defaultvalue, type, state, chars, othervalue1 FROM phpietadmin_iet_setting');
         $query = $query->execute();
 
-        $counter = 0;
         while ($result = $query->fetchArray(SQLITE3_ASSOC)) {
-            $data[$counter] = $result;
-            $counter++;
+            $data[] = $result;
         }
 
         if (empty($data)) {
