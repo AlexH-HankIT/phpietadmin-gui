@@ -35,6 +35,7 @@ Take a look at the github releases for detailed information about the features.
     - [ ] Bootstrap table jumbs back to top, if a nested table is displayed
     - [ ] JavaScript problems in ietusers menu
     - [ ] Remove session id from log
+    - [ ] Objects can be added multiple times
 
 ## Roadmap
 In version 0.6:
