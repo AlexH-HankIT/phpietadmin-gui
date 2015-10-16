@@ -114,6 +114,7 @@ In version 0.7:
     - [ ] Improve configure target settings menu
     - [ ] Improve nested table row handling
     - [ ] Add target and lvm name to url
+    - [ ] Overview/Logical volumes VG selector
 
 * Backend
     - [ ] Write process class to execute commands in the background (+ jwindow)
