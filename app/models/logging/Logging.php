@@ -55,7 +55,7 @@
 
 					// handle call via webserver and cli
 					if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
-						$line = time() . ' ' . $_SESSION['username'] . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->access_result[$key]['message'] . '" ' . $this->access_result[$key]['status'] . ' ' . $this->access_result[$key]['type'] . ' ' . $this->access_result[$key]['method'] . "\n";
+						$line = time() . ' ' . $_SESSION['username'] . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" "' . $this->access_result[$key]['message'] . '" ' . $this->access_result[$key]['status'] . ' ' . $this->access_result[$key]['type'] . ' ' . $this->access_result[$key]['method'] . "\n";
 					} else {
 						$line = time() .  ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['status'] . ' ' . $this->action_result[$key]['type'] . ' ' . $this->action_result[$key]['method'] . "\n";
 					}
@@ -76,7 +76,7 @@
                         if (isset($this->debug_result[$key]['message'])) {
                             $line = time() . ' "' . $this->debug_result[$key]['message'] . "\"\n" . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' '  . "\n" . $this->debug_result[$key]['trace'];
                         } else {
-                            $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' ' . "\n" . $this->debug_result[$key]['trace'];
+                            $line = time() . ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '"' . "\n" . $this->debug_result[$key]['trace'];
                         }
 					} else {
                         if (isset($this->debug_result[$key]['message'])) {
@@ -105,7 +105,7 @@
 
 					// handle call via webserver and cli
 					if (is_array($_SERVER) && isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT'])) {
-						$line = time() .  ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" ' . session_id() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
+						$line = time() .  ' ' . $_SERVER['REMOTE_ADDR'] . ' "' . $_SERVER['HTTP_USER_AGENT'] . '" "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
 					} else {
 						$line = time() . ' "' . $this->action_result[$key]['message'] . '" ' . $this->action_result[$key]['code_type'] . ' ' . $this->action_result[$key]['code'] . ' ' . $this->action_result[$key]['method'] . "\n";
 					}
