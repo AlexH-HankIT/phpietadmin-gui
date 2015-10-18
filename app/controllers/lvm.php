@@ -4,7 +4,7 @@ use phpietadmin\app\core;
 class Lvm extends core\BaseController {
     public function add() {
         if (isset($_POST['vg'], $_POST['name'], $_POST['size'])) {
-            $size = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_NUMBER_FLOAT);
+            $size = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
             $vg = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
 
@@ -38,7 +38,7 @@ class Lvm extends core\BaseController {
                 break;
             case 'extent':
                 if (isset($_POST['lv'], $_POST['vg'], $_POST['size'])) {
-                    $size = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_NUMBER_FLOAT);
+                    $size = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
                     $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
                     $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
 
