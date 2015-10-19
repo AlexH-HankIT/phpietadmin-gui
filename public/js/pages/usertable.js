@@ -4,16 +4,10 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
     return methods = {
         add_event_handler_passwordfield: function () {
             // show/hide password on mouseover
-
-            var $passwordfield = $('.passwordfield');
-            var $placeholder = $(this).find('.passwordfieldplaceholder');
-
-            $passwordfield.once('mouseover', function () {
-                $placeholder.hide().find('.password').show();
-            });
-
-            $passwordfield.once('mouseout', function () {
-                $placeholder.show().find('.password').hide();
+            $('.passwordfield').once('mouseout mouseover', function () {
+                var $this = $(this);
+                $this.find('.passwordfieldplaceholder').toggle();
+                $this.find('.password').toggle();
             });
         },
         enable_filter_table_plugin: function () {
@@ -21,7 +15,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             $('.searchabletable').filterTable({minRows: 0});
         },
         add_event_handler_deleteuserrow: function () {
-            $('.deleteuserrow').once('click', function () {
+            $('#workspace').once('click', '.deleteuserrow', function () {
                 var $this_row = $(this).closest('tr');
 
                 if ($this_row.hasClass('newrow')) {
@@ -34,7 +28,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                             showCancelButton: true,
                             confirmButtonColor: '#DD6B55',
                             confirmButtonText: 'Yes, delete it!',
-                            closeOnConfirm: false
+                            closeOnConfirm: true
                         },
                         function () {
                             $.ajax({
@@ -46,13 +40,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                 type: 'post',
                                 success: function (data) {
                                     if (data['code'] === 0) {
-                                        swal({
-                                            title: 'Success',
-                                            type: 'success',
-                                            text: data['message']
-                                        }, function () {
                                             return mylibs.load_workspace('/phpietadmin/ietusers');
-                                        });
                                     } else {
                                         swal({
                                             title: 'Error',
@@ -75,35 +63,25 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_adduserrowbutton: function () {
+            var $workspace = $('#workspace');
+
             $('#adduserrowbutton').once('click', function () {
                 // hide add button
                 $(this).hide();
 
                 // add click event for password generator
-                $('#addusertablebody').once('click', '.generate_pw', function () {
+                $workspace.once('click', '.generate_pw', function () {
                     $('.password').val(mylibs.generatePassword());
                 });
 
-                $('.generate_pw').qtip({
-                    content: {
-                        text: 'An sixteen char password containing upper and lower case letters and digits will be generated.' +
-                        'Note: Passwords for discovery users can be at most 12 chars long!'
-                    },
-                    show: 'mouseover',
-                    hide: 'mouseout',
-                    style: {
-                        classes: 'qtip-youtube'
-                    }
-                });
-
-                $('.password').once('focus', function () {
+                $workspace.once('focus', '.password', function () {
                     var $selpassword = $('.password');
                     if ($selpassword.hasClass('focusedInputerror')) {
                         $selpassword.removeClass('focusedInputerror');
                     }
                 });
 
-                $('.username').once('focus', function () {
+                $workspace.once('focus', '.username', function () {
                     var $selusername = $('.username');
                     if ($selusername.hasClass('focusedInputerror')) {
                         $selusername.removeClass('focusedInputerror');
@@ -146,11 +124,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                 if (data['code'] === 0) {
                                     return mylibs.load_workspace('/phpietadmin/ietusers');
                                 } else {
-                                    swal({
-                                        title: 'Error',
-                                        type: 'error',
-                                        text: data['message']
-                                    });
+                                    $selusername.addClass('focusedInputerror');
+                                    $selusernameconfirm.addClass('label-danger').text(data['message']).show(500).delay(2000).hide(0);
                                 }
                             },
                             error: function () {

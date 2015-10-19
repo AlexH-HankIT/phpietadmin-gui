@@ -28,12 +28,12 @@ Take a look at the github releases for detailed information about the features.
     - [x] Can't extend logical volume ("The size cannot be smaller or equal!")
     - [x] Remove session id from log
     - [x] Objects can be added multiple times
+    - [x] JavaScript problems in ietusers menu
     - [ ] Forced delete of a target does not work if a "ALL" acl is configured
     - [ ] add_iqn_to_file() function might remove comments
     - [ ] Wrong success message when deleting a target + page is empty afterwards
     - [ ] LVM/Add logical volume: When a letter is entered it displays NaN (it should automatically switch to the lowest)
     - [ ] Bootstrap table jumbs back to top, if a nested table is displayed
-    - [ ] JavaScript problems in ietusers menu
 
 ## Roadmap
 In version 0.6:
