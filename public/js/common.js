@@ -16,7 +16,8 @@ requirejs.config({
         once: 'lib/once',
         bootstraptable: 'lib/bootstrap-table',
         touchspin: 'lib/jquery.bootstrap-touchspin.min.amd',
-        domReady: 'lib/domReady.min'
+        domReady: 'lib/domReady.min',
+        pingjs: 'lib/pingjs.min.amd'
     },
     shim: {
         jqueryui: {
@@ -30,7 +31,7 @@ requirejs.config({
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function ($, qtip, filterTable, mylibs, swal) {
+define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function ($, qtip, filterTable, mylibs, swal, pingjs) {
     var methods;
 
     return methods = {
@@ -44,39 +45,30 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'bootstrap', 'b
             var footer = $('footer');
 
             setInterval(function () {
-                $.ajax({
-                    type: 'post',
-                    cache: false,
-                    url: '/phpietadmin/connection/check_server_online',
-                    timeout: 1000,
-                    success: function (data) {
-                        if (Boolean(data)) {
-                            if (uiBlocked === true) {
-                                uiBlocked = false;
-                                $.unblockUI();
-                                main_menu.show();
-                                footer.show();
-                            }
-                        }
-                    }, error: function (data) {
-                        if (uiBlocked === false) {
-                            uiBlocked = true;
-                            main_menu.hide();
-                            footer.hide();
-
-                            $.blockUI({
-                                message: $('#offlinemessage'),
-                                css: {
-                                    border: 'none',
-                                    padding: '15px',
-                                    backgroundColor: '#222',
-                                    opacity: .5,
-                                    color: '#fff'
-                                }
-                            });
-                        }
+                pingjs.ping('/phpietadmin/connection/check_server_online', 0.3).then(function(delta) {
+                    if (uiBlocked === true) {
+                        uiBlocked = false;
+                        $.unblockUI();
+                        main_menu.show();
+                        footer.show();
                     }
-                })
+                }).catch(function() {
+                    if (uiBlocked === false) {
+                        uiBlocked = true;
+                        main_menu.hide();
+                        footer.hide();
+                        $.blockUI({
+                            message: $('#offlinemessage'),
+                            css: {
+                                border: 'none',
+                                padding: '15px',
+                                backgroundColor: '#222',
+                                opacity: .5,
+                                color: '#fff'
+                            }
+                        });
+                    }
+                });
             }, 2000);
 
             // Updates footer in case ietd is stopped or started
