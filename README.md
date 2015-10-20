@@ -54,7 +54,6 @@ In version 0.6:
     - [x] Rework the javascript code
     - [x] Select all checkbox
     - [ ] Release "compressed" javascript files
-    - [ ] Searchable table for overview menu
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
@@ -113,6 +112,7 @@ In version 0.7:
     - [ ] Add target and lvm name to url
     - [ ] Overview/Logical volumes VG selector
     - [ ] Add "Edit file directly" option
+    - [ ] Searchable table for overview menu
 
 * Backend
     - [ ] Write process class to execute commands in the background (+ jwindow)
