@@ -154,7 +154,7 @@
 
             if ($test === false) {
                 // Write back
-                if (file_put_contents($filename, $data) !== false) {
+                if (file_put_contents($filename, $data, LOCK_EX) !== false) {
                     return 0;
                 } else {
                     return 6;
