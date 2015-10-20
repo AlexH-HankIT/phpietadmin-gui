@@ -160,13 +160,11 @@ use phpietadmin\app\core;
                 } else if ($param1 == 'deletetarget') {
                     if (isset($_POST['iqn'], $_POST['delete_acl'], $_POST['force'])) {
                         $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
-
                         $target = $this->model('target\Target', $iqn);
                         $target->delete_target(boolval($_POST['force']), boolval($_POST['delete_acl']));
                         echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
                         $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
-
                         $target = $this->model('target\Target', $iqn);
                         $this->view('targets/delete_target', $target->return_target_data());
                     }
