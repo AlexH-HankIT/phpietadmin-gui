@@ -29,9 +29,9 @@ Take a look at the github releases for detailed information about the features.
     - [x] Remove session id from log
     - [x] Objects can be added multiple times
     - [x] JavaScript problems in ietusers menu
+    - [x] Wrong success message when deleting a target + page is empty afterwards
     - [ ] Forced delete of a target does not work if a "ALL" acl is configured
     - [ ] add_iqn_to_file() function might remove comments
-    - [ ] Wrong success message when deleting a target + page is empty afterwards
     - [ ] LVM/Add logical volume: When a letter is entered it displays NaN (it should automatically switch to the lowest)
     - [ ] Bootstrap table jumbs back to top, if a nested table is displayed
 

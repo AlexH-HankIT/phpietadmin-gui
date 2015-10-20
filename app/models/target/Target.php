@@ -334,7 +334,7 @@
                     if ($return !== 0) {
                         $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                     } else {
-                        $this->logging->log_action_result('The target ' . $this->iqn . ' was successfully deleted!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+                        $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . ' was successfully deleted!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
 
@@ -357,7 +357,9 @@
                     $return = $this->parse_file($this->database->get_config('ietd_init_allow')['value'], [$this, 'delete_iqn_from_allow_file'], array(), false, false);
 
                     if ($return !== 0) {
-                        $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . 'could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                        $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . ' could not be deleted!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                    } else {
+                        $this->logging->log_action_result('The initiators acls of the target ' . $this->iqn . ' was successfully deleted!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
             }
@@ -378,6 +380,8 @@
 
                     if ($return !== 0) {
                         $this->logging->log_action_result('Could not delete the target ' . $this->iqn . ' from the config file!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
+                    } else {
+                        $this->logging->log_action_result('The target ' . $this->iqn . ' was successfully deleted!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
                     }
                 }
             }

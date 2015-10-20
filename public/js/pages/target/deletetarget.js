@@ -25,10 +25,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         text: 'Force needs the \'Delete acl\' option!'
                     });
                 } else {
-                    var url = '/phpietadmin/targets/configure/deletetarget';
+                    var url = '/phpietadmin/targets/configure';
 
                     $.ajax({
-                        url: url,
+                        url: url + '/deletetarget',
                         data: {
                             "iqn": $('#target_selector').find("option:selected").val(),
                             "delete_acl": deleteacl,
