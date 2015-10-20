@@ -118,7 +118,7 @@
                         }
                     }
                 } else if ($callback_data_count > $file_keys_count) {
-                    // if there are more keys than values
+                    // if there are more values than keys
                     // the callback added something
                     // so we just add a index to the key array
                     // multiple keys are only hanlded in delete functions
