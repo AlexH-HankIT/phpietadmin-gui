@@ -23,14 +23,7 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 ## Features
 Take a look at the github releases for detailed information about the features.
 
-## Bugs in 0.5.5:
-    - [x] Can't add logical volumes
-    - [x] Can't extend logical volume ("The size cannot be smaller or equal!")
-    - [x] Remove session id from log
-    - [x] Objects can be added multiple times
-    - [x] JavaScript problems in ietusers menu
-    - [x] Wrong success message when deleting a target + page is empty afterwards
-    - [x] Forced delete of a target does not work if a "ALL" acl is configured
+## Bugs in 0.5.6:
     - [ ] add_iqn_to_file() function might remove comments
 
 ## Roadmap
