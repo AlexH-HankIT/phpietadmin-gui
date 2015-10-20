@@ -26,7 +26,7 @@
                     <div class="col-md-12">
                         <label>
                             <input id="force" type="checkbox" <?php if (isset($data['session'])) echo 'checked disabled' ?>> Force
-                        </label> (Delete even if in use, requires 'Delete acl')
+                        </label> <a href="#"><span id="icon_force" class="glyphicon glyphicon-question-sign glyphicon-20" aria-hidden="true"></span></a>
                     </div>
                 </div>
                 <div class="row top-buffer">
@@ -43,6 +43,7 @@
             require(['pages/target/deletetarget', 'domReady'], function (methods, domReady) {
                 domReady(function () {
                     methods.add_event_handler_deletetargetbutton();
+                    methods.add_qtip();
                 });
             });
         });

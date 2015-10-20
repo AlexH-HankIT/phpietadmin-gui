@@ -1,4 +1,4 @@
-define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
+define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
     var methods;
 
     return methods = {
@@ -61,6 +61,17 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             });
                         }
                     });
+                }
+            });
+        },
+        add_qtip: function() {
+            $('#icon_force').qtip({
+                content: {
+                    text: 'Delete target even if in use. Requires \'Delete acl\'. ' +
+                          'Does not work, if a \'ALL\' initiator acl is configured for this or all targets!'
+                },
+                style: {
+                    classes: 'qtip-youtube'
                 }
             });
         }

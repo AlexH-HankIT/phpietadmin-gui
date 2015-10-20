@@ -30,7 +30,7 @@ Take a look at the github releases for detailed information about the features.
     - [x] Objects can be added multiple times
     - [x] JavaScript problems in ietusers menu
     - [x] Wrong success message when deleting a target + page is empty afterwards
-    - [ ] Forced delete of a target does not work if a "ALL" acl is configured
+    - [x] Forced delete of a target does not work if a "ALL" acl is configured
     - [ ] add_iqn_to_file() function might remove comments
 
 ## Roadmap
