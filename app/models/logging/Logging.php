@@ -134,7 +134,6 @@
                 $this->action_result = [];
             }
 
-            // use array push, so we can save all messages
             // after a method is called, this array will contain a action log
             if (isset($return['status'])) {
                 $temp = array (
@@ -155,14 +154,8 @@
 
             $this->action_result[] = $temp;
 
-            // if there is an error write it to the log file
-            if ($return['result'] != 0) {
-                $this->write_to_action_log_file();
-            }
-
-            // the first message is always a success message
-            // right now, this function should only log errors
-            // so never log if the return code is 0
+            // writ to file
+            $this->write_to_action_log_file();
         }
 
         public function log_debug_result($message = false) {
@@ -218,7 +211,6 @@
         /**
          *
          * returns the result of the last time log_action_result() was called
-         * next time you should call log_action_result() with $reset = true, to delete old results
          *
          * @param   boolean $all by default this function only returns the last result, their could be multiple
          * @return  array|bool
