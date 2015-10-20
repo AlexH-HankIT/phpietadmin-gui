@@ -121,7 +121,7 @@
                     // if there are more values than keys
                     // the callback added something
                     // so we just add a index to the key array
-                    // multiple keys are only hanlded in delete functions
+                    // multiple keys are only handled in delete functions
                     // there is no function which adds multiple lines
                     $file_keys[] = max($file_keys) + 1;
                 }
