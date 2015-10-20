@@ -321,9 +321,6 @@
         public function delete_target($force, $delete_acl) {
             $this->check();
 
-            // get all data for $this->iqn
-            $this->get_target_data();
-
             // the force option must be used with the deleteacl option
             if ($force === true && $delete_acl === true) {
                 // delete the allow rules
