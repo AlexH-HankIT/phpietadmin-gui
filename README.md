@@ -120,7 +120,7 @@ In version 0.7:
     - [ ] Use unity testing
     - [ ] Replace all error codes with exceptions
     - [ ] Support "All" permission in ietd config files
-    - [ ] User Model: Delete user, develope better way to check if user is in use
+    - [ ] User Model: Delete user, develop better way to check if user is in use
     - [ ] Write phpietadmin-cli
 
 * In version 0.8:
