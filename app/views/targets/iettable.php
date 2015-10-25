@@ -93,10 +93,12 @@
     </div>
 
     <script>
-        require(['common'], function () {
-            require(['pages/iettable'], function (methods) {
-                methods.change_expand_row_button();
-            });
+		require(['common'], function () {
+			require(['pages/iettable', 'domReady'], function (methods, domReady) {
+				domReady(function () {
+					methods.change_expand_row_button();
+				});
+			});
         });
     </script>
 </div>
