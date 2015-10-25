@@ -611,10 +611,10 @@
                     $this->logging->log_action_result('The user ' . $userdata['username'] . ' could not be deleted from the daemon!', array('result' => $return, 'code_type' => 'intern'), __METHOD__);
                 } else {
                     if ($discovery === true) {
-                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_global_option_from_file'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, true);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_global_option_from_file'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, false);
                     } else {
                         // delete user from config file
-                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, true);
+                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array($type . ' ' . $userdata['username'] . ' ' . $userdata['password']), false, false);
                     }
 
                     if ($return !== 0) {
