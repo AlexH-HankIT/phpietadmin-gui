@@ -19,9 +19,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     $userdeletecheckbox.each(function () {
                         var $this = $(this);
                         var $this_row = $this.closest('tr');
+                        var url = '/phpietadmin/targets/configure/deleteuser';
 
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/deleteuser',
+                            url: url,
                             data: {
                                 'iqn': $('#target_selector').find('option:selected').val(),
                                 'id': $this_row.find('.id').text(),
@@ -31,16 +32,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             type: 'post',
                             success: function (data) {
                                 if (data['code'] === 0) {
-                                    swal({
-                                        title: 'Success',
-                                        type: 'success',
-                                        text: data['message']
-                                    }, function () {
-                                        $this_row.remove();
-                                        if ($('#delete_user_table_body').length === 1) {
-                                            $('#delete_user_panel').replaceWith('<div class="alert alert-warning" role="alert"><h3 align="center">Error - No users set for this target!</h3></div>');
-                                        }
-                                    });
+                                    return mylibs.load_configure_target_body(url);
                                 } else {
                                     swal({
                                         title: 'Error',
