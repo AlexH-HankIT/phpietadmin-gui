@@ -64,6 +64,7 @@ In version 0.6:
     - [x] Delete the "Detach/delete lun" functions
     - [x] Prevent iqn and objects from having whitespaces
     - [x] Log also successful messages
+    - [x] User Model: Delete user, develop better way to check if user is in use
     - [ ] Rework controller/models
         - [x] Targets
         - [x] Users
@@ -114,7 +115,6 @@ In version 0.7:
     - [ ] Use unity testing
     - [ ] Replace all error codes with exceptions
     - [ ] Support "All" permission in ietd config files
-    - [ ] User Model: Delete user, develop better way to check if user is in use
     - [ ] Write phpietadmin-cli
 
 * In version 0.8:

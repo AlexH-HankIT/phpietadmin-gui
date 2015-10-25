@@ -28,7 +28,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                             showCancelButton: true,
                             confirmButtonColor: '#DD6B55',
                             confirmButtonText: 'Yes, delete it!',
-                            closeOnConfirm: true
+                            closeOnConfirm: false
                         },
                         function () {
                             $.ajax({
@@ -40,7 +40,12 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                 type: 'post',
                                 success: function (data) {
                                     if (data['code'] === 0) {
-                                            return mylibs.load_workspace('/phpietadmin/ietusers');
+                                        swal({
+                                            title: 'Success',
+                                            type: 'success',
+                                            text: data['message']
+                                        });
+                                        return mylibs.load_workspace('/phpietadmin/ietusers');
                                     } else {
                                         swal({
                                             title: 'Error',

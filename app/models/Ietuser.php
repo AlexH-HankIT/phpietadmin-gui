@@ -51,12 +51,10 @@
             if ($this->username !== false) {
                 // don't delete user if it's in use
                 // because we loose the password and can't delete the line
-                // create a better function to check this
-                // if a user is commented, this will alert anyway...
-                $return[0] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file')['value'], 'IncomingUser ' . $this->username);
-                $return[1] = $this->std->check_if_file_contains_value($this->database->get_config('ietd_config_file')['value'], 'OutgoingUser ' . $this->username);
+				$targets = new target\Target(false);
+				$return = $targets->parse_file($this->database->get_config('ietd_config_file')['value'], [$this, 'checkUserInUse'], array(), true, false);
 
-                if ($return[0] === true || $return[1] === true) {
+                if ($return === true) {
                     $this->logging->log_action_result('The username ' . $this->username . ' is used by the iet daemon!', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
                 } else {
                     $return = $this->database->change(array(
@@ -81,6 +79,24 @@
                 $this->logging->log_action_result('Please instantiate the object with a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
             }
         }
+
+		public function checkUserInUse(array $file) {
+			$data = $this->database->get_user_by_name($this->username);
+
+			$key = array_search('IncomingUser ' . $this->username . ' ' . $data['password'], $file);
+
+			if($key === false) {
+				$key = array_search('OutogingUser ' . $this->username . ' ' . $data['password'], $file);
+
+				if($key === false) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				return true;
+			}
+		}
 
         protected function check_user_already_added_to_db() {
             $data = $this->database->get_all_usernames();
