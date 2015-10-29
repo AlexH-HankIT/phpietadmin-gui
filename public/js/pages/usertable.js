@@ -80,32 +80,24 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                 });
 
                 $workspace.once('focus', '.password', function () {
-                    var $selpassword = $('.password');
-                    if ($selpassword.hasClass('focusedInputerror')) {
-                        $selpassword.removeClass('focusedInputerror');
-                    }
+                    $('.password').removeClass('focusedInputerror');
                 });
 
                 $workspace.once('focus', '.username', function () {
-                    var $selusername = $('.username');
-                    if ($selusername.hasClass('focusedInputerror')) {
-                        $selusername.removeClass('focusedInputerror');
-                    }
+                    $('.username').removeClass('focusedInputerror');
                 });
 
                 $('#template').clone().prependTo('#addusertablebody').removeAttr('id hidden').addClass('newrow');
 
                 $('.saveuserrow').once('click', function () {
-                    var $this = $(this);
-
                     // Check if username and password isset
-                    var $selpassword = $this.closest('tr').find('.password');
-                    var selpasswordval = $selpassword.val();
-                    var $selpasswordconfirm = $selpassword.next('.bestaetigung');
-
-                    var $selusername = $this.closest('tr').find('.username');
-                    var selusernameval = $selusername.val();
-                    var $selusernameconfirm = $selusername.next('.bestaetigung');
+                    var $this = $(this),
+                        $selpassword = $this.closest('tr').find('.password'),
+                        selpasswordval = $selpassword.val(),
+                        $selpasswordconfirm = $selpassword.next('.bestaetigung'),
+                        $selusername = $this.closest('tr').find('.username'),
+                        selusernameval = $selusername.val(),
+                        $selusernameconfirm = $selusername.next('.bestaetigung');
 
                     if (selusernameval === '') {
                         $selusername.addClass('focusedInputerror');
