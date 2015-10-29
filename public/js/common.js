@@ -41,9 +41,10 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'boot
             mylibs.reloadfooter();
 
             // check if server is alive
-            var uiBlocked = false;
-            var main_menu = $('#mainmenu');
-            var footer = $('footer');
+            var uiBlocked = false,
+                main_menu = $('#mainmenu'),
+                footer = $('footer'),
+                path = window.location.pathname;
 
             setInterval(function () {
                 pingjs.ping('/phpietadmin/connection/check_server_online', 0.3).then(function(delta) {
@@ -78,7 +79,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'boot
             setInterval(mylibs.check_session_expired, (15000));
 
             // Select active menu element, when page is loaded manually
-            var path = window.location.pathname;
             path = path.replace(/\/$/, '');
             path = decodeURIComponent(path);
 
