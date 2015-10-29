@@ -89,9 +89,10 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'boot
         load_workspace_event_handler: function () {
             // load workspace and perform error handling
             $("#main_menu_bar").once("click", "a", function () {
-                var $this = $(this);
-                if ($this.attr('href') !== '/phpietadmin/auth/logout') {
-                    return mylibs.load_workspace($this.attr('href'), $this);
+                var $this = $(this),
+                    link = $this.attr('href');
+                if (link !== '/phpietadmin/auth/logout') {
+                    return mylibs.load_workspace(link, $this);
                 } else {
                     return true;
                 }
