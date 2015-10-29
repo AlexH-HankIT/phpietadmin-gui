@@ -37,9 +37,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'boot
 
     return methods = {
         common: function () {
-            // reload footer first time
-            mylibs.reloadfooter();
-
             // check if server is alive
             var uiBlocked = false,
                 main_menu = $('#mainmenu'),
