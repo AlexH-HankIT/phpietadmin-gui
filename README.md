@@ -24,7 +24,8 @@ https://github.com/MrCrankHank/phpietadmin/wiki/Screens-v05
 Take a look at the github releases for detailed information about the features.
 
 ## Bugs in 0.5.6:
-    - [ ] add_iqn_to_file() function might remove comments
+    - [ ] Parse function could overwrite comments
+    - [ ] The same object can be added multiple times to a iqn
 
 ## Roadmap
 In version 0.6:
