@@ -17,7 +17,8 @@ requirejs.config({
         bootstraptable: 'lib/bootstrap-table',
         touchspin: 'lib/jquery.bootstrap-touchspin.min.amd',
         domReady: 'lib/domReady.min',
-        pingjs: 'lib/pingjs.min.amd'
+        pingjs: 'lib/pingjs.min.amd',
+        nprogress: 'lib/nprogress'
     },
     shim: {
         jqueryui: {

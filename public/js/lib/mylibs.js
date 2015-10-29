@@ -1,4 +1,4 @@
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'bootstrap'], function($, qtip, filterTable, mylibs, swal, blockUI) {
+define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', 'bootstrap'], function($, qtip, filterTable, swal, blockUI, nprogress) {
     var methods;
     return methods = {
         reloadfooter: function() {
@@ -44,19 +44,13 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
             // Trennen von Netz-IP und Subnetmask
             net = net.split("/");
             // Netzwerk-IP
-            var netip = net[0];
-            // Subnetmask
-            var mask = net[1];
-            // Segmente aufteilen
-            var seg = netip.split("\.");
-            // Hostanteil
-            var hostanteil = 32 - mask;
-            // Hostanteil im letzten Segment
-            var hostanteilLetztesSegment = hostanteil % 8;
-            // Hosts im letzten Segment
-            var hostsLetztesSegment = Math.pow(2, hostanteilLetztesSegment);
-            // Auswahl Segment
-            var auswahlSeg = parseInt(mask / 8);
+            var netip = net[0],
+                mask = net[1],
+                seg = netip.split("\."),
+                hostanteil = 32 - mask,
+                hostanteilLetztesSegment = hostanteil % 8,
+                hostsLetztesSegment = Math.pow(2, hostanteilLetztesSegment),
+                auswahlSeg = parseInt(mask / 8);
 
             if (seg[auswahlSeg] % hostsLetztesSegment == 0) {
                 // Alle Segmente hinter der Mask muessen Null sein
@@ -67,8 +61,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                     }
                 }
                 return allNull;
-            }
-            else {
+            } else {
                 return false;
             }
         },
@@ -82,21 +75,15 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
             return retVal;
         },
         load_configure_target_body: function(link, clicked) {
-            var ajaxloader = $('#ajaxloader');
-            var ajax_error_sign = $('#ajax_error_sign');
-            var iqn = $('#target_selector').find("option:selected").val();
-
             $('#configure_target_body').remove();
-
-            ajax_error_sign.hide();
-            ajaxloader.show();
+            nprogress.start();
 
             if (clicked !== undefined && clicked != '') {
                 $('#configure_target_menu').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
 
-            $('#configure_target_body_wrapper').load(link, {iqn: iqn}, function (response, status) {
+            $('#configure_target_body_wrapper').load(link, {iqn: $('#target_selector').find("option:selected").val()}, function (response, status) {
                 if (status == 'error') {
                     $(this).html("<div id='configure_target_body'>" +
                     "<div class='container'>" +
@@ -107,32 +94,22 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                     "</div>" +
                     '</div>' +
                     '</div>');
-
-                    ajax_error_sign.show();
-                } else {
-                    ajaxloader.delay(10).hide(10);
                 }
+                nprogress.done();
             });
             return false;
         },
         load_lvm_target_body: function (link, clicked) {
-            var ajaxloader = $('#ajaxloader');
-            var ajax_error_sign = $('#ajax_error_sign');
             var logical_volume_selector_selected = $('#logical_volume_selector').find("option:selected");
-            var lv = logical_volume_selector_selected.attr('data-lv');
-            var vg = logical_volume_selector_selected.attr('data-vg');
-
             $('#configure_lvm_body').remove();
-
-            ajax_error_sign.hide();
-            ajaxloader.show();
+            nprogress.start();
 
             if (clicked !== undefined && clicked != '') {
                 $('#configure_lvm_menu').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
 
-            $('#configure_lvm_body_wrapper').load(link, {lv: lv, vg: vg}, function (response, status) {
+            $('#configure_lvm_body_wrapper').load(link, {lv: logical_volume_selector_selected.attr('data-lv'), vg: logical_volume_selector_selected.attr('data-vg')}, function (response, status) {
                 if (status == 'error') {
                     $(this).html("<div id='configure_lvm_body'>" +
                     "<div class='container'>" +
@@ -143,27 +120,14 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                     "</div>" +
                     '</div>' +
                     '</div>');
-
-                    ajax_error_sign.show();
-                } else {
-                    ajaxloader.delay(10).hide(10);
                 }
+                nprogress.done();
             });
             return false;
         },
         load_data: function(link) {
-            var ajax_loader = $('#ajaxloader');
-            var ajax_error_sign = $('#ajax_error_sign');
-            var data = $('#data');
-            var iqn = $('#target_selector').find("option:selected").val();
-
-            // clean div
-            data.html('');
-
-            ajax_error_sign.hide();
-            ajax_loader.show();
-
-            data.load(link, {iqn: iqn}, function (response, status) {
+            nprogress.start();
+            $('#data').html('').load(link, {iqn: $('#target_selector').find("option:selected").val()}, function (response, status) {
                 if (status == 'error') {
                     $(this).html("<div id='configure_target_control'>" +
                     "<div class='container'>" +
@@ -174,11 +138,8 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                     "</div>" +
                     '</div>' +
                     '</div>');
-
-                    ajax_error_sign.show();
-                } else {
-                    ajax_loader.delay(10).hide(10);
                 }
+                nprogress.done();
             });
             return false;
         },
@@ -199,33 +160,21 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                 type: 'post',
                 success: function (data) {
                     if (data['code'] !== 0) {
-                        if (service_status.hasClass('label label-success')) {
-                            service_status.removeClass('label label-success')
-                        }
-                        service_status.text('Not running');
-                        service_status.addClass('label label-danger')
+                        service_status.removeClass('label label-success').text('Not running').addClass('label label-danger');
                     } else {
-                        if (service_status.hasClass('label label-danger')) {
-                            service_status.removeClass('label label-danger')
-                        }
-                        service_status.text('Running').addClass('label label-success');
+                        service_status.removeClass('label label-danger').text('Running').addClass('label label-success');
                     }
                 }
             });
         },
         load_workspace: function (link, clicked) {
-            var ajaxloader = $('#ajaxloader');
-            var ajax_error_sign = $('#ajax_error_sign');
-
-            ajax_error_sign.hide();
-
             // select menu
             if (clicked !== undefined && clicked != '') {
                 $('#mainmenu').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
 
-            ajaxloader.show();
+            nprogress.start();
 
             // remove the previously loaded workspace (only if the site was called directly, via F5 for example)
             // content loaded via ajax is inside the #workspace_wrapper div
@@ -247,12 +196,10 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'blockUI', 'boo
                     "</div>" +
                     '</div>' +
                     '</div>');
-
-                    ajax_error_sign.show();
                 } else {
-                    ajaxloader.delay(10).hide(10);
                     window.history.pushState({path: link}, '', link);
                 }
+                nprogress.done();
             });
             return false;
         },
