@@ -14,7 +14,7 @@ define(['jquery'], function ($) {
                     if (data['version'][1].version_nr === $('#phpietadminversion').text()) {
                         val = true;
                     } else {
-                        val = data['version']
+                        val = data['version'][1].version_nr
                     }
 
                     if (val === true) {
