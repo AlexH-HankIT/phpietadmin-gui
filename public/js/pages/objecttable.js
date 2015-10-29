@@ -15,10 +15,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         add_event_handler_typeselection: function () {
             // If type is "all" change input fields to "all"
             $('#workspace').once('change', '.typeselection', function () {
-                var $thisrow = $(this).closest('tr');
-                var type = $thisrow.find('.typeselection option:selected').val();
-                var $objectname = $thisrow.find('.objectname');
-                var $objectvalue = $thisrow.find('.objectvalue');
+                var $thisrow = $(this).closest('tr'),
+                    type = $thisrow.find('.typeselection option:selected').val(),
+                    $objectname = $thisrow.find('.objectname'),
+                    $objectvalue = $thisrow.find('.objectvalue');
 
                 if (type === 'all') {
                     $objectname.prop('disabled', true).val('ALL');
@@ -35,10 +35,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         add_event_handler_saveobjectrow: function () {
             $('#workspace').once('click', '.saveobjectrow', function (event) {
-                var $this_row = $(this).closest("tr");
-                var type = $this_row.find('.typeselection option:selected').val();
-                var name = $this_row.find('.objectname').val();
-                var value = $this_row.find('.objectvalue').val();
+                var $this_row = $(this).closest("tr"),
+                    type = $this_row.find('.typeselection option:selected').val(),
+                    name = $this_row.find('.objectname').val(),
+                    value = $this_row.find('.objectvalue').val();
 
                 if (type === 'Select type...') {
                     $this_row.find('.typeselection').next('.bestaetigung').addClass('label-danger').text('Required').show(500).delay(2000).hide(0);
