@@ -3,7 +3,7 @@ define(['jquery'], function($) {
 
     return methods = {
         change_expand_row_button: function() {
-            $(document).once('click', '.clickable', function () {
+            $('#workspace').once('click', '.clickable', function () {
                 var $this = $(this).closest('tr').find('.expandrow');
 
                 if ($this.hasClass('minus')) {

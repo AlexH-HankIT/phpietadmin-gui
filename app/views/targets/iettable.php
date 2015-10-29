@@ -1,4 +1,4 @@
-<div id='configure_target_body'>
+<div id='workspace'>
     <div class="container">
         <div class="row">
             <div class='panel panel-default'>
