@@ -147,14 +147,13 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
             return (parseFloat(value) == parseInt(value)) && !isNaN(value);
         },
         check_service_status: function(row) {
-            var $this_row = row.closest('tr');
-            var service_status = $this_row.find('.servicestatus');
-            var service_name = $this_row.find('.servicename');
+            var $this_row = row.closest('tr'),
+                service_status = $this_row.find('.servicestatus');
 
             $.ajax({
                 url: '/phpietadmin/connection/status',
                 data: {
-                    "servicename": service_name.text()
+                    "servicename": $this_row.find('.servicename').text()
                 },
                 dataType: 'json',
                 type: 'post',
