@@ -73,9 +73,6 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'boot
                 });
             }, 2000);
 
-            // Updates footer in case ietd is stopped or started
-            // it also reloads the page, if the session terminates
-            setInterval(mylibs.reloadfooter, (11000));
             setInterval(mylibs.check_session_expired, (15000));
 
             // Select active menu element, when page is loaded manually

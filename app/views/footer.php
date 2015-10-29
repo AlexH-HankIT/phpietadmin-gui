@@ -10,14 +10,6 @@
                 </div>
             </div>
         </div>
-
-        <div class='hidden-md hidden-lg'>
-            <div class='row text-center'>
-                <div class='ol-xs-12'>
-                    <div id='ietdstatus'></div>
-                </div>
-            </div>
-        </div>
     </div>
 </footer>
 </body>

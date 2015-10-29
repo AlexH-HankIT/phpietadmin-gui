@@ -1,28 +1,6 @@
 define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', 'bootstrap'], function($, qtip, filterTable, swal, blockUI, nprogress) {
     var methods;
     return methods = {
-        reloadfooter: function() {
-            if (window.location.pathname !== "/phpietadmin/auth/login") {
-                $.ajax({
-                    url: '/phpietadmin/connection/status',
-                    data: {
-                        "servicename": 'iscsitarget'
-                    },
-                    dataType: 'json',
-                    type: 'post',
-                    success: function (data) {
-                        if (data['code'] == 0) {
-                            $("#ietdstatus").html('<a class = "navbar-btn btn-success btn pull-left"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> ietd running</a>');
-                        } else {
-                            $("#ietdstatus").html('<a class = "navbar-btn btn-danger btn pull-left"><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> ietd not running</a>');
-                        }
-                    },
-                    error: function () {
-                        $("#ietdstatus").html('<a class = "navbar-btn btn-warning btn pull-left"><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> ietd status unkown</a>');
-                    }
-                });
-            }
-        },
         check_session_expired: function() {
             if (window.location.pathname !== '/phpietadmin/auth/login') {
                 $.ajax({
