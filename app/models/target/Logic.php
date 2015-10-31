@@ -109,8 +109,8 @@
          * @return  array|bool
          *
          */
-        public function get_acls($type = 'initiator') {
-            if ($type === 'initiator') {
+        public function get_acls($type = 'initiators') {
+            if ($type === 'initiators') {
                 $data = $this->parse_file($this->database->get_config('ietd_init_allow')['value'], [$this, 'parse_target_acl'], array(), true, false);
             } else {
                 $data = $this->parse_file($this->database->get_config('ietd_target_allow')['value'], [$this, 'parse_target_acl'], array(), true, false);
@@ -150,27 +150,22 @@
          *
          */
         protected function check_object_already_added($id, $type = 'initiators') {
-            $data = $this->get_acls();
+            $data = $this->get_acls($type);
 
-            if ($type == "targets") {
-                if (isset($data['targets'])) {
-                    $value = $this->std->recursive_array_search($this->database->get_object_value($id), $data['targets']);
-                } else {
-                    $value = false;
-                }
-            } else {
-                if (isset($data['initiators'])) {
-                    $value = $this->std->recursive_array_search($this->database->get_object_value($id), $data['initiators']);
-                } else {
-                    $value = false;
-                }
-            }
+			if ($data !== false) {
+				// index 0 contains the iqn
+				unset($data[0]);
 
-            if ($value === false) {
-                return false;
-            } else {
-                return true;
-            }
+				$key = $this->std->recursive_array_search($this->database->get_object_value($id), $data);
+
+				if ($key !== false) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
         }
 
         /**
