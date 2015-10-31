@@ -13,10 +13,10 @@
             <ul class = "nav navbar-nav navbar-right">
                 <li class='hidden-sm hidden-md'><a><img hidden id="ajaxloader" src="/phpietadmin/img/ajax-loader.gif"></a></li>
                 <li class='hidden-sm hidden-md'><a><span id='ajax_error_sign' class='glyphicon glyphicon-warning-sign'></span></a></li>
-                <li><a id="menudashboard" class="workspacetab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'>Dashboard</span></a></li>
+                <li><a id="menudashboard" class="workspacetab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'> Dashboard</span></a></li>
 
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-blackboard"></span> <span class='hidden-sm hidden-md'>Overview</span> <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-blackboard"></span> <span class='hidden-sm hidden-md'> Overview</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a class="workspacetab" href='/phpietadmin/overview/disks'>Disks</a></li>
                         <li class="divider"></li>
@@ -30,7 +30,7 @@
                 </li>
 
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"></span> <span class='hidden-sm hidden-md'>Targets</span> <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"></span> <span class='hidden-sm hidden-md'> iSCSI</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a class="workspacetab" href='/phpietadmin/targets/addtarget'><span class="glyphicon glyphicon-plus"></span> Add</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/targets/configure'><span class="glyphicon glyphicon-wrench"></span> Configure</a></li>
