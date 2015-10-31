@@ -641,14 +641,15 @@
 
             if ($targets !== false) {
                 $return = [];
-                foreach ($targets as $target) {
-                    if (isset($target['lun'])) {
-						$return['iqn'] = $target['iqn'];
-                        foreach ($target['lun'] as $lun) {
-                            $return['lun'][] = $lun['path'];
-                        }
-                    }
-                }
+				foreach ($targets as $key => $target) {
+					if (isset($target['lun'])) {
+						foreach ($target['lun'] as $lun_key => $lun) {
+							$return[$key][$lun_key] = $lun['path'];
+						}
+					}
+				}
+
+				$return = $this->std->array_flatten(array_values($return));
 
                 if (empty($return)) {
                     return false;
@@ -666,21 +667,36 @@
          * @param string $path
          * @return bool|array
          */
-        public function get_iqn_for_lun($path) {
-            if ($this->iqn === false) {
-                $data = $this->return_target_data();
+        public function getIqnForLun($path) {
+			$targets = $this->parse_target();
 
-                // search for $path in $data
-                // return $data array or false
-            } else {
-                // error
-            }
+			if ($targets !== false) {
+				foreach ($targets as $key => $target) {
+					if (isset($target['lun'])) {
+						$return[]['iqn'] = $target['iqn'];
+						foreach ($target['lun'] as $lun) {
+							$return[$key]['lun'][] = $lun['path'];
+						}
+					}
+				}
+
+				if (isset($return) && is_array($return)) {
+					$return = array_values($return);
+					$key = array_search($path, $return);
+
+					return $return[$key]['iqn'];
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
         }
 
         public function is_lun($path) {
             $data = $this->return_all_used_lun();
             if ($data !== false) {
-                $return = $this->std->recursive_array_search($path, $data['lun']);
+                $return = $this->std->recursive_array_search($path, $data);
                 if ($return !== false) {
                     return true;
                 } else {
