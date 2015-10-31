@@ -673,7 +673,7 @@
 			if ($targets !== false) {
 				foreach ($targets as $key => $target) {
 					if (isset($target['lun'])) {
-						$return[]['iqn'] = $target['iqn'];
+						$return[$key]['iqn'] = $target['iqn'];
 						foreach ($target['lun'] as $lun) {
 							$return[$key]['lun'][] = $lun['path'];
 						}
@@ -682,8 +682,7 @@
 
 				if (isset($return) && is_array($return)) {
 					$return = array_values($return);
-					$key = array_search($path, $return);
-
+					$key = $this->std->recursive_array_search($path, $return);
 					return $return[$key]['iqn'];
 				} else {
 					return false;
