@@ -641,15 +641,14 @@
 
             if ($targets !== false) {
                 $return = [];
-                foreach ($targets as $key => $target) {
+                foreach ($targets as $target) {
                     if (isset($target['lun'])) {
-                        foreach ($target['lun'] as $lun_key => $lun) {
-                            $return[$key][$lun_key] = $lun['path'];
+						$return['iqn'] = $target['iqn'];
+                        foreach ($target['lun'] as $lun) {
+                            $return['lun'][] = $lun['path'];
                         }
                     }
                 }
-
-                $return = $this->std->array_flatten(array_values($return));
 
                 if (empty($return)) {
                     return false;
@@ -681,7 +680,7 @@
         public function is_lun($path) {
             $data = $this->return_all_used_lun();
             if ($data !== false) {
-                $return = $this->std->recursive_array_search($path, $data);
+                $return = $this->std->recursive_array_search($path, $data['lun']);
                 if ($return !== false) {
                     return true;
                 } else {

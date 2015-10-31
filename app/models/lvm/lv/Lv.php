@@ -278,7 +278,7 @@
                 } else if ($used_lun === false) {
                     return $logical_volumes;
                 } else {
-                    return array_diff($logical_volumes, $used_lun);
+                    return array_diff($logical_volumes, $used_lun['lun']);
                 }
             } else {
                 return false;
