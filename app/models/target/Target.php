@@ -219,36 +219,6 @@
 
         /**
          *
-         * Deletes all lun from $this->iqn
-         * No data is removed!
-         *
-         * @param bool   $ignore_session optional, delete lun even if a initiator is connected?
-         * @return string|array|bool
-         *
-         */
-        public function detach_all_lun($ignore_session = false) {
-            $luns = $this->return_all_used_lun();
-
-            if ($luns !== false) {
-                foreach ($luns as $key => $lun) {
-                    $this->detach_lun($lun, $ignore_session);
-                    $result = $this->logging->get_action_result();
-                    if ($result['result'] !== 0) {
-                        $return[$key][] = $lun;
-                    }
-                }
-                if (isset($return)) {
-                    $this->logging->log_action_result(count($return) . ' lun were not deleted from the target ' . $this->iqn, array('result' => 5, 'code_type' => 'intern'), __METHOD__);
-                } else {
-                    $this->logging->log_action_result('All lun were successfully deleted from the target ' . $this->iqn, array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-                }
-            } else {
-                $this->logging->log_action_result('No lun available!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
-            }
-        }
-
-        /**
-         *
          * Add a acl to $this->iqn
          *
          * @param int $id id of the object, which should be added
