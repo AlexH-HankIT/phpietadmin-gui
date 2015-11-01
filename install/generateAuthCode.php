@@ -10,8 +10,10 @@ function random_password( $length = 8 ) {
 if (file_exists($authFile)) {
 	echo "Code was already generated!\n";
 } else {
-	if (file_put_contents($authFile, random_password(8)) !== false) {
+	$password = random_password(8);
+	if (file_put_contents($authFile, $password) !== false) {
 		echo "Success\n";
+		echo "Code is " . $password . "\n";
 	} else {
 		echo "Failure\n";
 	}
