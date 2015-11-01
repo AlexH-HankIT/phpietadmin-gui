@@ -45,7 +45,7 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/configuser'], function(methods) {
+            require(['pages/config/configuser'], function(methods) {
                 methods.add_event_handler_editpassword();
                 methods.add_event_handler_savepassword();
             });

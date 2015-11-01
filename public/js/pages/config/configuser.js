@@ -3,33 +3,31 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
 
     return methods = {
         add_event_handler_editpassword: function() {
-            $(function() {
-                var password1 = $('.password1');
-                var password2 = $('.password2');
-                var editpassword = $('#editpassword');
-                var savepasswordatag = $('#savepassworda');
+            var password1 = $('.password1');
+            var password2 = $('.password2');
+            var editpassword = $('#editpassword');
+            var savepasswordatag = $('#savepassworda');
 
-                $(document).once('click', '#editpassword', function() {
-                    if (password1.prop('disabled') == true && password2.prop('disabled') == true) {
-                        password1.prop('disabled', false);
-                        password2.prop('disabled', false);
-                        password1.val('');
-                        password2.val('');
-                        password1.focus();
-                        editpassword.removeClass('glyphicon-pencil');
-                        editpassword.addClass('glyphicon-remove');
-                        savepasswordatag.show();
-                    } else {
-                        password1.prop('disabled', true);
-                        password2.prop('disabled', true);
-                        password1.val('           ');
-                        password2.val('           ');
+            $(document).once('click', '#editpassword', function () {
+                if (password1.prop('disabled') == true && password2.prop('disabled') == true) {
+                    password1.prop('disabled', false);
+                    password2.prop('disabled', false);
+                    password1.val('');
+                    password2.val('');
+                    password1.focus();
+                    editpassword.removeClass('glyphicon-pencil');
+                    editpassword.addClass('glyphicon-remove');
+                    savepasswordatag.show();
+                } else {
+                    password1.prop('disabled', true);
+                    password2.prop('disabled', true);
+                    password1.val('           ');
+                    password2.val('           ');
 
-                        editpassword.removeClass('glyphicon-remove');
-                        editpassword.addClass('glyphicon-pencil');
-                        savepasswordatag.hide();
-                    }
-                });
+                    editpassword.removeClass('glyphicon-remove');
+                    editpassword.addClass('glyphicon-pencil');
+                    savepasswordatag.hide();
+                }
             });
         },
         add_event_handler_savepassword: function() {

@@ -34,7 +34,7 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/configtable', 'domReady'], function(methods, domReady) {
+            require(['pages/config/configtable', 'domReady'], function(methods, domReady) {
                 domReady(function () {
                     methods.add_event_handler_config();
                 });
