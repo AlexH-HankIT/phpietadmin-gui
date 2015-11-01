@@ -47,7 +47,6 @@ In version 0.6:
     - [x] Configure target: Show if target has open sessions
     - [x] Rework the javascript code
     - [x] Select all checkbox
-    - [ ] Release "compressed" javascript files
 
 * Backend
     - [x] Create a target model with all functions which are necessary to add/delete/change a target
@@ -68,7 +67,6 @@ In version 0.6:
     - [x] User Model: Delete user, develop better way to check if user is in use
     - [x] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [x] Create backup before editing a config file
-    - [ ] Database error log
     - [ ] Create first user via gui
 
 * Misc
@@ -94,6 +92,7 @@ In version 0.7:
     - [ ] Overview/Logical volumes VG selector
     - [ ] Add "Edit file directly" option
     - [ ] Searchable table for overview menu
+    - [ ] Release "compressed" javascript files
 
 * Backend
     - [ ] Write process class to execute commands in the background (+ jwindow)
@@ -102,6 +101,7 @@ In version 0.7:
     - [ ] Replace all error codes with exceptions
     - [ ] Support "All" permission in ietd config files
     - [ ] Write phpietadmin-cli
+    - [ ] Database error log
 
 * In version 0.8:
     - [ ] Support for DRBD (show status)
