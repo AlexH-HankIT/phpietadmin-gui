@@ -93,6 +93,7 @@ In version 0.7:
     - [ ] Add "Edit file directly" option
     - [ ] Searchable table for overview menu
     - [ ] Release "compressed" javascript files
+    - [ ] Add loader if button is pressed to inform the user of the running process
 
 * Backend
     - [ ] Write process class to execute commands in the background (+ jwindow)
