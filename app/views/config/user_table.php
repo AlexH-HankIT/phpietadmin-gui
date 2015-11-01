@@ -18,8 +18,9 @@
                         </tr>
                     </thead>
                     <tbody>
+					<?php foreach ($data as $user) { ?>
                         <tr>
-                            <td>admin</td>
+                            <td><?php echo $user['username'] ?></td>
                             <td>
                                 <input class="password1" disabled type="password" value="           "><span class="label label-success bestaetigung">Success</span>
                             </td>
@@ -27,16 +28,13 @@
                                 <input class="password2" disabled type="password" value="           "><span class="label label-success bestaetigung">Success</span>
                             </td>
                             <td>
-                                <a href='#'>
-                                    <span id="editpassword" style="font-size: 15px" class="glyphicon glyphicon-pencil"></span>
-                                </a>
+                                <a href='#'><span id="editpassword" style="font-size: 15px" class="glyphicon glyphicon-pencil"></span></a>
                             </td>
                             <td>
-                                <a id="savepassworda" hidden href='#'>
-                                    <span id="savepassword" style="font-size: 15px" class="glyphicon glyphicon-ok"></span>
-                                </a>
+                                <a id="savepassworda" hidden href='#'><span id="savepassword" style="font-size: 15px" class="glyphicon glyphicon-ok"></span></a>
                             </td>
                         </tr>
+					<?php } ?>
                     </tbody>
                 </table>
             </div>
