@@ -38,11 +38,15 @@ class User extends core\BaseModel {
 		}
 	}
 
-	private function hash_password($password) {
+	public function returnStatus() {
+		return $this->status;
+	}
+
+	private function hashPassword($password) {
 		return password_hash($password, PASSWORD_BCRYPT);
 	}
 
-	public function add_first_user($user_input_auth_code, $password1, $password2) {
+	public function addFirstUser($user_input_auth_code, $password1, $password2) {
 		// workaround for getting all data
 		$username = $this->username;
 		$this->username = false;
@@ -52,21 +56,10 @@ class User extends core\BaseModel {
 		// validate user table is empty to prevent this from working if there are already users
 		if ($users === false) {
 			if ($password1 === $password2) {
-				// parse xml file
-				$auth_code = simplexml_load_file(__DIR__ . '/../../install/auth.xml');
-
-				if ($auth_code->authcodes->authcode->code === $user_input_auth_code) {
-					$this->add($password1);
-
-					if ($this->logging->get_action_result()['result'] === 0) {
-						// delete auth_code file
-						if(unlink(__DIR__ . '/../../install/auth.xml') === false) {
-							$this->logging->log_action_result('Could not delete the file ' . __DIR__ . '/../../install/auth.xml Something is wrong with your permissions. Please delete it manually', array('result' => 1, 'code_type' => 'intern'), __METHOD__);
-						}
-					}
-				} else {
-					$this->logging->log_access_result('The specified authentication code is incorrect!', 1, 'first_login', __METHOD__);
-				}
+				// parse json string for one time password
+				// compare it with user input
+				// if password matches create user
+				// else display error
 			} else {
 				$this->logging->log_action_result('Passwords do not match!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
 			}
@@ -79,7 +72,7 @@ class User extends core\BaseModel {
 
     public function add($password) {
 		if ($this->username !== false) {
-			$return = $this->database->add_phpietadmin_user($this->username, $this->hash_password($password));
+			$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password));
 
 			if ($return != 0) {
 				$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
@@ -129,7 +122,7 @@ class User extends core\BaseModel {
 		}
     }
 
-    public function return_data() {
+    public function returnData() {
 		if ($this->username !== false) {
 			if ($this->status !== false) {
 				// return $this->username
@@ -148,9 +141,5 @@ class User extends core\BaseModel {
 				return $return;
 			}
 		}
-    }
-
-    public function return_status() {
-		return $this->status;
     }
 }
