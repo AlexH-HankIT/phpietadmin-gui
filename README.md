@@ -68,26 +68,11 @@ In version 0.6:
     - [x] User Model: Delete user, develop better way to check if user is in use
     - [x] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [x] Create backup before editing a config file
-    - [ ] Rework controller/models
-        - [x] Targets
-        - [x] Users
-        - [x] User model
-        - [x] Config
-        - [x] Config model
-        - [x] Dashboard
-        - [x] Overview
-        - [x] Stop/Reboot/Logout
-        - [x] Objects
-        - [x] LVM
-        - [x] Services
-        - [ ] Database model
-        - [ ] phpietadmin user
     - [ ] Database error log
     - [ ] Create first user via gui
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
-
 
 In version 0.7:
 * LVM
