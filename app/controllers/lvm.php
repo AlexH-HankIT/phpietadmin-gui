@@ -47,13 +47,14 @@ class Lvm extends core\BaseController {
 
                     // remap lun on target to update the size
                     if (isset($_POST['remap']) && $_POST['remap'] === true) {
-                        $target = $this->model('target\Target', '');
+                        $target = $this->model('target\Target', false);
 
                         // check if lv is a lun
                         if ($target->is_lun($lv_name) !== false) {
-                            // get iqn somehow
-                            // create target object with iqn
-                            // detach and add lun
+							$path = '/dev/' . $vg_name . '/' . $lv_name;
+							$iqn = $target->getIqnForLun($path);
+							$target = $this->model('target\Target', $iqn);
+							$target->reattachLun($path);
                         } else {
                             // do nothing
                         }
