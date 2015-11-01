@@ -1,4 +1,4 @@
-define(['jquery', 'mylibs', 'sweetalert', 'sha256'], function($, mylibs, swal, sha256) {
+define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
     var methods;
 
     return methods = {

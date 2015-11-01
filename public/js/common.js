@@ -10,7 +10,6 @@ requirejs.config({
         imagesloaded: 'lib/imagesloaded.pkg.min.amd',
         sweetalert: 'lib/sweetalert.min',
         mylibs: 'lib/mylibs',
-        sha256: 'lib/sha256.min',
         highchart: 'lib/highcharts.amd',
         blockUI: 'lib/jquery.blockUI.min',
         once: 'lib/once',
