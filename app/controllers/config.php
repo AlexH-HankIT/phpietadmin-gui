@@ -10,11 +10,11 @@ use phpietadmin\app\core;
 		 * @return      void
 		 *
 		 */
-		public function user($param1) {
+		public function user($param1 = 'show') {
 			switch ($param1) {
 				case 'show':
 					$users = $this->model('User');
-					$data = $users->return_data();
+					$data = $users->returnData();
 
 					if ($data !== false) {
 						$this->view('config/user_table', $data);

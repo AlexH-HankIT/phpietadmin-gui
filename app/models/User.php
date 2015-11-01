@@ -142,11 +142,11 @@ class User extends core\BaseModel {
 			$return = $this->database->get_phpietadmin_user(false);
 
 			if ($return !== false) {
-				$this->logging->log_action_result('No users available!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
-				return false;
-			} else {
 				$this->logging->log_action_result('The user were successfully retrieved!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
 				return $return;
+			} else {
+				$this->logging->log_action_result('No users available!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+				return false;
 			}
 		}
     }
