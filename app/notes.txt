@@ -11,6 +11,7 @@
     9 wrong usage
     10 passwords do not match
     11 function not available
+    12 backup unsuccessful
 
 
     http://manpages.ubuntu.com/manpages/trusty/man5/ietd.conf.5.html

@@ -153,12 +153,16 @@
             $data .= "\n";
 
             if ($test === false) {
-                // Write back
-                if (file_put_contents($filename, $data, LOCK_EX) !== false) {
-                    return 0;
-                } else {
-                    return 6;
-                }
+				if($this->std->backupFile($filename, 'file') === true) {
+					// Write back
+					if (file_put_contents($filename, $data, LOCK_EX) !== false) {
+						return 0;
+					} else {
+						return 6;
+					}
+				} else {
+					return 12;
+				}
             } else {
                 echo htmlspecialchars($data);
                 return 0;

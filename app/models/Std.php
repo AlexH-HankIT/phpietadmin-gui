@@ -283,8 +283,8 @@ class Std {
 	 * @return bool
 	 */
 	public function backupFile($path, $type = 'file') {
-		$backupDir = $this->database->get_config('backupDir');
-		$maxBackups = $this->database->get_config('maxBackups');
+		$backupDir = $this->database->get_config('backupDir')['value'];
+		$maxBackups = $this->database->get_config('maxBackups')['value'];
 		$backupDirFiles = $backupDir . '/files';
 		$backupDirDb = $backupDir . '/db';
 
