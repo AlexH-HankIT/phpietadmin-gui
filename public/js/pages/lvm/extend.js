@@ -61,15 +61,17 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
                             text: 'No changes made!'
                         });
                     } else {
-                        var data = $('#logical_volume_selector').find("option:selected").data();
-                        var url = '/phpietadmin/lvm/configure/extent';
+                        var data = $('#logical_volume_selector').find("option:selected").data(),
+                            url = '/phpietadmin/lvm/configure/extent',
+                            remap = $('#remapLun').prop('checked');
 
                         $.ajax({
                             url: url,
                             data: {
                                 'vg': data.vg,
                                 'lv': data.lv,
-                                'size': new_size
+                                'size': new_size,
+                                'remap': remap
                             },
                             dataType: 'json',
                             type: 'post',

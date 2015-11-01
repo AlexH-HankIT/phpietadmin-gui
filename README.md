@@ -66,6 +66,7 @@ In version 0.6:
     - [x] Prevent iqn and objects from having whitespaces
     - [x] Log also successful messages
     - [x] User Model: Delete user, develop better way to check if user is in use
+    - [x] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [ ] Rework controller/models
         - [x] Targets
         - [x] Users
@@ -81,7 +82,6 @@ In version 0.6:
         - [ ] Database model
         - [ ] phpietadmin user
     - [ ] Database error log
-    - [ ] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [ ] Create backup before editing a config file
     - [ ] Create first user via gui
 
