@@ -22,6 +22,7 @@ Take a look at the github releases for detailed information about the features.
 
 ## Bugs in 0.5.6:
     - [ ] Parse function could overwrite comments
+    - [ ] Fix phpietadmin login user menu
     - [x] The same object can be added multiple times to a iqn
 
 ## Roadmap
@@ -65,7 +66,6 @@ In version 0.6:
     - [x] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [x] Create backup before editing a config file
     - [x] Create first user via gui
-    - [ ] Fix phpietadmin user menu
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)
