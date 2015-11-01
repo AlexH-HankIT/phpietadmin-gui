@@ -1,16 +1,28 @@
-define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) {
+define(['mylibs', 'touchspin', 'jqueryui_slider', 'qtip'], function (mylibs, touchspin, qtip) {
     var methods;
 
     return methods = {
         extend: function () {
-            var $slider = $('#extend_slider');
-            var $extend_size_input = $('#extend_size');
-            var data = $slider.data();
+            var $slider = $('#extend_slider'),
+                $extend_size_input = $('#extend_size'),
+                data = $slider.data();
+
+            $('#remapLunExplanation').qtip({
+                content: {
+                    text: 'Delete and attach the lun to inform ietd and the initiator of the size change. ' +
+                    'The MS iscsi inititator seems to handle this well. ' +
+                    'However, don\'t use it, unless you know what you are doing! ' +
+                    'If the volume is not mapped on a target, this does nothing.'
+                },
+                style: {
+                    classes: 'qtip-youtube'
+                }
+            });
 
             if (data !== undefined) {
-                var max = parseInt(data.max);
-                var min = parseInt(data.min);
-                var value = parseInt(data.value);
+                var max = parseInt(data.max),
+                    min = parseInt(data.min),
+                    value = parseInt(data.value);
 
                 $slider.slider({
                     range: 'min',
