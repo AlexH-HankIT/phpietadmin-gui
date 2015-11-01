@@ -3,10 +3,12 @@ use phpietadmin\app\core;
 
 class Std {
 	private $logging;
+	private $database;
 
 	public function __construct() {
 		$registry = core\Registry::getInstance();
 		$this->logging = $registry->get('logging');
+		$this->database = $registry->get('database');
 	}
 
     /**
@@ -271,4 +273,63 @@ class Std {
             return false;
         }
     }
+
+	/**
+	 * Backup a file to the phpietadmin backup dir
+	 * Only $maxBackups will be stored, before the oldest is deleted
+	 *
+	 * @param        $path
+	 * @param string $type
+	 * @return bool
+	 */
+	public function backupFile($path, $type = 'file') {
+		$backupDir = $this->database->get_config('backupDir');
+		$maxBackups = $this->database->get_config('maxBackups');
+		$backupDirFiles = $backupDir . '/files';
+		$backupDirDb = $backupDir . '/db';
+
+		// Create backup folder
+		if (!is_dir($backupDirFiles)) {
+			mkdir($backupDirFiles);
+		}
+		if (!is_dir($backupDirDb)) {
+			mkdir($backupDirDb);
+		}
+
+		// Delete old backup files, but keep at least $maxBackups
+		$files = glob($backupDirFiles . '/*');
+		array_multisort(array_map('filemtime', $files ), SORT_NUMERIC, SORT_ASC, $files);
+		if (count($files) >= $maxBackups) {
+			if (file_exists($files[0])) {
+				unlink($files[0]);
+			}
+		}
+
+		// Delete old db backups, but keep at least $maxBackups
+		$files = glob($backupDirDb . '/*');
+		array_multisort(array_map('filemtime', $files), SORT_NUMERIC, SORT_ASC, $files);
+		if (count($files) > $maxBackups) {
+			if (file_exists($files[0])) {
+				unlink($files[0]);
+			}
+		}
+
+		if ($type === 'file') {
+			if (file_exists($path)) {
+				$filename = array_pop(explode('/', $path));
+				return copy($path, $backupDirFiles . '/' . $filename . '_' . time());
+			} else {
+				return false;
+			}
+		} else if ($type === 'db') {
+			if (file_exists($path)) {
+				$filename = array_pop(explode('/', $path));
+				return copy($path, $backupDirDb . '/' . $filename . '_' . time());
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }
