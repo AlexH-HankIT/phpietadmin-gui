@@ -64,7 +64,7 @@ In version 0.6:
     - [x] User Model: Delete user, develop better way to check if user is in use
     - [x] Support for live resizing of targets (with workaround, since iet doesn't support)
     - [x] Create backup before editing a config file
-    - [ ] Create first user via gui
+    - [x] Create first user via gui
 
 * Misc
     - [ ] Create development branch after release of v0.6 (master should be stable)

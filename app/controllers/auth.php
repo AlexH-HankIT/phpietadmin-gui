@@ -34,7 +34,11 @@ use phpietadmin\app\core;
 					header("Location: /phpietadmin/dashboard");
 					die();
 				} else {
-					$this->view('message', 'Wrong username or password!');
+					if (file_exists('/usr/share/phpietadmin/install/auth')) {
+						$this->view('message', $user->logging->get_action_result()['message']);
+					} else {
+						$this->view('message', 'Wrong username or password!');
+					}
 					header("refresh:2;url=/phpietadmin/auth/login");
 					die();
 				}
