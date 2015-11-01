@@ -50,16 +50,28 @@ class User extends core\BaseModel {
 		// workaround for getting all data
 		$username = $this->username;
 		$this->username = false;
-		$users = $this->return_data();
+		$users = $this->returnData();
 		$this->username = $username;
 
 		// validate user table is empty to prevent this from working if there are already users
 		if ($users === false) {
 			if ($password1 === $password2) {
-				// parse json string for one time password
-				// compare it with user input
-				// if password matches create user
-				// else display error
+				$authCode = file_get_contents('/usr/share/phpietadmin/install/auth');
+
+				if ($authCode === $user_input_auth_code) {
+					$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password1));
+
+					if ($return !== 0) {
+						$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
+					} else {
+						$this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+
+						// fetch up2date data
+						$this->data = $this->database->get_phpietadmin_user($this->username);
+					}
+				} else {
+					$this->logging->log_action_result('Auth code is wrong!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
+				}
 			} else {
 				$this->logging->log_action_result('Passwords do not match!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
 			}
@@ -74,7 +86,7 @@ class User extends core\BaseModel {
 		if ($this->username !== false) {
 			$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password));
 
-			if ($return != 0) {
+			if ($return !== 0) {
 				$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 			} else {
 				$this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
