@@ -45,9 +45,11 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/config/configuser'], function(methods) {
-                methods.add_event_handler_editpassword();
-                methods.add_event_handler_savepassword();
+            require(['pages/config/configuser', 'domReady'], function(methods, domReady) {
+				domReady(function () {
+					methods.add_event_handler_editpassword();
+					methods.add_event_handler_savepassword();
+            	});
             });
         });
     </script>
