@@ -118,6 +118,8 @@ INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, desc
     ('lvremove', 'lvremove bin', 5, '/sbin/lvremove', "Path to the lvremove binary", 4, 'input'),
     ('lvconvert', 'lvconvert bin', 5, '/sbin/lvconvert', "Path to the lvconvert binary", 4, 'input'),
     ('mdstat', '/proc mdstat', 2, '/proc/mdstat', "Path to the mdstat file", 3, 'input'),
+    ('backupDir', 'backupDir', 3, '/var/backups/phpietadmin', "Path to the phpietadmin backup folder", 6, 'input'),
+    ('maxBackups', 'Max Backups', 3, '30', "How many backups should be stored?", 1, 'input'),
     ('sudo', 'subo bin', 4, '/usr/bin/sudo', "Path to the sudo binary", 4, 'input'),
     ('service', 'service bin', 5, '/usr/sbin/service', "Path to the service binary", 4, 'input'),
     ('lsblk', 'lsblk bin', 4, '/bin/lsblk', "Path to the lsblk binary", 4, 'input'),
@@ -138,7 +140,8 @@ INSERT INTO phpietadmin_config_category (category) VALUES
     ('lvm'),
     ('misc'),
     ('bin'),
-    ('logging');
+    ('logging'),
+    ('backup);
 
 INSERT INTO phpietadmin_object_type (value, display_name) VALUES
   ('hostv4', 'IPv4 Host'),
