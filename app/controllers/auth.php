@@ -9,30 +9,44 @@ use phpietadmin\app\core;
          * @return     void
          *
          */
-        public function login() {
-			if (isset($_POST['username'], $_POST['password']) && !$this->base_model->std->mempty($_POST['username'], $_POST['password'])) {
+		public function login() {
+			if (isset($_POST['username'], $_POST['password1'])) {
 				// filter user input
 				$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-				$password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+				$password1 = filter_input(INPUT_POST, 'password1', FILTER_SANITIZE_STRING);
+
+				if (file_exists('/usr/share/phpietadmin/install/auth')) {
+					if (isset($_POST['password2'], $_POST['auth_code'])) {
+						$password2 = filter_input(INPUT_POST, 'password2', FILTER_SANITIZE_STRING);
+						$auth_code = filter_input(INPUT_POST, 'auth_code', FILTER_SANITIZE_STRING);
+						$user = $this->model('User', $username);
+						$user->addFirstUser($auth_code, $password1, $password2);
+						unlink('/usr/share/phpietadmin/install/auth');
+					}
+				}
 
 				// create session object
 				$session = $this->model('Session', $username);
 
 				// login user
-				$return = $session->login($password);
+				$return = $session->login($password1);
 
-                if ($return === true) {
-                    header("Location: /phpietadmin/dashboard");
-                    die();
-                } else {
-                    $this->view('message', 'Wrong username or password!');
-                    header("refresh:2;url=/phpietadmin/auth/login");
-                    die();
-                }
+				if ($return === true) {
+					header("Location: /phpietadmin/dashboard");
+					die();
+				} else {
+					$this->view('message', 'Wrong username or password!');
+					header("refresh:2;url=/phpietadmin/auth/login");
+					die();
+				}
 			} else {
-				$this->view('login/signin');
+				if (file_exists('/usr/share/phpietadmin/install/auth')) {
+					$this->view('login/first_signin');
+				} else {
+					$this->view('login/signin');
+				}
 			}
-        }
+		}
 
         /**
          *
