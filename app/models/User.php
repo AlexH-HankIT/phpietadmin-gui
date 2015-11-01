@@ -65,9 +65,7 @@ class User extends core\BaseModel {
 						$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					} else {
 						$this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-
-						// fetch up2date data
-						$this->data = $this->database->get_phpietadmin_user($this->username);
+						unlink('/usr/share/phpietadmin/install/auth');
 					}
 				} else {
 					$this->logging->log_action_result('Auth code is wrong!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
@@ -78,8 +76,6 @@ class User extends core\BaseModel {
 		} else {
 			$this->logging->log_access_result('The first user is already configured!', 1, 'first_login', __METHOD__);
 		}
-		header("Location: /phpietadmin/auth/login");
-		die();
 	}
 
     public function add($password) {

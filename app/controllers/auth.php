@@ -16,12 +16,12 @@ use phpietadmin\app\core;
 				$password1 = filter_input(INPUT_POST, 'password1', FILTER_SANITIZE_STRING);
 
 				if (file_exists('/usr/share/phpietadmin/install/auth')) {
+					echo "test";
 					if (isset($_POST['password2'], $_POST['auth_code'])) {
 						$password2 = filter_input(INPUT_POST, 'password2', FILTER_SANITIZE_STRING);
 						$auth_code = filter_input(INPUT_POST, 'auth_code', FILTER_SANITIZE_STRING);
 						$user = $this->model('User', $username);
 						$user->addFirstUser($auth_code, $password1, $password2);
-						unlink('/usr/share/phpietadmin/install/auth');
 					}
 				}
 
