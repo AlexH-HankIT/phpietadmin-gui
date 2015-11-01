@@ -705,4 +705,32 @@
                 return false;
             }
         }
+
+		public function reattachLun($path) {
+			$luns = $this->return_target_property('lun');
+
+			if ($luns !== false) {
+				$key = $this->std->recursive_array_search($path, $luns);
+
+				if ($key !== false) {
+					$return = $this->delete_lun_from_daemon($luns[$key]['id']);
+
+					if ($return['result'] !== 0) {
+						return false;
+					} else {
+						$return = $this->add_lun_to_daemon($luns[$key]['id'], $path, $luns[$key]['iomode'], $luns[$key]['iotype']);
+
+						if ($return['result'] !== 0) {
+							return false;
+						} else {
+							return true;
+						}
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		}
     }
