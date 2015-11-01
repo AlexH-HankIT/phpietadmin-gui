@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/phpietadmin/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-    <link href="/phpietadmin/css/login.css" type="text/css" rel="stylesheet">
-    <title>phpietadmin login</title>
-</head>
+<html lang="en-US">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="/phpietadmin/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="/phpietadmin/css/login.css" type="text/css" rel="stylesheet">
+<title>phpietadmin login</title>
 <body>
     <div class = "container">
         <form method = "post" class="form-signin">
