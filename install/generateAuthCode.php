@@ -14,6 +14,7 @@ if (file_exists($authFile)) {
 	if (file_put_contents($authFile, $password) !== false) {
 		echo "Success\n";
 		echo "Code is " . $password . "\n";
+		chown($authFile, 'www-data');
 	} else {
 		echo "Failure\n";
 	}
