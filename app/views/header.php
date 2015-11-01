@@ -9,8 +9,8 @@
 <link href="/phpietadmin/css/jquery-ui.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery-ui-slider-pips.min.css" rel="stylesheet">
 <link href="/phpietadmin/css/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
-<link href="/phpietadmin/css/my.css" rel="stylesheet">
 <link href="/phpietadmin/css/nprogress.css" rel="stylesheet">
+<link href="/phpietadmin/css/my.css" rel="stylesheet">
 <script data-main="/phpietadmin/js/common" src="/phpietadmin/js/lib/require.js"></script>
 <noscript>
     <div class="container">
