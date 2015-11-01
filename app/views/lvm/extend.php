@@ -32,6 +32,11 @@
                         </div>
                     </div>
                 </div>
+				<div class="row top-buffer">
+					<div class="col-md-12">
+						<label><input type="checkbox" id="remapLun"> Remap lun</label> <a href="#"><span id="remapLunExplanation" class="glyphicon glyphicon-question-sign glyphicon-20" aria-hidden="true"></span></a>
+					</div>
+				</div>
             </div>
 			<div class='panel-footer'>
 				<div class='row'>
