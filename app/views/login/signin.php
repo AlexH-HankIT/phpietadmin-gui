@@ -10,7 +10,7 @@
         <form method = "post" class="form-signin">
             <h2 align="center" class="form-signin-heading">Please sign in</h2>
             <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-            <input type="password" name="password" id="inputPassword2" class="form-control" placeholder="Password" required>
+            <input type="password" name="password1" id="inputPassword2" class="form-control" placeholder="Password" required>
             <input class="btn btn-lg btn-primary btn-block" type='submit' value='Login'>
         </form>
     </div>
