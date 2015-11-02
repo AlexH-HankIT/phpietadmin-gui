@@ -67,6 +67,9 @@ use phpietadmin\app\core;
 				case 'logging':
 					$data = $this->base_model->database->get_config_by_category('logging');
 					break;
+				case 'backup':
+					$data = $this->base_model->database->get_config_by_category('backup');
+					break;
 				default:
 					$this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
 			}

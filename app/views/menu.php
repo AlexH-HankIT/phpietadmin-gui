@@ -66,6 +66,7 @@
                         <li><a class="workspacetab" href='/phpietadmin/config/show/misc'>Misc config</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/config/show/bin'>Bin config</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/config/show/logging'>Logging config</a></li>
+                        <li><a class="workspacetab" href='/phpietadmin/config/show/backup'>Backup config</a></li>
                         <li><a class="workspacetab" href='/phpietadmin/config/user'>User</a></li>
                     </ul>
                 </li>
