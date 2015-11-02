@@ -141,7 +141,7 @@ INSERT INTO phpietadmin_config_category (category) VALUES
     ('misc'),
     ('bin'),
     ('logging'),
-    ('backup);
+    ('backup');
 
 INSERT INTO phpietadmin_object_type (value, display_name) VALUES
   ('hostv4', 'IPv4 Host'),
