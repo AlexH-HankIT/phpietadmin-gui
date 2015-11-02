@@ -52,3 +52,11 @@ body {
 #auth_code {
     margin-bottom: 10px;
 }
+
+h2 {
+    text-align: center;
+}
+
+.container {
+    padding-top: 10%;
+}
