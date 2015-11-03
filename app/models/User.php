@@ -1,6 +1,5 @@
 <?php namespace phpietadmin\app\models;
-use phpietadmin\app\models\logging,
-	phpietadmin\app\core;
+use phpietadmin\app\core;
 
 // configures the phpietadmin users
 class User extends core\BaseModel {
@@ -115,7 +114,7 @@ class User extends core\BaseModel {
 
     public function change($value) {
 		if ($this->username !== false && $this->status !== false) {
-			$return = $this->database->updatePhpietadminUserPassword($value, $this->username);
+			$return = $this->database->updatePhpietadminUserPassword($this->hashPassword($value), $this->username);
 
 			if ($return != 0) {
 				$this->logging->log_action_result('The password was not changed', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
