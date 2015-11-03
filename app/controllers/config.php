@@ -27,7 +27,7 @@ use phpietadmin\app\core;
                         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 						$user = $this->model('User', $username);
 						$user->delete();
-						echo json_encode($user->logging->get_action_log());
+						echo json_encode($user->logging->get_action_result());
 					}
 					break;
 				case 'add':
@@ -36,16 +36,16 @@ use phpietadmin\app\core;
                         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 						$user = $this->model('User', $username);
 						$user->add($password);
-						echo json_encode($user->logging->get_action_log());
+						echo json_encode($user->logging->get_action_result());
 					}
 					break;
 				case 'change':
-					if (isset($_POST['username'], $_POST['row'], $_POST['value'])) {
+					if (isset($_POST['username'], $_POST['value'])) {
                         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
                         $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
 						$user = $this->model('User', $username);
 						$user->change($value);
-						echo json_encode($user->logging->get_action_log());
+						echo json_encode($user->logging->get_action_result());
 					}
 					break;
 				default:
