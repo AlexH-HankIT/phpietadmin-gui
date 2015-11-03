@@ -23,21 +23,29 @@ class Session extends core\BaseModel {
 	}
 
 	public function login($password) {
-		$data = $this->database->get_phpietadmin_user($this->username);
+		$user = new User($this->username);
 
-		if (password_verify($password, $data[0]['password'])) {
-            $_SESSION['logged_in'] = true;
-            $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
-            $_SESSION['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'];
-            $_SESSION['last_activity'] = time();
-            $_SESSION['username'] = $this->username;
-            $this->logging->log_access_result('Login successful', 'failure', 'check', __METHOD__);
-            return true;
-		} else {
-			$_SESSION['logged_in'] = false;
-            $this->logging->log_access_result('Login failure. Wrong password', 'failure', 'check', __METHOD__);
+        // Check if user exists
+        if($user->returnStatus() === false) {
+            $_SESSION['logged_in'] = false;
+            $this->logging->log_access_result('Login failure. User does not exist', 'failure', 'check', __METHOD__);
             return false;
-		}
+        } else {
+            $data = $user->returnData();
+            if (password_verify($password, $data[0]['password'])) {
+                $_SESSION['logged_in'] = true;
+                $_SESSION['REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
+                $_SESSION['HTTP_USER_AGENT'] = $_SERVER['HTTP_USER_AGENT'];
+                $_SESSION['last_activity'] = time();
+                $_SESSION['username'] = $this->username;
+                $this->logging->log_access_result('Login successful', 'failure', 'check', __METHOD__);
+                return true;
+            } else {
+                $_SESSION['logged_in'] = false;
+                $this->logging->log_access_result('Login failure. Wrong password', 'failure', 'check', __METHOD__);
+                return false;
+            }
+        }
 	}
 
 	public function logout() {

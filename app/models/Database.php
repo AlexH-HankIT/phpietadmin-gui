@@ -215,7 +215,7 @@ EOT;
     }
 
     public function delete_phpietadmin_user($username) {
-		$query = $this->prepare('DELETE FROM phpietadmin_user WHERE username: username');
+		$query = $this->prepare('DELETE FROM phpietadmin_user WHERE username = :username');
 		$query->bindValue('username', $username, SQLITE3_TEXT);
 		$query->execute();
 		return $this->return_last_error();

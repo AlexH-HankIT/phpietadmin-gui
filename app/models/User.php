@@ -79,15 +79,19 @@ class User extends core\BaseModel {
 
     public function add($password) {
 		if ($this->username !== false) {
-			$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password));
+			if ($this->status === false) {
+				$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password));
 
-			if ($return !== 0) {
-				$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
+				if ($return !== 0) {
+					$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
+				} else {
+					$this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+
+					// fetch up2date data
+					$this->data = $this->database->get_phpietadmin_user($this->username);
+				}
 			} else {
-				$this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-
-				// fetch up2date data
-				$this->data = $this->database->get_phpietadmin_user($this->username);
+				$this->logging->log_action_result('The username is already in use!', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
 			}
 		} else {
 			$this->logging->log_action_result('Please instantiate the object with a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
@@ -96,16 +100,22 @@ class User extends core\BaseModel {
 
     public function delete() {
 		if ($this->username !== false && $this->status !== false) {
-			$return = $this->database->delete_phpietadmin_user($this->username);
+			$count = $this->returnUserCount();
 
-			if ($return != 0) {
-				$this->logging->log_action_result('The user ' . $this->username . ' was not deleted from the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
-
-				// invalidate data
-				$this->status = false;
-				$this->data = false;
+			if ($count <= 1) {
+				$this->logging->log_action_result('The last user cannot be deleted!', array('result' => 3, 'code_type' => 'extern'), __METHOD__);
 			} else {
-				$this->logging->log_action_result('The user ' . $this->username . ' was successfully deleted from the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+				$return = $this->database->delete_phpietadmin_user($this->username);
+
+				if ($return !== 0) {
+					$this->logging->log_action_result('The user ' . $this->username . ' was not deleted from the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
+
+					// invalidate data
+					$this->status = false;
+					$this->data = false;
+				} else {
+					$this->logging->log_action_result('The user ' . $this->username . ' was successfully deleted from the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+				}
 			}
 		} else {
 			$this->logging->log_action_result('Please instantiate the object with a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
@@ -149,4 +159,18 @@ class User extends core\BaseModel {
 			}
 		}
     }
+
+	private function returnUserCount() {
+		// Save username in temp variable, because the returnData function can only return all users if $this->usrname === false
+		$username = $this->username;
+		$this->username = false;
+		$data = $this->returnData();
+		$this->username = $username;
+
+		if ($data !== false) {
+			return count($data);
+		} else {
+			return 0;
+		}
+	}
 }
