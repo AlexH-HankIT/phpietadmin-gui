@@ -14,13 +14,7 @@ use phpietadmin\app\core;
 			switch ($param1) {
 				case 'show':
 					$users = $this->model('User');
-					$data = $users->returnData();
-
-					if ($data !== false) {
-						$this->view('config/userConfigMenu', $data);
-					} else {
-						$this->view('message', array('message' => 'No user available!', 'type' => 'warning'));
-					}
+					$this->view('config/userConfigMenu', $users->returnData());
 					break;
 				case 'delete':
 					if (isset($_POST['username'])) {
