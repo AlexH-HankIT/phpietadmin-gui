@@ -8,6 +8,7 @@ define(['jquery'], function ($) {
                 url: '/phpietadmin/dashboard/get_version',
                 dataType: 'json',
                 type: 'post',
+                global: false,
                 success: function (data) {
                     var val;
 
