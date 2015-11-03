@@ -43,7 +43,6 @@
                 <table class="table white-table">
                     <thead>
                         <tr>
-                            <th><input type="checkbox"></th>
                             <th>Username</th>
                             <th>Edit password</th>
                             <th>Delete user</th>
@@ -52,7 +51,6 @@
                     <tbody>
 					<?php foreach ($data as $user) { ?>
                         <tr>
-                            <td><input type="checkbox"></td>
                             <td><?php echo $user['username'] ?></td>
                             <td><a href='#'><span class="glyphicon glyphicon-pencil glyphicon-15" data-toggle="modal" data-target="#editPasswordModal"></span></a></td>
                             <td><a href='#'><span class="glyphicon glyphicon-remove glyphicon-15"></span></a></td>
@@ -69,6 +67,7 @@
             require(['pages/config/userConfigMenu', 'domReady'], function(methods, domReady) {
 				domReady(function () {
                     methods.model();
+                    methods.table();
             	});
             });
         });

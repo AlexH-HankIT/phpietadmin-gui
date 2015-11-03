@@ -17,7 +17,7 @@ use phpietadmin\app\core;
 					$data = $users->returnData();
 
 					if ($data !== false) {
-						$this->view('config/user_table', $data);
+						$this->view('config/userConfigMenu', $data);
 					} else {
 						$this->view('message', array('message' => 'No user available!', 'type' => 'warning'));
 					}

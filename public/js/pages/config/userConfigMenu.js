@@ -44,6 +44,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     }, 400);
                 }
             });
+        },
+        table: function() {
+
         }
     };
 });
