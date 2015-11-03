@@ -109,3 +109,12 @@ input, select{
 div.ui-slider-range.ui-widget-header {
     background: #5cb85c;
 }
+
+.input-group-addon-25 {
+    min-width:25%;
+    text-align:left;
+}
+
+.input-group {
+    width: 100%;
+}
