@@ -1,4 +1,4 @@
-define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', 'bootstrap'], function($, qtip, filterTable, swal, blockUI, nprogress) {
+define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], function($, qtip, filterTable, swal, blockUI) {
     var methods;
     return methods = {
         check_session_expired: function() {
@@ -6,6 +6,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
                 $.ajax({
                     url: '/phpietadmin/connection/check_session_expired',
                     type: 'post',
+                    global: 'false',
                     success: function (data) {
                         if (data == '') {
                             // reload the page to display the login form
@@ -54,7 +55,6 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
         },
         load_configure_target_body: function(link, clicked) {
             $('#configure_target_body').remove();
-            nprogress.start();
 
             if (clicked !== undefined && clicked != '') {
                 $('#configure_target_menu').find('ul').children('li').removeClass('active');
@@ -73,14 +73,12 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
                     '</div>' +
                     '</div>');
                 }
-                nprogress.done();
             });
             return false;
         },
         load_lvm_target_body: function (link, clicked) {
             var logical_volume_selector_selected = $('#logical_volume_selector').find("option:selected");
             $('#configure_lvm_body').remove();
-            nprogress.start();
 
             if (clicked !== undefined && clicked != '') {
                 $('#configure_lvm_menu').find('ul').children('li').removeClass('active');
@@ -99,12 +97,10 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
                     '</div>' +
                     '</div>');
                 }
-                nprogress.done();
             });
             return false;
         },
         load_data: function(link) {
-            nprogress.start();
             $('#data').html('').load(link, {iqn: $('#target_selector').find("option:selected").val()}, function (response, status) {
                 if (status == 'error') {
                     $(this).html("<div id='configure_target_control'>" +
@@ -117,7 +113,6 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
                     '</div>' +
                     '</div>');
                 }
-                nprogress.done();
             });
             return false;
         },
@@ -151,8 +146,6 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
                 clicked.parents('li').addClass('active');
             }
 
-            nprogress.start();
-
             // remove the previously loaded workspace (only if the site was called directly, via F5 for example)
             // content loaded via ajax is inside the #workspace_wrapper div
             // normally we wouldn't need this
@@ -176,7 +169,6 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'nprogress', '
                 } else {
                     window.history.pushState({path: link}, '', link);
                 }
-                nprogress.done();
             });
             return false;
         },

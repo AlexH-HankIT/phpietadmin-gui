@@ -31,7 +31,7 @@ requirejs.config({
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function ($, qtip, filterTable, mylibs, swal, pingjs) {
+define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function ($, qtip, filterTable, mylibs, swal, pingjs, nprogress) {
     var methods;
 
     return methods = {
@@ -82,6 +82,14 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'boot
                         $this.closest('li').addClass('active').parents().addClass('active');
                     }
                 }
+            });
+
+            $(document).ajaxStart(function() {
+                nprogress.start();
+            });
+
+            $(document).ajaxComplete(function() {
+                nprogress.done();
             });
 
         },
