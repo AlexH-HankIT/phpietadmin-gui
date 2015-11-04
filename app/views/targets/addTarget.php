@@ -30,7 +30,7 @@
 
     <script>
         require(['common'],function() {
-            require(['pages/target/addtarget', 'domReady'],function(methods, domReady) {
+            require(['pages/target/addTarget', 'domReady'],function(methods, domReady) {
                 domReady(function () {
                     methods.disable_special_chars();
                     methods.focus_input();

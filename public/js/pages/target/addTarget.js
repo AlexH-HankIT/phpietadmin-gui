@@ -41,19 +41,18 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             $('#iqninput').focus();
         },
         remove_error: function () {
-            var $iqninput = $('#iqninput');
-            /* remove error if field is clicked */
-            $iqninput.click(function () {
-                $iqninput.removeClass('focusedInputerror');
+            $('#iqninput').once('click', function () {
+                $(this).parent('div').removeClass('has-error');
             });
         },
         add_event_handler_addtargetbutton: function () {
             $('#addtargetbutton').once('click', function () {
-                var $iqninput = $('#iqninput');
-                var def = $('#defaultiqn').val();
+                var $iqninput = $('#iqninput'),
+                    def = $('#defaultiqn').val(),
+                    $iqninputParentDiv = $iqninput.parent('div');
 
                 if ($iqninput.val() === '') {
-                    $iqninput.addClass('focusedInputerror');
+                    $iqninputParentDiv.addClass('has-error');
                     return false;
                 } else {
                     $.ajax({
@@ -82,7 +81,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         text: data['message']
                                     },
                                     function () {
-                                        $iqninput.addClass('focusedInputerror');
+                                        $iqninputParentDiv.addClass('has-error');
                                     });
                             }
                         },

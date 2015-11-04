@@ -9,7 +9,7 @@ use phpietadmin\app\core;
                 $target->add();
                 echo json_encode($target->logging->get_action_result());
             } else {
-                $this->view('targets/addtarget', $this->base_model->database->get_config('iqn')['value'] . ":");
+                $this->view('targets/addTarget', $this->base_model->database->get_config('iqn')['value'] . ":");
             }
         }
 
