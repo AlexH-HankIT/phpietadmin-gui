@@ -15,7 +15,11 @@ class User extends core\BaseModel {
 		// instantiate parent class to access database and logging functions
 		parent::__construct();
 
-        $this->username = $username;
+		if (!empty($username)) {
+			$this->username = $username;
+		} else {
+			$this->username = false;
+		}
 
 		// check if option exists in database
 		if ($username !== false) {
@@ -33,7 +37,7 @@ class User extends core\BaseModel {
 				$this->status = true;
 			}
 		} else {
-			$this->logging->log_action_result('Please instantiate the object with a username!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
+			$this->logging->log_action_result('Please input a username!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
 		}
 	}
 
@@ -94,7 +98,7 @@ class User extends core\BaseModel {
 				$this->logging->log_action_result('The username is already in use!', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
 			}
 		} else {
-			$this->logging->log_action_result('Please instantiate the object with a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
+			$this->logging->log_action_result('Please input a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
 		}
     }
 
@@ -118,7 +122,7 @@ class User extends core\BaseModel {
 				}
 			}
 		} else {
-			$this->logging->log_action_result('Please instantiate the object with a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
+			$this->logging->log_action_result('Please input a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
 		}
     }
 
@@ -135,7 +139,7 @@ class User extends core\BaseModel {
 				$this->data = $this->database->get_phpietadmin_user($this->username);
 			}
 		} else {
-			$this->logging->log_action_result('Please instantiate the object with a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
+			$this->logging->log_action_result('Please input a username!', array('result' => 9, 'code_type' => 'intern'), __METHOD__);
 		}
     }
 

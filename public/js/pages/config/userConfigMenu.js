@@ -73,7 +73,8 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 passwordInputCreateUser = $('.passwordInputCreateUser'),
                 inputPasswordNewVal = $('#inputPasswordNew').val(),
                 inputPasswordRepeatNewVal = $('#inputPasswordRepeatNew').val(),
-                passwordInputCreateUserParentDiv = passwordInputCreateUser.parent('div');
+                passwordInputCreateUserParentDiv = passwordInputCreateUser.parent('div'),
+                usernameNewParentDiv = usernameNew.parent('div');
 
             createUserModal.once('shown.bs.modal', function () {
                 usernameNew.focus();
@@ -84,19 +85,31 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 passwordInputCreateUserParentDiv.removeClass('has-error');
             });
 
+            usernameNew.once('click', function() {
+                usernameNewParentDiv.removeClass('has-error');
+            });
+
             $('#saveUserButton').once('click', function() {
+                var usernameNewVal = usernameNew.val();
+
                 if (passwordInputCreateUser.val() === '' || inputPasswordNewVal !== inputPasswordRepeatNewVal) {
                     passwordInputCreateUserParentDiv.addClass('has-error');
                 } else {
                     passwordInputCreateUserParentDiv.removeClass('has-error').addClass('has-success');
                 }
 
+                if (usernameNewVal === '') {
+                    usernameNewParentDiv.addClass('has-error');
+                } else {
+                    usernameNewParentDiv.removeClass('has-error').addClass('has-success');
+                }
+
                 // Only close modal on success
-                if (passwordInputCreateUserParentDiv.hasClass('has-success')) {
+                if (passwordInputCreateUserParentDiv.hasClass('has-success') && usernameNewParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: url + '/add',
                         data: {
-                            "username": usernameNew.val(),
+                            "username": usernameNewVal,
                             "password": inputPasswordNewVal
                         },
                         dataType: 'json',
@@ -106,17 +119,20 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                                 // Wait a bit to inform the user of the success
                                 setTimeout(function() {
                                     createUserModal.modal('hide');
-                                    // Remove success class, otherwise it is still displayed, if the user opens the modal again
-                                    //passwordInputParentDiv.removeClass('has-success has-error');
 
-                                    // Empty the password input fields
-                                    //passwordInput.val('');
+                                    // Remove success class, otherwise it is still displayed, if the user opens the modal again
+                                    passwordInputCreateUserParentDiv.removeClass('has-success has-error');
+                                    usernameNewParentDiv.removeClass('has-success has-error');
+                                    passwordInputCreateUser.val('');
+                                    usernameNew.val('');
                                 }, 400);
 
                                 createUserModal.once('hidden.bs.modal', function() {
                                     return mylibs.load_workspace(url);
                                 });
                             } else {
+                                usernameNewParentDiv.removeClass('has-success').addClass('has-error');
+                                passwordInputCreateUserParentDiv.removeClass('has-success').addClass('has-error');
                                 showErrorInCreateUserModal.html(data['message']);
                             }
                         },
