@@ -71,8 +71,6 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 showErrorInCreateUserModal = $('#showErrorInCreateUserModal'),
                 url = '/phpietadmin/config/user',
                 passwordInputCreateUser = $('.passwordInputCreateUser'),
-                inputPasswordNewVal = $('#inputPasswordNew').val(),
-                inputPasswordRepeatNewVal = $('#inputPasswordRepeatNew').val(),
                 passwordInputCreateUserParentDiv = passwordInputCreateUser.parent('div'),
                 usernameNewParentDiv = usernameNew.parent('div');
 
@@ -90,7 +88,9 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
             });
 
             $('#saveUserButton').once('click', function() {
-                var usernameNewVal = usernameNew.val();
+                var usernameNewVal = usernameNew.val(),
+                    inputPasswordNewVal = $('#inputPasswordNew').val(),
+                    inputPasswordRepeatNewVal = $('#inputPasswordRepeatNew').val();
 
                 if (passwordInputCreateUser.val() === '' || inputPasswordNewVal !== inputPasswordRepeatNewVal) {
                     passwordInputCreateUserParentDiv.addClass('has-error');

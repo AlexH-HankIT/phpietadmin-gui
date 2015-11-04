@@ -22,7 +22,7 @@ Take a look at the github releases for detailed information about the features.
 
 ## Bugs in 0.5.6:
     - [ ] Parse function could overwrite comments
-    - [ ] Fix phpietadmin login user menu
+    - [x] Fix phpietadmin login user menu
     - [x] The same object can be added multiple times to a iqn
 
 ## Roadmap
