@@ -12,7 +12,7 @@
                         <span class="label label-success bestaetigung">Success</span>
                     </td>
                     <td class="col-md-5 passwordcell">
-                        <a href="#"><span class="glyphicon glyphicon-hand-right glyphicon-20 generate_pw" aria-hidden="true"></span></a>&nbsp;&nbsp;
+                        <a href="#"><button class="btn btn-xs btn-success generate_pw">Generate</button></a>
                         <input class="password" maxlength="16" type="text" placeholder="Password">
                         <span class="label label-success bestaetigung">Success</span>
                     </td>
