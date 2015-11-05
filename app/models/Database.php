@@ -249,9 +249,9 @@ EOT;
 	 */
     public function get_phpietadmin_user($username = false) {
 		if ($username === false) {
-			$query = $this->prepare('SELECT user_id, username, password, session_id, (SELECT level from phpietadmin_permissions where id = permissions) FROM phpietadmin_user');
+			$query = $this->prepare('SELECT user_id, username, password, session_id, (SELECT level from phpietadmin_permissions where id = permissions) as permission FROM phpietadmin_user');
 		} else {
-            $query = $this->prepare('SELECT user_id, username, password, session_id, (SELECT level from phpietadmin_permissions where id = permissions) FROM phpietadmin_user WHERE username = :username');
+            $query = $this->prepare('SELECT user_id, username, password, session_id, (SELECT level from phpietadmin_permissions where id = permissions) as permission FROM phpietadmin_user WHERE username = :username');
 			$query->bindValue('username', $username, SQLITE3_TEXT);
 		}
 
