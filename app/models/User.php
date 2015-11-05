@@ -62,7 +62,7 @@ class User extends core\BaseModel {
 				$authCode = file_get_contents('/usr/share/phpietadmin/install/auth');
 
 				if ($authCode === $user_input_auth_code) {
-					$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password1));
+					$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password1), 'root', true);
 
 					if ($return !== 0) {
 						$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
@@ -84,7 +84,7 @@ class User extends core\BaseModel {
     public function add($password) {
 		if ($this->username !== false) {
 			if ($this->status === false) {
-				$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password));
+				$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password), 'admin');
 
 				if ($return !== 0) {
 					$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);

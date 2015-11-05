@@ -206,10 +206,21 @@ EOT;
         }
     }
 
-    public function add_phpietadmin_user($username, $hash) {
-		$query = $this->prepare('INSERT INTO phpietadmin_user (username, password) VALUES (:username, :pwhash)');
+    public function add_phpietadmin_user($username, $hash, $permissions, $first = false) {
+        if ($first !== false) {
+            $query = $this->prepare('INSERT INTO phpietadmin_user (username, password, permissions) VALUES (:username, :pwhash, (SELECT id from phpietadmin_permissions WHERE level = "root"))');
+        } else {
+            // prevent this function from adding a second root user
+            if ($permissions === 'root') {
+                $permissions = 'admin';
+            }
+
+            $query = $this->prepare('INSERT INTO phpietadmin_user (username, password, permissions) VALUES (:username, :pwhash, (SELECT id from phpietadmin_permissions WHERE level = :permission))');
+        }
+
 		$query->bindValue('username', $username, SQLITE3_TEXT);
 		$query->bindValue('pwhash', $hash, SQLITE3_TEXT);
+		$query->bindValue('permission', $permissions, SQLITE3_TEXT);
 		$query->execute();
 		return $this->return_last_error();
     }
@@ -238,9 +249,9 @@ EOT;
 	 */
     public function get_phpietadmin_user($username = false) {
 		if ($username === false) {
-			$query = $this->prepare('SELECT user_id, username, password, session_id FROM phpietadmin_user');
+			$query = $this->prepare('SELECT user_id, username, password, session_id, (SELECT level from phpietadmin_permissions where id = permissions) FROM phpietadmin_user');
 		} else {
-            $query = $this->prepare('SELECT user_id, username, password, session_id FROM phpietadmin_user WHERE username = :username');
+            $query = $this->prepare('SELECT user_id, username, password, session_id, (SELECT level from phpietadmin_permissions where id = permissions) FROM phpietadmin_user WHERE username = :username');
 			$query->bindValue('username', $username, SQLITE3_TEXT);
 		}
 
