@@ -29,7 +29,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     return $.ajax({
                         url: '/phpietadmin/targets/configure/deleterule',
                         data: {
-                            'iqn': $('#targetselection').find("option:selected").val(),
+                            'iqn': $('#target_selector').find("option:selected").val(),
                             'value': $this.closest('tr').find('.object_value').text(),
                             'rule_type': rule_type
                         },
@@ -50,7 +50,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                 });
                             }
                         },
-                        error: function () {
+                        error: function (data) {
+                            console.log(data);
                             swal({
                                 title: 'Error',
                                 type: 'error',
@@ -68,7 +69,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 });
 
                 $.when.apply($, def).done(function () {
-                    methods.load_data(rule_type)
+                    methods.load_data(rule_type);
                 });
             });
         }
