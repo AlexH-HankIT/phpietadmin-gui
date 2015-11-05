@@ -250,7 +250,7 @@ use phpietadmin\app\core;
 						$target = $this->model('target\Target', $iqn);
 
                         if ($param2 == 'targets') {
-                            $data = $target->get_acls('target');
+                            $data = $target->get_acls('targets');
                             if ($data !== false) {
                                 // delete the iqn
                                 unset($data[0]);
@@ -260,7 +260,7 @@ use phpietadmin\app\core;
                                 $this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning'));
                             }
                         } else if ($param2 == 'initiators') {
-                            $data = $target->get_acls('initiator');
+                            $data = $target->get_acls('initiators');
                             if ($data !== false) {
                                 // delete the iqn
                                 unset($data[0]);
