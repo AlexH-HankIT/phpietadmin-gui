@@ -6,6 +6,7 @@ $config = array(
     'databaseScriptNew' => "install/database.new.sql",
     'databaseScriptUpdate' => "install/database.update.sql",
     'databaseFile' => "app/config.db",
+    'authFile' => '/usr/share/phpietadmin/install/auth'
 );
 checkEnvironment();
 

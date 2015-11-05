@@ -7,11 +7,33 @@ function showDebugMessage() {
 
 }
 
+function random_password( $length = 8 ) {
+    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    $password = substr( str_shuffle( $chars ), 0, $length );
+    return $password;
+}
+
 function showErrorMessage($message, $abort = true) {
     echo "\e[0;31mError:\e[0m " . $message . "\n";
 
     if ($abort === true) {
         die("Aborting...\n");
+    }
+}
+
+function generateAuthCode() {
+    global $config;
+    if (file_exists($config['authFile'])) {
+        echo "Code was already generated!\n";
+    } else {
+        $password = random_password(8);
+        if (file_put_contents($config['authFile'], $password) !== false) {
+            echo "Success\n";
+            echo "Code is " . $password . "\n";
+            chown($config['authFile'], 'www-data');
+        } else {
+            echo "Failure\n";
+        }
     }
 }
 
