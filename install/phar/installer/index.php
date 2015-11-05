@@ -7,8 +7,7 @@ $config = array(
     'databaseScriptUpdate' => "install/database.update.sql",
     'databaseFile' => "app/config.db",
 );
-//checkEnvironment();
-updateInstallation();
+checkEnvironment();
 
 if ($config['userInput']['action'] === "update") {
     updateInstallation();
