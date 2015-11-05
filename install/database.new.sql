@@ -28,7 +28,14 @@ CREATE TABLE phpietadmin_user(
   user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   username varchar(255) NOT NULL,
   password char(60) NOT NULL, /* for bcrypt hash */
-  session_id INTEGER DEFAULT NULL
+  session_id INTEGER DEFAULT NULL,
+  permissions INTEGER NOT NULL
+);
+
+DROP TABLE IF EXISTS phpietadmin_permissions;
+CREATE TABLE phpietadmin_permissions(
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  level varchar(255) NOT NULL
 );
 
 DROP TABLE IF EXISTS phpietadmin_object;
@@ -161,6 +168,10 @@ INSERT INTO phpietadmin_config_type(type) VALUES
   ('bool');
 
 INSERT INTO phpietadmin_object (value, name, type_id) VALUES ('ALL', 'ALL', (SELECT type_id from phpietadmin_object_type where value='all'));
+
+INSERT INTO phpietadmin_permissions (level) VALUES
+('root'),
+('admin');
 
 INSERT INTO phpietadmin_service (name, enabled) VALUES
   ('cron', 1),
