@@ -15,62 +15,12 @@ Phpietadmin is tested on 8. But it’s not limited to debian.
 It should run just fine on any other linux distribution.
 
 ## Docs
-Will be added once version 0.6 is released
+https://github.com/HankIT/phpietadmin-gui/wiki/Installation-v0.6
 
 ## Features
 Take a look at the github releases for detailed information about the features.
 
-## Bugs in 0.5.6:
-    - [x] Parse function could overwrite comments
-    - [x] Fix phpietadmin login user menu
-    - [x] The same object can be added multiple times to a iqn
-
 ## Roadmap
-In version 0.6:
-* LVM
-    - [x] Lvm snapshots (No merging...)
-    - [x] Add lvextend, lvremove, lvrename features
-
-* Frontend
-    - [x] Disable the auto logout by using a 0 in the config menu
-    - [x] Put hostname in title
-    - [x] Bar for PV/VG usage
-    - [x] Cool sliders (http://www.jqueryrain.com/?ot4e1H_o)
-    - [x] Better counter (html5 number doesn't look so good... http://www.virtuosoft.eu/code/bootstrap-touchspin/)
-    - [x] Nested tables for iet volumes and iet sessions (https://github.com/wenzhixin/bootstrap-table-examples/blob/master/options/sub-table.html)
-    - [x] Override option, if user is already logged in
-    - [x] Create logging gui
-    - [x] Improved ajax menu with error handling
-    - [x] Use custom data attributes to store data in dom
-    - [x] Configure target: Show if target has open sessions
-    - [x] Rework the javascript code
-    - [x] Select all checkbox
-    - [x] Add loader if button is pressed to inform the user of the running process
-
-* Backend
-    - [x] Create a target model with all functions which are necessary to add/delete/change a target
-    - [x] Create a lvm model
-    - [x] Basic error logging
-    - [x] Login/Logout logging
-    - [x] Debug logging
-    - [x] Use namespaces with basic autoloader
-    - [x] New lsblk parser
-    - [x] Replace version file with .json
-    - [x] Use bcrypt for storing passwords
-    - [x] Prevent comments from being deleted, when editing a config file
-    - [x] Rewrite file parser for the iet files
-    - [x] New session implementation
-    - [x] Delete the "Detach/delete lun" functions
-    - [x] Prevent iqn and objects from having whitespaces
-    - [x] Log also successful messages
-    - [x] User Model: Delete user, develop better way to check if user is in use
-    - [x] Support for live resizing of targets (with workaround, since iet doesn't support)
-    - [x] Create backup before editing a config file
-    - [x] Create first user via gui
-
-* Misc
-    - [ ] Create development branch after release of v0.6 (master should be stable)
-
 In version 0.7:
 * LVM
     - [ ] Volume group menu (select which volume groups phpietadmin should use)
