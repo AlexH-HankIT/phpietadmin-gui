@@ -104,10 +104,8 @@ class User extends core\BaseModel {
 
     public function delete() {
 		if ($this->username !== false && $this->status !== false) {
-			$count = $this->returnUserCount();
-
-			if ($count <= 1) {
-				$this->logging->log_action_result('The last user cannot be deleted!', array('result' => 3, 'code_type' => 'extern'), __METHOD__);
+			if ($this->data[0]['permission'] === 'root') {
+				$this->logging->log_action_result('The root user cannot be deleted!', array('result' => 3, 'code_type' => 'extern'), __METHOD__);
 			} else {
 				$return = $this->database->delete_phpietadmin_user($this->username);
 
