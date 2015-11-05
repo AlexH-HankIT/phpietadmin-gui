@@ -13,4 +13,3 @@ www-data ALL=NOPASSWD: /sbin/vgs, \
                        /usr/sbin/service iscsitarget *, \
                        /usr/sbin/service rsyslog *, \
                        /usr/sbin/service apache2 *
-
