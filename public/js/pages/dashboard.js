@@ -2,8 +2,7 @@ define(['jquery'], function ($) {
     var methods;
     return methods = {
         checkversion: function () {
-            var $versioncheck = $('#versioncheck');
-
+            var $versionCheck = $('#versionCheck');
             $.ajax({
                 url: '/phpietadmin/dashboard/get_version',
                 dataType: 'json',
@@ -19,16 +18,15 @@ define(['jquery'], function ($) {
                     }
 
                     if (val === true) {
-                        $versioncheck.addClass('label-success').text('Up2date');
+                        $versionCheck.removeClass('label-info').addClass('label-success').text('Up2date');
                     } else {
-                        $versioncheck.addClass('label-danger').text(val + ' available!');
+                        $versionCheck.removeClass('label-info').addClass('label-danger').text(val + ' available!');
                     }
                 },
                 error: function () {
-                    $versioncheck.addClass('label-warning').text('Version unknown!');
+                    $versionCheck.removeClass('label-info').addClass('label-warning').text('Version unknown!');
                 }
             });
-
         }
     };
 });

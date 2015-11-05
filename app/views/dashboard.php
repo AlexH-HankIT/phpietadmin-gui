@@ -26,7 +26,7 @@
                 </tr>
                 <tr>
                     <td class="dashboardoption">phpietadmin version status</td>
-                    <td class="dashboardvalue"><span id='versioncheck' class="label"></span></td>
+                    <td class="dashboardvalue"><span id='versionCheck' class="label label-info">Getting version...</span></td>
                 </tr>
                 <tr>
                     <td class="dashboardoption">Distribution</td>
