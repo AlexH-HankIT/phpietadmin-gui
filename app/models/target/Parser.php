@@ -123,9 +123,20 @@
                     // so we just add a index to the key array
                     // multiple keys are only handled in delete functions
                     // there is no function which adds multiple lines
-                    $file_keys[] = max($file_keys) + 1;
+                    if (count($file_keys) === 0) {
+                        if (isset($comments) && is_array($comments)) {
+                            $file_keys[] = count($comments) + 1;
+                        } else {
+                            $file_keys[] =  1;
+                        }
+                    } else {
+                        if (isset($comments) && is_array($comments)) {
+                            $file_keys[] = $callback_data_count + count($comments) + 1;
+                        } else {
+                            $file_keys[] = $callback_data_count + 1;
+                        }
+                    }
                 }
-
                 $file = array_combine($file_keys, $callback_data['file']);
             }
 
