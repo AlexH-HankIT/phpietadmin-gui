@@ -27,11 +27,15 @@ function destroyDir($dir, $virtual = false) {
 }
 
 function showInfoMessage() {
-
+    /*
+     * ToDo
+     */
 }
 
 function showDebugMessage() {
-
+    /*
+     * ToDo
+     */
 }
 
 function random_password( $length = 8 ) {
@@ -130,6 +134,12 @@ function updateInstallation() {
     backupInstallation();
     restoreDatabaseBackup();
     updateDatabase();
+}
+
+function createInstallation() {
+    /*
+     * ToDo
+     */
 }
 
 function checkEnvironment() {
