@@ -3,16 +3,16 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
 
     return methods = {
         editPasswordModel: function() {
-            var editPasswordModal = $('#editPasswordModal'),
-                passwordInput = $('.passwordInput'),
-                inputPassword = $('#inputPassword');
+            var $editPasswordModal = $('#editPasswordModal'),
+                $passwordInput = $('.passwordInput'),
+                $inputPassword = $('#inputPassword');
 
-            editPasswordModal.once('shown.bs.modal', function () {
-                inputPassword.focus();
+            $editPasswordModal.once('shown.bs.modal', function () {
+                $inputPassword.focus();
             });
 
             // Remove error, when input field is filled
-            passwordInput.once('click', function() {
+            $passwordInput.once('click', function() {
                 $(this).parent('div').removeClass('has-error');
             });
 
@@ -22,18 +22,18 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
             });
 
             $('#savePasswordButton').once('click', function() {
-                var inputPasswordVal = inputPassword.val(),
+                var inputPasswordVal = $inputPassword.val(),
                     inputPasswordRepeatVal = $('#inputPasswordRepeat').val(),
-                    passwordInputParentDiv = passwordInput.parent('div');
+                    $passwordInputParentDiv = $passwordInput.parent('div');
 
-                if (passwordInput.val() === '' || inputPasswordVal !== inputPasswordRepeatVal) {
-                    passwordInputParentDiv.addClass('has-error');
+                if ($passwordInput.val() === '' || inputPasswordVal !== inputPasswordRepeatVal) {
+                    $passwordInputParentDiv.addClass('has-error');
                 } else {
-                    passwordInputParentDiv.removeClass('has-error').addClass('has-success');
+                    $passwordInputParentDiv.removeClass('has-error').addClass('has-success');
                 }
 
                 // Only close modal on success
-                if (passwordInputParentDiv.hasClass('has-success')) {
+                if ($passwordInputParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: '/phpietadmin/config/user/change',
                         data: {
@@ -46,13 +46,13 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                             if (data['code'] === 0) {
                                 // Wait a bit to inform the user of the success
                                 setTimeout(function() {
-                                    editPasswordModal.modal('hide');
+                                    $editPasswordModal.modal('hide');
 
                                     // Remove success class, otherwise it is still displayed, if the user opens the modal again
-                                    passwordInputParentDiv.removeClass('has-success has-error');
+                                    $passwordInputParentDiv.removeClass('has-success has-error');
 
                                     // Empty the password input fields
-                                    passwordInput.val('');
+                                    $passwordInput.val('');
                                 }, 400);
                             } else {
                                 $('#showErrorInModal').html(data['message']);
@@ -66,46 +66,46 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
             });
         },
         addUserModal: function() {
-            var createUserModal = $('#createUserModal'),
-                usernameNew = $('#usernameNew'),
-                showErrorInCreateUserModal = $('#showErrorInCreateUserModal'),
+            var $createUserModal = $('#createUserModal'),
+                $usernameNew = $('#usernameNew'),
+                $showErrorInCreateUserModal = $('#showErrorInCreateUserModal'),
                 url = '/phpietadmin/config/user',
-                passwordInputCreateUser = $('.passwordInputCreateUser'),
-                passwordInputCreateUserParentDiv = passwordInputCreateUser.parent('div'),
-                usernameNewParentDiv = usernameNew.parent('div');
+                $passwordInputCreateUser = $('.passwordInputCreateUser'),
+                $passwordInputCreateUserParentDiv = $passwordInputCreateUser.parent('div'),
+                $usernameNewParentDiv = $usernameNew.parent('div');
 
-            createUserModal.once('shown.bs.modal', function () {
-                usernameNew.focus();
+            $createUserModal.once('shown.bs.modal', function () {
+                $usernameNew.focus();
             });
 
             // Remove error, when input field is filled
-            passwordInputCreateUser.once('click', function() {
-                passwordInputCreateUserParentDiv.removeClass('has-error');
+            $passwordInputCreateUser.once('click', function() {
+                $passwordInputCreateUserParentDiv.removeClass('has-error');
             });
 
-            usernameNew.once('click', function() {
-                usernameNewParentDiv.removeClass('has-error');
+            $usernameNew.once('click', function() {
+                $usernameNewParentDiv.removeClass('has-error');
             });
 
             $('#saveUserButton').once('click', function() {
-                var usernameNewVal = usernameNew.val(),
+                var usernameNewVal = $usernameNew.val(),
                     inputPasswordNewVal = $('#inputPasswordNew').val(),
                     inputPasswordRepeatNewVal = $('#inputPasswordRepeatNew').val();
 
-                if (passwordInputCreateUser.val() === '' || inputPasswordNewVal !== inputPasswordRepeatNewVal) {
-                    passwordInputCreateUserParentDiv.addClass('has-error');
+                if ($passwordInputCreateUser.val() === '' || inputPasswordNewVal !== inputPasswordRepeatNewVal) {
+                    $passwordInputCreateUserParentDiv.addClass('has-error');
                 } else {
-                    passwordInputCreateUserParentDiv.removeClass('has-error').addClass('has-success');
+                    $passwordInputCreateUserParentDiv.removeClass('has-error').addClass('has-success');
                 }
 
                 if (usernameNewVal === '') {
-                    usernameNewParentDiv.addClass('has-error');
+                    $usernameNewParentDiv.addClass('has-error');
                 } else {
-                    usernameNewParentDiv.removeClass('has-error').addClass('has-success');
+                    $usernameNewParentDiv.removeClass('has-error').addClass('has-success');
                 }
 
                 // Only close modal on success
-                if (passwordInputCreateUserParentDiv.hasClass('has-success') && usernameNewParentDiv.hasClass('has-success')) {
+                if ($passwordInputCreateUserParentDiv.hasClass('has-success') && $usernameNewParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: url + '/add',
                         data: {
@@ -118,26 +118,26 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                             if (data['code'] === 0) {
                                 // Wait a bit to inform the user of the success
                                 setTimeout(function() {
-                                    createUserModal.modal('hide');
+                                    $createUserModal.modal('hide');
 
                                     // Remove success class, otherwise it is still displayed, if the user opens the modal again
-                                    passwordInputCreateUserParentDiv.removeClass('has-success has-error');
-                                    usernameNewParentDiv.removeClass('has-success has-error');
-                                    passwordInputCreateUser.val('');
-                                    usernameNew.val('');
+                                    $passwordInputCreateUserParentDiv.removeClass('has-success has-error');
+                                    $usernameNewParentDiv.removeClass('has-success has-error');
+                                    $passwordInputCreateUser.val('');
+                                    $usernameNew.val('');
                                 }, 400);
 
-                                createUserModal.once('hidden.bs.modal', function() {
+                                $createUserModal.once('hidden.bs.modal', function() {
                                     return mylibs.load_workspace(url);
                                 });
                             } else {
-                                usernameNewParentDiv.removeClass('has-success').addClass('has-error');
-                                passwordInputCreateUserParentDiv.removeClass('has-success').addClass('has-error');
-                                showErrorInCreateUserModal.html(data['message']);
+                                $usernameNewParentDiv.removeClass('has-success').addClass('has-error');
+                                $passwordInputCreateUserParentDiv.removeClass('has-success').addClass('has-error');
+                                $showErrorInCreateUserModal.html(data['message']);
                             }
                         },
                         error: function () {
-                            showErrorInCreateUserModal.html('Submit failed!');
+                            $showErrorInCreateUserModal.html('Submit failed!');
                         }
                     });
                 }
