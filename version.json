@@ -1,6 +1,6 @@
 {
   "version": [
-    {"name": "phpietadmin"},
+    {"name": "phpietadmin-gui"},
     {"version_nr": "0.6"},
     {"downloadurl": "https://github.com/HankIT/phpietadmin-gui/archive/v0.6.zip"},
     {"release": "stable"}
