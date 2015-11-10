@@ -1,9 +1,18 @@
-define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, swal, qtip, once) {
+define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, mylibs, swal, once, touchspin) {
     var methods;
 
     return methods = {
         add_event_handler_settings_table_checkbox: function () {
-            $('.value').once('input', function () {
+            var value = $('.value');
+
+            value.TouchSpin({
+                verticalbuttons: true,
+                verticalupclass: 'glyphicon glyphicon-plus',
+                verticaldownclass: 'glyphicon glyphicon-minus',
+                max: 10000000
+            });
+
+            value.once('input', function () {
                 var $this = $(this);
                 var $this_row = $this.closest('tr');
                 var oldvalue = $this_row.find('.default_value_before_change').val();
@@ -19,12 +28,11 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip', 'once'], function ($, mylibs, 
         },
         add_event_handler_save_value: function () {
             $('.savevalueinput').once('click', function () {
-                var this_row = $(this).closest('tr');
+                var this_row = $(this).closest('tr'),
+                    newvalue,
+                    type,
+                    oldvalue = this_row.find('.default_value_before_change').val();
 
-                var newvalue;
-                var type;
-
-                var oldvalue = this_row.find('.default_value_before_change').val();
                 newvalue = this_row.find('.value').val();
 
                 // If value is not defined

@@ -36,7 +36,6 @@ In version 0.7:
     - [ ] Display input validation with bootstrap css Validation states (http://formvalidation.io/validators/integer/)
     - [ ] Bootstrap-table Table Select Checkbox
     - [ ] Awesome checkboxes (https://github.com/designmodo/Flat-UI)
-    - [ ] Improve configure target settings menu
     - [ ] Improve nested table row handling
     - [ ] Add target and lvm name to url
     - [ ] Overview/Logical volumes VG selector

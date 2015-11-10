@@ -198,23 +198,12 @@ use phpietadmin\app\core;
                     }
                 } else if ($param1 == 'settings') {
                     if (isset($_POST['option'], $_POST['newvalue'], $_POST['iqn'])) {
-                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
-                        $option = filter_input(INPUT_POST, 'option', FILTER_SANITIZE_STRING);
-                        $newvalue = filter_input(INPUT_POST, 'newvalue', FILTER_SANITIZE_STRING);
-
-						$target = $this->model('target\Target', $iqn);
-						$target->add_setting($option, $newvalue);
+						$target = $this->model('target\Target', filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING));
+						$target->add_setting($option = filter_input(INPUT_POST, 'option', FILTER_SANITIZE_STRING), filter_input(INPUT_POST, 'newvalue', FILTER_SANITIZE_STRING));
 						echo json_encode($target->logging->get_action_result());
                     } else if (isset($_POST['iqn'])) {
-                        $iqn = filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING);
-
-						$target = $this->model('target\Target', $iqn);
-						$data = $target->get_all_settings();
-						// cut array in two pieces
-						$len = count($data);
-						$view_data[0] = array_slice($data, 0, $len / 2);
-						$view_data[1] = array_slice($data, $len / 2);
-						$this->view('targets/settings_table', $view_data);
+						$target = $this->model('target\Target', filter_input(INPUT_POST, 'iqn', FILTER_SANITIZE_STRING));
+						$this->view('targets/settings_table', $target->get_all_settings());
                     }
                 } else if ($param1 == 'addrule') {
                     if (isset($_POST['iqn'], $_POST['type'], $_POST['id'])) {
