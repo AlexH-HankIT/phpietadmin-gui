@@ -9,12 +9,18 @@ define(['jquery'], function ($) {
                 type: 'post',
                 global: false,
                 success: function (data) {
-                    var val;
+                    var $phpietadminVersion = $('#phpietadminversion'),
+                        val,
+                        answerVersionString = data['version'][1].version_nr,
+                        answerVersionNumber = answerVersionString.split('.').join(''),
+                        installedVersionNumber = $phpietadminVersion.text().split('.').join('');
 
-                    if (data['version'][1].version_nr === $('#phpietadminversion').text()) {
-                        val = true;
+                    console.log(data);
+
+                    if (answerVersionNumber > installedVersionNumber) {
+                        val = answerVersionString;
                     } else {
-                        val = data['version'][1].version_nr
+                        val = true;
                     }
 
                     if (val === true) {
