@@ -8,7 +8,8 @@ tool. This tool alters the configuration of the daemon while it’s running. Unf
 in the config file itself. Which means, if the daemon gets restart the changes made via ietadm are gone, because the
 daemons loads only the targets from the config file. Phpietadmin saves all changes in the config file and passes them
 directly to the daemon via php’s „exec“ function. This prevents any inconsistency between the config file and the
-daemon live config.
+daemon live config. The file parsers will preserve all comments, so this tool won't mess up your config files. Also a
+backup is created before changes are made.
 
 ## Compatibility
 Phpietadmin is tested on 8. But it’s not limited to debian.
