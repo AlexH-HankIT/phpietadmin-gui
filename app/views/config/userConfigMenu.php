@@ -6,12 +6,12 @@
                 <li class='active'>User</li>
             </ol>
 
-            <div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h3 class="modal-title" id="myModalLabel">Edit password</h3>
+                            <h3 class="modal-title">Edit password</h3>
                         </div>
                         <div class="modal-body">
                             <input hidden id="savedUsername">
@@ -46,12 +46,12 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h3 class="modal-title" id="myModalLabel">Create user</h3>
+                            <h3 class="modal-title">Create user</h3>
                         </div>
                         <div class="modal-body">
                             <div class="row">
