@@ -5,21 +5,46 @@
                 <li class='active'>Users</li>
             </ol>
 
-            <table hidden>
-                <tr id="template">
-                    <td class="col-md-5 usernamecell">
-                        <input class="username" type="text" placeholder="Username">
-                        <span class="label label-success bestaetigung">Success</span>
-                    </td>
-                    <td class="col-md-5 passwordcell">
-                        <a href="#"><button class="btn btn-xs btn-success generate_pw">Generate</button></a>
-                        <input class="password" maxlength="16" type="text" placeholder="Password">
-                        <span class="label label-success bestaetigung">Success</span>
-                    </td>
-                    <td class="col-md-1"><a href="#" class="deleteuserrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
-                    <td class="col-md-1"><a href="#" class="saveuserrow"><span class="glyphicon glyphicon-save glyphicon-20" aria-hidden="true"></span></a></td>
-                </tr>
-            </table>
+            <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h3 class="modal-title">Add iet user</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon input-group-addon-16">Username</span>
+                                        <input type="text" class="form-control" id="addUserUsernameInput" placeholder="Username...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row top-buffer">
+                                <div class="col-md-12">
+                                    <div class="input-group" id="passwordInputGroup">
+                                        <span class="input-group-addon input-group-addon-16">Password</span>
+                                        <input type="text" class="form-control" id="addUserPasswordInput" placeholder="Password...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="generatePasswordButton" type="button">Generate</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div id="showErrorInModal" class="col-md-3"></div>
+                                <div class="col-md-5 col-md-offset-4">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
+                                    <button type="button" class="btn btn-success" id="savePasswordButton"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="table-responsive">
                 <table id="addusertable" class="table searchabletable">
@@ -27,7 +52,7 @@
                     <tr>
                         <th class="col-md-5">Username</th>
                         <th class="col-md-5">Password</th>
-                        <th class="col-md-1"><a href="#" id="adduserrowbutton"><span class="glyphicon glyphicon-plus glyphicon-20" aria-hidden="true"></span></a></th>
+                        <th class="col-md-1"><button id="addRow" class="btn btn-xs btn-success" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
                         <th class="col-md-1"></th>
                     </tr>
                     </thead>
@@ -37,7 +62,7 @@
                             <tr>
                                 <td class="col-md-5 username"><?php echo htmlspecialchars($row['username']); ?></td>
                                 <td class="col-md-5"><span class="passwordfield"><span class="passwordfieldplaceholder"><i>Show</i></span><span class="password" hidden><?php echo htmlspecialchars($row['password']); ?></span></span></td>
-                                <td class="col-md-1"><a href="#" class="deleteuserrow"><span class="glyphicon glyphicon-trash glyphicon-20" aria-hidden="true"></span></a></td>
+                                <td class="col-md-1"><button class="btn btn-xs btn-danger deleteuserrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></td>
                                 <td class="col-md-1"></td>
                             </tr>
                         <?php } ?>
@@ -50,12 +75,12 @@
 
     <script>
 		require(['common'], function () {
-			require(['pages/usertable', 'domReady'], function (methods, domReady) {
+			require(['pages/ietUserTable', 'domReady'], function (methods, domReady) {
 				domReady(function () {
-					methods.add_event_handler_passwordfield();
-					methods.add_event_handler_adduserrowbutton();
-					methods.add_event_handler_deleteuserrow();
-					methods.enable_filter_table_plugin();
+					methods.addEventHandlerPasswordField();
+					methods.addEventHandlerDeleteUserRow();
+					methods.enableFilterTablePlugin();
+                    methods.addUserModal();
 				});
 			});
 		});
