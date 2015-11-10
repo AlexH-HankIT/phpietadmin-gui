@@ -15,8 +15,6 @@ define(['jquery'], function ($) {
                         answerVersionNumber = answerVersionString.split('.').join(''),
                         installedVersionNumber = $phpietadminVersion.text().split('.').join('');
 
-                    console.log(data);
-
                     if (answerVersionNumber > installedVersionNumber) {
                         val = answerVersionString;
                     } else {
