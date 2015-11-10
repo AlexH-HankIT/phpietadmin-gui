@@ -11,7 +11,7 @@ use phpietadmin\app\core;
          */
         public function index() {
             // get all all username, passwords and ids from database and turn them over to the view
-            $this->view('usertable', $this->base_model->database->get_all_users());
+            $this->view('ietUserTable', $this->base_model->database->get_all_users());
         }
 
         /**
