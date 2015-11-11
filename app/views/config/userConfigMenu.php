@@ -98,7 +98,7 @@
                         <tr>
                             <th class="col-md-4">Username</th>
                             <th class="col-md-6">Permission</th>
-                            <th class="col-md-1"><button id="addRow" class="btn btn-xs btn-success" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
+                            <th class="col-md-1"><button class="btn btn-xs btn-success" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
                             <th></th>
                         </tr>
                     </thead>
