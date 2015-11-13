@@ -14,11 +14,6 @@ use phpietadmin\app\core;
                 $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
                 $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
 
-                // delete whitespaces from the user input
-                $type = str_replace(' ', '', $type);
-                $name = str_replace(' ', '', $name);
-                $value = str_replace(' ', '', $value);
-
                 $data = $this->base_model->database->get_all_objects();
                 try {
                     if (is_array($data)) {
