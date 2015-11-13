@@ -22,10 +22,10 @@ use phpietadmin\app\core;
                 $data = $this->base_model->database->get_all_objects();
                 try {
                     if (is_array($data)) {
-                        if ($this->base_model->std->recursive_array_search($value, $data) !== false) {
-                            throw new \exception('value');
-                        } else if($this->base_model->std->recursive_array_search($name, $data) !== false) {
+                        if($this->base_model->std->recursive_array_search($name, $data) !== false) {
                             throw new \exception('name');
+                        } else if ($this->base_model->std->recursive_array_search($value, $data) !== false) {
+                            throw new \exception('value');
                         }
                     }
 
