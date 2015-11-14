@@ -44,11 +44,11 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
             addObjectModalTypeSelect.once('change', function() {
                 clean();
-                addObjectModalNameInput.focus();
                 if ($(this).val() === 'all') {
                     addObjectModalNameInput.prop('disabled', true).val('ALL');
                     addObjectModalValueInput.prop('disabled', true).val('ALL');
                 } else {
+                    addObjectModalNameInput.focus();
                     addObjectModalNameInput.prop('disabled', false);
                     addObjectModalValueInput.prop('disabled', false);
                 }
