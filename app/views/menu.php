@@ -11,7 +11,6 @@
         </div>
         <div id="main_menu_bar" class = "collapse navbar-collapse navHeaderCollapse">
             <ul class = "nav navbar-nav navbar-right">
-                <li class='hidden-sm hidden-md'><a><img hidden id="ajaxloader" src="/phpietadmin/img/ajax-loader.gif"></a></li>
                 <li class='hidden-sm hidden-md'><a><span id='ajax_error_sign' class='glyphicon glyphicon-warning-sign'></span></a></li>
                 <li><a id="menudashboard" class="workspacetab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'> Dashboard</span></a></li>
 

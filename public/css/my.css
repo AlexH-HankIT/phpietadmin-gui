@@ -102,10 +102,6 @@ input, select{
     -webkit-box-sizing: border-box;
 }
 
-#ajax_error_sign {
-    display: none;
-}
-
 div.ui-slider-range.ui-widget-header {
     background: #5cb85c;
 }
