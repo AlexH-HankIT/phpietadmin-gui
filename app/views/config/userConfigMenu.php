@@ -106,8 +106,8 @@
                     <?php if ($data !== false) { ?>
                         <?php foreach ($data as $user) { ?>
                             <tr>
-                                <td class="col-md-4 username"><?php echo $user['username'] ?></td>
-                                <td class="col-md-6"><?php echo $user['permission'] ?></td>
+                                <td class="col-md-4 username"><?php echo htmlspecialchars($user['username']) ?></td>
+                                <td class="col-md-6"><?php echo htmlspecialchars($user['permission']) ?></td>
                                 <td class="col-md-1"><button class="btn btn-xs btn-warning editPasswordSpan" data-toggle="modal" data-target="#editPasswordModal"><span class="glyphicon glyphicon-pencil"></span> Edit</button></td>
                                 <td class="col-md-1"><button class="btn btn-xs btn-danger deleteUserSpan"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
                             </tr>
