@@ -40,73 +40,76 @@ use phpietadmin\app\core;
                 $model = $this->model('lvm\pv\Pv', false);
                 $data = $model->get_pv();
 
-                foreach ($data as $volumes) {
-                    $size = intval($volumes['PSize']);
-                    $width = intval(($size - intval($volumes['PFree'])) * 100 / $size);
-                    if ($width <= 60) {
-                        $bar = 'success';
-                    } else if ($width >= 81) {
-                        $bar = 'danger';
-                    } else if ($width >= 61) {
-                        $bar = 'warning';
-                    } else {
-                        $bar = 'info';
-                    }
-                    $meta[] = array(
-                        'width' => $width,
-                        'type' => $bar
-                    );
-                }
-
-                $title = 'Physical volumes';
-                $heading = array_keys($data[0]);
+				if ($data !== false) {
+					foreach ($data as $volumes) {
+						$size = intval($volumes['PSize']);
+						$width = intval(($size - intval($volumes['PFree'])) * 100 / $size);
+						if ($width <= 60) {
+							$bar = 'success';
+						} else if ($width >= 81) {
+							$bar = 'danger';
+						} else if ($width >= 61) {
+							$bar = 'warning';
+						} else {
+							$bar = 'info';
+						}
+						$meta[] = array(
+							'width' => $width,
+							'type' => $bar
+						);
+					}
+					$heading = array_keys($data[0]);
+					$title = 'Physical volumes';
+				}
             } else if ($param == 'vg') {
                 $model = $this->model('lvm\vg\Vg', false);
                 $data = $model->get_vg();
 
-                foreach ($data as $volumes) {
-                    $size = intval($volumes['VSize']);
-                    $width = intval(($size - intval($volumes['VFree'])) * 100 / $size);
-                    if ($width <= 60) {
-                        $bar = 'success';
-                    } else if ($width >= 81) {
-                        $bar = 'danger';
-                    } else if ($width >= 61) {
-                        $bar = 'warning';
-                    } else {
-                        $bar = 'info';
-                    }
-                    $meta[] = array(
-                        'width' => $width,
-                        'type' => $bar
-                    );
-                }
-
-                $title = 'Volume groups';
-                $heading = array_keys($data[0]);
+				if ($data !== false) {
+					foreach ($data as $volumes) {
+						$size = intval($volumes['VSize']);
+						$width = intval(($size - intval($volumes['VFree'])) * 100 / $size);
+						if ($width <= 60) {
+							$bar = 'success';
+						} else if ($width >= 81) {
+							$bar = 'danger';
+						} else if ($width >= 61) {
+							$bar = 'warning';
+						} else {
+							$bar = 'info';
+						}
+						$meta[] = array(
+							'width' => $width,
+							'type' => $bar
+						);
+					}
+					$heading = array_keys($data[0]);
+					$title = 'Volume groups';
+				}
             } else if ($param == 'lv') {
                 $model = $this->model('lvm\lv\Lv', false, false);
                 $data = $model->get_lv();
-                $title = 'Logical volumes';
-                $heading = array_keys($data[0]);
+
+				if ($data !== false) {
+					$heading = array_keys($data[0]);
+					$title = 'Volume groups';
+				}
             } else {
                 $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
             }
 
-            if (!empty($data)) {
-                if ($data !== false) {
-                    if (isset($meta)) {
-                        array_push($heading, 'Used');
-                        $view = array('title' => $title, 'heading' => $heading, 'body' => $data, 'meta' => $meta);
-                    } else {
-                        $view = array('title' => $title, 'heading' => $heading, 'body' => $data);
-                    }
+			if ($data !== false) {
+				if (isset($meta)) {
+					array_push($heading, 'Used');
+					$view = array('title' => $title, 'heading' => $heading, 'body' => $data, 'meta' => $meta);
+				} else {
+					$view = array('title' => $title, 'heading' => $heading, 'body' => $data);
+				}
 
-                    $this->view('lvm_table', $view);
-                } else {
-                    $data = $model->logging->get_action_result();
-                    $this->view('message', array('message' => $data['message'], 'type' => 'danger'));
-                }
-            }
+				$this->view('lvm_table', $view);
+			} else {
+				$data = $model->logging->get_action_result();
+				$this->view('message', array('message' => $data['message'], 'type' => 'danger'));
+			}
         }
     }
