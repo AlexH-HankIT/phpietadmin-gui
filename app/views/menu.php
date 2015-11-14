@@ -39,7 +39,7 @@
                 </li>
 
                 <li><a class="workspacetab" href='/phpietadmin/ietusers'><span class="glyphicon glyphicon-user"></span> <span class='hidden-sm hidden-md'>iSCSI users</span></a></li>
-                <li><a class="workspacetab" href='/phpietadmin/objects'>Objects</span></a></li>
+                <li><a class="workspacetab" href='/phpietadmin/objects'>Objects</a></li>
 
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">LVM <b class = "caret"></b></a>
