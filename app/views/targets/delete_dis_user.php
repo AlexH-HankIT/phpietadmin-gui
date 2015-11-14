@@ -23,8 +23,8 @@
                     <?php foreach ($data as $row) { ?>
                         <tr>
                             <td><input class="delete_dis_user_checkbox" type="checkbox"></td>
-                            <td class="delete_dis_user_type"><?php echo $row[0] ?></td>
-                            <td><?php echo $row[1] ?></td>
+                            <td class="delete_dis_user_type"><?php echo htmlspecialchars($row[0]) ?></td>
+                            <td><?php echo htmlspecialchars($row[1]) ?></td>
                             <td hidden class="delete_dis_user_id"><?php echo $row[2] ?></td>
                         </tr>
                     <?php } ?>

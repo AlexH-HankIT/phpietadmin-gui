@@ -25,7 +25,7 @@
                             <?php if (isset($data['meta'])) { ?>
                             <td class="col-md-4">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-<?php echo $data['meta'][$key]['type'] ?> progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $data['meta'][$key]['width'] ?>%; min-width: 3em;"> <?php echo $data['meta'][$key]['width'] ?> %
+                                    <div class="progress-bar progress-bar-<?php echo htmlspecialchars($data['meta'][$key]['type']) ?> progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $data['meta'][$key]['width'] ?>%; min-width: 3em;"> <?php echo htmlspecialchars($data['meta'][$key]['width']) ?> %
                                 </div>
                             </td>
                             <?php } ?>

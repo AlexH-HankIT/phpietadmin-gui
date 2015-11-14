@@ -23,8 +23,8 @@
 
                         <tbody>
                         <?php foreach (array_reverse($data['data']) as $key => $row) { ?>
-                            <tr class="clickable active" data-toggle="collapse" id="row<?php echo $key ?>"
-                                data-target=".row<?php echo $key ?>">
+                            <tr class="clickable active" data-toggle="collapse" id="row<?php echo htmlspecialchars($key) ?>"
+                                data-target=".row<?php echo htmlspecialchars($key) ?>">
                                 <?php if ($data['type'] == 'volume') { ?>
                                     <td class="col-md-1"><?php if (isset($row['lun'])) echo '<a href="#" class="expandrow"><span class="glyphicon glyphicon-15 glyphicon-plus"></span></a>' ?></td>
                                 <?php } else if ($data['type'] == 'session') { ?>
@@ -39,8 +39,8 @@
                             </tr>
                             <?php if ($data['type'] == 'volume') { ?>
                                 <?php if (isset($row['lun'])) { ?>
-                                    <tr class="collapse row<?php echo $key ?>">
-                                        <th class="col-md-1">ID</th>
+                                    <tr class="collapse row<?php echo htmlspecialchars($key) ?>">htmlspecialchars(
+              )                          <th class="col-md-1">ID</th>
                                         <th class="col-md-1">State</th>
                                         <th class="col-md-1">IOType</th>
                                         <th class="col-md-2">IOMode</th>
@@ -49,7 +49,7 @@
                                         <th class="col-md-4">Path</th>
                                     </tr>
                                     <?php foreach (array_reverse($row['lun']) as $lun) { ?>
-                                        <tr class="collapse row<?php echo $key ?>">
+                                        <tr class="collapse row<?php echo htmlspecialchars($key) ?>">
                                             <td class="col-md-1"><?php echo $lun['id'] ?></td>
                                             <td class="col-md-1"><?php echo $lun['state'] ?></td>
                                             <td class="col-md-1"><?php echo $lun['iotype'] ?></td>
@@ -62,7 +62,7 @@
                                 <?php } ?>
                             <?php } else if ($data['type'] == 'session') { ?>
                                 <?php if (isset($row['session'])) { ?>
-                                    <tr class="collapse row<?php echo $key ?>">
+                                    <tr class="collapse row<?php echo htmlspecialchars($key) ?>">
                                         <th class="col-md-1">SID</th>
                                         <th class="col-md-2">CID</th>
                                         <th class="col-md-2">Initiator</th>
@@ -72,14 +72,14 @@
                                         <th class="col-md-1">DD</th>
                                     </tr>
                                     <?php foreach (array_reverse($row['session']) as $session) { ?>
-                                        <tr class="collapse row<?php echo $key ?>">
-                                            <td class="col-md-1"><?php echo $session['sid'] ?></td>
-                                            <td class="col-md-2"><?php echo $session['cid'] ?></td>
-                                            <td class="col-md-2"><?php echo $session['initiator'] ?></td>
-                                            <td class="col-md-1"><?php echo $session['ip'] ?></td>
-                                            <td class="col-md-1"><?php echo $session['state'] ?></td>
-                                            <td class="col-md-1"><?php echo $session['hd'] ?></td>
-                                            <td class="col-md-1"><?php echo $session['dd'] ?></td>
+                                        <tr class="collapse row<?php echo htmlspecialchars($key) ?>">
+                                            <td class="col-md-1"><?php echo htmlspecialchars($session['sid']) ?></td>
+                                            <td class="col-md-2"><?php echo htmlspecialchars($session['cid']) ?></td>
+                                            <td class="col-md-2"><?php echo htmlspecialchars($session['initiator']) ?></td>
+                                            <td class="col-md-1"><?php echo htmlspecialchars($session['ip']) ?></td>
+                                            <td class="col-md-1"><?php echo htmlspecialchars($session['state']) ?></td>
+                                            <td class="col-md-1"><?php echo htmlspecialchars($session['hd']) ?></td>
+                                            <td class="col-md-1"><?php echo htmlspecialchars($session['dd']) ?></td>
                                         </tr>
                                     <?php } ?>
                                 <?php } ?>
