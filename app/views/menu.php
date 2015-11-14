@@ -40,7 +40,7 @@
                     </ul>
                 </li>
 
-                <li><a class="workspacetab" href='/phpietadmin/ietusers'><span class="glyphicon glyphicon-user"></span> <span class='hidden-sm hidden-md'>iSCSI Users</span></a></li>
+                <li><a class="workspacetab" href='/phpietadmin/ietusers'><span class="glyphicon glyphicon-user"></span> <span class='hidden-sm hidden-md'>iSCSI users</span></a></li>
                 <li><a class="workspacetab" href='/phpietadmin/objects'>Objects</span></a></li>
 
                 <li class = "dropdown">
