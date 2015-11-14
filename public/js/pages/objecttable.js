@@ -2,106 +2,147 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     var methods;
 
     return methods = {
-        enable_filter_table_plugin: function () {
+        enableFilterTablePlugin: function () {
             // Enable filter table plugin
             $('.searchabletable').filterTable({minRows: 0});
         },
-        add_event_handler_addobjectrowbutton: function () {
-            $('#addobjectrowbutton').once('click', function () {
-                $('#template').clone().prependTo('#addobjectstbody').removeAttr('id hidden').addClass('newrow');
-                $(this).hide();
-            });
-        },
-        add_event_handler_typeselection: function () {
-            // If type is "all" change input fields to "all"
-            $('#workspace').once('change', '.typeselection', function () {
-                var $thisrow = $(this).closest('tr'),
-                    type = $thisrow.find('.typeselection option:selected').val(),
-                    $objectname = $thisrow.find('.objectname'),
-                    $objectvalue = $thisrow.find('.objectvalue');
+        addObjectModal: function() {
+            var addObjectModalTypeSelect = $('#addObjectModalTypeSelect'),
+                addObjectModalNameInput = $('#addObjectModalNameInput'),
+                addObjectModalValueInput = $('#addObjectModalValueInput'),
+                addObjectModalValueInputDiv = addObjectModalValueInput.parent('div'),
+                addObjectModalNameInputDiv = addObjectModalNameInput.parent('div'),
+                addObjectModalNameInputError = addObjectModalNameInput.next('span'),
+                addObjectModalValueInputError = addObjectModalValueInput.next('span'),
+                workspace =  $('#workspace'),
+                showErrorInModal = $('#showErrorInModal'),
+                addObjectModal = $('#addObjectModal');
 
-                if (type === 'all') {
-                    $objectname.prop('disabled', true).val('ALL');
-                    $objectvalue.prop('disabled', true).val('ALL');
+            // Clean all previously set classes and values
+            function clean() {
+                addObjectModalNameInputDiv.removeClass('has-error has-success');
+                addObjectModalValueInputDiv.removeClass('has-error has-success invalidIpv6 invalidIpv4 invalidIpv4Network');
+                addObjectModalNameInput.val('');
+                addObjectModalValueInput.val('');
+                showErrorInModal.text('');
+                addObjectModalNameInputError.hide().text('');
+                addObjectModalValueInputError.hide().text('');
+            }
+
+            addObjectModal.once('shown.bs.modal', function () {
+                addObjectModalNameInput.focus();
+            });
+
+            clean();
+
+            // Remove errors on focus
+            addObjectModalValueInput.add(addObjectModalNameInput).once('focus', function() {
+                $(this).parent('div').removeClass('has-error');
+                addObjectModalNameInputError.hide().text('');
+                addObjectModalValueInputError.hide().text('');
+            });
+
+            addObjectModalTypeSelect.once('change', function() {
+                clean();
+                if ($(this).val() === 'all') {
+                    addObjectModalNameInput.prop('disabled', true).val('ALL');
+                    addObjectModalValueInput.prop('disabled', true).val('ALL');
                 } else {
-                    if ($objectname.val() === 'ALL') {
-                        $objectname.prop('disabled', false).val('');
-                    }
-                    if ($objectvalue.val() === 'ALL') {
-                        $objectvalue.prop('disabled', false).val('');
-                    }
+                    addObjectModalNameInput.prop('disabled', false);
+                    addObjectModalValueInput.prop('disabled', false);
                 }
             });
-        },
-        add_event_handler_saveobjectrow: function () {
-            $('#workspace').once('click', '.saveobjectrow', function (event) {
-                var $this_row = $(this).closest("tr"),
-                    type = $this_row.find('.typeselection option:selected').val(),
-                    name = $this_row.find('.objectname').val(),
-                    value = $this_row.find('.objectvalue').val();
 
-                if (type === 'Select type...') {
-                    $this_row.find('.typeselection').next('.bestaetigung').addClass('label-danger').text('Required').show(500).delay(2000).hide(0);
-                } else if (name === '') {
-                    $this_row.find('.objectname').addClass('focusedInputerror').next('.bestaetigung').addClass('label-danger').text('Required').show(500).delay(2000).hide(0);
-                } else if (value === '') {
-                    $this_row.find(".objectvalue").addClass('focusedInputerror').next('.bestaetigung').addClass('label-danger').text('Required').show(500).delay(2000).hide(0);
-                } else {
-                    if (type === 'hostv4' && !mylibs.validateipv4(value)) {
-                        $this_row.find('.objectvalue').addClass('focusedInputerror').next('.bestaetigung').addClass('label-danger').text('Invalid IPv4').show(500).delay(2000).hide(0);
+            workspace.once('click', '#saveObjectButton', function() {
+                var addObjectModalTypeSelectVal = addObjectModalTypeSelect.find('option:selected').val(),
+                    addObjectModalNameInputVal = addObjectModalNameInput.val(),
+                    addObjectModalValueInputVal = addObjectModalValueInput.val();
+
+                if(addObjectModalNameInputVal === '') {
+                    addObjectModalNameInputDiv.addClass('has-error');
+                }
+
+                if (addObjectModalValueInput === '') {
+                    addObjectModalValueInputDiv.addClass('has-error');
+                }
+
+                if (addObjectModalTypeSelectVal === 'hostv4') {
+                    if(!mylibs.validateIpv4(addObjectModalValueInputVal)) {
+                        addObjectModalValueInputDiv.addClass('has-error invalidIpv4');
+                    }
+                } else if(addObjectModalTypeSelectVal === 'hostv6') {
+                    if(!mylibs.validateIpv6(addObjectModalValueInputVal)) {
+                        addObjectModalValueInputDiv.addClass('has-error invalidIpv6');
+                    }
+                } else if(addObjectModalTypeSelectVal === 'networkv4') {
+                    if(!mylibs.validateIpv4Network(addObjectModalValueInputVal)) {
+                        addObjectModalValueInputDiv.addClass('has-error invalidIpv4Network');
+                    }
+                }
+
+                if(addObjectModalNameInputDiv.hasClass('has-error')) {
+                    addObjectModalNameInputError.show().text("Required");
+                } else if (addObjectModalValueInputDiv.hasClass('has-error')) {
+                    if (addObjectModalValueInputDiv.hasClass('invalidIpv4')) {
+                        addObjectModalValueInputError.show().text("Invalid IPv4");
+                    } else if (addObjectModalValueInputDiv.hasClass('invalidIpv6')) {
+                        addObjectModalValueInputError.show().text("Invalid IPv6");
+                    } else if (addObjectModalValueInputDiv.hasClass('invalidIpv4Network')) {
+                        addObjectModalValueInputError.show().text("Invalid network");
                     } else {
-                        if (type === 'networkv4' && !mylibs.validateipv4network(value)) {
-                            $this_row.find('.objectvalue').addClass('focusedInputerror').next('.bestaetigung').addClass('label-danger').text('Invalid IPv4 Network').show(500).delay(2000).hide(0);
-                        } else {
-                            var $this_row_object_value = $this_row.find('.objectvalue');
-                            $.ajax({
-                                url: '/phpietadmin/objects/add',
-                                data: {
-                                    "type": type,
-                                    "name": name,
-                                    "value": value
-                                },
-                                dataType: 'json',
-                                type: 'post',
-                                success: function (data) {
-                                    if (data['code'] === 0) {
-                                        return mylibs.load_workspace('/phpietadmin/objects');
-                                    } else if (data['code'] === 4 || data['code'] === 6) {
-                                        if (data['field'] === 'value') {
-                                            $this_row_object_value.addClass("focusedInputerror").next('.bestaetigung').addClass("label-danger").text('Value already exists!').show(500).delay(2000).hide(0);
-                                        } else {
-                                            $this_row.find(".objectname").addClass("focusedInputerror").next('.bestaetigung').addClass("label-danger").text('Name already exists!').show(500).delay(2000).hide(0);
-                                        }
-                                    } else {
-                                        $this_row_object_value.addClass("focusedInputerror").next('.bestaetigung').addClass("label-danger").text("Unknown error").show(500).delay(2000).hide(0);
-                                    }
-                                },
-                                error: function () {
-                                    swal({
-                                        title: 'Error',
-                                        type: 'error',
-                                        text: 'Something went wrong while submitting!'
-                                    });
+                        addObjectModalValueInputError.show().text("Invalid input");
+                    }
+                } else {
+                    var url = '/phpietadmin/objects';
+                    $.ajax({
+                        url: url + '/add',
+                        data: {
+                            "type": addObjectModalTypeSelectVal,
+                            "name": addObjectModalNameInputVal,
+                            "value": addObjectModalValueInputVal
+                        },
+                        dataType: 'json',
+                        type: 'post',
+                        success: function (data) {
+                            if (data['code'] === 0) {
+                                addObjectModalValueInputDiv.addClass('has-success');
+                                addObjectModalNameInputDiv.addClass('has-success');
+
+                                setTimeout(function() {
+                                    addObjectModal.modal('hide');
+                                }, 400);
+
+                                addObjectModal.once('hidden.bs.modal', function() {
+                                    clean();
+                                    return mylibs.load_workspace(url);
+                                });
+                            } else if (data['code'] === 4 ) {
+                                // name or value already in use
+                                if (data['field'] === 'value') {
+                                    addObjectModalValueInputError.show().text("In use!");
+                                    addObjectModalValueInputDiv.addClass('has-error');
+                                } else if (data['field'] === 'name') {
+                                    addObjectModalNameInputError.show().text("In use!");
+                                    addObjectModalNameInputDiv.addClass('has-error');
                                 }
+                            } else if (data['code'] === 6) {
+                                // cant write to database
+                            } else {
+                                // unknown error
+                            }
+                        },
+                        error: function () {
+                            swal({
+                                title: 'Error',
+                                type: 'error',
+                                text: 'Something went wrong while submitting!'
                             });
                         }
-                    }
+                    });
                 }
             });
         },
-        add_event_handler_objectvalue: function () {
-            $('#workspace').once('focus', '.objectvalue', function () {
-                var $objectvalue = $('.objectvalue');
-                $objectvalue.hasClass('focusedInputerror') && $objectvalue.removeClass('focusedInputerror');
-            });
-        },
-        add_event_handler_objectname: function () {
-            $('#workspace').once('focus', '.objectname', function () {
-                var $objectname = $('.objectname');
-                $objectname.hasClass('focusedInputerror') && $objectname.removeClass('focusedInputerror');
-            });
-        },
-        add_event_handler_deleteobjectrow: function () {
+        addEventHandlerDeleteObject: function () {
             $('#workspace').once('click', '.deleteobjectrow', function (event) {
                 event.preventDefault();
                 var $this_row = $(this).closest('tr');
