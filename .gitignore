@@ -1,3 +1,4 @@
 no_git/
 .idea/
 app/config.db
+*.ppk
