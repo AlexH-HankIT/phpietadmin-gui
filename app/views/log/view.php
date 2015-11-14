@@ -7,7 +7,6 @@
                     <?php foreach ($data['heading'] as $value) { ?>
                         <th><?php echo htmlspecialchars($value); ?></th>
                     <?php } ?>
-                    <!-- data-halign="center" -->
                 </tr>
                 </thead>
                 <tbody>
