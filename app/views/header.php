@@ -22,5 +22,5 @@
 	</div>
 </noscript>
 <div hidden id="offlinemessage">
-    Server connection failed... <img src="/phpietadmin/img/ajax-loader.gif">
+    Server connection failed... <img src="/phpietadmin/img/ajax-loader.gif" alt="Loading">
 </div>
