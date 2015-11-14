@@ -90,7 +90,7 @@
     </div>
     <script>
         require(['common'],function() {
-            require(['pages/objectTable', 'domReady'],function(methods, domReady) {
+            require(['pages/objecttable', 'domReady'],function(methods, domReady) {
                 domReady(function () {
                     methods.addObjectModal();
                     methods.addEventHandlerDeleteObject();
