@@ -10,16 +10,15 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Save</th>
                         <th>Option</th>
                         <th>Value</th>
+                        <th>Save</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php foreach ($data as $row) { ?>
                         <tr id="<?php echo htmlspecialchars($row['option']); ?>">
                             <td hidden><input class="settingstablecheckbox" type="checkbox"></td>
-                            <td><a href="#" class="savevalueinput"><span class="glyphicon glyphicon-save glyphicon-20"></span></a></td>
                             <?php if ($row['type'] == 'input') { ?>
                                 <td class="option"><?php echo htmlspecialchars($row['option']); ?></td>
                                 <td><input class="value form-control <?php if ($row['defaultvalue'] !== 'false') echo 'required' ?>" <?php if ($row['state'] == 0) echo 'disabled' ?> value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
@@ -34,6 +33,7 @@
                                 </td>
                                 <td hidden><input class="default_value_before_change" type="text" value="<?php echo htmlspecialchars($row['defaultvalue']); ?>"></td>
                             <?php } ?>
+							<td><button class="btn btn-xs btn-success savevalueinput"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button></td>
                         </tr>
                     <?php } ?>
                     </tbody>
