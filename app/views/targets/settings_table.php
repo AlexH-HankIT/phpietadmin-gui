@@ -21,7 +21,7 @@
                             <td hidden><input class="settingstablecheckbox" type="checkbox"></td>
                             <?php if ($row['type'] == 'input') { ?>
                                 <td class="option"><?php echo htmlspecialchars($row['option']); ?></td>
-                                <td><input class="value form-control <?php if ($row['defaultvalue'] !== 'false') echo 'required' ?>" <?php if ($row['state'] == 0) echo 'disabled' ?> value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
+                                <td class="form-group"><input class="value form-control <?php if ($row['defaultvalue'] !== 'false') echo 'required' ?>" <?php if ($row['state'] == 0) echo 'disabled' ?> value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
                                 <td hidden><input class="default_value_before_change" type="text" value="<?php if ($row['defaultvalue'] !== 'false') echo htmlspecialchars($row['defaultvalue']); ?>"></td>
                             <?php } else if ($row['type'] == 'select') { ?>
                                 <td class="option"><?php echo htmlspecialchars($row['option']); ?></td>
