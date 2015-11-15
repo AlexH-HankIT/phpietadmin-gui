@@ -32,10 +32,6 @@ body {
     display: none;
 }
 
-.focusedInputerror {
-    box-shadow: 0 0 1px 1px red;
-}
-
 li {
     list-style-type: none;
 }
