@@ -5,11 +5,11 @@ use phpietadmin\app\core;
         public function addtarget() {
             if (!empty($_POST['name'])) {
                 $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-                $target = $this->model('target\Target', $name);
+                $target = $this->model('target\Target', $this->base_model->database->get_config('iqn')['value'] . ':' . $name);
                 $target->add();
                 echo json_encode($target->logging->get_action_result());
             } else {
-                $this->view('targets/addTarget', $this->base_model->database->get_config('iqn')['value'] . ":");
+                $this->view('targets/addTarget', $this->base_model->database->get_config('iqn')['value'] . ':');
             }
         }
 

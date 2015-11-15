@@ -48,7 +48,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         add_event_handler_addtargetbutton: function () {
             $('#addtargetbutton').once('click', function () {
                 var $iqninput = $('#iqninput'),
-                    def = $('#defaultiqn').val(),
                     $iqninputParentDiv = $iqninput.parent('div');
 
                 if ($iqninput.val() === '') {
@@ -58,7 +57,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     $.ajax({
                         url: '/phpietadmin/targets/addtarget',
                         data: {
-                            "name": def + $iqninput.val()
+                            "name": $iqninput.val()
                         },
                         dataType: 'json',
                         type: 'post',
