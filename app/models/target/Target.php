@@ -455,19 +455,23 @@
                 }
 
                 if ($default_settings[$default_settings_key]['defaultvalue'] == $newvalue) {
-                    if (isset($targetsettings[$key])) {
-                        $return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array($option . ' ' . $targetsettings[$key][1]), false, false);
+					if ($targetsettings !== 0) {
+						if (isset($targetsettings[$key])) {
+							$return = $this->parse_file($this->ietd_config_file, [$this, 'delete_option_from_iqn'], array($option . ' ' . $targetsettings[$key][1]), false, false);
 
-                        if ($return !== 0) {
-                            $this->logging->log_action_result('The new value is the default value, so i just deleted it!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-                        } else {
-                            $return = $this->add_config_to_daemon($option, $newvalue);
+							if ($return !== 0) {
+								$this->logging->log_action_result('The new value is the default value, so i just deleted it!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+							} else {
+								$return = $this->add_config_to_daemon($option, $newvalue);
 
-                            if ($return['result'] !== 0) {
-                                $this->logging->log_action_result('Could not set the default value for ' . $option . ' in daemon config', $return, __METHOD__);
-                            }
-                        }
-                    }
+								if ($return['result'] !== 0) {
+									$this->logging->log_action_result('Could not set the default value for ' . $option . ' in daemon config', $return, __METHOD__);
+								}
+							}
+						}
+					} else {
+						$this->logging->log_action_result('I won\'t add the default value', array('result' => 4, 'code_type' => 'intern'), __METHOD__);
+					}
                 } else {
                     // add option
                     $return = $this->parse_file($this->ietd_config_file, [$this, 'add_option_to_iqn'], array($option . ' ' . $newvalue), false, false);
