@@ -16,8 +16,8 @@ Phpietadmin is tested on 8. But it’s not limited to debian.
 It should run just fine on any other linux distribution.
 
 ## Docs
-https://github.com/HankIT/phpietadmin-gui/wiki/Installation-v0.6.1
-https://github.com/HankIT/phpietadmin-gui/wiki/Update-v0.6-to-v0.6.1
+* https://github.com/HankIT/phpietadmin-gui/wiki/Installation-v0.6.1
+* https://github.com/HankIT/phpietadmin-gui/wiki/Update-v0.6-to-v0.6.1
 
 ## Features
 Take a look at the github releases for detailed information about the features.
