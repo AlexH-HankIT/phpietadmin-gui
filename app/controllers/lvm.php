@@ -18,7 +18,7 @@ class Lvm extends core\BaseController {
             if ($data !== false) {
                 $this->view('lvm/add', $data);
             } else {
-                // no volume groups found
+				$this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
             }
         }
     }
@@ -32,8 +32,7 @@ class Lvm extends core\BaseController {
                 if ($data !== false) {
                     $this->view('lvm/menu', $data);
                 } else {
-                    // no logical volumes
-                    // display error here
+					$this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
                 }
                 break;
             case 'extent':
