@@ -154,7 +154,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         showCancelButton: true,
                         confirmButtonColor: '#DD6B55',
                         confirmButtonText: 'Yes, delete it!',
-                        closeOnConfirm: true
+                        closeOnConfirm: false
                     },
                     function () {
                         $.ajax({
@@ -166,6 +166,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             type: 'post',
                             success: function (data) {
                                 if (data['code'] === 0) {
+                                    swal.close();
                                     return mylibs.load_workspace(url);
                                 } else {
                                     swal({
