@@ -74,8 +74,7 @@
                     <tbody>
                     <?php if (is_array($data['objects'])) { ?>
                         <?php foreach ($data['objects'] as $objects) { ?>
-                            <tr>
-                                <td hidden class='id'><?php echo htmlspecialchars($objects['objectid']); ?></td>
+                            <tr id="<?php echo htmlspecialchars($objects['objectid']); ?>">
                                 <td class='col-md-2 objectType'><?php echo htmlspecialchars($objects['type']); ?></td>
                                 <td class='col-md-4 objectName'><?php echo htmlspecialchars($objects['name']); ?></td>
                                 <td class='col-md-4 objectValue'><?php echo htmlspecialchars($objects['value']); ?></td>

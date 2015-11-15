@@ -144,52 +144,46 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         addEventHandlerDeleteObject: function () {
-            $('#workspace').once('click', '.deleteobjectrow', function (event) {
-                event.preventDefault();
-                var $this_row = $(this).closest('tr');
-
-                if ($this_row.hasClass('newrow')) {
-                    $this_row.remove();
-                    $('#addobjectrowbutton').show();
-                } else {
-                    swal({
-                            title: 'Are you sure?',
-                            text: 'The object won\'t be deleted from the iet allow files!',
-                            type: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#DD6B55',
-                            confirmButtonText: 'Yes, delete it!',
-                            closeOnConfirm: true
-                        },
-                        function () {
-                            $.ajax({
-                                url: '/phpietadmin/objects/delete',
-                                data: {
-                                    "id": $this_row.find('.id').text()
-                                },
-                                dataType: 'json',
-                                type: 'post',
-                                success: function (data) {
-                                    if (data['code'] === 0) {
-                                        $this_row.remove();
-                                    } else {
-                                        swal({
-                                            title: 'Error',
-                                            type: 'error',
-                                            text: data['message']
-                                        });
-                                    }
-                                },
-                                error: function () {
+            $('#workspace').once('click', '.objectDelete', function () {
+                var url = '/phpietadmin/objects',
+                    $this = $(this);
+                swal({
+                        title: 'Are you sure?',
+                        text: 'The object won\'t be deleted from the iet allow files!',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'Yes, delete it!',
+                        closeOnConfirm: true
+                    },
+                    function () {
+                        $.ajax({
+                            url: url + '/delete',
+                            data: {
+                                "id": $this.closest('tr').attr('id')
+                            },
+                            dataType: 'json',
+                            type: 'post',
+                            success: function (data) {
+                                if (data['code'] === 0) {
+                                    return mylibs.load_workspace(url);
+                                } else {
                                     swal({
                                         title: 'Error',
                                         type: 'error',
-                                        text: 'Something went wrong while submitting!'
+                                        text: data['message']
                                     });
                                 }
-                            });
+                            },
+                            error: function () {
+                                swal({
+                                    title: 'Error',
+                                    type: 'error',
+                                    text: 'Something went wrong while submitting!'
+                                });
+                            }
                         });
-                }
+                    });
             });
         }
     };
