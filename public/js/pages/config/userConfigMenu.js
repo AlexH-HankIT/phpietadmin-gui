@@ -156,13 +156,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                     type: 'post',
                     success: function (data) {
                         if (data['code'] === 0) {
-                            swal({
-                                title: 'Success',
-                                type: 'success',
-                                text: data['message']
-                            }, function () {
-                                return mylibs.load_workspace(url);
-                            });
+                            return mylibs.load_workspace(url);
                         } else {
                             swal({
                                 title: 'Error',
