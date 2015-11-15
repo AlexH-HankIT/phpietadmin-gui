@@ -50,7 +50,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
                         text: 'No changes made!'
                     });
                 } else if (newvalue === '') {
-                    this_row.find('.value').addClass('focusedInputerror')
+                    this_row.find('.value').parents('td').addClass('has-error')
                 } else {
                     $.ajax({
                         url: '/phpietadmin/targets/configure/settings',
@@ -99,10 +99,9 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
             });
         },
         remove_error: function () {
-            var input = $('.value');
             /* remove error if field is clicked */
-            input.click(function () {
-                input.removeClass('focusedInputerror');
+            $('.value').click(function () {
+                $(this).parents('td').removeClass('has-error');
             });
         }
     }
