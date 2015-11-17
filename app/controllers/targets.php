@@ -118,7 +118,6 @@ use phpietadmin\app\core;
                             $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
                         }
                     }
-
                 } else if ($param1 == 'adduser') {
                     if (isset($_POST['type'], $_POST['id'], $_POST['iqn'])) {
                         $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
