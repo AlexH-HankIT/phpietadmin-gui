@@ -1,5 +1,6 @@
 <?php namespace phpietadmin\app\controllers;
-use phpietadmin\app\core;
+use phpietadmin\app\core,
+	phpietadmin\app\models as models;
 
     class targets extends core\BaseController {
         public function addtarget() {
@@ -59,7 +60,85 @@ use phpietadmin\app\core;
             }
         }
 
-        public function configure($param1 = false, $param2 = false) {
+		/**
+		 * Displays the select menu for targets
+		 *
+		 * @param bool|string $iqn iqn of the target which is selected, passed via get
+		 */
+		private function configureTargetSelect($iqn = false) {
+			$targets = $this->model('target\Target', false);
+			$configureTargetData['targets'] = $targets->return_target_data();
+
+			if ($iqn !== false) {
+				// Check if iqn is really existing
+				$target = $this->model('target\Target', $iqn);
+				if ($target->target_status === true) {
+					// Remove the selected iqn from the array
+					// Otherwise it is displayed twice
+					$key = $this->base_model->std->recursive_array_search($iqn, $configureTargetData['targets']);
+					if ($key !== false) {
+						unset($configureTargetData['targets'][$key]);
+					}
+				} else {
+					$iqn = false;
+				}
+			} else {
+				$iqn = false;
+			}
+
+			$configureTargetData['iqn'] = $iqn;
+			$this->view('targets/configureTargetNew', $configureTargetData);
+		}
+
+		/**
+		 * Displays the target menu with links containing the iqn
+		 *
+		 * @param bool|string $iqn iqn of the target which is selected, passed via get
+		 */
+		public function configureTargetMenu($iqn = false) {
+			if ($iqn !== false) {
+				$target = $this->model('target\Target', $iqn);
+				if ($target->target_status === true) {
+					$this->view('targets/configureTargetMenuNew', $iqn);
+				}
+			}
+		}
+
+		public function configureTargetBody($iqn = false, $function = false) {
+			$targets = $this->model('target\Target', false);
+			$configureTargetData['targets'] = $targets->return_target_data();
+
+			if ($iqn !== false) {
+				switch ($function) {
+					case false:
+						// Message please choose a menu
+						break;
+					case 'maplun':
+						$this->mapLun($targets);
+						break;
+				}
+			}
+		}
+
+		private function mapLun(models\target\Target $targets) {
+			$lv = $this->model('lvm\lv\Lv', false, false);
+			$unused_lun = $lv->get_unused_lun($targets->return_all_used_lun());
+			if (!empty($unused_lun) && $unused_lun !== false) {
+				$this->view('targets/maplun', $unused_lun);
+			} else {
+				$this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
+			}
+		}
+
+		public function configure($iqn = false, $function = false) {
+			$this->configureTargetSelect($iqn);
+			$this->configureTargetMenu($iqn);
+			if ($function !== false) {
+				$this->configureTargetBody($iqn, $function);
+			}
+		}
+
+        /*public function configure($param1 = false, $param2 = false) {
             $targets = $this->model('target\Target', false);
             $data = $targets->return_target_data();
 
@@ -273,5 +352,5 @@ use phpietadmin\app\core;
             } else {
                 $this->view('message', array('message' => 'Error - No targets available!', 'type' => 'warning'));
             }
-        }
+        }*/
     }
