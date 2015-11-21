@@ -31,7 +31,7 @@
                                     <td class="col-md-1"><?php if (isset($row['session'])) echo '<a href="#" class="expandrow"><span class="glyphicon glyphicon-15 glyphicon-plus"></span></a>' ?></td>
                                 <?php } ?>
                                 <td class="col-md-2"><?php echo $row['tid'] ?></td>
-                                <td class="col-md-2"><?php echo $row['iqn'] ?></td>
+                                <td class="col-md-2"><a target='_blank' href='/phpietadmin/targets/configure/<?php echo htmlspecialchars($row['iqn']) ?>'><?php echo htmlspecialchars($row['iqn']) ?></a></td>
                                 <td class="col-md-1"></td>
                                 <td class="col-md-1"></td>
                                 <td class="col-md-1"></td>
