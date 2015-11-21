@@ -54,7 +54,7 @@ define(['jquery', 'once'], function ($, once) {
                 });
             });
         },
-        initialLoad: function ($targetSelect) {
+        initialLoad: function () {
             var iqn = $('#targetSelect').find("option:selected"),
                 iqnVal = iqn.val(),
                 hash = window.location.hash,
