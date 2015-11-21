@@ -158,20 +158,25 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             $('#workspace').remove();
 
             // ignore the workspace and load only the container class
-            $('#workspace_wrapper').load(link, function (response, status) {
-                if (status == 'error') {
-                    $(this).html("<div id='workspace'>" +
-                    "<div class='container'>" +
-                    "<div class='alert alert-warning' role='alert'>" +
-                    "<h3 align='center'>" +
-                    response +
-                    "</h3>" +
-                    "</div>" +
-                    '</div>' +
-                    '</div>');
-                } else {
-                    window.history.pushState({path: link}, '', link);
-                }
+            var $workspace_wrapper = $('#workspace_wrapper');
+
+            $workspace_wrapper.fadeOut('fast', function(){
+                $workspace_wrapper.load(link, function (response, status) {
+                    $workspace_wrapper.fadeIn('fast');
+                    if (status == 'error') {
+                        $(this).html("<div id='workspace'>" +
+                        "<div class='container'>" +
+                        "<div class='alert alert-warning' role='alert'>" +
+                        "<h3 align='center'>" +
+                        response +
+                        "</h3>" +
+                        "</div>" +
+                        '</div>' +
+                        '</div>');
+                    } else {
+                        window.history.pushState({path: link}, '', link);
+                    }
+                });
             });
             return false;
         },
