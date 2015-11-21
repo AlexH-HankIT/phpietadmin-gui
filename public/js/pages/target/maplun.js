@@ -14,9 +14,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         });
                     } else {
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/maplun',
+                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/maplun',
                             data: {
-                                'target': $('#target_selector').find('option:selected').val(),
                                 'type': $('#type').find('option:selected').val(),
                                 'mode': $('#mode').find('option:selected').val(),
                                 'path': selected.text()
@@ -48,7 +47,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     });
                                 }
                             },
-                            error: function () {
+                            error: function (data) {
+                                console.log(data);
                                 swal({
                                     title: 'Error',
                                     type: 'error',

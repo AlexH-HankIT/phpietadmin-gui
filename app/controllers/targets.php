@@ -65,34 +65,45 @@ use phpietadmin\app\core,
                 case 'maplun':
                     $this->mapLun($iqn);
                     break;
+                case 'deletelun':
+                    $this->deleteLun($iqn);
+                    break;
                 case 'menu':
-                    /*
-                     * Display the iqn menu
-                     */
-                    if ($iqn !== false) {
-                        $target = $this->model('target\Target', $iqn);
-                        if ($target->target_status === true) {
-                            $this->view('targets/configureTargetMenu', $iqn);
-                        }
-                    }
+                    $this->menu($iqn);
                     break;
                 default:
-                    /*
-                     * Display the iqn selector
-                     */
-                    $targets = $this->model('target\Target', false);
-                    $configureTargetData['targets'] = $targets->return_target_data();
-                    if ($iqn !== false) {
-                        // Check if iqn is really existing
-                        $target = $this->model('target\Target', $iqn);
-                        if ($target->target_status !== true) {
-                            $iqn = false;
-                        }
-                    }
-                    $configureTargetData['iqn'] = $iqn;
-                    $this->view('targets/configureTargetSelect', $configureTargetData);
+                    $this->select($iqn);
             }
 		}
+
+        /*
+         * Display the iqn selector
+         */
+        private function select($iqn) {
+            $targets = $this->model('target\Target', false);
+            $configureTargetData['targets'] = $targets->return_target_data();
+            if ($iqn !== false) {
+                // Check if iqn is really existing
+                $target = $this->model('target\Target', $iqn);
+                if ($target->target_status !== true) {
+                    $iqn = false;
+                }
+            }
+            $configureTargetData['iqn'] = $iqn;
+            $this->view('targets/configureTargetSelect', $configureTargetData);
+        }
+
+        /*
+         * Display the iqn menu
+         */
+        private function menu($iqn) {
+            if ($iqn !== false) {
+                $target = $this->model('target\Target', $iqn);
+                if ($target->target_status === true) {
+                    $this->view('targets/configureTargetMenu', $iqn);
+                }
+            }
+        }
 
 		private function mapLun($iqn) {
             if (isset($_POST['type'], $_POST['mode'], $_POST['path']) && !$this->base_model->std->mempty($_POST['type'], $_POST['mode'], $_POST['path'])) {
@@ -120,7 +131,7 @@ use phpietadmin\app\core,
             }
 		}
 
-        private function deleteLun() {
+        private function deleteLun($iqn) {
 
         }
 
