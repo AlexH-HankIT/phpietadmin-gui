@@ -28,7 +28,8 @@
 		require(['common'],function() {
 			require(['pages/target/configureTarget', 'domReady'],function(methods, domReady) {
 				domReady(function () {
-					methods.load();
+					methods.addEventHandler();
+					methods.initialLoad();
 				});
 			});
 		});
