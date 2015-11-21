@@ -3,8 +3,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return methods = {
         add_event_handler_maplunbutton: function () {
             $('#map_lun_button').once('click', function () {
-                    var $logical_volume_selector = $('#logical_volume_selector');
-                    var selected = $logical_volume_selector.find("option:selected");
+                    var $logical_volume_selector = $('#logical_volume_selector'),
+                        selected = $logical_volume_selector.find("option:selected");
 
                     if (selected.attr('id') === 'default') {
                         swal({
@@ -47,8 +47,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     });
                                 }
                             },
-                            error: function (data) {
-                                console.log(data);
+                            error: function () {
                                 swal({
                                     title: 'Error',
                                     type: 'error',
