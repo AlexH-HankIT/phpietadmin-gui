@@ -8,11 +8,9 @@ define(['jquery', 'once'], function ($, once) {
             });
         },
         loadMenu: function (iqnVal) {
-            var $configureTargetMenu = $('#configureTargetMenu');
-
-            $configureTargetMenu.fadeOut('fast', function(){
-                $configureTargetMenu.load('/phpietadmin/targets/configure/' + iqnVal + '/menu', function (response, status) {
-                    $configureTargetMenu.fadeIn('fast');
+            $('#configureTargetMenu').fadeOut('fast', function(){
+                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/menu', function (response, status) {
+                    $(this).fadeIn('fast');
                     if (status === 'error') {
                         // Display error message
                         $(this).html(
@@ -40,11 +38,9 @@ define(['jquery', 'once'], function ($, once) {
             });
         },
         loadBody: function (body, iqnVal) {
-            var $configureTargetBody = $('#configureTargetBody');
-
-            $configureTargetBody.fadeOut('fast', function(){
-                $configureTargetBody.load('/phpietadmin/targets/configure/' + iqnVal + '/' + body.substring(1), function (response, status) {
-                    $configureTargetBody.fadeIn('fast');
+            $('#configureTargetBody').fadeOut('fast', function(){
+                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/' + body.substring(1), function (response, status) {
+                    $(this).fadeIn('fast');
                     if (status === 'error') {
                         // Display error message
                         $(this).html(
