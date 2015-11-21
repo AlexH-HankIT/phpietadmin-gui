@@ -39,8 +39,8 @@
                             </tr>
                             <?php if ($data['type'] == 'volume') { ?>
                                 <?php if (isset($row['lun'])) { ?>
-                                    <tr class="collapse row<?php echo htmlspecialchars($key) ?>">htmlspecialchars(
-              )                          <th class="col-md-1">ID</th>
+                                    <tr class="collapse row<?php echo htmlspecialchars($key) ?>">
+                                        <th class="col-md-1">ID</th>
                                         <th class="col-md-1">State</th>
                                         <th class="col-md-1">IOType</th>
                                         <th class="col-md-2">IOMode</th>
