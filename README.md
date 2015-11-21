@@ -83,6 +83,4 @@ In version 0.7:
 - [ ] SSH login via web gui (https://github.com/liftoff/GateOne)
 - [ ] Add bar to snapshot delete gui
 
-Items are completely random ;-)
-
 If you have any problems, please open an issue!
