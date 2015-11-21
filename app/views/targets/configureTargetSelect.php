@@ -8,25 +8,27 @@
 				</ol>
 				<div class='panel-body'>
 					<select id="targetSelect" class="form-control">
-						<?php if ($data['iqn'] !== false) { ?>
-							<option><?php echo $data['iqn'] ?></option>
-						<?php } else { ?>
-							<option id="default">Select a target to configure</option>
-						<?php } ?>
+							<option
+								<?php if ($data['iqn'] !== false) echo 'selected '?>
+								id="default">Select a target to configure
+							</option>
 						<?php foreach ($data['targets'] as $target) { ?>
-							<option value="<?php echo htmlspecialchars($target['iqn']); ?>"><?php echo htmlspecialchars($target['iqn']); ?></option>
+							<option <?php if ($target['iqn'] === $data['iqn']) echo 'selected'?>
+								value="<?php echo htmlspecialchars($target['iqn']); ?>"><?php echo htmlspecialchars($target['iqn']); ?>
+							</option>
 						<?php } ?>
 					</select>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div id='configureTargetBodyWrapper'></div>
+	<div id="configureTargetMenu"></div>
+	<div id='configureTargetBody'></div>
 	<script>
 		require(['common'],function() {
-			require(['pages/target/configureTargetNew', 'domReady'],function(methods, domReady) {
+			require(['pages/target/configureTarget', 'domReady'],function(methods, domReady) {
 				domReady(function () {
-					methods.add_event_handler();
+					methods.load();
 				});
 			});
 		});

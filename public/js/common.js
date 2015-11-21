@@ -17,7 +17,8 @@ requirejs.config({
         touchspin: 'lib/jquery.bootstrap-touchspin.min.amd',
         domReady: 'lib/domReady.min',
         pingjs: 'lib/pingjs.min.amd',
-        nprogress: 'lib/nprogress'
+        nprogress: 'lib/nprogress',
+        targetMenu: 'lib/targetMenu'
     },
     shim: {
         jqueryui: {
