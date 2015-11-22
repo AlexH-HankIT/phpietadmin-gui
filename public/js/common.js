@@ -3,7 +3,7 @@ requirejs.config({
     paths: {
         jquery: 'lib/jquery-2.1.3.min',
         jqueryui: 'lib/jquery-ui.min',
-        jqueryui_slider: 'lib/jquery-ui-slider-pips',
+        jqueryui_slider: 'lib/jquery-ui-slider-pips.min',
         bootstrap: 'lib/bootstrap.min.amd',
         filtertable: 'lib/jquery.filtertable.min.amd',
         qtip: 'lib/jquery.qtip.min',
@@ -11,12 +11,12 @@ requirejs.config({
         sweetalert: 'lib/sweetalert.min',
         mylibs: 'lib/mylibs',
         blockUI: 'lib/jquery.blockUI.min',
-        once: 'lib/once',
-        bootstraptable: 'lib/bootstrap-table',
+        once: 'lib/once.min',
+        bootstraptable: 'lib/bootstrap-table.min',
         touchspin: 'lib/jquery.bootstrap-touchspin.min.amd',
         domReady: 'lib/domReady.min',
         pingjs: 'lib/pingjs.min.amd',
-        nprogress: 'lib/nprogress'
+        nprogress: 'lib/nprogress.min'
     },
     shim: {
         jqueryui: {
