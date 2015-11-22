@@ -10,7 +10,6 @@ requirejs.config({
         imagesloaded: 'lib/imagesloaded.pkg.min.amd',
         sweetalert: 'lib/sweetalert.min',
         mylibs: 'lib/mylibs',
-        highchart: 'lib/highcharts.amd',
         blockUI: 'lib/jquery.blockUI.min',
         once: 'lib/once',
         bootstraptable: 'lib/bootstrap-table',

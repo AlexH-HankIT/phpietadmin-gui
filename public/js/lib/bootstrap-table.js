@@ -2,6 +2,7 @@
  * @author zhixin wen <wenzhixin2010@gmail.com>
  * version: 1.8.1
  * https://github.com/wenzhixin/bootstrap-table/
+ * Licensed under MIT (https://github.com/wenzhixin/bootstrap-table/blob/master/LICENSE)
  */
 
 define(['jquery'], function() {
