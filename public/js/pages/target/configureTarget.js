@@ -7,7 +7,7 @@ define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
                 methods.initialLoad($(this));
             });
         },
-        loadMenu: function (iqnVal) {
+        loadMenu: function (iqnVal, hash) {
             $('#configureTargetMenu').fadeOut('fast', function(){
                 $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/menu', function (response, status) {
                     $(this).fadeIn('fast');
@@ -21,16 +21,26 @@ define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
                             '</div>'
                         );
                     } else {
-                        // Add/Remove active classes and se event handler for body content
                         var $configureTargetBodyMenu = $('.configureTargetBodyMenu');
-                        $configureTargetBodyMenu.once('click', function() {
-                            $configureTargetBodyMenu.removeClass('active').parents().removeClass('active');
-                            $(this).addClass('active').parents().addClass('active');
+
+                        // Set active based on url
+                        $configureTargetBodyMenu.children('a').each(function () {
+                            var $this = $(this);
+                            if ($this.attr('href') !== undefined) {
+                                if ($this.attr('href') === window.location.pathname + hash) {
+                                    $this.closest('li').addClass('active').parents().addClass('active');
+                                }
+                            }
                         });
 
+                        // Add/Remove active classes and se event handler for body content
                         $configureTargetBodyMenu.once('click', function () {
                             var url = $(this).children('a').attr('href'),
                                 hash = url.substring(url.indexOf('#'));
+
+                            $('div.container').find('ul').children('li').removeClass('active');
+                            $(this).addClass('active').parents('li').addClass('active');
+
                             mylibs.loadConfigureTargetBody(hash, iqnVal);
                         });
                     }
@@ -53,7 +63,7 @@ define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
                     hash = '#maplun';
                 }
 
-                methods.loadMenu(iqnVal);
+                methods.loadMenu(iqnVal, hash);
                 mylibs.loadConfigureTargetBody(hash, iqnVal);
                 link = '/phpietadmin/targets/configure/' + iqnVal + hash;
             }
