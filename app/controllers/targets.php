@@ -80,6 +80,9 @@ use phpietadmin\app\core,
 				case 'deleteuser':
 					$this->deleteuser($iqn);
 					break;
+				case 'session':
+					$this->session($iqn);
+					break;
                 case 'menu':
                     $this->menu($iqn);
                     break;
@@ -262,6 +265,32 @@ use phpietadmin\app\core,
 					$this->view('message', array('message' => 'Error - No users set for this target!', 'type' => 'warning'));
 				} else {
 					$this->view('targets/deleteUser', $data);
+				}
+			}
+		}
+
+		private function session($iqn) {
+			if (isset($_POST['sid'])) {
+				$sid = filter_input(INPUT_POST, 'sid', FILTER_SANITIZE_STRING);
+				$target = $this->model('target\Target', $iqn);
+
+				if ($target->target_status !== false) {
+					$target->disconnect_session($sid);
+					echo json_encode($target->logging->get_action_result());
+				} else {
+					$this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+				}
+			} else {
+				$target = $this->model('target\Target', $iqn);
+				$data = $target->return_target_data();
+
+				if (isset($data['session'])) {
+					$view['heading'] = array_keys($data['session'][0]);
+					$view['body'] = $data['session'];
+
+					$this->view('targets/session', $view);
+				} else {
+					$this->view('message', array('message' => 'Error - The target has no open sessions!', 'type' => 'warning'));
 				}
 			}
 		}
