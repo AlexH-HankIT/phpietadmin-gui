@@ -28,8 +28,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                 });
                             }
                         },
-                        error: function (data) {
-                            console.log(data);
+                        error: function () {
                             swal({
                                 title: 'Error',
                                 type: 'error',
