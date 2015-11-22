@@ -38,7 +38,7 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/target/deletesession', 'domReady'], function (methods, domReady) {
+            require(['pages/target/session', 'domReady'], function (methods, domReady) {
                 domReady(function () {
                     methods.deleteSessionButtonQtip();
                     methods.deleteSessionButton();
