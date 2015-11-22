@@ -2,46 +2,24 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     var methods;
 
     return methods = {
-        enable_filter_table_plugin: function () {
-            // Enable filter table plugin
-            $('.searchabletable').filterTable({minRows: 0});
-        },
-        load_data: function (param) {
-            mylibs.load_data('/phpietadmin/targets/configure/deleterule/' + param);
-        },
-        add_event_handler_delete_rule_type: function () {
-            $('input[name="delete_rule_type"]').once('change', function () {
-                mylibs.load_data('/phpietadmin/targets/configure/deleterule/' + $(this).val());
+        addEventHandler: function() {
+            $('input[name="ruleType"]').once('change', function () {
+                methods.loadData();
             });
-        },
-        toggle_checkboxes: function () {
-            $('#data').once('click', '#object_delete_checkbox_all', function () {
-                $('.object_delete_checkbox').each(function () {
-                    var $this = $(this);
-                    $this.prop('checked', !$this.prop("checked"));
-                });
-            });
-        },
-        add_event_handler_deleterulebutton: function () {
-            $('#delete_rule_button').once('click', function () {
-                // validate if checkboxes are checked
-                function load($this, rule_type) {
-                    return $.ajax({
-                        url: '/phpietadmin/targets/configure/deleterule',
+
+            $('#deleteRuleButton').once('click', function () {
+                $('.object_delete_checkbox:checked').each(function () {
+                    $.ajax({
+                        url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule',
                         data: {
-                            'iqn': $('#target_selector').find("option:selected").val(),
-                            'value': $this.closest('tr').find('.object_value').text(),
-                            'rule_type': rule_type
+                            'value': $(this).closest('tr').find('.objectValue').text(),
+                            'ruleType': $("input[name='ruleType']:checked").val()
                         },
                         dataType: 'json',
                         type: 'post',
                         success: function (data) {
                             if (data['code'] == 0) {
-                                swal({
-                                    title: 'Success',
-                                    type: 'success',
-                                    text: data['message']
-                                });
+                                methods.loadData();
                             } else {
                                 swal({
                                     title: 'Error',
@@ -59,18 +37,28 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             });
                         }
                     });
-                }
-
-                var rule_type = $("input[name='delete_rule_type']:checked").val();
-                var def = [];
-
-                $('.object_delete_checkbox:checked').each(function () {
-                    def.push(load($(this), rule_type));
                 });
-
-                $.when.apply($, def).done(function () {
-                    methods.load_data(rule_type);
-                });
+            });
+        },
+        loadData: function() {
+            var $deleteRuleData = $('#deleteRuleData');
+            $deleteRuleData.fadeOut('fast', function () {
+                $deleteRuleData.load('/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule',
+                    {ruleType: $("input[name='ruleType']:checked").val()},
+                    function (response, status) {
+                        $deleteRuleData.fadeIn('fast');
+                        if (status == 'error') {
+                            $(this).html("<div id='configure_target_control'>" +
+                                "<div class='container'>" +
+                                "<div class='alert alert-warning' role='alert'>" +
+                                "<h3 align='center'>" +
+                                response +
+                                "</h3>" +
+                                "</div>" +
+                                '</div>' +
+                                '</div>');
+                        }
+                    });
             });
         }
     };

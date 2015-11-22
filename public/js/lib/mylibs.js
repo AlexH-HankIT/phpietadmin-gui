@@ -103,22 +103,6 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             });
             return false;
         },
-        load_data: function(link) {
-            $('#data').html('').load(link, {iqn: $('#target_selector').find("option:selected").val()}, function (response, status) {
-                if (status == 'error') {
-                    $(this).html("<div id='configure_target_control'>" +
-                    "<div class='container'>" +
-                    "<div class='alert alert-warning' role='alert'>" +
-                    "<h3 align='center'>" +
-                    response +
-                    "</h3>" +
-                    "</div>" +
-                    '</div>' +
-                    '</div>');
-                }
-            });
-            return false;
-        },
         is_int: function(value) {
             return (parseFloat(value) == parseInt(value)) && !isNaN(value);
         },

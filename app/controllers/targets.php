@@ -71,6 +71,9 @@ use phpietadmin\app\core,
                 case 'addrule':
                     $this->addrule($iqn);
                     break;
+                case 'deleterule':
+                    $this->deleterule($iqn);
+                    break;
                 case 'menu':
                     $this->menu($iqn);
                     break;
@@ -177,6 +180,44 @@ use phpietadmin\app\core,
                 } else {
                     $this->view('targets/addRule', $data);
                 }
+            }
+        }
+
+        private function deleterule($iqn) {
+            if (isset($_POST['value'], $_POST['ruleType'])) {
+                $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
+                $rule_type = filter_input(INPUT_POST, 'ruleType', FILTER_SANITIZE_STRING);
+
+                $target = $this->model('target\Target', $iqn);
+                $target->delete_acl($value, $rule_type);
+                echo json_encode($target->logging->get_action_result());
+            } else if (isset($_POST['ruleType'])){
+                // display body here
+                $target = $this->model('target\Target', $iqn);
+
+                if ($_POST['ruleType'] === 'targets') {
+                    $data = $target->get_acls('targets');
+                    if ($data !== false) {
+                        // delete the iqn
+                        unset($data[0]);
+                        // display target type
+                        $this->view('targets/delete_rule', $data);
+                    } else {
+                        $this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning'));
+                    }
+                } else if ($_POST['ruleType'] === 'initiators') {
+                    $data = $target->get_acls('initiators');
+                    if ($data !== false) {
+                        // delete the iqn
+                        unset($data[0]);
+                        // display initiator acl as default
+                        $this->view('targets/delete_rule', $data);
+                    } else {
+                        $this->view('message', array('message' => 'Error - No initiator acl available!', 'type' => 'warning'));
+                    }
+                }
+            } else {
+                $this->view('targets/delete_rule_control');
             }
         }
 
