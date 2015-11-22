@@ -7,9 +7,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 var selected = $delete_lun_selector.find('option:selected');
 
                 $.ajax({
-                    url: '/phpietadmin/targets/configure/deletelun',
+                    url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deletelun',
                     data: {
-                        'iqn': $('#target_selector').find("option:selected").val(),
                         'path': selected.attr('data-path')
                     },
                     dataType: 'json',

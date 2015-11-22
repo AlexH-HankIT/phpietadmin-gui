@@ -132,7 +132,30 @@ use phpietadmin\app\core,
 		}
 
         private function deleteLun($iqn) {
+            if (isset($_POST['path'])) {
+                $path = filter_input(INPUT_POST, 'path', FILTER_SANITIZE_STRING);
 
+                // delete lun with id
+                $target = $this->model('target\Target', $iqn);
+
+                $target->detach_lun($path, true);
+                echo json_encode($target->logging->get_action_result());
+            } else {
+                // fetch data via target model
+                $target = $this->model('target\Target', $iqn);
+                $data = $target->return_target_data();
+
+                if ($target->target_status !== false) {
+                    if (isset($data['lun'])) {
+                        // display lun for iqn
+                        $this->view('targets/deleteLun', $data);
+                    } else {
+                        $this->view('message', array('message' => 'Error - No lun available!', 'type' => 'warning'));
+                    }
+                } else {
+                    $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                }
+            }
         }
 
         /*public function configure($param1 = false, $param2 = false) {
