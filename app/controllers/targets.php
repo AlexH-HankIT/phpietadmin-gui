@@ -83,6 +83,9 @@ use phpietadmin\app\core,
 				case 'session':
 					$this->session($iqn);
 					break;
+				case 'settings':
+					$this->settings($iqn);
+					break;
                 case 'menu':
                     $this->menu($iqn);
                     break;
@@ -292,6 +295,17 @@ use phpietadmin\app\core,
 				} else {
 					$this->view('message', array('message' => 'Error - The target has no open sessions!', 'type' => 'warning'));
 				}
+			}
+		}
+
+		private function settings($iqn) {
+			if (isset($_POST['option'], $_POST['newvalue'])) {
+				$target = $this->model('target\Target', $iqn);
+				$target->add_setting($option = filter_input(INPUT_POST, 'option', FILTER_SANITIZE_STRING), filter_input(INPUT_POST, 'newvalue', FILTER_SANITIZE_STRING));
+				echo json_encode($target->logging->get_action_result());
+			} else {
+				$target = $this->model('target\Target', $iqn);
+				$this->view('targets/settings', $target->get_all_settings());
 			}
 		}
 
