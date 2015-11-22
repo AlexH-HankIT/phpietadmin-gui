@@ -4,7 +4,7 @@ define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
     return methods = {
         addEventHandler: function() {
             $('#targetSelect').once('change', function () {
-                methods.initialLoad($(this));
+                methods.initialLoad();
             });
         },
         loadMenu: function (iqnVal, hash) {
@@ -55,8 +55,8 @@ define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
 
             if (iqn.attr('id') === 'default') {
                 link = '/phpietadmin/targets/configure';
-                $('#configureTargetMenu').html('');
-                $('#configureTargetBody').html('');
+                $('#configureTargetMenu').fadeOut('fast', function() { $(this).html(''); });
+                $('#configureTargetBody').fadeOut('fast', function() { $(this).html(''); });
             } else {
                 // Always load the maplun menu
                 if (hash === '') {
