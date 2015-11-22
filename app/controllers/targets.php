@@ -77,6 +77,9 @@ use phpietadmin\app\core,
 				case 'adduser':
 					$this->adduser($iqn);
 					break;
+				case 'deleteuser':
+					$this->deleteuser($iqn);
+					break;
                 case 'menu':
                     $this->menu($iqn);
                     break;
@@ -238,6 +241,27 @@ use phpietadmin\app\core,
 					$this->view('targets/addUser', $data);
 				} else {
 					$this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+				}
+			}
+		}
+
+		private function deleteuser($iqn) {
+			if (isset($_POST['id'], $_POST['type'])) {
+				$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+				$type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+
+				$target = $this->model('target\Target', $iqn);
+				$target->delete_user($id, false, $type);
+				echo json_encode($target->logging->get_action_result());
+			} else {
+				$target = $this->model('target\Target', $iqn);
+
+				$data = $target->get_user();
+
+				if ($data == 3 || $data == false) {
+					$this->view('message', array('message' => 'Error - No users set for this target!', 'type' => 'warning'));
+				} else {
+					$this->view('targets/deleteUser', $data);
 				}
 			}
 		}

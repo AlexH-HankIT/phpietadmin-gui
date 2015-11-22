@@ -8,31 +8,31 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         add_event_handler_deleteuserbutton: function () {
             $(document).once('click', '#deleteuserbutton', function () {
-                var $userdeletecheckbox = $('.userdeletecheckbox:checked');
-                if (!$userdeletecheckbox.val()) {
+                var $userDeleteCheckbox = $('.userDeleteCheckbox:checked');
+                if (!$userDeleteCheckbox.val()) {
                     swal({
                         title: 'Error',
                         type: 'error',
                         text: 'Please select a user'
                     });
                 } else {
-                    $userdeletecheckbox.each(function () {
-                        var $this = $(this);
-                        var $this_row = $this.closest('tr');
-                        var url = '/phpietadmin/targets/configure/deleteuser';
+                    $userDeleteCheckbox.each(function () {
+                        var $thisRow = $(this).closest('tr'),
+                            iqn = $('#targetSelect').find('option:selected').val(),
+                            bodyId =  '/deleteuser',
+                            url = '/phpietadmin/targets/configure/' + iqn + bodyId;
 
                         $.ajax({
                             url: url,
                             data: {
-                                'iqn': $('#target_selector').find('option:selected').val(),
-                                'id': $this_row.find('.id').text(),
-                                'type': $this_row.find('.type').text()
+                                'id': $thisRow.find('.id').text(),
+                                'type': $thisRow.find('.type').text()
                             },
                             dataType: 'json',
                             type: 'post',
                             success: function (data) {
                                 if (data['code'] === 0) {
-                                    return mylibs.load_configure_target_body(url);
+                                    return mylibs.loadConfigureTargetBody(bodyId, iqn);
                                 } else {
                                     swal({
                                         title: 'Error',
