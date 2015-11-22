@@ -201,7 +201,7 @@ use phpietadmin\app\core,
                         // delete the iqn
                         unset($data[0]);
                         // display target type
-                        $this->view('targets/delete_rule', $data);
+                        $this->view('targets/deleteRule', $data);
                     } else {
                         $this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning'));
                     }
@@ -211,13 +211,13 @@ use phpietadmin\app\core,
                         // delete the iqn
                         unset($data[0]);
                         // display initiator acl as default
-                        $this->view('targets/delete_rule', $data);
+                        $this->view('targets/deleteRule', $data);
                     } else {
                         $this->view('message', array('message' => 'Error - No initiator acl available!', 'type' => 'warning'));
                     }
                 }
             } else {
-                $this->view('targets/delete_rule_control');
+                $this->view('targets/deleteRuleControl');
             }
         }
 
