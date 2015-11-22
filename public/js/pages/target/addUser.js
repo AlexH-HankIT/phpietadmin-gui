@@ -20,15 +20,11 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     });
                 } else {
                     checkboxes.each(function () {
-                        var $this = $(this),
-                            bodyId = '/adduser',
-                            iqn = $('#targetSelect').find('option:selected').val();
-
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/' + iqn + bodyId,
+                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/adduser',
                             data: {
                                 'type': $("input[name='type']:checked").val(),
-                                'id': $this.closest('tr').find('.userId').text()
+                                'id': $(this).closest('tr').find('.userId').text()
                             },
                             dataType: 'json',
                             type: 'post',
