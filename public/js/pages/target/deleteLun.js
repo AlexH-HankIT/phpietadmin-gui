@@ -3,8 +3,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return methods = {
         add_event_handler_deletelunbutton: function () {
             $('#delete_lun_button').once('click', function () {
-                var $delete_lun_selector = $('#delete_lun_selector');
-                var selected = $delete_lun_selector.find('option:selected');
+                var $delete_lun_selector = $('#delete_lun_selector'),
+                    selected = $delete_lun_selector.find('option:selected');
 
                 $.ajax({
                     url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deletelun',
