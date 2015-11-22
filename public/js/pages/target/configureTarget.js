@@ -1,4 +1,4 @@
-define(['jquery', 'once'], function ($, once) {
+define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
     var methods;
 
     return methods = {
@@ -31,25 +31,8 @@ define(['jquery', 'once'], function ($, once) {
                         $configureTargetBodyMenu.once('click', function () {
                             var url = $(this).children('a').attr('href'),
                                 hash = url.substring(url.indexOf('#'));
-                            methods.loadBody(hash, iqnVal);
+                            mylibs.loadConfigureTargetBody(hash, iqnVal);
                         });
-                    }
-                });
-            });
-        },
-        loadBody: function (body, iqnVal) {
-            $('#configureTargetBody').fadeOut('fast', function(){
-                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/' + body.substring(1), function (response, status) {
-                    $(this).fadeIn('fast');
-                    if (status === 'error') {
-                        // Display error message
-                        $(this).html(
-                            "<div class='container'>" +
-                            "<div class='alert alert-warning' role='alert'>" +
-                            '<h3 align="center">Sorry, can\'t load the body!</h3>' +
-                            '</div>' +
-                            '</div>'
-                        );
                     }
                 });
             });
@@ -71,7 +54,7 @@ define(['jquery', 'once'], function ($, once) {
                 }
 
                 methods.loadMenu(iqnVal);
-                methods.loadBody(hash, iqnVal);
+                mylibs.loadConfigureTargetBody(hash, iqnVal);
                 link = '/phpietadmin/targets/configure/' + iqnVal + hash;
             }
 

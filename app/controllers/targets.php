@@ -74,6 +74,9 @@ use phpietadmin\app\core,
                 case 'deleterule':
                     $this->deleterule($iqn);
                     break;
+				case 'adduser':
+					$this->adduser($iqn);
+					break;
                 case 'menu':
                     $this->menu($iqn);
                     break;
@@ -220,6 +223,24 @@ use phpietadmin\app\core,
                 $this->view('targets/deleteRuleControl');
             }
         }
+
+		private function adduser($iqn) {
+			if (isset($_POST['type'], $_POST['id'])) {
+				$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+				$type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+
+				$target = $this->model('target\Target', $iqn);
+				$target->add_user($id, false, $type);
+				echo json_encode($target->logging->get_action_result());
+			} else {
+				$data = $this->base_model->database->get_all_usernames(true);
+				if ($data != 0) {
+					$this->view('targets/addUser', $data);
+				} else {
+					$this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+				}
+			}
+		}
 
         /*public function configure($param1 = false, $param2 = false) {
             $targets = $this->model('target\Target', false);

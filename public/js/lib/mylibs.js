@@ -168,6 +168,23 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             checkbox.once('click', function() {
                 $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
             });
+        },
+        loadConfigureTargetBody: function (body, iqnVal) {
+            $('#configureTargetBody').fadeOut('fast', function(){
+                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/' + body.substring(1), function (response, status) {
+                    $(this).fadeIn('fast');
+                    if (status === 'error') {
+                        // Display error message
+                        $(this).html(
+                            "<div class='container'>" +
+                            "<div class='alert alert-warning' role='alert'>" +
+                            '<h3 align="center">Sorry, can\'t load the body!</h3>' +
+                            '</div>' +
+                            '</div>'
+                        );
+                    }
+                });
+            });
         }
     }
 });

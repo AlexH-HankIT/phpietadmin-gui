@@ -10,29 +10,25 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             mylibs.select_all_checkbox($('#master_checkbox'));
 
             $('#adduserbutton').once('click', function () {
-                var addusercheckbox_checked = $('.addusercheckbox:checked');
+                var checkboxes = $('.addusercheckbox:checked');
 
-                if (!addusercheckbox_checked.val()) {
+                if (!checkboxes.val()) {
                     swal({
                         title: 'Error',
                         type: 'error',
                         text: 'Please select a user!'
                     });
                 } else {
-                    // Select radio
-                    var type = $("input[name='type']:checked").val();
-
-                    // loop through checkboxes
-                    addusercheckbox_checked.each(function () {
-                        var $this = $(this);
-                        var url = '/phpietadmin/targets/configure/adduser';
+                    checkboxes.each(function () {
+                        var $this = $(this),
+                            bodyId = '/adduser',
+                            iqn = $('#targetSelect').find('option:selected').val();
 
                         $.ajax({
-                            url: url,
+                            url: '/phpietadmin/targets/configure/' + iqn + bodyId,
                             data: {
-                                'iqn': $('#target_selector').find('option:selected').val(),
-                                'type': type,
-                                'id': $this.closest('tr').find('.userid').text()
+                                'type': $("input[name='type']:checked").val(),
+                                'id': $this.closest('tr').find('.userId').text()
                             },
                             dataType: 'json',
                             type: 'post',
@@ -42,10 +38,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         title: 'Success',
                                         type: 'success',
                                         text: data['message']
-                                    }, function () {
-                                        // uncheck all the checkbox
-                                        $this.removeAttr('checked');
                                     });
+                                    checkboxes.removeAttr('checked');
                                 } else {
                                     swal({
                                         title: 'Error',
@@ -53,7 +47,6 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         text: data['message']
                                     });
                                 }
-                                mylibs.load_configure_target_body(url);
                             },
                             error: function () {
                                 swal({

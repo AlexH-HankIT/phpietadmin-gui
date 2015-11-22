@@ -31,7 +31,7 @@
                         <tbody id="addusertablebody">
                         <?php foreach ($data as $row) { ?>
                             <tr>
-                                <td hidden class="userid"><?php echo htmlspecialchars($row['id']); ?></td>
+                                <td hidden class="userId"><?php echo htmlspecialchars($row['id']); ?></td>
                                 <td class="col-md-1"><input class="addusercheckbox" type="checkbox"></td>
                                 <td class="col-md-11"><?php echo htmlspecialchars($row['username']); ?></td>
                             </tr>
@@ -44,7 +44,7 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/target/adduser', 'domReady'], function (methods, domReady) {
+            require(['pages/target/addUser', 'domReady'], function (methods, domReady) {
                 domReady(function () {
                     methods.add_event_handler_adduserbutton();
                     methods.enable_filter_table_plugin();
