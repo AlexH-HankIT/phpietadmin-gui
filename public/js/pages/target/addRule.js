@@ -36,10 +36,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         title: 'Success',
                                         type: 'success',
                                         text: data['message']
-                                    }, function() {
-                                        // uncheck all the checkbox
-                                        $this.removeAttr('checked');
                                     });
+                                    $this.removeAttr('checked');
                                 } else {
                                     swal({
                                         title: 'Error',
