@@ -47,14 +47,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     function (response, status) {
                         $deleteRuleData.fadeIn('fast');
                         if (status == 'error') {
-                            $(this).html("<div id='configure_target_control'>" +
+                            $(this).html(
                                 "<div class='container'>" +
                                 "<div class='alert alert-warning' role='alert'>" +
                                 "<h3 align='center'>" +
                                 response +
                                 "</h3>" +
                                 "</div>" +
-                                '</div>' +
                                 '</div>');
                         }
                     });
