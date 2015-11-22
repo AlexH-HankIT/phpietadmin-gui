@@ -7,10 +7,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
         },
         add_event_handler_addallowrulebutton: function () {
-            mylibs.select_all_checkbox($('#master_checkbox'));
+            mylibs.select_all_checkbox($('#masterCheckbox'));
 
-            $('#add_allow_rule_button').once('click', function () {
-                var checkboxes = $('.object_checkbox:checked');
+            $('#addAllowRuleButton').once('click', function () {
+                var checkboxes = $('.objectCheckbox:checked');
 
                 if (!checkboxes.val()) {
                     swal({
@@ -23,11 +23,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         var $this = $(this);
 
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/addrule',
+                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/addrule',
                             data: {
-                                'iqn': $('#target_selector').find('option:selected').val(),
                                 'type': $("input[name='type']:checked").val(),
-                                'id': $this.closest('tr').find('.object_id').text()
+                                'id': $this.closest('tr').find('.objectId').text()
                             },
                             dataType: 'json',
                             type: 'post',

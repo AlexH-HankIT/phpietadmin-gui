@@ -68,6 +68,9 @@ use phpietadmin\app\core,
                 case 'deletelun':
                     $this->deleteLun($iqn);
                     break;
+                case 'addrule':
+                    $this->addrule($iqn);
+                    break;
                 case 'menu':
                     $this->menu($iqn);
                     break;
@@ -154,6 +157,25 @@ use phpietadmin\app\core,
                     }
                 } else {
                     $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                }
+            }
+        }
+
+        private function addrule($iqn) {
+            if (isset($_POST['type'], $_POST['id'])) {
+                $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
+                $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+                $target = $this->model('target\Target', $iqn);
+                $target->add_acl($id, $type);
+                echo json_encode($target->logging->get_action_result());
+            } else {
+                $data = $this->base_model->database->get_all_objects();
+
+                if ($data === 3) {
+                    $this->view('message', array('message' => 'Error - No objects available!', 'type' => 'warning'));
+                } else {
+                    $this->view('targets/addRule', $data);
                 }
             }
         }
