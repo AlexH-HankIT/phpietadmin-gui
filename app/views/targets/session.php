@@ -4,7 +4,7 @@
             <ol class='panel-heading breadcrumb'>
                 <li><a href='#'>Targets</a></li>
                 <li><a href='#'>Configure</a></li>
-                <li class='active'>Delete session</li>
+                <li class='active'>Session</li>
             </ol>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -27,7 +27,7 @@
                             <td><?php echo htmlspecialchars($value['state']) ?></td>
                             <td><?php echo htmlspecialchars($value['hd']) ?></td>
                             <td><?php echo htmlspecialchars($value['dd']) ?></td>
-                            <td><button class="btn btn-xs btn-danger deleteSessionButton"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
+                            <td><button class="btn btn-xs btn-danger deleteSessionButton"><span class="glyphicon glyphicon-remove"></span> Disconnect</button></td>
                         </tr>
                     <?php } ?>
                     </tbody>
