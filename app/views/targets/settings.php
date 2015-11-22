@@ -43,12 +43,12 @@
 
 <script>
 	require(['common'], function () {
-		require(['pages/target/settings', 'domReady', 'pages/target/settingsQtip'], function (settings, domReady, settingsQtip) {
+		require(['pages/target/settings', 'domReady', 'pages/target/settingsQtip'], function (settings, domReady, settingsqtip) {
 			domReady(function () {
 				settings.add_event_handler_settings_table_checkbox();
 				settings.add_event_handler_save_value();
 				settings.remove_error();
-				settingsQtip.add_qtip();
+				settingsqtip.add_qtip();
 			});
 		});
 	});
