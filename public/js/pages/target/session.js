@@ -2,8 +2,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
     var methods;
 
     return methods = {
-        add_qtip_sessiondeletebutton: function () {
-            $('.session_delete_button').qtip({
+        deleteSessionButtonQtip: function () {
+            $('.deleteSessionButton').qtip({
                 content: {
                     text: 'Normally the initiator immediately reconnects. ' +
                     'To disconnect an initiator permanently you have to delete the acl allowing the connection ' +
@@ -14,13 +14,15 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                 }
             });
         },
-        add_event_handler_sessiondeletebutton: function () {
-            $('.session_delete_button').once('click', function () {
-                var url = '/phpietadmin/targets/configure/deletesession';
+        deleteSessionButton: function () {
+            var iqn = $('#targetSelect').find('option:selected').val(),
+                bodyId = '/session';
+
+            $('.deleteSessionButton').once('click', function () {
+                var url = '/phpietadmin/targets/configure/' + iqn + bodyId;
                 $.ajax({
                     url: url,
                     data: {
-                        iqn: $('#target_selector').find("option:selected").val(),
                         sid: $(this).closest('tr').find('.sid').text()
                     },
                     dataType: 'json',
@@ -32,7 +34,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                 type: 'success',
                                 text: data['message']
                             }, function () {
-                                mylibs.load_configure_target_body(url);
+                                mylibs.loadConfigureTargetBody(bodyId, iqn);
                             });
                         } else {
                             swal({
