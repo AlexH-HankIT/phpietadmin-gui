@@ -28,9 +28,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                     var url = '/phpietadmin/targets/configure';
 
                     $.ajax({
-                        url: url + '/deletetarget',
+                        url: url + '/' + $('#targetSelect').find('option:selected').val() + '/delete',
                         data: {
-                            "iqn": $('#target_selector').find("option:selected").val(),
                             "delete_acl": deleteacl,
                             "force": force
                         },

@@ -15,7 +15,16 @@
             // if the iqn is false, we get the data for every target
             if ($iqn !== false) {
                 $this->set_iqn($iqn);
-                $this->get_target_data();
+				$return = $this->get_target_data();
+
+				// Check if we deal with an existing or new target
+				// ToDo: Remove the check from the add() function
+				if ($return === false) {
+					$this->target_status = false;
+				} else {
+					$this->target_status = true;
+				}
+
                 $this->tid = $this->return_target_property('tid');
             } else {
                 $this->target_data = $this->parse_target();

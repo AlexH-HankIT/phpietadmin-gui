@@ -4,7 +4,7 @@
             <ol class='panel-heading breadcrumb'>
                 <li><a href='#'>Targets</a></li>
                 <li><a href='#'>Configure</a></li>
-                <li class='active'>Delete session</li>
+                <li class='active'>Session</li>
             </ol>
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -27,7 +27,7 @@
                             <td><?php echo htmlspecialchars($value['state']) ?></td>
                             <td><?php echo htmlspecialchars($value['hd']) ?></td>
                             <td><?php echo htmlspecialchars($value['dd']) ?></td>
-                            <td><a class="session_delete_button" href="#"><span class="glyphicon glyphicon glyphicon-trash glyphicon-20"></span></a></td>
+                            <td><button class="btn btn-xs btn-danger deleteSessionButton"><span class="glyphicon glyphicon-remove"></span> Disconnect</button></td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -38,10 +38,10 @@
 
     <script>
         require(['common'], function () {
-            require(['pages/target/deletesession', 'domReady'], function (methods, domReady) {
+            require(['pages/target/session', 'domReady'], function (methods, domReady) {
                 domReady(function () {
-                    methods.add_qtip_sessiondeletebutton();
-                    methods.add_event_handler_sessiondeletebutton();
+                    methods.deleteSessionButtonQtip();
+                    methods.deleteSessionButton();
                 });
             });
         });

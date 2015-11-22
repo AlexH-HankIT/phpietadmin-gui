@@ -40,7 +40,7 @@
     </div>
     <script>
         require(['common'], function () {
-            require(['pages/target/deletetarget', 'domReady'], function (methods, domReady) {
+            require(['pages/target/delete', 'domReady'], function (methods, domReady) {
                 domReady(function () {
                     methods.add_event_handler_deletetargetbutton();
                     methods.add_qtip();

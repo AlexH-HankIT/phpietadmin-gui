@@ -31,7 +31,7 @@
                                     <td class="col-md-1"><?php if (isset($row['session'])) echo '<a href="#" class="expandrow"><span class="glyphicon glyphicon-15 glyphicon-plus"></span></a>' ?></td>
                                 <?php } ?>
                                 <td class="col-md-2"><?php echo $row['tid'] ?></td>
-                                <td class="col-md-2"><?php echo $row['iqn'] ?></td>
+                                <td class="col-md-2"><a target='_blank' href='/phpietadmin/targets/configure/<?php echo htmlspecialchars($row['iqn']) ?>'><?php echo htmlspecialchars($row['iqn']) ?></a></td>
                                 <td class="col-md-1"></td>
                                 <td class="col-md-1"></td>
                                 <td class="col-md-1"></td>
@@ -39,8 +39,8 @@
                             </tr>
                             <?php if ($data['type'] == 'volume') { ?>
                                 <?php if (isset($row['lun'])) { ?>
-                                    <tr class="collapse row<?php echo htmlspecialchars($key) ?>">htmlspecialchars(
-              )                          <th class="col-md-1">ID</th>
+                                    <tr class="collapse row<?php echo htmlspecialchars($key) ?>">
+                                        <th class="col-md-1">ID</th>
                                         <th class="col-md-1">State</th>
                                         <th class="col-md-1">IOType</th>
                                         <th class="col-md-2">IOMode</th>

@@ -3,8 +3,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return methods = {
         add_event_handler_maplunbutton: function () {
             $('#map_lun_button').once('click', function () {
-                    var $logical_volume_selector = $('#logical_volume_selector');
-                    var selected = $logical_volume_selector.find("option:selected");
+                    var $logical_volume_selector = $('#logical_volume_selector'),
+                        selected = $logical_volume_selector.find("option:selected");
 
                     if (selected.attr('id') === 'default') {
                         swal({
@@ -14,9 +14,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         });
                     } else {
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/maplun',
+                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/maplun',
                             data: {
-                                'target': $('#target_selector').find('option:selected').val(),
                                 'type': $('#type').find('option:selected').val(),
                                 'mode': $('#mode').find('option:selected').val(),
                                 'path': selected.text()

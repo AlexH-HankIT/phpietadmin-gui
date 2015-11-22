@@ -1,38 +1,43 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     var methods;
-
     return methods = {
         enable_filter_table_plugin: function () {
             // Enable filter table plugin
             $('.searchabletable').filterTable({minRows: 0});
+
         },
-        add_event_handler_deleteuserbutton: function () {
-            $(document).once('click', '#deleteuserbutton', function () {
-                var $userdeletecheckbox = $('.userdeletecheckbox:checked');
-                if (!$userdeletecheckbox.val()) {
+        add_event_handler_addallowrulebutton: function () {
+            mylibs.select_all_checkbox($('#masterCheckbox'));
+
+            $('#addAllowRuleButton').once('click', function () {
+                var checkboxes = $('.objectCheckbox:checked');
+
+                if (!checkboxes.val()) {
                     swal({
                         title: 'Error',
                         type: 'error',
-                        text: 'Please select a user'
+                        text: 'Please select a object!'
                     });
                 } else {
-                    $userdeletecheckbox.each(function () {
+                    checkboxes.each(function () {
                         var $this = $(this);
-                        var $this_row = $this.closest('tr');
-                        var url = '/phpietadmin/targets/configure/deleteuser';
 
                         $.ajax({
-                            url: url,
+                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/addrule',
                             data: {
-                                'iqn': $('#target_selector').find('option:selected').val(),
-                                'id': $this_row.find('.id').text(),
-                                'type': $this_row.find('.type').text()
+                                'type': $("input[name='type']:checked").val(),
+                                'id': $this.closest('tr').find('.objectId').text()
                             },
                             dataType: 'json',
                             type: 'post',
                             success: function (data) {
                                 if (data['code'] === 0) {
-                                    return mylibs.load_configure_target_body(url);
+                                    swal({
+                                        title: 'Success',
+                                        type: 'success',
+                                        text: data['message']
+                                    });
+                                    $this.removeAttr('checked');
                                 } else {
                                     swal({
                                         title: 'Error',
