@@ -59,7 +59,7 @@ class User extends core\BaseModel {
 		// validate user table is empty to prevent this from working if there are already users
 		if ($users === false) {
 			if ($password1 === $password2) {
-				$authCode = file_get_contents('/usr/share/phpietadmin/install/auth');
+				$authCode = file_get_contents('/usr/share/phpietadmin/app/auth');
 
 				if ($authCode === $user_input_auth_code) {
 					$return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password1), 'root', true);
@@ -68,7 +68,7 @@ class User extends core\BaseModel {
 						$this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
 					} else {
 						$this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-						unlink('/usr/share/phpietadmin/install/auth');
+						unlink('/usr/share/phpietadmin/app/auth');
 					}
 				} else {
 					$this->logging->log_action_result('Auth code is wrong!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);

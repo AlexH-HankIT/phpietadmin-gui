@@ -15,7 +15,7 @@ use phpietadmin\app\core;
 				$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 				$password1 = filter_input(INPUT_POST, 'password1', FILTER_SANITIZE_STRING);
 
-				if (file_exists('/usr/share/phpietadmin/install/auth')) {
+				if (file_exists('/usr/share/phpietadmin/app/auth')) {
 					if (isset($_POST['password2'], $_POST['auth_code'])) {
 						$password2 = filter_input(INPUT_POST, 'password2', FILTER_SANITIZE_STRING);
 						$auth_code = filter_input(INPUT_POST, 'auth_code', FILTER_SANITIZE_STRING);
@@ -34,7 +34,7 @@ use phpietadmin\app\core;
 					header("Location: /phpietadmin/dashboard");
 					die();
 				} else {
-					if (file_exists('/usr/share/phpietadmin/install/auth')) {
+					if (file_exists('/usr/share/phpietadmin/app/auth')) {
 						$this->view('message', $user->logging->get_action_result()['message']);
 					} else {
 						$this->view('message', 'Wrong username or password!');
@@ -43,7 +43,7 @@ use phpietadmin\app\core;
 					die();
 				}
 			} else {
-				if (file_exists('/usr/share/phpietadmin/install/auth')) {
+				if (file_exists('/usr/share/phpietadmin/app/auth')) {
 					$this->view('login/first_signin');
 				} else {
 					$this->view('login/signin');
