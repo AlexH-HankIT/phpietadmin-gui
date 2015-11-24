@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en-US">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="/phpietadmin/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +12,6 @@
 <link href="/phpietadmin/css/my.css" rel="stylesheet">
 <script data-main="/phpietadmin/js/common" src="/phpietadmin/js/lib/require.js"></script>
 <title>phpietadmin<?php if (isset($data['hostname'])) echo ' on ' . htmlspecialchars($data['hostname']); ?></title>
-<body>
 <noscript>
 	<div class="container">
 		<div class="alert alert-warning" role="alert">
