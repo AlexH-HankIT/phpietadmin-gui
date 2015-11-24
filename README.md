@@ -12,8 +12,11 @@ daemon live config. The file parsers will preserve all comments, so this tool wo
 backup is created before changes are made.
 
 ## Compatibility
-Phpietadmin is tested on 8. But it’s not limited to debian.
-It should run just fine on any other linux distribution.
+Phpietadmin is tested on 8. Basically it should work on every linux distribution with php 5.6 >= and apache2.
+Official support for CentOS is planned.
+
+## Screens
+* https://github.com/HankIT/phpietadmin-gui/wiki/Screens-v0.6.1
 
 ## Docs
 * https://github.com/HankIT/phpietadmin-gui/wiki/Installation-v0.6.1
