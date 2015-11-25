@@ -56,29 +56,6 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             }
             return retVal;
         },
-        load_configure_target_body: function(link, clicked) {
-            $('#configure_target_body').remove();
-
-            if (clicked !== undefined && clicked != '') {
-                $('#configure_target_menu').find('ul').children('li').removeClass('active');
-                clicked.parents('li').addClass('active');
-            }
-
-            $('#configure_target_body_wrapper').load(link, {iqn: $('#target_selector').find("option:selected").val()}, function (response, status) {
-                if (status == 'error') {
-                    $(this).html("<div id='configure_target_body'>" +
-                    "<div class='container'>" +
-                    "<div class='alert alert-warning' role='alert'>" +
-                    "<h3 align='center'>" +
-                    response +
-                    "</h3>" +
-                    "</div>" +
-                    '</div>' +
-                    '</div>');
-                }
-            });
-            return false;
-        },
         load_lvm_target_body: function (link, clicked) {
             var logical_volume_selector_selected = $('#logical_volume_selector').find("option:selected");
             $('#configure_lvm_body').remove();
