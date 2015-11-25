@@ -74,8 +74,11 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'npro
             // Select active menu element, when page is loaded manually
             path = path.replace(/\/$/, '');
 
-            // Remove iqn in Target -> Configure menu
-            path = path.substr(0, path.lastIndexOf('/'));
+            if (window.location.hash !== '') {
+                // Remove iqn in Target -> Configure menu
+                path = path.substr(0, path.lastIndexOf('/'));
+            }
+
             path = decodeURIComponent(path);
 
             $('#main_menu_bar').find('a').each(function () {
