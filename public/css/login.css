@@ -68,6 +68,8 @@ h2 {
 
 div.error {
     text-align: center;
+    margin-top: 14px;
+    margin-bottom: 0;
 }
 
 .container {

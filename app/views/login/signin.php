@@ -18,8 +18,8 @@
                     <input type="checkbox" id="show-password"> <label for="show-password">Show password</label>
                 </div>
             </div>
-            <div class="form-group error"></div>
             <input class="btn btn-lg btn-success btn-block" type='submit' value='Login'>
+            <div hidden class="form-group error"></div>
         </form>
     </div>
 </div>

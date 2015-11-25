@@ -17,7 +17,8 @@ requirejs.config({
         domReady: 'lib/domReady',
         pingjs: 'lib/pingjs.amd',
         nprogress: 'lib/nprogress',
-        hideShowPassword: 'lib/hideShowPassword'
+        hideShowPassword: 'lib/hideShowPassword',
+        vibrate: 'lib/vibrate'
     },
     shim: {
         jqueryui: {
