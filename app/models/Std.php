@@ -332,4 +332,17 @@ class Std {
 			return false;
 		}
 	}
+
+    public function isValidAuthFile() {
+        $authFile = '/usr/share/phpietadmin/app/auth';
+        if (file_exists($authFile)) {
+            if (filesize($authFile) !== 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
