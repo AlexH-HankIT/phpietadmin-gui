@@ -33,7 +33,7 @@ define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
                             }
                         });
 
-                        // Add/Remove active classes and se event handler for body content
+                        // Add/Remove active classes and set event handler for body content
                         $configureTargetBodyMenu.once('click', function () {
                             var url = $(this).children('a').attr('href'),
                                 hash = url.substring(url.indexOf('#'));
