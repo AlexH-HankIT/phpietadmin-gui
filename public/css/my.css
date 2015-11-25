@@ -37,7 +37,6 @@ em{
     background-color: yellow
 }
 
-
 .filter-table .quick {
     margin-left: 0.5em; font-size: 0.8em; text-decoration: none;
 }
@@ -61,6 +60,10 @@ td.alt {
 .top-buffer { margin-top:20px; }
 
 .centered-table-field {
+    text-align: center;
+}
+
+.center {
     text-align: center;
 }
 

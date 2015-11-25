@@ -1,13 +1,22 @@
-define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
+define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swal) {
     var methods;
 
     return methods = {
         addEventHandlerPasswordField: function () {
-            // show/hide password on mouseover
-            $('.passwordfield').once('mouseout mouseover', function () {
+            // Copy clipboard button
+            var clipboard = new Clipboard('.copyPasswordButton', {
+                target: function(trigger) {
+                    return trigger.closest('tr').find('span.password').text()
+                }
+            });
+
+
+
+            // show/hide password
+            $('.showPasswordCheckbox').once('change', function() {
                 var $this = $(this);
-                $this.find('.passwordfieldplaceholder').toggle();
-                $this.find('.password').toggle();
+                $this.closest('tr').find('span.passwordPlaceholder').toggle();
+                $this.closest('tr').find('span.password').toggle();
             });
         },
         enableFilterTablePlugin: function () {

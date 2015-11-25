@@ -63,39 +63,47 @@ class targets extends core\BaseController
 	}
 
 	public function configure($iqn = false, $function = false) {
-		switch ($function) {
-			case 'maplun':
-				$this->mapLun($iqn);
-				break;
-			case 'deletelun':
-				$this->deleteLun($iqn);
-				break;
-			case 'addrule':
-				$this->addrule($iqn);
-				break;
-			case 'deleterule':
-				$this->deleterule($iqn);
-				break;
-			case 'adduser':
-				$this->adduser($iqn);
-				break;
-			case 'deleteuser':
-				$this->deleteuser($iqn);
-				break;
-			case 'session':
-				$this->session($iqn);
-				break;
-			case 'settings':
-				$this->settings($iqn);
-				break;
-			case 'menu':
-				$this->menu($iqn);
-				break;
-			case 'delete':
-				$this->delete($iqn);
-				break;
-			default:
-				$this->select($iqn);
+		if ($iqn !== false) {
+			$iqn = filter_var($iqn, FILTER_SANITIZE_STRING);
+			$target = $this->model('target\Target', $iqn);
+			if ($target->target_status === true) {
+				switch ($function) {
+					case 'maplun':
+						$this->mapLun($iqn);
+						break;
+					case 'deletelun':
+						$this->deleteLun($iqn);
+						break;
+					case 'addrule':
+						$this->addrule($iqn);
+						break;
+					case 'deleterule':
+						$this->deleterule($iqn);
+						break;
+					case 'adduser':
+						$this->adduser($iqn);
+						break;
+					case 'deleteuser':
+						$this->deleteuser($iqn);
+						break;
+					case 'session':
+						$this->session($iqn);
+						break;
+					case 'settings':
+						$this->settings($iqn);
+						break;
+					case 'menu':
+						$this->menu($iqn);
+						break;
+					case 'delete':
+						$this->delete($iqn);
+						break;
+					default:
+						$this->select($iqn);
+				}
+			}
+		} else {
+			$this->select($iqn);
 		}
 	}
 
@@ -120,11 +128,9 @@ class targets extends core\BaseController
 	 * Display the iqn menu
 	 */
 	private function menu($iqn) {
-		if ($iqn !== false) {
-			$target = $this->model('target\Target', $iqn);
-			if ($target->target_status === true) {
-				$this->view('targets/configureTargetMenu', $iqn);
-			}
+		$target = $this->model('target\Target', $iqn);
+		if ($target->target_status === true) {
+			$this->view('targets/configureTargetMenu', $iqn);
 		}
 	}
 

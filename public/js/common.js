@@ -18,7 +18,8 @@ requirejs.config({
         pingjs: 'lib/pingjs.amd',
         nprogress: 'lib/nprogress',
         hideShowPassword: 'lib/hideShowPassword',
-        vibrate: 'lib/vibrate'
+        vibrate: 'lib/vibrate',
+        clipboard: 'lib/clipboard'
     },
     shim: {
         jqueryui: {
