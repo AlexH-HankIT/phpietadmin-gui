@@ -15,7 +15,7 @@ requirejs.config({
         bootstraptable: 'lib/bootstrap-table',
         touchspin: 'lib/jquery.bootstrap-touchspin.amd',
         domReady: 'lib/domReady',
-        pingjs: 'lib/ping.amd',
+        pingjs: 'lib/pingjs.amd',
         nprogress: 'lib/nprogress',
         hideShowPassword: 'lib/hideShowPassword'
     },
