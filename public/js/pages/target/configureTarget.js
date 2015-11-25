@@ -38,7 +38,7 @@ define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
                             var url = $(this).children('a').attr('href'),
                                 hash = url.substring(url.indexOf('#'));
 
-                            $('div.container').find('ul').children('li').removeClass('active');
+                            $('#configureTargetMenu').find('ul').children('li').removeClass('active');
                             $(this).addClass('active').parents('li').addClass('active');
 
                             mylibs.loadConfigureTargetBody(hash, iqnVal);
