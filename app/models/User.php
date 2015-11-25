@@ -77,7 +77,7 @@ class User extends core\BaseModel {
 				$this->logging->log_action_result('Passwords do not match!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
 			}
 		} else {
-			$this->logging->log_access_result('The first user is already configured!', 1, 'first_login', __METHOD__);
+			$this->logging->log_action_result('The first user is already configured!', 1, 'first_login', __METHOD__);
 		}
 	}
 

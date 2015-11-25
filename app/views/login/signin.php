@@ -6,22 +6,20 @@
 <script data-main="/phpietadmin/js/common" src="/phpietadmin/js/lib/require.js"></script>
 <title>phpietadmin login</title>
 <div class="container">
-    <div class="container-small">
-        <form method="post" class="form-signin" autocomplete="off">
-            <h2 class="form-signin-header">phpietadmin</h2>
-            <div class="form-group">
-                <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+    <form method="post" class="form-signin" autocomplete="off">
+        <h2 class="form-signin-header">phpietadmin</h2>
+        <div class="form-group">
+            <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" name="password1" class="form-control" placeholder="Password" required>
+            <div class="show-password">
+                <input type="checkbox" id="show-password"> <label for="show-password">Show password</label>
             </div>
-            <div class="form-group">
-                <input type="password" name="password1" class="form-control" placeholder="Password" required>
-                <div class="show-password">
-                    <input type="checkbox" id="show-password"> <label for="show-password">Show password</label>
-                </div>
-            </div>
-            <input class="btn btn-lg btn-success btn-block" type='submit' value='Login'>
-            <div hidden class="form-group error"></div>
-        </form>
-    </div>
+        </div>
+        <input class="btn btn-lg btn-success btn-block" type='submit' value='Login'>
+        <div class="form-group error"></div>
+    </form>
 </div>
 
 <script>

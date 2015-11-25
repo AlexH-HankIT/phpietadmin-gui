@@ -42,7 +42,11 @@ use phpietadmin\app\core;
 					die();
 				} else {
 					if ($this->base_model->std->isValidAuthFile() === true) {
-						$this->view('message', $user->logging->get_action_result()['message']);
+						if ($this->base_model->std->IsXHttpRequest() === true) {
+							echo json_encode($user->logging->get_action_result());
+						} else {
+							$this->view('message', $user->logging->get_action_result()['message']);
+						}
 					} else {
 						if ($this->base_model->std->IsXHttpRequest() === true) {
 							echo json_encode(array(
