@@ -1,5 +1,5 @@
 <?php
-$authFile = '/usr/share/phpietadmin/install/auth';
+$authFile = '/usr/share/phpietadmin/app/auth';
 
 function random_password( $length = 8 ) {
 	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

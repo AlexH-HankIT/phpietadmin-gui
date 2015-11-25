@@ -6,7 +6,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                 $.ajax({
                     url: '/phpietadmin/connection/check_session_expired',
                     type: 'post',
-                    global: 'false',
+                    global: false,
                     success: function (data) {
                         if (data == '') {
                             // reload the page to display the login form

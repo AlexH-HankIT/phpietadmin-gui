@@ -16,7 +16,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <input id="extend_size" type="text" value="<?php echo htmlspecialchars(intval($data['lv'][0]['LSize'])) ?>" class="form-control">
-                    </div>)
+                    </div>
                     <div class="hidden-md hidden-lg">
                         <br>
                     </div>
