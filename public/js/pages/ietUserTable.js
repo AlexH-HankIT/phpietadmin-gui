@@ -1,16 +1,47 @@
-define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swal) {
+define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swal, Clipboard) {
     var methods;
 
     return methods = {
         addEventHandlerPasswordField: function () {
             // Copy clipboard button
             var clipboard = new Clipboard('.copyPasswordButton', {
-                target: function(trigger) {
-                    return trigger.closest('tr').find('span.password').text()
+                text: function(trigger) {
+                    return $(trigger).closest('tr').find('span.password').text();
                 }
             });
 
+            clipboard.on('success', function(e) {
+                var $this = $(e.trigger);
 
+                // Display tooltip and hide it after 1 second
+                $this.tooltip('show', {
+                    animation: true
+                });
+                setTimeout(function() {
+                    $this.tooltip('hide', {
+                        animation: true
+                    });
+                }, 1000);
+
+                e.clearSelection();
+            });
+
+            clipboard.on('error', function(e) {
+                var $this = $(e.trigger);
+                $this.attr('title', 'Error!');
+
+                // Display tooltip and hide it after 1 second
+                $this.tooltip('show', {
+                    animation: true
+                });
+                setTimeout(function() {
+                    $this.tooltip('hide', {
+                        animation: true
+                    });
+                }, 1000);
+
+                $this.attr('title', 'Copied!');
+            });
 
             // show/hide password
             $('.showPasswordCheckbox').once('change', function() {

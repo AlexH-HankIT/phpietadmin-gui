@@ -63,7 +63,7 @@
                         <?php foreach ($data as $row) { ?>
                             <tr>
                                 <td class="col-md-2 username"><?php echo htmlspecialchars($row['username']); ?></td>
-                                <td class="col-md-1 center"><button class="btn btn-xs btn-warning copyPasswordButton"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copy</button></td>
+                                <td class="col-md-1 center"><button data-toggle="tooltip" data-trigger="manual" title="Copied!" class="btn btn-xs btn-warning copyPasswordButton"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copy</button></td>
                                 <td class="col-md-1 center"><input class="showPasswordCheckbox" type="checkbox"></td>
                                 <td class="col-md-4"><span class="passwordPlaceholder"><i>Hidden</i></span><span class="password" hidden><?php echo htmlspecialchars($row['password']); ?></span></td>
                                 <td class="col-md-1"><button class="btn btn-xs btn-danger deleteuserrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></td>
