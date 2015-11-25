@@ -1,22 +1,23 @@
 requirejs.config({
     baseUrl: "/phpietadmin/js",
     paths: {
-        jquery: 'lib/jquery-2.1.3.min',
-        jqueryui: 'lib/jquery-ui.min',
-        jqueryui_slider: 'lib/jquery-ui-slider-pips.min',
-        bootstrap: 'lib/bootstrap.min.amd',
-        filtertable: 'lib/jquery.filtertable.min.amd',
-        qtip: 'lib/jquery.qtip.min',
-        imagesloaded: 'lib/imagesloaded.pkg.min.amd',
-        sweetalert: 'lib/sweetalert.min',
+        jquery: 'lib/jquery-2.1.4',
+        jqueryui: 'lib/jquery-ui',
+        jqueryui_slider: 'lib/jquery-ui-slider-pips',
+        bootstrap: 'lib/bootstrap.amd',
+        filtertable: 'lib/jquery.filtertable.amd',
+        qtip: 'lib/jquery.qtip',
+        imagesloaded: 'lib/imagesloaded.pkg.amd',
+        sweetalert: 'lib/sweetalert',
         mylibs: 'lib/mylibs',
-        blockUI: 'lib/jquery.blockUI.min',
-        once: 'lib/once.min',
-        bootstraptable: 'lib/bootstrap-table.min',
-        touchspin: 'lib/jquery.bootstrap-touchspin.min.amd',
-        domReady: 'lib/domReady.min',
-        pingjs: 'lib/pingjs.min.amd',
-        nprogress: 'lib/nprogress.min'
+        blockUI: 'lib/jquery.blockUI',
+        once: 'lib/once',
+        bootstraptable: 'lib/bootstrap-table',
+        touchspin: 'lib/jquery.bootstrap-touchspin.amd',
+        domReady: 'lib/domReady',
+        pingjs: 'lib/ping.amd',
+        nprogress: 'lib/nprogress',
+        hideShowPassword: 'lib/hideShowPassword'
     },
     shim: {
         jqueryui: {

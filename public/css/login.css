@@ -1,7 +1,7 @@
 body {
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: rgba(238, 238, 238, 0.02);
+    background-color:#fbfbfb;
 }
 
 .form-signin {
@@ -15,6 +15,9 @@ body {
 }
 .form-signin  {
     font-weight: normal;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    box-shadow: rgba(200,200,200,0.7) 0 4px 10px -1px;
 }
 .form-signin .form-control {
     position: relative;
@@ -27,6 +30,10 @@ body {
 }
 .form-signin .form-control:focus {
     z-index: 2;
+}
+
+.form-control {
+    background: #fbfbfb;
 }
 
 #inputUsername {
@@ -55,8 +62,47 @@ body {
 
 h2 {
     text-align: center;
+    margin-top: 1px;
+    padding-bottom: 2px;
+}
+
+div.error {
+    text-align: center;
 }
 
 .container {
-    padding-top: 10%;
+    padding-top: 6%;
+}
+
+.show-password {
+    padding-top: 0.25em;
+    padding-left: 0.25em;
+}
+
+/* HideShowPassword */
+::-ms-reveal,
+::-ms-clear {
+    display: none !important;
+}
+
+.hideShowPassword-toggle {
+    background: transparent;
+    border: 0;
+    border-radius: 0.25em;
+    color: #888;
+    cursor: pointer;
+    font-size: 0.75em;
+    font-weight: bold;
+    margin-right: 0.5em;
+    padding: 0.5em;
+    text-transform: uppercase;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+.hideShowPassword-toggle:hover,
+.hideShowPassword-toggle:focus {
+    background-color: #eee;
+    color: #555;
+    outline: transparent;
 }

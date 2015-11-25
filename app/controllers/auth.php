@@ -31,16 +31,30 @@ use phpietadmin\app\core;
 				$return = $session->login($password1);
 
 				if ($return === true) {
-					header("Location: /phpietadmin/dashboard");
+					if ($this->base_model->std->IsXHttpRequest() === true) {
+						echo json_encode(array(
+							'url' => '/phpietadmin/dashboard',
+							'status' => 'success'
+						));
+					} else {
+						header('Location: /phpietadmin/dashboard');
+					}
 					die();
 				} else {
 					if (file_exists('/usr/share/phpietadmin/app/auth')) {
 						$this->view('message', $user->logging->get_action_result()['message']);
 					} else {
-						$this->view('message', 'Wrong username or password!');
+						if ($this->base_model->std->IsXHttpRequest() === true) {
+							echo json_encode(array(
+								'message' => 'Wrong username or password!',
+								'status' => 'failure'
+							));
+						} else {
+							$this->view('message', 'Wrong username or password!');
+							header("refresh:2;url=/phpietadmin/auth/login");
+						}
+						die();
 					}
-					header("refresh:2;url=/phpietadmin/auth/login");
-					die();
 				}
 			} else {
 				if (file_exists('/usr/share/phpietadmin/app/auth')) {
