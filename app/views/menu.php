@@ -12,7 +12,7 @@
             <ul class = "nav navbar-nav navbar-right">
                 <li><a id="menudashboard" class="workspaceTab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'> Dashboard</span></a></li>
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-blackboard"></span> <span class='hidden-sm hidden-md'> Overview</span> <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-blackboard"></span> <span class='hidden-sm'> Overview</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a class="workspaceTab" href='/phpietadmin/overview/disks'>Disks</a></li>
                         <li class="divider"></li>
@@ -25,7 +25,7 @@
                     </ul>
                 </li>
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"></span> <span class='hidden-sm hidden-md'> iSCSI</span> <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"></span> <span class='hidden-sm'> iSCSI</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a class="workspaceTab" href='/phpietadmin/targets/addtarget'><span class="glyphicon glyphicon-plus"></span> Add</a></li>
                         <li><a class="workspaceTab" href='/phpietadmin/targets/configure'><span class="glyphicon glyphicon-wrench"></span> Configure</a></li>
@@ -34,7 +34,7 @@
                         <li><a class="workspaceTab" href='/phpietadmin/targets/deletedisuser'><span class="glyphicon glyphicon-trash"></span> Delete discovery user</a></li>
                     </ul>
                 </li>
-                <li><a class="workspaceTab" href='/phpietadmin/ietusers'><span class="glyphicon glyphicon-user"></span> <span class='hidden-sm hidden-md'>iSCSI users</span></a></li>
+                <li><a class="workspaceTab" href='/phpietadmin/ietusers'><span class="glyphicon glyphicon-user"></span> <span>iSCSI users</span></a></li>
                 <li><a class="workspaceTab" href='/phpietadmin/objects'>Objects</a></li>
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown">LVM <b class = "caret"></b></a>
@@ -51,7 +51,7 @@
                     </ul>
                 </li>
                 <li class = "dropdown">
-                    <a href='#' id="menuconfig" class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-cog"></span> <span class='hidden-sm hidden-md'>Config</span> <b class = "caret"></b></a>
+                    <a href='#' id="menuconfig" class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-cog"></span> <span class='hidden-sm'>Config</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
                         <li><a class="workspaceTab" href='/phpietadmin/config/show/iet'>IET config</a></li>
                         <li><a class="workspaceTab" href='/phpietadmin/config/show/misc'>Misc config</a></li>
@@ -62,7 +62,7 @@
                     </ul>
                 </li>
                 <li class = "dropdown">
-                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-list"></span> <span class='hidden-sm hidden-md'>Logs</span> <b class = "caret"></b></a>
+                    <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-list"></span> <span class='hidden-sm'>Logs</span> <b class = "caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a class="workspaceTab" href='/phpietadmin/log/show/access'>Access</a></li>
                         <li><a class="workspaceTab" href='/phpietadmin/log/show/action'>Action</a></li>

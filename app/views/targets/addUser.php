@@ -6,17 +6,38 @@
                 <li><a href='#'>Configure</a></li>
                 <li class='active'>Add user</li>
             </ol>
-
             <div class="panel-body">
-                <button id="adduserbutton" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add</button>
-
-                <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default active">
-                        <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="IncomingUser" checked="checked"> Incoming
-                    </label>
-                    <label class="btn btn-default">
-                        <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="OutgoingUser"> Outgoing
-                    </label>
+                <div class="row hidden-xs">
+                    <div class="col-md-12">
+                        <button class="btn btn-success addUserButton"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-default active">
+                                <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="IncomingUser" checked="checked"> Incoming
+                            </label>
+                            <label class="btn btn-default">
+                                <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="OutgoingUser"> Outgoing
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="visible-xs">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-success addUserButton"><span class="glyphicon glyphicon-plus"></span> Add</button>
+                        </div>
+                    </div>
+                    <div class="row top-buffer">
+                        <div class="col-xs-12">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-default active">
+                                    <input type="Radio" id="addusertypeincomingcheckbox" name="type" value="IncomingUser" checked="checked"> Incoming
+                                </label>
+                                <label class="btn btn-default">
+                                    <input id="addusertypeoutgoingcheckbox" type="Radio" name="type" value="OutgoingUser"> Outgoing
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <br />
@@ -41,7 +62,6 @@
             </div>
         </div>
     </div>
-
     <script>
         require(['common'], function () {
             require(['pages/target/addUser', 'domReady'], function (methods, domReady) {

@@ -135,16 +135,35 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                         '</div>' +
                         '</div>');
                     } else {
-                        // Hide menu onchange on devices < 767px
-                        if ($(window).width() < 767) {
+                        // Hide menu onchange on devices <768px
+                        if (methods.getSize() === 'visible-xs') {
                             $('.navbar-toggle').click();
                         }
-
                         window.history.pushState({path: link}, '', link);
                     }
                 });
             });
             return false;
+        },
+        getSize: function () {
+            /* Use the #mq-detector span to determin the device size we are on */
+            var currMqIdx = undefined,
+                mqDetector = $("#mq-detector"),
+                mqSelectors = [
+                mqDetector.find(".visible-xs"),
+                mqDetector.find(".visible-sm"),
+                mqDetector.find(".visible-md"),
+                mqDetector.find(".visible-lg")
+            ];
+
+            for (var i = 0; i <= mqSelectors.length; i++) {
+                if (mqSelectors[i].is(":visible")) {
+                    if (currMqIdx != i) {
+                        currMqIdx = i;
+                        return mqSelectors[currMqIdx].attr("class");
+                    }
+                }
+            }
         },
         select_all_checkbox: function(checkbox) {
             checkbox.once('click', function() {

@@ -22,3 +22,9 @@
 <div hidden id="offlinemessage">
     Server connection failed... <img src="/phpietadmin/img/ajax-loader.gif" alt="Loading">
 </div>
+<span id="mq-detector">
+    <span class="visible-xs"></span>
+    <span class="visible-sm"></span>
+    <span class="visible-md"></span>
+    <span class="visible-lg"></span>
+</span>

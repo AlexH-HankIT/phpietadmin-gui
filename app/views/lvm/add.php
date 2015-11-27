@@ -5,7 +5,6 @@
                 <li><a href='#'>LVM</a></li>
                 <li class='active'>Add logical volume</li>
             </ol>
-
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -22,12 +21,22 @@
                         <input type="text" id="name_input" class="form-control" placeholder="Name..." required>
                     </div>
                 </div>
-                <div class="row top-buffer" hidden id="size_row">
-                    <div class="col-md-6">
-                        <input id="size_input" type="text" value="1" class="form-control" required>
+                <div class="size_row row top-buffer hidden-xs" hidden>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="text" value="1" class="form-control size_input" required>
                     </div>
                     <div class="col-md-6">
-                        <div id="add_slider" class="slider"></div>
+                        <div class="slider add_slider"></div>
+                    </div>
+                </div>
+                <div class="row visible-xs" hidden>
+                    <div class="col-xs-12">
+                        <input type="text" value="1" class="form-control size_input" required>
+                    </div>
+                </div>
+                <div class="row visible-xs" hidden>
+                    <div class="col-xs-12">
+                        <div class="slider add_slider"></div>
                     </div>
                 </div>
                 <div class="row top-buffer" hidden id="too_small_row">
@@ -36,13 +45,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="panel-footer" id="add_lv_panel_footer" hidden>
                 <button id="create_volume_button" class="btn btn-success" type='submit'><span class="glyphicon glyphicon-plus"></span> Create</button>
             </div>
         </div>
     </div>
-
     <script>
         require(['common'],function() {
             require(['pages/lvm/add', 'domReady'],function(methods, domReady) {

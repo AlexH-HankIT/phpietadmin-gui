@@ -14,13 +14,10 @@
 			</ol>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <input id="extend_size" type="text" value="<?php echo htmlspecialchars(intval($data['lv'][0]['LSize'])) ?>" class="form-control">
                     </div>
-                    <div class="hidden-md hidden-lg">
-                        <br>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <div data-max="<?php echo htmlspecialchars($data['lv'][0]['LSize'] + $data['vg'][0]['VFree'] - 1) ?>" data-min="<?php echo htmlspecialchars($data['lv'][0]['LSize']) ?>" data-value="<?php echo htmlspecialchars($data['lv'][0]['LSize']) ?>" id="extend_slider" class="slider">
                         </div>
                     </div>

@@ -64,10 +64,10 @@
                 <table class='table searchabletable'>
                     <thead>
                     <tr>
-                        <th class='col-md-2'>Type</th>
-                        <th class='col-md-4'>Name</th>
-                        <th class='col-md-4'>Value</th>
-                        <th class="col-md-1"><button class="btn btn-xs btn-success" data-toggle="modal" data-target="#addObjectModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
+                        <th class='col-md-2 col-sm-2'>Type</th>
+                        <th class='col-md-4 col-sm-4'>Name</th>
+                        <th class='col-md-4 col-sm-4'>Value</th>
+                        <th class="col-md-1 col-sm-1"><button class="btn btn-xs btn-success" data-toggle="modal" data-target="#addObjectModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
                     </tr>
                     </thead>
 
@@ -75,10 +75,10 @@
                     <?php if (is_array($data['objects'])) { ?>
                         <?php foreach ($data['objects'] as $objects) { ?>
                             <tr id="<?php echo htmlspecialchars($objects['objectid']); ?>">
-                                <td class='col-md-2 objectType'><?php echo htmlspecialchars($objects['type']); ?></td>
-                                <td class='col-md-4 objectName'><?php echo htmlspecialchars($objects['name']); ?></td>
-                                <td class='col-md-4 objectValue'><?php echo htmlspecialchars($objects['value']); ?></td>
-                                <td class="col-md-1"><button class="btn btn-xs btn-danger objectDelete"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
+                                <td class='col-md-2 col-sm-2 objectType'><?php echo htmlspecialchars($objects['type']); ?></td>
+                                <td class='col-md-4 col-sm-4 objectName'><?php echo htmlspecialchars($objects['name']); ?></td>
+                                <td class='col-md-4 col-sm-4 objectValue'><?php echo htmlspecialchars($objects['value']); ?></td>
+                                <td class="col-md-1 col-sm-1"><button class="btn btn-xs btn-danger objectDelete"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
                             </tr>
                         <?php } ?>
                     <?php } ?>

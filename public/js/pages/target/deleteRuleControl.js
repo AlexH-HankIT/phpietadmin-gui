@@ -7,7 +7,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 methods.loadData();
             });
 
-            $('#deleteRuleButton').once('click', function () {
+            $('.deleteRuleButton').once('click', function () {
                 $('.object_delete_checkbox:checked').each(function () {
                     $.ajax({
                         url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule',

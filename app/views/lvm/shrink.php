@@ -15,10 +15,10 @@
             </ol>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <input id="shrink_input" type="text" class="form-control">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <div data-max="<?php echo htmlspecialchars($data['lv'][0]['LSize']) ?>" id="shrink_slider" class="slider"></div>
                     </div>
                 </div>

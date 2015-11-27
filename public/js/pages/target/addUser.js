@@ -9,7 +9,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         add_event_handler_adduserbutton: function () {
             mylibs.select_all_checkbox($('#master_checkbox'));
 
-            $('#adduserbutton').once('click', function () {
+            $('.addUserButton').once('click', function () {
                 var checkboxes = $('.addusercheckbox:checked');
 
                 if (!checkboxes.val()) {

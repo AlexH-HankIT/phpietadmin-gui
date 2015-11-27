@@ -23,7 +23,7 @@
 		</li>
 		<li class="configureTargetBodyMenu"><a href="/phpietadmin/targets/configure/<?php echo $data ?>#session"><span class="glyphicon glyphicon-list"></span> Sessions</a></li>
 		<li class="configureTargetBodyMenu"><a href="/phpietadmin/targets/configure/<?php echo $data ?>#settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
-		<li class="configureTargetBodyMenu"><a href="/phpietadmin/targets/configure/<?php echo $data ?>#delete"><span class="glyphicon glyphicon-trash"></span> Delete</a></li>
+		<li class="configureTargetBodyMenu"><a href="/phpietadmin/targets/configure/<?php echo $data ?>#delete"><span class="glyphicon glyphicon-trash"></span><span class="hidden-xs"> Delete</span></a></li>
 	</ul>
 	<br />
 </div>

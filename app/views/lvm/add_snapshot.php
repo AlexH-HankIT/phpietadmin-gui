@@ -21,10 +21,10 @@
                     </div>
                 </div>
                 <div class="row top-buffer">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <input id="add_snapshot_size_input" type="text" class="form-control" required>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">
                         <div data-max="<?php echo htmlspecialchars($data['vg'][0]['VFree']) ?>" id="add_snapshot_size_slider" class="slider"></div>
                     </div>
                 </div>

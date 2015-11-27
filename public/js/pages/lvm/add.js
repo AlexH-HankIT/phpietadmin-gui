@@ -3,12 +3,12 @@ define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) 
 
     return methods = {
         slider: function () {
-            var $slider = $('#add_slider');
-            var $size_input = $('#size_input');
+            var $slider = $('.add_slider');
+            var $size_input = $('.size_input');
             var $name_input = $('#name_input');
             var $input_name_row = $('#input_name_row');
             var $vg_selector = $('#vg_selector');
-            var $size_row = $('#size_row');
+            var $size_row = $('.size_row');
             var $add_lv_panel_footer = $('#add_lv_panel_footer');
             var $too_small_row = $('#too_small_row');
 

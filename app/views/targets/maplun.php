@@ -20,13 +20,13 @@
                     </div>
                 </div>
                 <div class="row top-buffer">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-xs-6">
                         <select name="type" id="type" multiple class="form-control">
                             <option selected value="fileio">fileio</option>
                             <option value="blockio">blockio</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-xs-6">
                         <select name="mode" id="mode" multiple class="form-control">
                             <option selected value="wt">Write through</option>
                             <option value="wb">Write back</option>

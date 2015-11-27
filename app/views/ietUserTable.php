@@ -50,24 +50,22 @@
                 <table id="addusertable" class="table searchabletable">
                     <thead>
                     <tr>
-                        <th class="col-md-2">Username</th>
-                        <th class="col-md-1 center">Copy</th>
-                        <th class="col-md-1 center">Show</th>
-                        <th class="col-md-4">Password</th>
-                        <th class="col-md-1"><button id="addRow" class="btn btn-xs btn-success" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
-                        <th class="col-md-1"></th>
+                        <th class="col-md-2 col-sm-1">Username</th>
+                        <th class="col-md-1 col-sm-1 center">Copy</th>
+                        <th class="col-md-2 col-sm-1 center">Show</th>
+                        <th class="col-md-4 col-sm-3">Password</th>
+                        <th class="col-md-1 col-sm-1"><button id="addRow" class="btn btn-xs btn-success" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
                     </tr>
                     </thead>
                     <tbody id="addusertablebody">
                     <?php if (is_array($data)) { ?>
                         <?php foreach ($data as $row) { ?>
                             <tr>
-                                <td class="col-md-2 username"><?php echo htmlspecialchars($row['username']); ?></td>
-                                <td class="col-md-1 center"><button data-toggle="tooltip" data-trigger="manual" title="Copied!" class="btn btn-xs btn-warning copyPasswordButton"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copy</button></td>
-                                <td class="col-md-1 center"><input class="showPasswordCheckbox" type="checkbox"></td>
-                                <td class="col-md-4"><span class="passwordPlaceholder"><i>Hidden</i></span><span class="password" hidden><?php echo htmlspecialchars($row['password']); ?></span></td>
-                                <td class="col-md-1"><button class="btn btn-xs btn-danger deleteuserrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></td>
-                                <td class="col-md-1"></td>
+                                <td class="col-md-2 col-sm-1 username"><?php echo htmlspecialchars($row['username']); ?></td>
+                                <td class="col-md-1 col-sm-1 center"><button data-toggle="tooltip" data-trigger="manual" title="Copied!" class="btn btn-xs btn-warning copyPasswordButton"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copy</button></td>
+                                <td class="col-md-2 col-sm-1 center"><input class="showPasswordCheckbox" type="checkbox"></td>
+                                <td class="col-md-4 col-sm-3"><span class="passwordPlaceholder"><i>Hidden</i></span><span class="password" hidden><?php echo htmlspecialchars($row['password']); ?></span></td>
+                                <td class="col-md-1 col-sm-1"><button class="btn btn-xs btn-danger deleteuserrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></td>
                             </tr>
                         <?php } ?>
                     <?php } ?>

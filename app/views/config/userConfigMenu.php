@@ -5,7 +5,6 @@
                 <li><a href='#'>Config</a></li>
                 <li class='active'>User</li>
             </ol>
-
             <div class="modal fade" id="editPasswordModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -45,7 +44,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="createUserModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -91,25 +89,24 @@
                     </div>
                 </div>
             </div>
-
             <div class="table-responsive">
                 <table class="table white-table" id="userTable">
                     <thead>
                         <tr>
-                            <th class="col-md-4">Username</th>
-                            <th class="col-md-6">Permission</th>
-                            <th class="col-md-1"><button class="btn btn-xs btn-success" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
-                            <th></th>
+                            <th class="col-md-4 col-sm-4">Username</th>
+                            <th class="col-md-6 col-sm-4">Permission</th>
+                            <th class="col-md-1 col-sm-1 center"></th>
+                            <th class="col-md-1 col-sm-1 center"><button class="btn btn-xs btn-success" data-toggle="modal" data-target="#createUserModal"><span class="glyphicon glyphicon-plus"></span> Add</button></th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php if ($data !== false) { ?>
                         <?php foreach ($data as $user) { ?>
                             <tr>
-                                <td class="col-md-4 username"><?php echo htmlspecialchars($user['username']) ?></td>
-                                <td class="col-md-6"><?php echo htmlspecialchars($user['permission']) ?></td>
-                                <td class="col-md-1"><button class="btn btn-xs btn-warning editPasswordSpan" data-toggle="modal" data-target="#editPasswordModal"><span class="glyphicon glyphicon-pencil"></span> Edit</button></td>
-                                <td class="col-md-1"><button class="btn btn-xs btn-danger deleteUserSpan"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
+                                <td class="col-md-4 col-sm-4 username"><?php echo htmlspecialchars($user['username']) ?></td>
+                                <td class="col-md-6 col-sm-4"><?php echo htmlspecialchars($user['permission']) ?></td>
+                                <td class="col-md-1 col-sm-1 center"><button class="btn btn-xs btn-danger deleteUserSpan"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
+                                <td class="col-md-1 col-sm-1 center"><button class="btn btn-xs btn-warning editPasswordSpan" data-toggle="modal" data-target="#editPasswordModal"><span class="glyphicon glyphicon-pencil"></span> Edit</button></td>
                             </tr>
                         <?php } ?>
 					<?php } ?>
@@ -118,7 +115,6 @@
             </div>
         </div>
     </div>
-
     <script>
         require(['common'],function() {
             require(['pages/config/userConfigMenu', 'domReady'], function(methods, domReady) {
