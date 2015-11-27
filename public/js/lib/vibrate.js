@@ -39,7 +39,12 @@ define(['jquery'], function(jQuery) {
 
                 var stopVibration = function() {
                     clearInterval(vibrationInterval);
-                    t.css({position: 'static'});
+
+                    /**
+                     * Modification by MrCrankHank
+                     * set the rotation to 0, otherwise the element might be displayed crooked after vibrating
+                     */
+                    t.css({position: 'static', left: 'auto', top: 'auto', WebkitTransform: 'rotate(0deg)'});
                 };
 
                 setTimeout(stopVibration, config.duration);
