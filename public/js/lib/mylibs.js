@@ -105,8 +105,8 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
         },
         load_workspace: function (link, clicked) {
             // select menu
-            if (clicked !== undefined && clicked != '') {
-                $('#mainmenu').find('ul').children('li').removeClass('active');
+            if (clicked !== undefined && clicked !== '') {
+                $('div.navHeaderCollapse').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
 
@@ -135,6 +135,11 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                         '</div>' +
                         '</div>');
                     } else {
+                        // Hide menu onchange on devices < 767px
+                        if ($(window).width() < 767) {
+                            $('.navbar-toggle').click();
+                        }
+
                         window.history.pushState({path: link}, '', link);
                     }
                 });

@@ -1,6 +1,5 @@
 body {
     margin-bottom: 60px;
-    padding-top: 70px;
     position: relative;
     background-color:#fbfbfb;
 }
@@ -98,4 +97,9 @@ div.ui-slider-range.ui-widget-header {
 
 .input-group {
     width: 100%;
+}
+
+.navbar-inverse .navbar-nav > .open > a:focus {
+    color: #9d9d9d;
+    background-color: #222;
 }

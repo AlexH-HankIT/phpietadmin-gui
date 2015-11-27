@@ -40,23 +40,22 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'npro
         common: function () {
             // check if server is alive
             var uiBlocked = false,
-                main_menu = $('#mainmenu'),
-                footer = $('footer'),
-                path = window.location.pathname;
+                $mainMenu = $('div.navbar-static-top'),
+                $footer = $('footer');
 
             setInterval(function () {
                 pingjs.ping('/phpietadmin/connection/check_server_online', 0.3).then(function(delta) {
                     if (uiBlocked === true) {
                         uiBlocked = false;
                         $.unblockUI();
-                        main_menu.show();
-                        footer.show();
+                        $mainMenu.show();
+                        $footer.show();
                     }
                 }).catch(function() {
                     if (uiBlocked === false) {
                         uiBlocked = true;
-                        main_menu.hide();
-                        footer.hide();
+                        $mainMenu.hide();
+                        $footer.hide();
                         $.blockUI({
                             message: $('#offlinemessage'),
                             css: {
@@ -71,26 +70,7 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'npro
                 });
             }, 2000);
 
-            setInterval(mylibs.check_session_expired, (15000));
-
-            // Select active menu element, when page is loaded manually
-            path = path.replace(/\/$/, '');
-
-            if (window.location.hash !== '') {
-                // Remove iqn in Target -> Configure menu
-                path = path.substr(0, path.lastIndexOf('/'));
-            }
-
-            path = decodeURIComponent(path);
-
-            $('#main_menu_bar').find('a').each(function () {
-                var $this = $(this);
-                if ($this.attr('href') !== undefined) {
-                    if ($this.attr('href') === path) {
-                        $this.closest('li').addClass('active').parents().addClass('active');
-                    }
-                }
-            });
+            setInterval(mylibs.check_session_expired(), (15000));
 
             $(document).ajaxStart(function() {
                 nprogress.start();
@@ -101,56 +81,66 @@ define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'npro
             });
 
         },
-        load_workspace_event_handler: function () {
-            // load workspace and perform error handling
-            $("#main_menu_bar").once("click", "a", function () {
+        menu: function() {
+            var $navBarRight = $('div.navHeaderCollapse'),
+                path;
+
+            /*
+             * Select active menu element, when page is loaded manually
+             */
+            path = window.location.pathname.replace(/\/$/, '');
+
+            // Remove iqn in Target -> Configure menu
+            if (window.location.hash !== '') {
+                path = path.substr(0, path.lastIndexOf('/'));
+            }
+
+            path = decodeURIComponent(path);
+
+            $navBarRight.find('a.workspaceTab').each(function () {
+                var $this = $(this),
+                    link = $this.attr('href');
+                if (link !== undefined) {
+                    if (link === path) {
+                        $this.closest('li').addClass('active').parents().addClass('active');
+                    }
+                }
+            });
+
+            /*
+             * Add event handler for menu
+             */
+            $navBarRight.once('click', 'a', function () {
                 var $this = $(this),
                     link = $this.attr('href');
                 if (link !== '/phpietadmin/auth/logout') {
-                    return mylibs.load_workspace(link, $this);
+                    if (link !== '#') {
+                        return mylibs.load_workspace(link, $this);
+                    }
                 } else {
                     return true;
                 }
             });
-        },
-        add_event_handler_shutdown: function () {
-            $('#menushutdownbutton').once('click', function () {
+
+            /*
+             * Add event handler for shutdown/reboot
+             */
+            $('#shutdown, #reboot').once('click', function () {
+                var $this = $(this);
                 swal({
-                        title: "Are you sure?",
-                        type: "warning",
+                        title: 'Are you sure?',
+                        type: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, do it!",
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'Yes, do it!',
                         closeOnConfirm: true
                     },
                     function () {
                         $.ajax({
                             type: 'post',
-                            url: '/phpietadmin/service/hold',
+                            url: $this.attr('href'),
                             data: {
-                                'action': 'shutdown'
-                            }
-                        });
-                    });
-                return false;
-            });
-        },
-        add_event_handler_reboot: function () {
-            $('#menurebootbutton').once('click', function () {
-                swal({
-                        title: "Are you sure?",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, do it!",
-                        closeOnConfirm: true
-                    },
-                    function () {
-                        $.ajax({
-                            type: 'post',
-                            url: '/phpietadmin/service/hold',
-                            data: {
-                                'action': 'reboot'
+                                'action': $this.attr('id')
                             }
                         });
                     });
