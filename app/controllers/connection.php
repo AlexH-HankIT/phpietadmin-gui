@@ -12,7 +12,8 @@ use phpietadmin\app\core,
          */
        public function status() {
            if (isset($_POST['servicename'])) {
-               $service = $this->model('Service', $_POST['servicename']);
+               $service = filter_input(INPUT_POST, 'servicename', FILTER_SANITIZE_STRING);
+               $service = $this->model('Service', $service);
                $service->action('status');
                echo json_encode($service->logging->get_action_result());
            }
