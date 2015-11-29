@@ -8,11 +8,11 @@ class targets extends core\BaseController
 	public function addtarget() {
 		if (!empty($_POST['name'])) {
 			$name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-			$target = $this->model('target\Target', $this->base_model->database->get_config('iqn')['value'] . ':' . $name);
+			$target = $this->model('target\Target', $this->baseModel->database->get_config('iqn')['value'] . ':' . $name);
 			$target->add();
 			echo json_encode($target->logging->get_action_result());
 		} else {
-			$this->view('targets/addTarget', $this->base_model->database->get_config('iqn')['value'] . ':');
+			$this->view('targets/addTarget', $this->baseModel->database->get_config('iqn')['value'] . ':');
 		}
 	}
 
@@ -33,7 +33,7 @@ class targets extends core\BaseController
 			$target->add_user($id, true, $type);
 			echo json_encode($target->logging->get_action_result());
 		} else {
-			$data = $this->base_model->database->get_all_usernames(true);
+			$data = $this->baseModel->database->get_all_usernames(true);
 
 			if ($data != 0) {
 				$this->view('targets/add_dis_user', $data);
@@ -135,7 +135,7 @@ class targets extends core\BaseController
 	}
 
 	private function mapLun($iqn) {
-		if (isset($_POST['type'], $_POST['mode'], $_POST['path']) && !$this->base_model->std->mempty($_POST['type'], $_POST['mode'], $_POST['path'])) {
+		if (isset($_POST['type'], $_POST['mode'], $_POST['path']) && !$this->baseModel->std->mempty($_POST['type'], $_POST['mode'], $_POST['path'])) {
 			$type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
 			$mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRING);
 			$path = filter_input(INPUT_POST, 'path', FILTER_SANITIZE_STRING);
@@ -196,7 +196,7 @@ class targets extends core\BaseController
 			$target->add_acl($id, $type);
 			echo json_encode($target->logging->get_action_result());
 		} else {
-			$data = $this->base_model->database->get_all_objects();
+			$data = $this->baseModel->database->get_all_objects();
 
 			if ($data === 3) {
 				$this->view('message', array('message' => 'Error - No objects available!', 'type' => 'warning'));
@@ -253,7 +253,7 @@ class targets extends core\BaseController
 			$target->add_user($id, false, $type);
 			echo json_encode($target->logging->get_action_result());
 		} else {
-			$data = $this->base_model->database->get_all_usernames(true);
+			$data = $this->baseModel->database->get_all_usernames(true);
 			if ($data != 0) {
 				$this->view('targets/addUser', $data);
 			} else {

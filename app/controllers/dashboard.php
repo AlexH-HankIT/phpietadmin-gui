@@ -10,7 +10,7 @@
          *
          */
         public function index() {
-            $data = $this->base_model->std->get_dashboard_data();
+            $data = $this->baseModel->std->get_dashboard_data();
             $this->view('dashboard', $data);
         }
 

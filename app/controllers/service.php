@@ -4,7 +4,7 @@ use phpietadmin\app\core,
 
     class Service extends core\BaseController {
         public function index() {
-			$data = $this->base_model->database->get_services();
+			$data = $this->baseModel->database->get_services();
 			if ($data === 0) {
                 $this->view('message', array('message' => 'Error - No services available!', 'type' => 'warning'));
 			} else {
@@ -33,7 +33,7 @@ use phpietadmin\app\core,
 		}
 
 		public function add() {
-            if (isset($_POST['servicename'], $_POST['action']) && !$this->base_model->std->mempty($_POST['servicename'], $_POST['action'])) {
+            if (isset($_POST['servicename'], $_POST['action']) && !$this->baseModel->std->mempty($_POST['servicename'], $_POST['action'])) {
 				$service_name = filter_input(INPUT_POST, 'servicename', FILTER_SANITIZE_STRING);
 
                 switch($_POST['action']) {
@@ -67,7 +67,7 @@ use phpietadmin\app\core,
 						break;
                 }
             } else {
-                $data = $this->base_model->database->get_services(true);
+                $data = $this->baseModel->database->get_services(true);
                 if ($data !== 0) {
                     $this->view('services/add', $data);
                 } else {
@@ -80,9 +80,9 @@ use phpietadmin\app\core,
             if (isset($_POST['action'])) {
                 sleep(5);
                 if ($_POST['action'] === 'reboot') {
-                    shell_exec($this->base_model->database->get_config('shutdown')['value'] . ' --reboot now');
+                    shell_exec($this->baseModel->database->get_config('shutdown')['value'] . ' --reboot now');
                 } else if ($_POST['action'] === 'shutdown') {
-                    shell_exec($this->base_model->database->get_config('shutdown')['value'] . ' --poweroff now');
+                    shell_exec($this->baseModel->database->get_config('shutdown')['value'] . ' --poweroff now');
                 } else {
                     echo "Invalid action";
                 }

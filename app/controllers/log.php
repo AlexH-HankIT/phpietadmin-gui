@@ -4,7 +4,7 @@ use phpietadmin\app\core;
     class Log extends core\BaseController {
         public function show($param) {
             if ($param == 'action') {
-                $data = $this->base_model->std->tail($this->base_model->database->get_config('log_base')['value'] . '/' . $this->base_model->database->get_config('action_log')['value']);
+                $data = $this->baseModel->std->tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('action_log')['value']);
                 if ($data !== false) {
                     $this->view('table', array(
                             'title' => 'Action',
@@ -24,7 +24,7 @@ use phpietadmin\app\core;
                     $this->view('message', array('message' => 'The action log file is empty!', 'type' => 'danger'));
                 }
             } else if ($param == 'access') {
-                $data = $this->base_model->std->tail($this->base_model->database->get_config('log_base')['value'] . '/' . $this->base_model->database->get_config('access_log')['value']);
+                $data = $this->baseModel->std->tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('access_log')['value']);
                 if ($data !== false) {
                     $this->view('table', array(
                             'title' => 'Access',

@@ -15,7 +15,7 @@ use phpietadmin\app\core;
 				$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 				$password1 = filter_input(INPUT_POST, 'password1', FILTER_SANITIZE_STRING);
 
-				if ($this->base_model->std->isValidAuthFile() === true) {
+				if ($this->baseModel->std->isValidAuthFile() === true) {
 					if (isset($_POST['password2'], $_POST['auth_code'])) {
 						$password2 = filter_input(INPUT_POST, 'password2', FILTER_SANITIZE_STRING);
 						$auth_code = filter_input(INPUT_POST, 'auth_code', FILTER_SANITIZE_STRING);
@@ -31,7 +31,7 @@ use phpietadmin\app\core;
 				$return = $session->login($password1);
 
 				if ($return === true) {
-					if ($this->base_model->std->IsXHttpRequest() === true) {
+					if ($this->baseModel->std->IsXHttpRequest() === true) {
 						echo json_encode(array(
 							'url' => '/phpietadmin/dashboard',
 							'status' => 'success'
@@ -41,14 +41,14 @@ use phpietadmin\app\core;
 					}
 					die();
 				} else {
-					if ($this->base_model->std->isValidAuthFile() === true) {
-						if ($this->base_model->std->IsXHttpRequest() === true) {
+					if ($this->baseModel->std->isValidAuthFile() === true) {
+						if ($this->baseModel->std->IsXHttpRequest() === true) {
 							echo json_encode($user->logging->get_action_result());
 						} else {
 							$this->view('message', $user->logging->get_action_result()['message']);
 						}
 					} else {
-						if ($this->base_model->std->IsXHttpRequest() === true) {
+						if ($this->baseModel->std->IsXHttpRequest() === true) {
 							echo json_encode(array(
 								'message' => 'Wrong username or password!',
 								'status' => 'failure'
@@ -61,7 +61,7 @@ use phpietadmin\app\core;
 					}
 				}
 			} else {
-				if ($this->base_model->std->isValidAuthFile() === true) {
+				if ($this->baseModel->std->isValidAuthFile() === true) {
 					$this->view('login/first_signin');
 				} else {
 					$this->view('login/signin');

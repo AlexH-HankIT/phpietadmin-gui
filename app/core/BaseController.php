@@ -1,7 +1,7 @@
 <?php namespace phpietadmin\app\core;
     class BaseController {
         // Define global vars
-        public $base_model;
+        public $baseModel;
 
         // arg1 = model name with namespace from phpietadmin\app\models\
         // arg2 = arg1 for model

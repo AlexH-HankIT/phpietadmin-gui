@@ -11,7 +11,7 @@ use phpietadmin\app\core;
          */
         public function index() {
             // get all all username, passwords and ids from database and turn them over to the view
-            $this->view('ietUserTable', $this->base_model->database->get_all_users());
+            $this->view('ietUserTable', $this->baseModel->database->get_all_users());
         }
 
         /**
@@ -22,7 +22,7 @@ use phpietadmin\app\core;
          *
          */
         public function add_to_db() {
-            if (isset($_POST['username'], $_POST['password']) && !$this->base_model->std->mempty($_POST['username'], $_POST['password'])) {
+            if (isset($_POST['username'], $_POST['password']) && !$this->baseModel->std->mempty($_POST['username'], $_POST['password'])) {
                 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
                 $username = str_replace(' ', '', $username);
                 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);

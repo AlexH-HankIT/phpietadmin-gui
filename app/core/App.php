@@ -26,7 +26,7 @@ use phpietadmin\app\controllers,
 			$registry->set('std',  new models\Std());
 
             $this->controller_object = new $this->controller_name;
-			$this->controller_object->base_model = new BaseModel();
+			$this->controller_object->baseModel = new BaseModel();
 
             // auth controller is accessible without authentication
             if ($this->controller_name !== 'phpietadmin\app\controllers\auth') {
@@ -34,7 +34,7 @@ use phpietadmin\app\controllers,
 
                 if($session->checkLoggedIn($this->controller_name) !== true) {
                     // if user is not logged in redirect him and stop execution
-                    if ($this->controller_object->base_model->std->IsXHttpRequest()) {
+                    if ($this->controller_object->baseModel->std->IsXHttpRequest()) {
                         echo false;
                         die();
                     } else {
@@ -45,8 +45,8 @@ use phpietadmin\app\controllers,
             }
 
             // If request is no ajax, display header, menu and footer
-            if (!$this->controller_object->base_model->std->IsXHttpRequest() && $this->controller_name !== 'phpietadmin\app\controllers\auth') {
-                $this->controller_object->view('header', $this->controller_object->base_model->std->get_dashboard_data());
+            if (!$this->controller_object->baseModel->std->IsXHttpRequest() && $this->controller_name !== 'phpietadmin\app\controllers\auth') {
+                $this->controller_object->view('header', $this->controller_object->baseModel->std->get_dashboard_data());
                 $this->controller_object->view('menu');
             }
 
@@ -56,7 +56,7 @@ use phpietadmin\app\controllers,
                     $this->method = $url[1];
                     unset($url[1]);
                 } else {
-                    if ($this->controller_object->base_model->std->IsXHttpRequest() === true) {
+                    if ($this->controller_object->baseModel->std->IsXHttpRequest() === true) {
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!';
                     } else {
@@ -69,7 +69,7 @@ use phpietadmin\app\controllers,
                 if(method_exists($this->controller_object, 'index')) {
                     $this->method = 'index';
                 } else {
-                    if ($this->controller_object->base_model->std->IsXHttpRequest() === true) {
+                    if ($this->controller_object->baseModel->std->IsXHttpRequest() === true) {
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
                     } else {
@@ -86,7 +86,7 @@ use phpietadmin\app\controllers,
                 call_user_func_array([$this->controller_object, $this->method], $this->params);
             }
 
-            if (!$this->controller_object->base_model->std->IsXHttpRequest() && $this->controller_name !== 'phpietadmin\app\controllers\auth') {
+            if (!$this->controller_object->baseModel->std->IsXHttpRequest() && $this->controller_name !== 'phpietadmin\app\controllers\auth') {
                 $this->controller_object->view('footer');
             }
         }

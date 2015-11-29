@@ -50,19 +50,19 @@ use phpietadmin\app\core;
 		public function show($param) {
 			switch ($param) {
 				case 'iet':
-					$data = $this->base_model->database->get_config_by_category('iet');
+					$data = $this->baseModel->database->get_config_by_category('iet');
 					break;
 				case 'misc':
-					$data = $this->base_model->database->get_config_by_category('misc');
+					$data = $this->baseModel->database->get_config_by_category('misc');
 					break;
 				case 'bin':
-					$data = $this->base_model->database->get_config_by_category('bin');
+					$data = $this->baseModel->database->get_config_by_category('bin');
 					break;
 				case 'logging':
-					$data = $this->base_model->database->get_config_by_category('logging');
+					$data = $this->baseModel->database->get_config_by_category('logging');
 					break;
 				case 'backup':
-					$data = $this->base_model->database->get_config_by_category('backup');
+					$data = $this->baseModel->database->get_config_by_category('backup');
 					break;
 				default:
 					$this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
