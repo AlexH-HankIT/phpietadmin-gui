@@ -107,7 +107,17 @@ INSERT INTO phpietadmin_iet_setting (option, defaultvalue, type, state, otherval
   ('DataPDUInOrder', 'Yes', 'select', 0, 'No'),
   ('DataSequenceInOrder', 'Yes', 'select', 0, 'No');
 
+INSERT INTO phpietadmin_config_category (category) VALUES
+  ('iet'),
+  ('lvm'),
+  ('misc'),
+  ('bin'),
+  ('logging'),
+  ('backup'),
+  ('release');
+
 INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, description, config_category_id, field) VALUES
+    ('releaseCheck', 'Release check', 1, 'stable', "Names of the iscsi targets", (SELECT id from phpietadmin_config_type where type='release'), 'select'),
     ('iqn', 'IQN', 1, 'iqn.2014-12.com.example.iscsi', "Names of the iscsi targets", 1, 'input'),
     ('proc_sessions', '/proc session', 2, '/proc/net/iet/session', "Path to the IET sessions file", 1, 'input'),
     ('proc_volumes', '/proc volume', 2, '/proc/net/iet/volume', "Path to the IET volumes file", 1, 'input'),
@@ -141,14 +151,6 @@ INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, desc
     ('action_log_enabled', 'Enable action log', 6, 1, 'Log action information', 5, 'input'),
     ('access_log_enabled', 'Enable access log', 6, 1, 'Log access information', 5, 'input'),
     ('database_log_enabled', 'Enable database log', 6, 1, 'Log database information', 5, 'input');
-
-INSERT INTO phpietadmin_config_category (category) VALUES
-    ('iet'),
-    ('lvm'),
-    ('misc'),
-    ('bin'),
-    ('logging'),
-    ('backup');
 
 INSERT INTO phpietadmin_object_type (value, display_name) VALUES
   ('hostv4', 'IPv4 Host'),
