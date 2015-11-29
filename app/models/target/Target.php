@@ -18,7 +18,6 @@
 				$return = $this->get_target_data();
 
 				// Check if we deal with an existing or new target
-				// ToDo: Remove the check from the add() function
 				if ($return === false) {
 					$this->target_status = false;
 				} else {
@@ -40,14 +39,8 @@
             $service_check = $this->check_ietd_running();
 
             if ($service_check['result'] === 0) {
-                // fill object with data
-                $return = $this->get_target_data();
-
                 // Check if we deal with an existing or new target
-                if ($return === false) {
-                    // target is a new target
-                    $this->target_status = false;
-
+                if ($this->target_status === false) {
                     $return = $this->add_target_to_daemon();
                     if ($return['result'] !== 0) {
                         $this->logging->log_action_result('Could not add target ' . $this->iqn, $return, __METHOD__);
@@ -68,7 +61,7 @@
                     // fill object with data from new target
                     $this->get_target_data();
                 } else {
-                    $this->logging->log_action_result('The target ' . $this->iqn . ' is already in use!', $return, __METHOD__);
+                    $this->logging->log_action_result('The target ' . $this->iqn . ' is already in use!', array('result' => 3, 'code_type' => 'extern'), __METHOD__);
                     $this->target_status = true;
                 }
             } else {
