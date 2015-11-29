@@ -39,4 +39,14 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		require(['common'],function() {
+			require(['pages/config/releases', 'domReady'],function(methods, domReady) {
+				domReady(function () {
+					methods.addEventHandler();
+				});
+			});
+		});
+	</script>
 </div>
