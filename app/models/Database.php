@@ -155,6 +155,7 @@ class Database extends \SQLite3 {
 				phpietadmin_config.optioningui FROM
 				phpietadmin_config WHERE
 				phpietadmin_config.config_category_id = :id
+				AND phpietadmin_config.editable_via_gui = 1
 EOT;
 
 				$query = $this->prepare($sql);
