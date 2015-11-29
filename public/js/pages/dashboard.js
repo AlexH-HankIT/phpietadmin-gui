@@ -24,7 +24,7 @@ define(['jquery'], function ($) {
                     if (val === true) {
                         $versionCheck.removeClass('label-info').addClass('label-success').text('Up2date');
                     } else {
-                        $versionCheck.removeClass('label-info').addClass('label-danger').text(val + ' available!');
+                        $versionCheck.removeClass('label-info').addClass('label-war').text(val + ' available!');
                     }
                 },
                 error: function () {

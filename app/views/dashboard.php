@@ -17,11 +17,11 @@
                     <td class="dashboardvalue"><?php echo htmlspecialchars($data['hostname']); ?></td>
                 </tr>
                 <tr>
-                    <td class="dashboardoption">phpietadmin version</td>
+                    <td class="dashboardoption">version</td>
                     <td id="phpietadminversion" class="dashboardvalue"><?php echo htmlspecialchars($data['phpietadminversion']); ?></td>
                 </tr>
                 <tr>
-                    <td class="dashboardoption">phpietadmin release</td>
+                    <td class="dashboardoption">release</td>
                     <td class="dashboardvalue"><?php echo htmlspecialchars($data['release']); ?></td>
                 </tr>
                 <tr>

@@ -59,6 +59,7 @@
                         <li><a class="workspaceTab" href='/phpietadmin/config/show/logging'>Logging config</a></li>
                         <li><a class="workspaceTab" href='/phpietadmin/config/show/backup'>Backup config</a></li>
                         <li><a class="workspaceTab" href='/phpietadmin/config/user'>User</a></li>
+                        <li><a class="workspaceTab" href='/phpietadmin/config/release'>Releases</a></li>
                     </ul>
                 </li>
                 <li class = "dropdown">

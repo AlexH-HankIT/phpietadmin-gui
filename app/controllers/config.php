@@ -82,4 +82,16 @@ use phpietadmin\app\core;
 				echo json_encode($config->logging->get_action_result());
 			}
 		}
+
+		public function release() {
+			if (isset($_POST['release'])) {
+				if ($_POST['release'] === 'stable') {
+					echo file_get_contents('https://raw.githubusercontent.com/HankIT/phpietadmin-doc/version/stable.json');
+				} else if ($_POST['release'] === 'beta') {
+					echo file_get_contents('https://raw.githubusercontent.com/HankIT/phpietadmin-doc/version/beta.json');
+				}
+			} else {
+				$this->view('config/releases');
+			}
+		}
 	}

@@ -1,7 +1,7 @@
 {
   "version": [
     {"name": "phpietadmin-gui"},
-    {"version_nr": "0.6.1"},
-    {"release": "stable"}
+    {"version_nr": "0.6.2"},
+    {"release": "beta"}
   ]
 }

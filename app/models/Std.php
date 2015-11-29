@@ -85,7 +85,7 @@ class Std {
         // get version and release
         $json = json_decode(file_get_contents(__DIR__ . '/../../version.json'), true);
         $data['phpietadminversion'] = $json['version'][1]['version_nr'];
-        $data['release'] = $json['version'][3]['release'];
+        $data['release'] = $json['version'][2]['release'];
 
         $data['distribution'] = shell_exec('lsb_release -sd');
 
