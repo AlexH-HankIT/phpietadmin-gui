@@ -28,67 +28,48 @@ use phpietadmin\app\controllers,
             $this->controllerObject = new $this->controllerName;
 			$this->controllerObject->baseModel = new BaseModel();
 
-            // auth controller is accessible without authentication
-            if ($this->controllerName !== 'phpietadmin\app\controllers\auth') {
-				$session = $this->controllerObject->model('Session');
+            $this->checkAuth();
+            $this->showHeader();
 
-                if($session->checkLoggedIn($this->controllerName) !== true) {
-                    // if user is not logged in redirect him and stop execution
-                    if ($this->controllerObject->baseModel->std->IsXHttpRequest()) {
-                        echo false;
-                        die();
+            // If the method is not found throw an exception, display an error message and exit the application
+            try {
+                if(isset($url[1])) {
+                    if(method_exists($this->controllerObject, $url[1])) {
+                        $this->method = $url[1];
+                        unset($url[1]);
                     } else {
-                        header("Location: /phpietadmin/auth/login");
-                        die();
+                        if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
+                            http_response_code(404);
+                            echo 'Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!';
+                        } else {
+                            http_response_code(404);
+                            $this->controllerObject->view('message', 'Method ' . $url[1] . ' doesn\'t exist!');
+                        }
+                        throw new \Exception();
                     }
-                }
-            }
-
-            // If request is no ajax, display header, menu and footer
-            if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'phpietadmin\app\controllers\auth') {
-                $this->controllerObject->view('header', $this->controllerObject->baseModel->std->get_dashboard_data());
-                $this->controllerObject->view('menu');
-            }
-
-            $continue = true;
-            if(isset($url[1])) {
-                if(method_exists($this->controllerObject, $url[1])) {
-                    $this->method = $url[1];
-                    unset($url[1]);
                 } else {
-                    if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
-                        http_response_code(404);
-                        echo 'Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!';
+                    // if $url[1] is not set, the browser will most likely call the index function
+                    if(method_exists($this->controllerObject, 'index')) {
+                        $this->method = 'index';
                     } else {
-                        $this->controllerObject->view('messsage', 'Method ' . $url[1] . ' doesn\'t exist!');
+                        if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
+                            http_response_code(404);
+                            echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
+                        } else {
+                            http_response_code(404);
+                            $this->controllerObject->view('message', 'Method ' . $this->method . ' doesn\'t exist!');
+                        }
+                        throw new \Exception();
                     }
-                    $continue = false;
                 }
-            } else {
-                // if $url[1] is not set, the browser will most likely call the index function
-                if(method_exists($this->controllerObject, 'index')) {
-                    $this->method = 'index';
-                } else {
-                    if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
-                        http_response_code(404);
-                        echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
-                    } else {
-                        $this->controllerObject->view('messsage', 'Method ' . $this->method . ' doesn\'t exist!');
-                    }
-                    $continue = false;
-                }
+            } catch (\Exception $e) {
+                $this->showFooter();
+                die();
             }
 
             $this->params = $url ? array_values($url) : [];
-
-            // only load the main application if no error occurred
-            if ($continue === true) {
-                call_user_func_array([$this->controllerObject, $this->method], $this->params);
-            }
-
-            if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'phpietadmin\app\controllers\auth') {
-                $this->controllerObject->view('footer');
-            }
+            call_user_func_array([$this->controllerObject, $this->method], $this->params);
+            $this->showFooter();
         }
 
         public function parseUrl() {
@@ -102,5 +83,37 @@ use phpietadmin\app\controllers,
         // but it's a welcome addition
         protected function sanitize(&$value) {
             $value = addslashes(strip_tags(trim($value)));
+        }
+
+        protected function showFooter() {
+            if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'phpietadmin\app\controllers\auth') {
+                $this->controllerObject->view('footer');
+            }
+        }
+
+        protected function showHeader() {
+            // If request is no ajax, display header, menu and footer
+            if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'phpietadmin\app\controllers\auth') {
+                $this->controllerObject->view('header', $this->controllerObject->baseModel->std->get_dashboard_data());
+                $this->controllerObject->view('menu');
+            }
+        }
+
+        protected function checkAuth() {
+            // auth controller is accessible without authentication
+            if ($this->controllerName !== 'phpietadmin\app\controllers\auth') {
+                $session = $this->controllerObject->model('Session');
+
+                if($session->checkLoggedIn($this->controllerName) !== true) {
+                    // if user is not logged in redirect him and stop execution
+                    if ($this->controllerObject->baseModel->std->IsXHttpRequest()) {
+                        echo false;
+                        die();
+                    } else {
+                        header("Location: /phpietadmin/auth/login");
+                        die();
+                    }
+                }
+            }
         }
     }
