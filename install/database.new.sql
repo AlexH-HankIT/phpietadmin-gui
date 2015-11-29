@@ -117,7 +117,7 @@ INSERT INTO phpietadmin_config_category (category) VALUES
   ('release');
 
 INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, description, config_category_id, field) VALUES
-    ('releaseCheck', 'Release check', 1, 'stable', "Names of the iscsi targets", (SELECT id from phpietadmin_config_type where type='release'), 'select'),
+    ('releaseCheck', 'Release check', 1, 'stable', "Release channel", (SELECT config_category_id from phpietadmin_config_category where category='release'), 'select').
     ('iqn', 'IQN', 1, 'iqn.2014-12.com.example.iscsi', "Names of the iscsi targets", 1, 'input'),
     ('proc_sessions', '/proc session', 2, '/proc/net/iet/session', "Path to the IET sessions file", 1, 'input'),
     ('proc_volumes', '/proc volume', 2, '/proc/net/iet/volume', "Path to the IET volumes file", 1, 'input'),
