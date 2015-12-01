@@ -69,7 +69,7 @@
             require(['common'],function() {
                 require(['pages/dashboard', 'domReady'],function(methods, domReady) {
                     domReady(function () {
-                        methods.checkversion();
+                        methods.checkVersion();
                     });
                 });
             });
