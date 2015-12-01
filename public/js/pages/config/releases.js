@@ -25,8 +25,8 @@ define(['jquery', 'bootstrapSelect'], function ($) {
                                 '<div class="panel-heading">Available version</div>' +
                                 '<ul class="list-group">' +
                                 '<li class="list-group-item">v' + data['version'] + '</li>' +
-                                '<li class="list-group-item"><a href=' + data['download'] + '>Download</a></li>' +
-                                '<li class="list-group-item"><a href=' + data['doc'] + '>Doc</a></li>' +
+                                '<li class="list-group-item"><a target="_blank" href=' + data['download'] + '>Download</a></li>' +
+                                '<li class="list-group-item"><a target="_blank" href=' + data['doc'] + '>Doc</a></li>' +
                                 '<li class="list-group-item">' + data['release'] + '</li>' +
                                 '</ul>' +
                                 '</div>'

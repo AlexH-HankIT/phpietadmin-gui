@@ -101,6 +101,8 @@ use phpietadmin\app\core;
 					$versionFile = $this->baseModel->std->getVersionFile();
 					$data['installedVersion'] = $versionFile['version'];
 					$data['installedRelease'] = $versionFile['release'];
+					$data['installedDownload'] = $versionFile['download'];
+					$data['installedDoc'] = $versionFile['doc'];
 					$data['release'] = $this->baseModel->database->get_config('releaseCheck')['value'];
 					$this->view('config/releases', $data);
 				} catch(\Exception $e) {
