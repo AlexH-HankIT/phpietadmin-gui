@@ -55,8 +55,6 @@ define(['jquery', 'bootstrapSelect'], function ($) {
 
             $releaseSelect.once('change', function() {
                 getReleaseData($(this).selectpicker('val'));
-
-                // ajax change to database
             });
 
             setTimeout(function(){
