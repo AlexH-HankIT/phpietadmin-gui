@@ -20,8 +20,8 @@
 						<div class='panel panel-success'>
 							<div class="panel-heading">Installed version</div>
 							<ul class="list-group">
-								<li class="list-group-item">v0.6.1</li>
-								<li class="list-group-item">stable</li>
+								<li id="currentVersion" class="list-group-item">v0.6.1</li>
+								<li id="currentRelease" class="list-group-item">stable</li>
 							</ul>
 						</div>
 					</div>
@@ -29,9 +29,10 @@
 						<div class='panel panel-warning'>
 							<div class="panel-heading">Available version</div>
 							<ul class="list-group">
-								<li class="list-group-item">v0.6.2</li>
-								<li class="list-group-item">beta</li>
-								<li class="list-group-item">Documentation</li>
+								<li id="versionNew" class="list-group-item"></li>
+								<li id="downloadNew" class="list-group-item"></li>
+								<li id="docNew" class="list-group-item"></li>
+								<li id="releaseNew" class="list-group-item"></li>
 							</ul>
 						</div>
 					</div>
