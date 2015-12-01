@@ -1,11 +1,15 @@
-define(['jquery', 'once', 'mylibs'], function ($, once, mylibs) {
+define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylibs) {
     var methods;
 
     return methods = {
         addEventHandler: function() {
-            $('#targetSelect').once('change', function () {
+            var $targetSelect = $('#targetSelect');
+
+            $targetSelect.once('change', function () {
                 methods.initialLoad();
             });
+
+            $targetSelect.selectpicker();
         },
         loadMenu: function (iqnVal, hash) {
             $('#configureTargetMenu').fadeOut('fast', function(){
