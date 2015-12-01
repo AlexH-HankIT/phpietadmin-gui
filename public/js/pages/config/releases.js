@@ -16,7 +16,7 @@ define(['jquery', 'bootstrapSelect'], function ($) {
                     dataType: 'json',
                     type: 'post',
                     success: function (data) {
-                        var newVersionInt = data['version_nr'].split('.').join(''),
+                        var newVersionInt = data['version'].split('.').join(''),
                             currentVersionInt = $('#installedVersion').text().split('.').join('');
 
                         if (newVersionInt > currentVersionInt) {
@@ -24,8 +24,8 @@ define(['jquery', 'bootstrapSelect'], function ($) {
                                 '<div class="panel panel-warning">' +
                                 '<div class="panel-heading">Available version</div>' +
                                 '<ul class="list-group">' +
-                                '<li class="list-group-item">v' + data['version_nr'] + '</li>' +
-                                '<li class="list-group-item"><a href=' + data['downloadurl'] + '>Download</a></li>' +
+                                '<li class="list-group-item">v' + data['version'] + '</li>' +
+                                '<li class="list-group-item"><a href=' + data['download'] + '>Download</a></li>' +
                                 '<li class="list-group-item"><a href=' + data['doc'] + '>Doc</a></li>' +
                                 '<li class="list-group-item">' + data['release'] + '</li>' +
                                 '</ul>' +

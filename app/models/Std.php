@@ -85,7 +85,7 @@ class Std {
         // get version and release
         try {
             $versionFile = $this->getVersionFile();
-            $data['phpietadminversion'] = $versionFile['version_nr'];
+            $data['phpietadminversion'] = $versionFile['version'];
             $data['release'] = $versionFile['release'];
         } catch(\Exception $e) {
             // Error message

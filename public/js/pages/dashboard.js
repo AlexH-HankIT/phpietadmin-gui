@@ -11,11 +11,11 @@ define(['jquery'], function ($) {
                 success: function (data) {
                     var $phpietadminVersion = $('#phpietadminversion'),
                         val,
-                        answerVersionNumber = data['version_nr'].split('.').join(''),
+                        answerVersionNumber = data['version'].split('.').join(''),
                         installedVersionNumber = $phpietadminVersion.text().split('.').join('');
 
                     if (answerVersionNumber > installedVersionNumber) {
-                        val = data['version_nr'];
+                        val = data['version'];
                     } else {
                         val = true;
                     }

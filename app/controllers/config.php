@@ -95,7 +95,7 @@ use phpietadmin\app\core;
 			} else {
 				try {
 					$versionFile = $this->baseModel->std->getVersionFile();
-					$data['installedVersion'] = $versionFile['version_nr'];
+					$data['installedVersion'] = $versionFile['version'];
 					$data['installedRelease'] = $versionFile['release'];
 					$data['release'] = $this->baseModel->database->get_config('releaseCheck')['value'];
 					$this->view('config/releases', $data);
