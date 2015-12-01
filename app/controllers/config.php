@@ -86,12 +86,22 @@ use phpietadmin\app\core;
 		public function release() {
 			if (isset($_POST['release'])) {
 				if ($_POST['release'] === 'stable') {
-					echo file_get_contents('https://raw.githubusercontent.com/HankIT/phpietadmin-doc/version/stable.json');
+					$data = $this->baseModel->database->get_config('stableReleaseUrl');
+					echo file_get_contents($data['value']);
 				} else if ($_POST['release'] === 'beta') {
-					echo file_get_contents('https://raw.githubusercontent.com/HankIT/phpietadmin-doc/version/beta.json');
+					$data = $this->baseModel->database->get_config('betaReleaseUrl');
+					echo file_get_contents($data['value']);
 				}
 			} else {
-				$this->view('config/releases');
+				try {
+					$versionFile = $this->baseModel->std->getVersionFile();
+					$data['installedVersion'] = $versionFile['version_nr'];
+					$data['installedRelease'] = $versionFile['release'];
+					$data['release'] = $this->baseModel->database->get_config('releaseCheck')['value'];
+					$this->view('config/releases', $data);
+				} catch(\Exception $e) {
+					$this->view('message', array('message' => $e->getMessage(), 'type' => 'danger'));
+				}
 			}
 		}
 	}

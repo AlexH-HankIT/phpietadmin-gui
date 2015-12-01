@@ -83,9 +83,13 @@ class Std {
         $data['hostname'] = file_get_contents('/etc/hostname');
 
         // get version and release
-        $json = json_decode(file_get_contents(__DIR__ . '/../../version.json'), true);
-        $data['phpietadminversion'] = $json['version_nr'];
-        $data['release'] = $json['release'];
+        try {
+            $versionFile = $this->getVersionFile();
+            $data['phpietadminversion'] = $versionFile['version_nr'];
+            $data['release'] = $versionFile['release'];
+        } catch(\Exception $e) {
+            // Error message
+        }
 
         $data['distribution'] = shell_exec('lsb_release -sd');
 
@@ -343,6 +347,19 @@ class Std {
             }
         } else {
             return false;
+        }
+    }
+
+    public function getVersionFile() {
+        if (file_exists(__DIR__ . '/../../version.json')) {
+            $versionFile = json_decode(file_get_contents(__DIR__ . '/../../version.json'), true);
+            if ($versionFile !== NULL) {
+                return $versionFile;
+            } else {
+                throw new \Exception('Version file is invalid!');
+            }
+        } else {
+            throw new \Exception('Version file not found!');
         }
     }
 }

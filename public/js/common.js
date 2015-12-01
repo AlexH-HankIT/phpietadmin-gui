@@ -19,7 +19,8 @@ requirejs.config({
         nprogress: 'lib/nprogress',
         hideShowPassword: 'lib/hideShowPassword',
         vibrate: 'lib/vibrate',
-        clipboard: 'lib/clipboard'
+        clipboard: 'lib/clipboard',
+        'bootstrapSelect': 'lib/bootstrap-select'
     },
     shim: {
         jqueryui: {

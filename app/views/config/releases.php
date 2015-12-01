@@ -6,41 +6,36 @@
 			</ol>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-							<select class="form-control">
-								<option>Stable</option>
-								<option>Beta</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="row">
 					<div class="col-md-6">
 						<div class='panel panel-success'>
 							<div class="panel-heading">Installed version</div>
 							<ul class="list-group">
-								<li id="currentVersion" class="list-group-item">v0.6.1</li>
-								<li id="currentRelease" class="list-group-item">stable</li>
+								<li id="installedVersion" class="list-group-item"><?php echo $data['installedVersion'] ?></li>
+								<li id="installedRelease" class="list-group-item"><?php echo $data['installedRelease'] ?></li>
 							</ul>
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class='panel panel-warning'>
-							<div class="panel-heading">Available version</div>
-							<ul class="list-group">
-								<li id="versionNew" class="list-group-item"></li>
-								<li id="downloadNew" class="list-group-item"></li>
-								<li id="docNew" class="list-group-item"></li>
-								<li id="releaseNew" class="list-group-item"></li>
-							</ul>
-						</div>
+						<div id="newVersionPanel"></div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-footer">
+				<div class="row">
+					<div class="col-md-12">
+						<select title='Select release...' id="releaseChannelSelect">
+							<option selected><?php echo ucfirst($data['release']) ?></option>
+							<?php if ($data['release'] === 'stable') { ?>
+								<option>Beta</option>
+							<?php } else { ?>
+								<option>Stable</option>
+							<?php } ?>
+						</select>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<script>
 		require(['common'],function() {
 			require(['pages/config/releases', 'domReady'],function(methods, domReady) {
