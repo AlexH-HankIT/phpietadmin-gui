@@ -11,12 +11,11 @@ define(['jquery'], function ($) {
                 success: function (data) {
                     var $phpietadminVersion = $('#phpietadminversion'),
                         val,
-                        answerVersionString = data['version'][1].version_nr,
-                        answerVersionNumber = answerVersionString.split('.').join(''),
+                        answerVersionNumber = data['version_nr'].split('.').join(''),
                         installedVersionNumber = $phpietadminVersion.text().split('.').join('');
 
                     if (answerVersionNumber > installedVersionNumber) {
-                        val = answerVersionString;
+                        val = data['version_nr'];
                     } else {
                         val = true;
                     }
@@ -24,7 +23,7 @@ define(['jquery'], function ($) {
                     if (val === true) {
                         $versionCheck.removeClass('label-info').addClass('label-success').text('Up2date');
                     } else {
-                        $versionCheck.removeClass('label-info').addClass('label-war').text(val + ' available!');
+                        $versionCheck.removeClass('label-info').addClass('label-warning').text(val + ' available!');
                     }
                 },
                 error: function () {
