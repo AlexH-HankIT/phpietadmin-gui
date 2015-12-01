@@ -6,7 +6,7 @@ define(['jquery'], function ($) {
             $.ajax({
                 url: '/phpietadmin/config/checkUpdate',
                 dataType: 'json',
-                type: 'post',
+                type: 'get',
                 global: false,
                 success: function (data) {
                     var $phpietadminVersion = $('#phpietadminversion'),
