@@ -86,9 +86,13 @@ use phpietadmin\app\core;
 		public function release() {
 			if (isset($_POST['release'])) {
 				if ($_POST['release'] === 'stable') {
+					$config = $this->model('Config', 'releaseCheck');
+					$config->change_config('value', 'stable');
 					$data = $this->baseModel->database->get_config('stableReleaseUrl');
 					echo file_get_contents($data['value']);
 				} else if ($_POST['release'] === 'beta') {
+					$config = $this->model('Config', 'releaseCheck');
+					$config->change_config('value', 'beta');
 					$data = $this->baseModel->database->get_config('betaReleaseUrl');
 					echo file_get_contents($data['value']);
 				}
