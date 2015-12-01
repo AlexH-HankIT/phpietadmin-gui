@@ -104,4 +104,13 @@ use phpietadmin\app\core;
 				}
 			}
 		}
+
+		public function checkUpdate() {
+			$release = $this->baseModel->database->get_config('releaseCheck')['value'];
+			if ($release === 'stable') {
+				echo file_get_contents($this->baseModel->database->get_config('stableReleaseUrl')['value']);
+			} else {
+				echo file_get_contents($this->baseModel->database->get_config('betaReleaseUrl')['value']);
+			}
+		}
 	}

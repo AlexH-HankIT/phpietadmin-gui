@@ -13,16 +13,4 @@
             $data = $this->baseModel->std->get_dashboard_data();
             $this->view('dashboard', $data);
         }
-
-        /**
-         *
-         * Get the up2date phpietadmin version from github
-         *
-         * @return      void
-         *
-         */
-
-        public function get_version() {
-            echo file_get_contents('https://raw.githubusercontent.com/MrCrankHank/phpietadmin/master/version.json');
-        }
     }

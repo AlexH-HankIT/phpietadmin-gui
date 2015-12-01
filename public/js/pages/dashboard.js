@@ -4,7 +4,7 @@ define(['jquery'], function ($) {
         checkversion: function () {
             var $versionCheck = $('#versionCheck');
             $.ajax({
-                url: '/phpietadmin/dashboard/get_version',
+                url: '/phpietadmin/config/checkUpdate',
                 dataType: 'json',
                 type: 'post',
                 global: false,
