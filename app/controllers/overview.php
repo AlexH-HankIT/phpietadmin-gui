@@ -2,15 +2,20 @@
 use phpietadmin\app\core;
 
     class Overview extends core\BaseController {
-        public function disks() {
+        public function disks($format = 'default') {
             $disk = $this->model('Disks');
-            $data = $disk->get_disks();
 
-            if (!empty($data) && $data !== false) {
-                $this->view('table', $data);
-            } else {
-                $this->view('message', 'Error - No block devices available!');
-            }
+			// Json for retrieval via ajax
+			if ($format === 'json') {
+				echo $disk->get_disks('json');
+			} else {
+				$data = $disk->get_disks();
+				if (!empty($data) && $data !== false) {
+					$this->view('table', $data);
+				} else {
+					$this->view('message', 'Error - No block devices available!');
+				}
+			}
         }
 
         public function iet($param) {
