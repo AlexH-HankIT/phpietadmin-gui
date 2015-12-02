@@ -2,8 +2,8 @@ requirejs.config({
     baseUrl: "/phpietadmin/js",
     paths: {
         jquery: 'lib/jquery-2.1.4',
-        jqueryui: 'lib/jquery-ui',
-        jqueryui_slider: 'lib/jquery-ui-slider-pips',
+        jqueryUi: 'lib/jquery-ui',
+        jqueryUiSlider: 'lib/jquery-ui-slider-pips',
         bootstrap: 'lib/bootstrap.amd',
         filtertable: 'lib/jquery.filtertable.amd',
         qtip: 'lib/jquery.qtip',
