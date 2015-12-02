@@ -20,7 +20,8 @@ requirejs.config({
         hideShowPassword: 'lib/hideShowPassword',
         vibrate: 'lib/vibrate',
         clipboard: 'lib/clipboard',
-        bootstrapSelect: 'lib/bootstrap-select'
+        bootstrapSelect: 'lib/bootstrap-select',
+        bootstrapTableExport: 'lib/bootstrap-table-export'
     },
     shim: {
         jqueryui: {

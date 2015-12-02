@@ -8,7 +8,12 @@ use phpietadmin\app\core;
 			// Json for retrieval via ajax
 			if ($format === 'json') {
 				echo $disk->get_disks('json');
+			} else if ($format === 'empty') {
+				// display empty template
+				// javascript can insert the json there
+				$this->view('diskTable');
 			} else {
+				// Display normal table
 				$data = $disk->get_disks();
 				if (!empty($data) && $data !== false) {
 					$this->view('table', $data);
