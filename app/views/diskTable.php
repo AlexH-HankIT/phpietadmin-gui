@@ -1,6 +1,7 @@
 <div id="workspace">
     <div class="container">
         <table id="table"
+               data-toolbar="#toolbar"
                data-data-field="body"
                data-show-refresh="true"
                data-search="true"
