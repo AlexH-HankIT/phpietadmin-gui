@@ -24,14 +24,6 @@ requirejs.config({
         bootstrapTableExport: 'lib/bootstrap-table-export',
         tableExport: 'lib/tableExport',
         base64: 'lib/jquery.base64'
-    },
-    shim: {
-        jqueryui: {
-            deps: ['jquery']
-        },
-        jqueryui_slider: {
-            deps: ['jqueryui']
-        }
     }
 });
 
