@@ -2,7 +2,7 @@
 use phpietadmin\app\core;
 
     class Disks extends core\BaseModel {
-        public function get_disks($format = 'default') {
+        public function get_disks($format = 'array') {
             $return = $this->std->exec_and_return($this->database->get_config('lsblk')['value'] . ' --pairs');
 
             if ($return['result'] == 0) {
