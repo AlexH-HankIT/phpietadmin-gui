@@ -103,3 +103,8 @@ div.ui-slider-range.ui-widget-header {
     color: #9d9d9d;
     background-color: #222;
 }
+
+.panel-aligned {
+    height:43px;
+    padding-top: 11px;
+}

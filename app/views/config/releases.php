@@ -11,9 +11,9 @@
 							<div class="panel-heading">Installed version</div>
 							<ul class="list-group">
 								<li id="installedVersion" class="list-group-item"><?php echo $data['installedVersion'] ?></li>
+								<li class="list-group-item"><?php echo $data['installedRelease'] ?></li>
 								<li class="list-group-item"><a target="_blank" href="<?php echo $data['installedDownload'] ?>">Download</a></li>
 								<li class="list-group-item"><a target="_blank" href="<?php echo $data['installedDoc'] ?>">Documentation</a></li>
-								<li class="list-group-item"><?php echo $data['installedRelease'] ?></li>
 							</ul>
 						</div>
 					</div>
