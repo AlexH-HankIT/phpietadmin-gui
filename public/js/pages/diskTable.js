@@ -1,4 +1,4 @@
-define(['jquery', 'bootstraptable', 'bootstrapTableExport'], function ($) {
+define(['jquery', 'bootstrapTableExport'], function ($) {
     return {
         table: function() {
             function responseHandler (res) {

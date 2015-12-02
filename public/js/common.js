@@ -27,16 +27,10 @@ requirejs.config({
     },
     shim: {
         jqueryui: {
-            export: "$",
             deps: ['jquery']
         },
         jqueryui_slider: {
-            export: "$",
             deps: ['jqueryui']
-        },
-        bootstraptable: {
-            export: "$",
-            deps: ['tableExport', 'base64']
         }
     }
 });

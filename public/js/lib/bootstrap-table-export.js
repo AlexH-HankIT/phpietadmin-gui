@@ -3,7 +3,7 @@
  * extensions: https://github.com/kayalshri/tableExport.jquery.plugin
  */
 
-define(['jquery'], function() {
+define(['jquery', 'bootstraptable', 'tableExport', 'base64'], function($) {
     (function ($) {
         'use strict';
 

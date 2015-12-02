@@ -4,7 +4,7 @@
  * https://github.com/wenzhixin/bootstrap-table/
  */
 
-define(['jquery'], function() {
+define(['jquery'], function($) {
     ! function ($) {
         'use strict';
 
