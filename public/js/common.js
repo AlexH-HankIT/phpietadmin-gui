@@ -41,10 +41,8 @@ requirejs.config({
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function ($, qtip, filterTable, mylibs, swal, pingjs, nprogress) {
-    var methods;
-
-    return methods = {
+define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'blockUI', 'once'], function ($, qtip, filterTable, mylibs, swal, pingjs, nprogress) {
+    return {
         common: function () {
             // check if server is alive
             var uiBlocked = false,
