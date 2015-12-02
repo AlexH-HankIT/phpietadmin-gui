@@ -4,22 +4,13 @@ use phpietadmin\app\core;
     class Overview extends core\BaseController {
         public function disks($format = 'default') {
             $disk = $this->model('Disks');
-
 			// Json for retrieval via ajax
 			if ($format === 'json') {
 				echo $disk->get_disks('json');
-			} else if ($format === 'empty') {
+			} else {
 				// display empty template
 				// javascript can insert the json there
 				$this->view('diskTable');
-			} else {
-				// Display normal table
-				$data = $disk->get_disks();
-				if (!empty($data) && $data !== false) {
-					$this->view('table', $data);
-				} else {
-					$this->view('message', 'Error - No block devices available!');
-				}
 			}
         }
 
