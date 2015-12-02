@@ -27,7 +27,7 @@ requirejs.config({
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'blockUI', 'once'], function ($, qtip, filterTable, mylibs, swal, pingjs, nprogress) {
+define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'blockUI', 'once'], function ($, mylibs, swal, pingjs, nprogress) {
     return {
         common: function () {
             // check if server is alive
