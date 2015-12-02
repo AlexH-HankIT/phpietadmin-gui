@@ -1,10 +1,8 @@
 <?php namespace phpietadmin\app\models;
-    use phpietadmin\app\models\logging,
-		phpietadmin\app\core;
+use phpietadmin\app\core;
 
     class Disks extends core\BaseModel {
-
-        public function get_disks() {
+        public function get_disks($format = 'default') {
             $return = $this->std->exec_and_return($this->database->get_config('lsblk')['value'] . ' --pairs');
 
             if ($return['result'] == 0) {
@@ -26,11 +24,17 @@
                         }
                     });
 
-                    return array(
+                    $data = array(
                         'title' => 'Disks',
                         'heading' => array_keys($disks[0]),
                         'body' => array_values(array_filter($disks))
                     );
+
+                    if ($format === 'json') {
+                        return json_encode($data);
+                    } else {
+                        return $data;
+                    }
                 } else {
                     return false;
                 }
