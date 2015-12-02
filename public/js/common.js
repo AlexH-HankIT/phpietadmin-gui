@@ -21,7 +21,9 @@ requirejs.config({
         vibrate: 'lib/vibrate',
         clipboard: 'lib/clipboard',
         bootstrapSelect: 'lib/bootstrap-select',
-        bootstrapTableExport: 'lib/bootstrap-table-export'
+        bootstrapTableExport: 'lib/bootstrap-table-export',
+        tableExport: 'lib/tableExport',
+        base64: 'lib/jquery.base64'
     },
     shim: {
         jqueryui: {
@@ -31,6 +33,10 @@ requirejs.config({
         jqueryui_slider: {
             export: "$",
             deps: ['jqueryui']
+        },
+        bootstraptable: {
+            export: "$",
+            deps: ['tableExport', 'base64']
         }
     }
 });
