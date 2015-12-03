@@ -1,8 +1,0 @@
-/var/log/phpietadmin/*.log {
-        daily
-        missingok
-        rotate 14
-        compress
-        delaycompress
-        notifempty
-}
