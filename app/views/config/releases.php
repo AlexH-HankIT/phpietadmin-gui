@@ -10,10 +10,10 @@
 						<div class='panel panel-success'>
 							<div class="panel-heading">Installed version</div>
 							<ul class="list-group">
-								<li id="installedVersion" class="list-group-item"><?php echo $data['installedVersion'] ?></li>
+								<li id="installedVersion" class="list-group-item"><?php echo htmlspecialchars($data['installedVersion']) ?></li>
 								<li class="list-group-item"><?php echo $data['installedRelease'] ?></li>
-								<li class="list-group-item"><a target="_blank" href="<?php echo $data['installedDownload'] ?>">Download</a></li>
-								<li class="list-group-item"><a target="_blank" href="<?php echo $data['installedDoc'] ?>">Documentation</a></li>
+								<li class="list-group-item"><a target="_blank" href="<?php echo htmlspecialchars($data['installedDownload']) ?>">Download</a></li>
+								<li class="list-group-item"><a target="_blank" href="<?php echo htmlspecialchars($data['installedDoc']) ?>">Documentation</a></li>
 							</ul>
 						</div>
 					</div>
@@ -26,7 +26,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<select title='Select release...' id="releaseChannelSelect">
-							<option selected><?php echo ucfirst($data['release']) ?></option>
+							<option selected><?php echo htmlspecialchars(ucfirst($data['release'])) ?></option>
 							<?php if ($data['release'] === 'stable') { ?>
 								<option>Beta</option>
 							<?php } else { ?>
