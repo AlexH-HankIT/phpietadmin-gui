@@ -19,8 +19,12 @@ Official support for CentOS is planned.
 * https://github.com/HankIT/phpietadmin-gui/wiki/Screens-v0.6.1
 
 ## Docs
+### Stable
 * https://github.com/HankIT/phpietadmin-gui/wiki/Installation-v0.6.1
 * https://github.com/HankIT/phpietadmin-gui/wiki/Update-v0.6-to-v0.6.1
+
+### Beta
+* https://github.com/HankIT/phpietadmin-doc/wiki/v0.6.2-%5Bbeta%5D
 
 ## Features
 Take a look at the github releases for detailed information about the features.
