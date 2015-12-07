@@ -18,15 +18,14 @@
                 </tr>
                 <tr>
                     <td class="dashboardoption">version</td>
-                    <td id="phpietadminversion" class="dashboardvalue"><?php echo htmlspecialchars($data['phpietadminversion']); ?></td>
+                    <td id="phpietadminVersion" class="dashboardvalue" data-version="<?php echo htmlspecialchars($data['phpietadminversion']); ?>">
+                        <?php echo htmlspecialchars($data['phpietadminversion']); ?>
+                        <span id='versionCheck' class="label label-info">Getting version...</span>
+                    </td>
                 </tr>
                 <tr>
                     <td class="dashboardoption">release</td>
                     <td class="dashboardvalue"><?php echo htmlspecialchars($data['release']); ?></td>
-                </tr>
-                <tr>
-                    <td class="dashboardoption">phpietadmin version status</td>
-                    <td class="dashboardvalue"><span id='versionCheck' class="label label-info">Getting version...</span></td>
                 </tr>
                 <tr>
                     <td class="dashboardoption">Distribution</td>

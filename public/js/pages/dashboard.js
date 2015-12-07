@@ -2,15 +2,16 @@ define(['jquery'], function ($) {
     return {
         checkVersion: function () {
             var $versionCheck = $('#versionCheck');
+
             $.ajax({
                 url: '/phpietadmin/config/checkUpdate',
                 dataType: 'json',
                 type: 'get',
                 global: false,
                 success: function (data) {
-                    var $phpietadminVersion = $('#phpietadminversion'),
+                    var $phpietadminVersion = $('#phpietadminVersion'),
                         answerVersionNumber = data['version'].split('.').join(''),
-                        installedVersionNumber = $phpietadminVersion.text().split('.').join('');
+                        installedVersionNumber = $phpietadminVersion.attr('data-version').split('.').join('');
 
                     if (answerVersionNumber > installedVersionNumber) {
                         $versionCheck.removeClass('label-info').addClass('label-warning').text(data['version'] + ' available!');
