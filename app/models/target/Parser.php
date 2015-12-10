@@ -386,7 +386,7 @@
 
                         // Options for $iqn are defined from $key+1 till $end - $key
                         // Create array with iqn options
-                        $options = array_slice($file, $key + 1, $end - $key - 1, true);
+                        $options = array_slice($file, $key + 1, $end - $key, true);
 
                         $val = array_search($option, $options);
 
