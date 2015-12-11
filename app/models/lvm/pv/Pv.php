@@ -1,22 +1,24 @@
-<?php namespace phpietadmin\app\models\lvm\pv;
-    use phpietadmin\app\models\lvm\logic;
+<?php
+namespace app\models\lvm\pv;
 
-    class Pv extends logic\Parser {
-        public function __construct($pv_name = false) {
-            $this->set_pv_name($pv_name);
-            parent::__construct();
-        }
+use app\models\lvm\logic;
 
-        public function get_pv() {
-            $this->logging->log_action_result('The data of the physical volume ' . $this->pv_name . ' was successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
+class Pv extends logic\Parser {
+    public function __construct($pv_name = false) {
+        $this->set_pv_name($pv_name);
+        parent::__construct();
+    }
 
-            $return = $this->parse_lvm('pv');
+    public function get_pv() {
+        $this->logging->log_action_result('The data of the physical volume ' . $this->pv_name . ' was successfully parsed', array('result' => 0, 'code_type' => 'intern'), __METHOD__, true);
 
-            if ($return === false) {
-                $this->logging->log_action_result('The physical volume ' . $this->pv_name . ' does not exist or some other error occurred!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
-                return false;
-            } else {
-                return $return;
-            }
+        $return = $this->parse_lvm('pv');
+
+        if ($return === false) {
+            $this->logging->log_action_result('The physical volume ' . $this->pv_name . ' does not exist or some other error occurred!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
+            return false;
+        } else {
+            return $return;
         }
     }
+}
