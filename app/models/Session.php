@@ -1,32 +1,34 @@
-<?php namespace phpietadmin\app\models;
-use phpietadmin\app\core;
+<?php
+namespace app\models;
+
+use app\core;
 
 class Session extends core\BaseModel {
-	private $username;
+    private $username;
 
-	public function __construct($username = false) {
-		parent::__construct();
+    public function __construct($username = false) {
+        parent::__construct();
 
-		$this->username = $username;
+        $this->username = $username;
 
-		if (empty(session_id())) {
-			session_start();
-		}
+        if (empty(session_id())) {
+            session_start();
+        }
 
-		if ($this->username !== false) {
-			$_SESSION['username'] = $this->username;
-		}
+        if ($this->username !== false) {
+            $_SESSION['username'] = $this->username;
+        }
 
-		if (isset($_SESSION['username']) && $this->username === false) {
-			$this->username = $_SESSION['username'];
-		}
-	}
+        if (isset($_SESSION['username']) && $this->username === false) {
+            $this->username = $_SESSION['username'];
+        }
+    }
 
-	public function login($password) {
-		$user = new User($this->username);
+    public function login($password) {
+        $user = new User($this->username);
 
         // Check if user exists
-        if($user->returnStatus() === false) {
+        if ($user->returnStatus() === false) {
             $_SESSION['logged_in'] = false;
             $this->logging->log_access_result('Login failure. User does not exist', 'failure', 'check', __METHOD__);
             return false;
@@ -46,15 +48,15 @@ class Session extends core\BaseModel {
                 return false;
             }
         }
-	}
+    }
 
-	public function logout() {
-		session_destroy();
+    public function logout() {
+        session_destroy();
 
-		if (isset($_COOKIE['PHPSESSID'])) {
-			setcookie('PHPSESSID', '', time() - 7000000, '/');
-		}
-	}
+        if (isset($_COOKIE['PHPSESSID'])) {
+            setcookie('PHPSESSID', '', time() - 7000000, '/');
+        }
+    }
 
     public function checkLoggedIn($controller) {
         if (is_array($_SESSION) && isset($_SESSION['logged_in'])) {

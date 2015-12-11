@@ -1,5 +1,7 @@
-<?php namespace phpietadmin\app\models;
-use phpietadmin\app\core;
+<?php
+namespace app\models;
+
+use app\core;
 
 class Config extends core\BaseModel {
     private $option;
@@ -20,7 +22,7 @@ class Config extends core\BaseModel {
     }
 
     private function exists() {
-		$this->data = $this->database->get_config($this->option);
+        $this->data = $this->database->get_config($this->option);
 
         if ($this->data === false) {
             $this->status = false;

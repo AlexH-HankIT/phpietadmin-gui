@@ -1,15 +1,17 @@
-<?php namespace phpietadmin\app\models;
-use phpietadmin\app\core;
+<?php
+namespace app\models;
+
+use app\core;
 
 class Std {
-	private $logging;
-	private $database;
+    private $logging;
+    private $database;
 
-	public function __construct() {
-		$registry = core\Registry::getInstance();
-		$this->logging = $registry->get('logging');
-		$this->database = $registry->get('database');
-	}
+    public function __construct() {
+        $registry = core\Registry::getInstance();
+        $this->logging = $registry->get('logging');
+        $this->database = $registry->get('database');
+    }
 
     /**
      * Recursive function to find a iqn in array
@@ -87,7 +89,7 @@ class Std {
             $versionFile = $this->getVersionFile();
             $data['phpietadminversion'] = $versionFile['version'];
             $data['release'] = $versionFile['release'];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // Error message
         }
 
@@ -230,15 +232,14 @@ class Std {
 
             // Read it and adjust line number if necessary
             // (Otherwise the result would be wrong if file doesn't end with a blank line)
-            if(fread($f, 1) != "\n") $lines -= 1;
+            if (fread($f, 1) != "\n") $lines -= 1;
 
             // Start reading
             $output = '';
             $chunk = '';
 
             // While we would like more
-            while(ftell($f) > 0 && $lines >= 0)
-            {
+            while (ftell($f) > 0 && $lines >= 0) {
                 // Figure out how far back we should jump
                 $seek = min(ftell($f), $buffer);
 
@@ -246,7 +247,7 @@ class Std {
                 fseek($f, -$seek, SEEK_CUR);
 
                 // Read a chunk and prepend it to our output
-                $output = ($chunk = fread($f, $seek)).$output;
+                $output = ($chunk = fread($f, $seek)) . $output;
 
                 // Jump back to where we started reading
                 fseek($f, -mb_strlen($chunk, '8bit'), SEEK_CUR);
@@ -257,8 +258,7 @@ class Std {
 
             // While we have too many lines
             // (Because of buffer size we might have read too many)
-            while($lines++ < 0)
-            {
+            while ($lines++ < 0) {
                 // Find first newline and remove all text before that
                 $output = substr($output, strpos($output, "\n") + 1);
             }
@@ -278,64 +278,64 @@ class Std {
         }
     }
 
-	/**
-	 * Backup a file to the phpietadmin backup dir
-	 * Only $maxBackups will be stored, before the oldest is deleted
-	 *
-	 * @param        $path
-	 * @param string $type
-	 * @return bool
-	 */
-	public function backupFile($path, $type = 'file') {
-		$backupDir = $this->database->get_config('backupDir')['value'];
-		$maxBackups = $this->database->get_config('maxBackups')['value'];
-		$backupDirFiles = $backupDir . '/files';
-		$backupDirDb = $backupDir . '/db';
+    /**
+     * Backup a file to the phpietadmin backup dir
+     * Only $maxBackups will be stored, before the oldest is deleted
+     *
+     * @param        $path
+     * @param string $type
+     * @return bool
+     */
+    public function backupFile($path, $type = 'file') {
+        $backupDir = $this->database->get_config('backupDir')['value'];
+        $maxBackups = $this->database->get_config('maxBackups')['value'];
+        $backupDirFiles = $backupDir . '/files';
+        $backupDirDb = $backupDir . '/db';
 
-		// Create backup folder
-		if (!is_dir($backupDirFiles)) {
-			mkdir($backupDirFiles);
-		}
-		if (!is_dir($backupDirDb)) {
-			mkdir($backupDirDb);
-		}
+        // Create backup folder
+        if (!is_dir($backupDirFiles)) {
+            mkdir($backupDirFiles);
+        }
+        if (!is_dir($backupDirDb)) {
+            mkdir($backupDirDb);
+        }
 
-		// Delete old backup files, but keep at least $maxBackups
-		$files = glob($backupDirFiles . '/*');
-		array_multisort(array_map('filemtime', $files ), SORT_NUMERIC, SORT_ASC, $files);
-		if (count($files) >= $maxBackups) {
-			if (file_exists($files[0])) {
-				unlink($files[0]);
-			}
-		}
+        // Delete old backup files, but keep at least $maxBackups
+        $files = glob($backupDirFiles . '/*');
+        array_multisort(array_map('filemtime', $files), SORT_NUMERIC, SORT_ASC, $files);
+        if (count($files) >= $maxBackups) {
+            if (file_exists($files[0])) {
+                unlink($files[0]);
+            }
+        }
 
-		// Delete old db backups, but keep at least $maxBackups
-		$files = glob($backupDirDb . '/*');
-		array_multisort(array_map('filemtime', $files), SORT_NUMERIC, SORT_ASC, $files);
-		if (count($files) > $maxBackups) {
-			if (file_exists($files[0])) {
-				unlink($files[0]);
-			}
-		}
+        // Delete old db backups, but keep at least $maxBackups
+        $files = glob($backupDirDb . '/*');
+        array_multisort(array_map('filemtime', $files), SORT_NUMERIC, SORT_ASC, $files);
+        if (count($files) > $maxBackups) {
+            if (file_exists($files[0])) {
+                unlink($files[0]);
+            }
+        }
 
-		if ($type === 'file') {
-			if (file_exists($path)) {
-				$filename = array_pop(explode('/', $path));
-				return copy($path, $backupDirFiles . '/' . $filename . '_' . time());
-			} else {
-				return false;
-			}
-		} else if ($type === 'db') {
-			if (file_exists($path)) {
-				$filename = array_pop(explode('/', $path));
-				return copy($path, $backupDirDb . '/' . $filename . '_' . time());
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
+        if ($type === 'file') {
+            if (file_exists($path)) {
+                $filename = array_pop(explode('/', $path));
+                return copy($path, $backupDirFiles . '/' . $filename . '_' . time());
+            } else {
+                return false;
+            }
+        } else if ($type === 'db') {
+            if (file_exists($path)) {
+                $filename = array_pop(explode('/', $path));
+                return copy($path, $backupDirDb . '/' . $filename . '_' . time());
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 
     public function isValidAuthFile() {
         $authFile = '/usr/share/phpietadmin/app/auth';
