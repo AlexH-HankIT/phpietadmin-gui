@@ -18,5 +18,5 @@ define('EXCEPTION_DIR', APP_DIR . '/exceptions');
 // If you change this, you have to adjust your htaccess/apache2 config file
 define('WEB_PATH', '/phpietadmin');
 define('DB_FILE', APP_DIR . '/config.db');
-define('AUTH_FILE', APP_DIR . 'auth');
-define('VERSION_FILE', BASE_DIR . 'version.json');
+define('AUTH_FILE', APP_DIR . '/auth');
+define('VERSION_FILE', BASE_DIR . '/version.json');
