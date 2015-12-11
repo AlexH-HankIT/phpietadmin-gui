@@ -3,8 +3,6 @@ namespace app\models;
 
 use Sqlite3;
 
-define('DBPATH', '/usr/share/phpietadmin/app/config.db');
-
 class Database extends \SQLite3 {
     public $database_result;
     private $database_action_log;
@@ -17,8 +15,8 @@ class Database extends \SQLite3 {
      *
      */
     public function __construct() {
-        if (is_writable(DBPATH)) {
-            $this->open(DBPATH, SQLITE3_OPEN_READWRITE);
+        if (is_writable(DB_FILE)) {
+            $this->open(DB_FILE, SQLITE3_OPEN_READWRITE);
             $this->busyTimeout(5000);
 
             $this->log_dir_path = $this->get_config('log_base')['value'];

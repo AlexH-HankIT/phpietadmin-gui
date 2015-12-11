@@ -7,7 +7,7 @@ use app\controllers,
 
 class App {
     protected $controllerObject;
-    protected $controllerName = 'phpietadmin\\app\\controllers\\dashboard';
+    protected $controllerName = 'app\\controllers\\dashboard';
     protected $method = 'index';
     protected $params = [];
 
@@ -17,8 +17,8 @@ class App {
 
         $url = $this->parseUrl();
 
-        if (file_exists(__DIR__ . '/../controllers/' . $url[0] . '.php')) {
-            $this->controllerName = 'phpietadmin\\app\\controllers\\' . $url[0];
+        if (file_exists(CONTROLLER_DIR . '/' . $url[0] . '.php')) {
+            $this->controllerName = 'app\\controllers\\' . $url[0];
             unset($url[0]);
         }
 
@@ -88,14 +88,14 @@ class App {
     }
 
     protected function showFooter() {
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'phpietadmin\app\controllers\auth') {
+        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
             $this->controllerObject->view('footer');
         }
     }
 
     protected function showHeader() {
         // If request is no ajax, display header, menu and footer
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'phpietadmin\app\controllers\auth') {
+        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
             $this->controllerObject->view('header', $this->controllerObject->baseModel->std->get_dashboard_data());
             $this->controllerObject->view('menu');
         }
@@ -103,7 +103,7 @@ class App {
 
     protected function checkAuth() {
         // auth controller is accessible without authentication
-        if ($this->controllerName !== 'phpietadmin\app\controllers\auth') {
+        if ($this->controllerName !== 'app\controllers\auth') {
             $session = $this->controllerObject->model('Session');
 
             if ($session->checkLoggedIn($this->controllerName) !== true) {
@@ -112,7 +112,7 @@ class App {
                     echo false;
                     die();
                 } else {
-                    header("Location: /phpietadmin/auth/login");
+                    header('Location: ' . WEB_PATH . '/auth/login');
                     die();
                 }
             }

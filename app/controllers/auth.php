@@ -35,11 +35,11 @@ class Auth extends core\BaseController {
             if ($return === true) {
                 if ($this->baseModel->std->IsXHttpRequest() === true) {
                     echo json_encode(array(
-                        'url' => '/phpietadmin/dashboard',
+                        'url' => WEB_PATH . '/dashboard',
                         'status' => 'success'
                     ));
                 } else {
-                    header('Location: /phpietadmin/dashboard');
+                    header('Location: ' . WEB_PATH . '/dashboard');
                 }
                 die();
             } else {
@@ -57,7 +57,7 @@ class Auth extends core\BaseController {
                         ));
                     } else {
                         $this->view('message', 'Wrong username or password!');
-                        header("refresh:2;url=/phpietadmin/auth/login");
+                        header('refresh:2;url=' . WEB_PATH . '/auth/login');
                     }
                     die();
                 }
@@ -81,7 +81,7 @@ class Auth extends core\BaseController {
     public function logout() {
         $session = $this->model('Session');
         $session->logout();
-        header("Location: /phpietadmin/auth/login");;
+        header('Location: ' . WEB_PATH . '/auth/login');;
         die();
     }
 }

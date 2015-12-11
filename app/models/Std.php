@@ -338,9 +338,8 @@ class Std {
     }
 
     public function isValidAuthFile() {
-        $authFile = '/usr/share/phpietadmin/app/auth';
-        if (file_exists($authFile)) {
-            if (filesize($authFile) !== 0) {
+        if (file_exists(AUTH_FILE)) {
+            if (filesize(AUTH_FILE) !== 0) {
                 return true;
             } else {
                 return false;
@@ -351,8 +350,8 @@ class Std {
     }
 
     public function getVersionFile() {
-        if (file_exists(__DIR__ . '/../../version.json')) {
-            $versionFile = json_decode(file_get_contents(__DIR__ . '/../../version.json'), true);
+        if (file_exists(VERSION_FILE)) {
+            $versionFile = json_decode(file_get_contents(VERSION_FILE), true);
             if ($versionFile !== NULL) {
                 return $versionFile;
             } else {

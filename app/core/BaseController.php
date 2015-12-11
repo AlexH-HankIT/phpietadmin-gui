@@ -10,7 +10,7 @@ class BaseController {
     // arg 3 = arg 2 for model
     public function model() {
         $arg = func_get_args();
-        $model = 'phpietadmin\\app\\models\\' . $arg[0];
+        $model = 'app\\models\\' . $arg[0];
 
         if (func_num_args() === 3) {
             return new $model($arg[1], $arg[2]);
@@ -23,9 +23,7 @@ class BaseController {
 
     public function view($view, $data = []) {
         if (file_exists(__DIR__ . '/../../app/views/' . $view . '.php')) {
-            require_once __DIR__ . '/../../app/views/' . $view . '.php';
-        } else if (file_exists(__DIR__ . '/../app/views/' . $view . '.php')) {
-            require_once __DIR__ . '/../app/views/' . $view . '.php';
+            require_once VIEW_DIR . '/' . $view . '.php';
         } else {
             echo 'File ' . htmlspecialchars($view) . ' not found!';
         }
