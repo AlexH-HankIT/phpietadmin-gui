@@ -9,11 +9,11 @@ define(['jquery'], function ($) {
                 global: false,
                 success: function (data) {
                     var $phpietadminVersion = $('#phpietadminversion'),
-                        answerVersionNumber = data['version'].split('.').join(''),
+                        answerVersionNumber = data.version.split('.').join(''),
                         installedVersionNumber = $phpietadminVersion.text().split('.').join('');
 
                     if (answerVersionNumber > installedVersionNumber) {
-                        $versionCheck.removeClass('label-info').addClass('label-warning').text(data['version'] + ' available!');
+                        $versionCheck.removeClass('label-info').addClass('label-warning').text(data.version + ' available!');
                     } else {
                         $versionCheck.removeClass('label-info').addClass('label-success').text('Up2date');
                     }
