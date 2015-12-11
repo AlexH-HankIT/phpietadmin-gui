@@ -1,5 +1,7 @@
-<?php namespace phpietadmin\app\models\lvm\lv;
-    use phpietadmin\app\models\lvm\vg;
+<?php
+namespace app\models\lvm\lv;
+
+use app\models\lvm\vg;
 
     /* ToDo:
         lv_attr:
