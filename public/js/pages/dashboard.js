@@ -8,7 +8,7 @@ define(['jquery'], function ($) {
                 type: 'get',
                 global: false,
                 success: function (data) {
-                    var $phpietadminVersion = $('#phpietadminversion'),
+                    var $phpietadminVersion = $('#phpietadminVersion'),
                         answerVersionNumber = data.version.split('.').join(''),
                         installedVersionNumber = $phpietadminVersion.attr('data-version').split('.').join('');
 
