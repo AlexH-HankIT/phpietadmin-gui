@@ -1,5 +1,7 @@
-<?php namespace phpietadmin\app\controllers;
-use phpietadmin\app\core;
+<?php
+namespace app\controllers;
+
+use app\core;
 
 class Lvm extends core\BaseController {
     public function add() {
@@ -18,7 +20,7 @@ class Lvm extends core\BaseController {
             if ($data !== false) {
                 $this->view('lvm/add', $data);
             } else {
-				$this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
+                $this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
             }
         }
     }
@@ -32,7 +34,7 @@ class Lvm extends core\BaseController {
                 if ($data !== false) {
                     $this->view('lvm/menu', $data);
                 } else {
-					$this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
+                    $this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
                 }
                 break;
             case 'extent':
@@ -48,12 +50,12 @@ class Lvm extends core\BaseController {
                     if (isset($_POST['remap']) && $_POST['remap'] === "true") {
                         $target = $this->model('target\Target', false);
 
-						$path = '/dev/' . $vg_name . '/' . $lv_name;
+                        $path = '/dev/' . $vg_name . '/' . $lv_name;
                         // check if lv is a lun
                         if ($target->is_lun($path) !== false) {
-							$iqn = $target->getIqnForLun($path);
-							$target = $this->model('target\Target', $iqn);
-							$target->reattachLun($path);
+                            $iqn = $target->getIqnForLun($path);
+                            $target = $this->model('target\Target', $iqn);
+                            $target->reattachLun($path);
                         } else {
                             // do nothing
                         }
@@ -118,7 +120,7 @@ class Lvm extends core\BaseController {
                             $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
                             $size = filter_input(INPUT_POST, 'size', FILTER_SANITIZE_NUMBER_FLOAT);
 
-                            $lv = $this->model('lvm\lv\Lv', $vg_name,$lv_name);
+                            $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
                             $lv->snapshot_lv($size);
                             echo json_encode($lv->logging->get_action_result());
                         } else if (isset($_POST['lv'], $_POST['vg'])) {
@@ -164,39 +166,39 @@ class Lvm extends core\BaseController {
                 }
                 break;
             case 'rename':
-				if (isset($_POST['lv'], $_POST['vg'], $_POST['name'])) {
+                if (isset($_POST['lv'], $_POST['vg'], $_POST['name'])) {
                     $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
                     $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
                     $new_name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
 
-					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
-					$lv->rename_lv($new_name);
-					echo json_encode($lv->logging->get_action_result());
-				} else if (isset($_POST['lv'], $_POST['vg'])) {
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
+                    $lv->rename_lv($new_name);
+                    echo json_encode($lv->logging->get_action_result());
+                } else if (isset($_POST['lv'], $_POST['vg'])) {
                     $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
                     $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
 
-					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
-					$data['lv'] = $lv->get_lv();
-					$this->view('lvm/rename', $data);
-				}
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
+                    $data['lv'] = $lv->get_lv();
+                    $this->view('lvm/rename', $data);
+                }
                 break;
             case 'delete':
-				if (isset($_POST['lv'], $_POST['vg'], $_POST['delete'])) {
+                if (isset($_POST['lv'], $_POST['vg'], $_POST['delete'])) {
                     $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
                     $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
 
-					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
-					$lv->remove_lv();
-					echo json_encode($lv->logging->get_action_result());
-				} else if (isset($_POST['lv'], $_POST['vg'])) {
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
+                    $lv->remove_lv();
+                    echo json_encode($lv->logging->get_action_result());
+                } else if (isset($_POST['lv'], $_POST['vg'])) {
                     $lv_name = filter_input(INPUT_POST, 'lv', FILTER_SANITIZE_STRING);
                     $vg_name = filter_input(INPUT_POST, 'vg', FILTER_SANITIZE_STRING);
 
-					$lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
-					$data['lv'] = $lv->get_lv();
-					$this->view('lvm/delete', $data);
-				}
+                    $lv = $this->model('lvm\lv\Lv', $vg_name, $lv_name);
+                    $data['lv'] = $lv->get_lv();
+                    $this->view('lvm/delete', $data);
+                }
                 break;
             default:
                 // invalid url
