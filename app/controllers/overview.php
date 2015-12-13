@@ -20,7 +20,8 @@ class Overview extends core\BaseController {
                     "data-pagination='true'",
                     "data-show-pagination-switch='true'",
                     "data-page-list='[10, 25, 50, 100, ALL]'",
-                    "data-url='/phpietadmin/overview/disks/json'"
+                    "data-url='/phpietadmin/overview/disks/json'",
+                    "data-search-align='left'"
                 ),
                 'body' => array(
                     array("field" => "NAME", "heading" => "NAME"),
