@@ -1,7 +1,7 @@
 
 // PIPS
 
-define(["jqueryui"],function(){
+define(["jqueryUi"],function(){
 	(function($) {
 
 		"use strict";

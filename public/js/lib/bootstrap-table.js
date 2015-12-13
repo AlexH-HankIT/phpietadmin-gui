@@ -4,7 +4,7 @@
  * https://github.com/wenzhixin/bootstrap-table/
  */
 
-define(['jquery'], function() {
+define(['jquery'], function($) {
     ! function ($) {
         'use strict';
 
@@ -406,7 +406,7 @@ define(['jquery'], function() {
                 return 'Search';
             },
             formatNoMatches: function () {
-                return 'No matching records found';
+                return 'No data found';
             },
             formatPaginationSwitch: function () {
                 return 'Hide/Show pagination';

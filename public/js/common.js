@@ -2,8 +2,8 @@ requirejs.config({
     baseUrl: "/phpietadmin/js",
     paths: {
         jquery: 'lib/jquery-2.1.4',
-        jqueryui: 'lib/jquery-ui',
-        jqueryui_slider: 'lib/jquery-ui-slider-pips',
+        jqueryUi: 'lib/jquery-ui',
+        jqueryUiSlider: 'lib/jquery-ui-slider-pips',
         bootstrap: 'lib/bootstrap.amd',
         filtertable: 'lib/jquery.filtertable.amd',
         qtip: 'lib/jquery.qtip',
@@ -20,24 +20,15 @@ requirejs.config({
         hideShowPassword: 'lib/hideShowPassword',
         vibrate: 'lib/vibrate',
         clipboard: 'lib/clipboard',
-        bootstrapSelect: 'lib/bootstrap-select'
-    },
-    shim: {
-        jqueryui: {
-            export: "$",
-            deps: ['jquery']
-        },
-        jqueryui_slider: {
-            export: "$",
-            deps: ['jqueryui']
-        }
+        bootstrapSelect: 'lib/bootstrap-select',
+        bootstrapTableExport: 'lib/bootstrap-table-export',
+        tableExport: 'lib/tableExport',
+        base64: 'lib/jquery.base64'
     }
 });
 
-define(['jquery', 'qtip', 'filtertable', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'blockUI', 'once', 'bootstraptable'], function ($, qtip, filterTable, mylibs, swal, pingjs, nprogress) {
-    var methods;
-
-    return methods = {
+define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'blockUI', 'once'], function ($, mylibs, swal, pingjs, nprogress) {
+    return {
         common: function () {
             // check if server is alive
             var uiBlocked = false,

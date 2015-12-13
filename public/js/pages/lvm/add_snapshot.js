@@ -1,4 +1,4 @@
-define(['mylibs', 'touchspin', 'jqueryui_slider'], function (mylibs, touchspin) {
+define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
     var methods;
 
     return methods = {
