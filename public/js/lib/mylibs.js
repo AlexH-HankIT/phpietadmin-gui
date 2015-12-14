@@ -116,7 +116,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             // just load everything into the workspace div and let the load() function only insert the container div
             // unfortunately the load() function strips all <script> tags if its called with a selector
             // this is a workaround for this
-            $('#workspace').remove();
+            $('.workspace').remove();
 
             // ignore the workspace and load only the container class
             var $workspace_wrapper = $('#workspace_wrapper');

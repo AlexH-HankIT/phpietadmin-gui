@@ -5,10 +5,9 @@
 			<li><a href='#'>Configure</a></li>
 			<li class='active'>Delete user</li>
 		</ol>
-
 		<div class="panel-body">
-			<button id="deleteuserbutton" class="btn btn-danger" type="submit"><span
-					class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
+			<button id="deleteuserbutton" class="btn btn-danger" type="submit">
+				<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
 			</button>
 		</div>
 		<div class="table-responsive">
@@ -34,7 +33,6 @@
 		</div>
 	</div>
 </div>
-
 <script>
 	require(['common'], function () {
 		require(['pages/target/deleteUser'], function (methods) {

@@ -1,4 +1,4 @@
-<div id='workspace'>
+<div class='workspace'>
     <div class="container">
         <div class="row">
             <div class='panel panel-default'>
@@ -6,7 +6,6 @@
                     <li><a href='#'>Overview</a></li>
                     <li class="active"><?php if ($data['type'] == 'volume') echo 'Volumes'; else if ($data['type'] == 'session') echo 'Sessions' ?></li>
                 </ol>
-
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -20,7 +19,6 @@
                             <th class="col-md-1"></th>
                         </tr>
                         </thead>
-
                         <tbody>
                         <?php foreach (array_reverse($data['data']) as $key => $row) { ?>
                             <tr class="clickable active" data-toggle="collapse" id="row<?php echo htmlspecialchars($key) ?>"
@@ -91,7 +89,6 @@
             </div>
         </div>
     </div>
-
     <script>
 		require(['common'], function () {
 			require(['pages/iettable', 'domReady'], function (methods, domReady) {

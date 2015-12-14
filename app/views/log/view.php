@@ -1,4 +1,4 @@
-<div id="workspace">
+<div class="workspace">
     <div class="container">
         <div class="table-responsive">
             <table data-toggle="table" class = "table table-bordered table-striped">

@@ -1,4 +1,4 @@
-<div id="workspace">
+<div class="workspace">
 	<div class="container">
 		<div id='configure_lvm_select'>
 			<div class='panel panel-default'>
