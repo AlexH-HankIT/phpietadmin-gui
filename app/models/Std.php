@@ -194,17 +194,6 @@ class Std {
         return $result;
     }
 
-    /**
-     * Hash a string an return it
-     * To prevent inconsistency with different hashing algorithms
-     *
-     * @param $string string that should be hashed
-     * @return string
-     */
-    public function hash_sha256_string($string) {
-        return hash('sha256', $string);
-    }
-
     public function check_if_file_contains_value($file, $value) {
         if (strpos(file_get_contents($file), $value) !== false) {
             return true;
