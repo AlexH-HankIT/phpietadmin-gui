@@ -71,12 +71,11 @@ class Session extends core\BaseModel {
                                 $this->logging->log_access_result('Logout due to timeout', 'failure', 'check', __METHOD__);
                                 $this->logout();
                             } else {
-                                // only update the timestamp if the inactivity logout feature is actually enabled
                                 // Update time
                                 // Don't update if controller is connection
                                 // A connection to this controller is always established,
                                 // even if the session is expired, but the site is still loaded
-                                if ($controller !== 'phpietadmin\app\controllers\connection') {
+                                if ($controller !== 'app\controllers\connection') {
                                     $this->updateLastActivity();
                                 }
                             }
