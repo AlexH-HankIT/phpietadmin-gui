@@ -20,3 +20,5 @@ define('WEB_PATH', '/phpietadmin');
 define('DB_FILE', APP_DIR . '/config.db');
 define('AUTH_FILE', APP_DIR . '/auth');
 define('VERSION_FILE', BASE_DIR . '/version.json');
+// Indicates the application mode, values are dev and pro
+define('MODE', 'dev');

@@ -3,5 +3,6 @@
   "version": "0.6.2",
   "download": "https://github.com/HankIT/phpietadmin-gui/releases/download/v0.6.2/phpietadmin-gui-0.6.2.tar.gz",
   "doc": "https://github.com/HankIT/phpietadmin-doc/wiki/v0.6.2-%5Bbeta%5D",
-  "release": "beta"
+  "release": "beta",
+  "status": "new"
 }
