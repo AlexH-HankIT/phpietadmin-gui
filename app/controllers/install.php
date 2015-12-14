@@ -12,12 +12,14 @@ class Install extends core\BaseController {
 
     public function index() {
         // show welcome page
-        // create database button
+        $this->view('install/welcome');
     }
 
     public function database() {
         // create database
+        exec('sqlite3 /tmp/test' . INSTALL_DIR . '/database.new.sql', $output, $code);
         // show results
+        // output json array
         // provide help in case of error
     }
 

@@ -88,14 +88,14 @@ class App {
     }
 
     protected function showFooter() {
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
+        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $this->controllerObject->view('footer');
         }
     }
 
     protected function showHeader() {
         // If request is no ajax, display header, menu and footer
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
+        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $this->controllerObject->view('header', $this->controllerObject->baseModel->std->get_dashboard_data());
             $this->controllerObject->view('menu');
         }
@@ -103,7 +103,7 @@ class App {
 
     protected function checkAuth() {
         // auth controller is accessible without authentication
-        if ($this->controllerName !== 'app\controllers\auth') {
+        if ($this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $session = $this->controllerObject->model('Session');
 
             if ($session->checkLoggedIn($this->controllerName) !== true) {
