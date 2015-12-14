@@ -28,3 +28,5 @@ class Install extends core\BaseController {
         // set version file status="installed"
     }
 }
+
+// Also save version in database, so the application knows when to update it
