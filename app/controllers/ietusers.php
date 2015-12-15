@@ -8,12 +8,19 @@ class Ietusers extends core\BaseController {
      *
      * Display table with users
      *
-     * @return      void
+     * @param      string $format
+     * @return     void
      *
      */
-    public function index() {
+    public function index($format = 'default') {
         // get all all username, passwords and ids from database and turn them over to the view
-        $this->view('ietUserTable', $this->baseModel->database->get_all_users());
+        $data = $this->baseModel->database->get_all_users();
+
+        if ($format === 'json') {
+            echo json_encode($data);
+        } else {
+            $this->view('ietUserTable', $data);
+        }
     }
 
     /**
