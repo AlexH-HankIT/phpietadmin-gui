@@ -1,0 +1,41 @@
+.top-buffer {
+    margin-top:20px;
+}
+
+span.glyphicon-30 {
+    font-size: 30px;
+    vertical-align: middle;
+}
+
+h2.form-signin-heading {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media screen and (min-width: 768px) {
+    button.btn {
+        margin-right: 5%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    button.btn {
+        margin-left: 5%;
+    }
+}
+
+.icon-danger {
+    color: #d9534f;
+}
+
+.icon-success {
+    color: #5cb85c;
+}
+
+.icon-warning {
+    color: #f0ad4e;
+}
+
+button.btn {
+    width: 190px;
+}

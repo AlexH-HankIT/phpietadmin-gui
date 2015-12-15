@@ -24,15 +24,10 @@ class Install extends core\BaseController {
         // create database
         exec('sqlite3 ' . $this->db_temp . ' < ' . INSTALL_DIR . '/database.new.sql', $output, $code);
 
-        // show results
-        echo "<pre>";
-        var_dump($output);
-        var_dump($code);
-        echo "</pre>";
-
-
-        // output json array
-        // provide help in case of error
+        echo json_encode(array(
+            'output' => $output,
+            'code' => $code,
+        ));
     }
 
     public function user() {
