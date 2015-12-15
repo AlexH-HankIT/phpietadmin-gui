@@ -152,7 +152,13 @@ INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, desc
     ('debug_log_enabled', 'Enable debug log', 6, 0, 'Log debug information', 5, 'input'),
     ('action_log_enabled', 'Enable action log', 6, 1, 'Log action information', 5, 'input'),
     ('access_log_enabled', 'Enable access log', 6, 1, 'Log access information', 5, 'input'),
-    ('database_log_enabled', 'Enable database log', 6, 1, 'Log database information', 5, 'input');
+    ('database_log_enabled', 'Enable database log', 6, 1, 'Log database information', 5, 'input'),
+    ('releaseCheck', 'Release check', 1, 'stable', "Release channel", (SELECT config_category_id from phpietadmin_config_category where category='release'), 'select'),
+    ('betaReleaseUrl', 'Beta release url', 1, 'https://raw.githubusercontent.com/HankIT/phpietadmin-doc/version/beta.json', '', (SELECT config_category_id from phpietadmin_config_category where category='release'), 'input'),
+    ('stableReleaseUrl', 'Stable release url', 1, 'https://raw.githubusercontent.com/HankIT/phpietadmin-doc/version/stable.json', '', (SELECT config_category_id from phpietadmin_config_category where category='release'), 'input');
+
+INSERT INTO phpietadmin_config (option, optioningui, config_type_id, value, editable_via_gui, description, config_category_id, field) VALUES
+('version', 'Version', 1, '0.6.3', 0, 'Database version', (SELECT config_category_id from phpietadmin_config_category where category='release'), 'input');
 
 INSERT INTO phpietadmin_object_type (value, display_name) VALUES
   ('hostv4', 'IPv4 Host'),
