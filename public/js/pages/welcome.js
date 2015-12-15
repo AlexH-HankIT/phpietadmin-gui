@@ -10,13 +10,13 @@ define(['jquery'], function($) {
                     type: 'get',
                     success: function (data) {
                         if(data.code !== 0) {
-                            $span.removeClass('glyphicon-remove icon-danger').addClass('glyphicon-ok icon-success ');
+                            $span.removeClass('glyphicon-remove icon-danger').addClass('glyphicon-ok icon-success');
                         } else {
                             $span.removeClass('glyphicon-remove icon-danger').addClass('glyphicon-warning-sign icon-warning');
                         }
                     },
                     error: function () {
-                        console.log("error");
+                        $span.removeClass('glyphicon-remove icon-danger').addClass('glyphicon-warning-sign icon-warning');
                     }
                 });
             });

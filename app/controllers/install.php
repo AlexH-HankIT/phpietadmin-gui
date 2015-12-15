@@ -10,7 +10,11 @@ class Install extends core\BaseController {
         // only calls this if the database does not exist and the version file status="new"
         // if database exists throw exception for security reasons
         // also if status="installed"
+        $user = $this->model('User', false);
+
         if (file_exists($this->db_temp)) {
+            throw new \Exception();
+        } else if ($user->returnData() !== false) {
             throw new \Exception();
         }
     }
@@ -31,6 +35,9 @@ class Install extends core\BaseController {
     }
 
     public function user() {
+        $user = $this->model('User', false);
+        var_dump($user->returnData());
+
         // create first user
         // echo path to script for auth code generation
         // provide help in case of error
