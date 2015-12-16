@@ -3,7 +3,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
 
     return methods = {
         add_event_handler_addservice: function () {
-            $('#workspace').once('click', '#addservice', function () {
+            $('.workspace').once('click', '#addservice', function () {
                 $('#addservicetablebody').prepend(
                     '<tr class="newrow">' +
                     '<td class="col-md-2"><input class="serviceenabled" type="checkbox" checked> <span class="label bestaetigung label-success serviceenabledspan">Success</span></td>' +
@@ -18,7 +18,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_deleteservicebutton: function () {
-            $('#workspace').once('click', '.deleteservice', function (e) {
+            $('.workspace').once('click', '.deleteservice', function (e) {
                 var $this_row = $(this).closest('tr');
                 if ($this_row.hasClass('newrow')) {
                     $this_row.remove();
@@ -66,7 +66,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_editservicebutton: function () {
-            $('#workspace').once('click', '.editservice', function (e) {
+            $('.workspace').once('click', '.editservice', function (e) {
                 var $this_row = $(this).closest('tr');
                 var $service_input = $this_row.find('.serviceinput');
                 var $edit_service_span = $('span', $this_row.closest('tr').find('.editservice'));
@@ -143,7 +143,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_serviceenabled: function () {
-            $('#workspace').once('change', '.serviceenabled', function (e) {
+            $('.workspace').once('change', '.serviceenabled', function (e) {
                 var data;
                 var $this = $(this);
                 var $this_row = $this.closest('tr');

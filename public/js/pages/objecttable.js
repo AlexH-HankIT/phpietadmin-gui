@@ -14,7 +14,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 addObjectModalNameInputDiv = addObjectModalNameInput.parent('div'),
                 addObjectModalNameInputError = addObjectModalNameInput.next('span'),
                 addObjectModalValueInputError = addObjectModalValueInput.next('span'),
-                workspace =  $('#workspace'),
+                workspace =  $('.workspace'),
                 showErrorInModal = $('#showErrorInModal'),
                 addObjectModal = $('#addObjectModal');
 
@@ -144,7 +144,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         addEventHandlerDeleteObject: function () {
-            $('#workspace').once('click', '.objectDelete', function () {
+            $('.workspace').once('click', '.objectDelete', function () {
                 var url = '/phpietadmin/objects',
                     $this = $(this);
                 swal({

@@ -4,7 +4,7 @@ define(['jquery'], function ($) {
     return methods = {
         add_event_handler_config: function () {
             /* Configuration menu */
-            $('#workspace').once('click', '#config-menu a', function () {
+            $('.workspace').once('click', '#config-menu a', function () {
                 var $this = $(this);
                 if ($('span', $this).hasClass('glyphicon-pencil')) {
                     $this.prev().removeAttr("disabled");
