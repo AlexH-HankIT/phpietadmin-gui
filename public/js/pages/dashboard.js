@@ -1,4 +1,4 @@
-define(['jquery'], function ($) {
+define(['jquery', 'mylibs'], function ($, mylibs) {
     return {
         checkVersion: function () {
             var $versionCheck = $('#versionCheck');
@@ -13,14 +13,18 @@ define(['jquery'], function ($) {
                         installedVersionNumber = $phpietadminVersion.attr('data-version').split('.').join('');
 
                     if (answerVersionNumber > installedVersionNumber) {
-                        $versionCheck.removeClass('label-info').addClass('label-warning').text(data.version + ' available!');
+                        $versionCheck.removeClass('btn-info').addClass('btn-warning').text(data.version + ' available!');
                     } else {
-                        $versionCheck.removeClass('label-info').addClass('label-success').text('Up2date');
+                        $versionCheck.removeClass('btn-info').addClass('btn-success').text('Up2date');
                     }
                 },
                 error: function () {
-                    $versionCheck.removeClass('label-info').addClass('label-warning').text('Version unknown!');
+                    $versionCheck.removeClass('btn-info').addClass('btn-warning').text('Version unknown!');
                 }
+            });
+
+            $versionCheck.once('click', function() {
+                mylibs.load_workspace($(this).attr('data-url'));
             });
         }
     };
