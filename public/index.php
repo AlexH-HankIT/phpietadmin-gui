@@ -1,5 +1,26 @@
 <?php
 use app\core;
 
-require_once __DIR__ . '/../app/core/autoloader.php';
-$app = new core\App;
+// Require files
+require_once __DIR__ . '/../app/core/const.inc.php';
+require_once MODEL_DIR . '/functions.php';
+
+// Register autoloader
+spl_autoload_register('loader');
+
+// Create application
+$app = new core\App();
+
+// Read version file
+try {
+    $versionFile = getVersionFile();
+} catch (Exception $e) {
+    die('<h1>Invalid version file!</h1>');
+}
+
+// Check if installation is installed correctly
+if ($versionFile['status'] === 'new' || !file_exists(DB_FILE)) {
+    $app->install();
+} else {
+    $app->app();
+}

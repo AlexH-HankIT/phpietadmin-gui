@@ -10,16 +10,19 @@ class App {
     protected $controllerName = 'app\\controllers\\dashboard';
     protected $method = 'index';
     protected $params = [];
+    protected $url;
 
     public function __construct() {
         array_filter($_POST, array($this, 'sanitize'));
         array_filter($_GET, array($this, 'sanitize'));
 
-        $url = $this->parseUrl();
+        $this->url = $this->parseUrl();
+    }
 
-        if (file_exists(CONTROLLER_DIR . '/' . $url[0] . '.php')) {
-            $this->controllerName = 'app\\controllers\\' . $url[0];
-            unset($url[0]);
+    public function app() {
+        if (file_exists(CONTROLLER_DIR . '/' . $this->url[0] . '.php')) {
+            $this->controllerName = 'app\\controllers\\' . $this->url[0];
+            unset($this->url[0]);
         }
 
         $registry = Registry::getInstance();
@@ -35,17 +38,17 @@ class App {
 
         // If the method is not found throw an exception, display an error message and exit the application
         try {
-            if (isset($url[1])) {
-                if (method_exists($this->controllerObject, $url[1])) {
-                    $this->method = $url[1];
-                    unset($url[1]);
+            if (isset($this->url[1])) {
+                if (method_exists($this->controllerObject, $this->url[1])) {
+                    $this->method = $this->url[1];
+                    unset($this->url[1]);
                 } else {
                     if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
                         http_response_code(404);
-                        echo 'Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!';
+                        echo 'Method ' . htmlspecialchars($this->url[1]) . ' doesn\'t exist!';
                     } else {
                         http_response_code(404);
-                        $this->controllerObject->view('message', 'Method ' . $url[1] . ' doesn\'t exist!');
+                        $this->controllerObject->view('message', 'Method ' . $this->url[1] . ' doesn\'t exist!');
                     }
                     throw new \Exception();
                 }
@@ -69,12 +72,22 @@ class App {
             die();
         }
 
-        $this->params = $url ? array_values($url) : [];
+        $this->params = $this->url ? array_values($this->url) : [];
         call_user_func_array([$this->controllerObject, $this->method], $this->params);
         $this->showFooter();
     }
 
-    public function parseUrl() {
+    public function install() {
+        $this->controllerObject = new controllers\install();
+        if (method_exists($this->controllerObject, $this->url[1])) {
+            $this->method = $this->url[1];
+            unset($this->url[1]);
+            $this->params = $this->url ? array_values($this->url) : [];
+            call_user_func_array([$this->controllerObject, $this->method], $this->params);
+        }
+    }
+
+    private function parseUrl() {
         if (isset($_GET['url'])) {
             return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
         }
@@ -83,17 +96,17 @@ class App {
     // Sanitize user input
     // Unlikely that this does something useful
     // but it's a welcome addition
-    protected function sanitize(&$value) {
+    private function sanitize(&$value) {
         $value = addslashes(strip_tags(trim($value)));
     }
 
-    protected function showFooter() {
+    private function showFooter() {
         if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $this->controllerObject->view('footer');
         }
     }
 
-    protected function showHeader() {
+    private function showHeader() {
         // If request is no ajax, display header, menu and footer
         if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $this->controllerObject->view('header', $this->controllerObject->baseModel->std->get_dashboard_data());
@@ -101,7 +114,7 @@ class App {
         }
     }
 
-    protected function checkAuth() {
+    private function checkAuth() {
         // auth controller is accessible without authentication
         if ($this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $session = $this->controllerObject->model('Session');

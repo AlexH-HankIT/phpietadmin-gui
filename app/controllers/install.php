@@ -3,38 +3,38 @@ namespace app\controllers;
 
 use app\core;
 
-class Install extends core\BaseController {
-    private $db_temp = '/tmp/test';
+class install extends core\BaseController {
+    //private $db_temp = '/tmp/test';
+    private $dbExists = false;
 
-    public function __construct() {
+   public function __construct() {
         // only calls this if the database does not exist and the version file status="new"
         // if database exists throw exception for security reasons
         // also if status="installed"
-        $user = $this->model('User', false);
-        $versionFile = $this->baseModel->std->getVersionFile();
-
-        if (file_exists($this->db_temp)) {
-            throw new \Exception();
-        } else if ($user->returnData() !== false) {
-            throw new \Exception();
-        } else if ($versionFile['status'] !== 'new') {
-            throw new \Exception();
+        if (file_exists(DB_FILE)) {
+            $this->dbExists = true;
         }
     }
 
     public function index() {
+        $data = array(
+            'database' => $this->dbExists
+        );
+
         // show welcome page
-        $this->view('install/welcome');
+        $this->view('install/welcome', $data);
     }
 
     public function database() {
-        // create database
-        exec('sqlite3 ' . $this->db_temp . ' < ' . INSTALL_DIR . '/database.new.sql', $output, $code);
+        if ($this->dbExists === false) {
+            // create database
+            exec('sqlite3 ' . DB_FILE . ' < ' . INSTALL_DIR . '/database.new.sql', $output, $code);
 
-        echo json_encode(array(
-            'output' => $output,
-            'code' => $code,
-        ));
+            echo json_encode(array(
+                'output' => $output,
+                'code' => $code,
+            ));
+        }
     }
 
     public function user() {

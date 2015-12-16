@@ -12,7 +12,11 @@
         <div class="row top-buffer center">
             <div class="col-xs-12">
                 <button id="createDatabaseButton" class="btn btn-primary btn-lg">1. Create database</button>
-                <span class="hidden-xs glyphicon glyphicon-remove glyphicon-30 icon-danger" aria-hidden="true"></span>
+                <?php if ($data['database'] === true) { ?>
+                    <span class="hidden-xs glyphicon glyphicon-ok glyphicon-30 icon-success" aria-hidden="true"></span>
+                <?php } else { ?>
+                    <span class="hidden-xs glyphicon glyphicon-remove glyphicon-30 icon-danger" aria-hidden="true"></span>
+                <?php } ?>
             </div>
         </div>
         <div class="row top-buffer center">
