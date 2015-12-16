@@ -55,7 +55,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
             $('.searchabletable').filterTable({minRows: 0});
         },
         addEventHandlerDeleteUserRow: function () {
-            $('#workspace').once('click', '.deleteuserrow', function () {
+            $('.workspace').once('click', '.deleteuserrow', function () {
                 var $thisRow = $(this).closest('tr'),
                     url = '/phpietadmin/ietusers';
 
@@ -100,7 +100,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
             });
         },
         addUserModal: function() {
-            var $workspace = $('#workspace'),
+            var $workspace = $('.workspace'),
                 $addUserUsernameInput = $('#addUserUsernameInput'),
                 $createUserModal = $('#createUserModal');
 

@@ -8,7 +8,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_servicestart: function () {
-            $('#workspace').once('click', '.servicestart', function () {
+            $('.workspace').once('click', '.servicestart', function () {
                 $.ajax({
                     url: '/phpietadmin/service/change_service_state',
                     data: {
@@ -30,7 +30,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_servicestop: function () {
-            $('#workspace').once('click', '.servicestop', function () {
+            $('.workspace').once('click', '.servicestop', function () {
                 var data = {
                     'servicename': $(this).closest('tr').find('.servicename').text(),
                     'stop': ''
@@ -54,7 +54,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_servicerestart: function () {
-            $('#workspace').once('click', '.servicerestart', function () {
+            $('.workspace').once('click', '.servicerestart', function () {
                 var data = {
                     'servicename': $(this).closest('tr').find('.servicename').text(),
                     'restart': ''
