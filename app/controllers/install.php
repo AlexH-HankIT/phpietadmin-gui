@@ -3,8 +3,9 @@ namespace app\controllers;
 
 use app\core;
 
+require_once MODEL_DIR . '/functions.php';
+
 class install extends core\BaseController {
-    //private $db_temp = '/tmp/test';
     private $dbExists = false;
 
    public function __construct() {
@@ -49,6 +50,12 @@ class install extends core\BaseController {
             $password2 = filter_input(INPUT_POST, 'password2', FILTER_SANITIZE_STRING);
             $user = $this->model('User', $username);
             $user->addFirstUser($authCode, $password1, $password2);
+
+            // Update version file
+            $versionFile = getVersionFile();
+            $versionFile['status'] = 'installed';
+            file_put_contents(VERSION_FILE, json_encode($versionFile));
+
             echo json_encode($user->logging->get_action_result());
         }
     }

@@ -1,8 +1,7 @@
 define(['jquery'], function($) {
     return {
         test: function () {
-            var $container = $('div.container'),
-                $createFirstUserButton = $('#createFirstUserButton'),
+            var $createFirstUserButton = $('#createFirstUserButton'),
                 $createDatabaseButton = $('#createDatabaseButton');
 
             if ($createDatabaseButton.next('span').hasClass('icon-success')) {
@@ -33,9 +32,37 @@ define(['jquery'], function($) {
                 }
             });
 
-            $container.on('click', '#createFirstUserButton', function() {
+            $('#createUserButton').on('click', function() {
+                var $password,
+                    $passwordRepeat,
+                    $username,
+                    $authCode;
 
+                $password = $('#addUserPasswordInput');
+                $passwordRepeat = $('#addUserPasswordInputRepeat');
+                $username = $('#addUserUsernameInput');
+                $authCode = $('#addUserAuthCode');
+
+                $.ajax({
+                    url: '/phpietadmin/install/user',
+                    type: 'post',
+                    data: {
+                        'password1': $password.val(),
+                        'password2': $passwordRepeat.val(),
+                        'username': $username.val(),
+                        'authCode': $authCode.val()
+
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
             });
+
+
         }
     }
 });

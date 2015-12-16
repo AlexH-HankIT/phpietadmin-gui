@@ -15,7 +15,6 @@ class App {
     public function __construct() {
         array_filter($_POST, array($this, 'sanitize'));
         array_filter($_GET, array($this, 'sanitize'));
-
         $this->url = $this->parseUrl();
     }
 
@@ -25,14 +24,9 @@ class App {
             unset($this->url[0]);
         }
 
-        $registry = Registry::getInstance();
-        $registry->set('database', new models\Database());
-        $registry->set('logging', new logging\Logging());
-        $registry->set('std', new models\Std());
-
         $this->controllerObject = new $this->controllerName;
-        $this->controllerObject->baseModel = new BaseModel();
 
+        $this->setupRegistry();
         $this->checkAuth();
         $this->showHeader();
 
@@ -79,6 +73,15 @@ class App {
 
     public function install() {
         $this->controllerObject = new controllers\install();
+
+        if (file_exists(DB_FILE)) {
+            $this->setupRegistry();
+        }
+
+        if (!isset($this->url[1])) {
+            $this->url[1] = 'index';
+        }
+
         if (method_exists($this->controllerObject, $this->url[1])) {
             $this->method = $this->url[1];
             unset($this->url[1]);
@@ -91,6 +94,14 @@ class App {
         if (isset($_GET['url'])) {
             return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
         }
+    }
+
+    private function setupRegistry() {
+        $registry = Registry::getInstance();
+        $registry->set('database', new models\Database());
+        $registry->set('logging', new logging\Logging());
+        $registry->set('std', new models\Std());
+        $this->controllerObject->baseModel = new BaseModel();
     }
 
     // Sanitize user input
