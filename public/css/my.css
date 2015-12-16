@@ -108,3 +108,7 @@ div.ui-slider-range.ui-widget-header {
     height:43px;
     padding-top: 11px;
 }
+
+.text-bold {
+    font-weight: bold;
+}

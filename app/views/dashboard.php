@@ -5,6 +5,7 @@
                 <li class="active">Dashboard</li>
             </ol>
 
+
             <table class = "table table-striped">
                 <thead>
                 <tr>
@@ -20,7 +21,7 @@
                     <td class="dashboardoption">version</td>
                     <td id="phpietadminVersion" class="dashboardvalue" data-version="<?php echo htmlspecialchars($data['phpietadminversion']); ?>">
                         <?php echo htmlspecialchars($data['phpietadminversion']); ?>
-                        <span id='versionCheck' class="label label-info">Getting version...</span>
+                        <button data-url="<?php echo WEB_PATH ?>/config/release" id='versionCheck' class="btn btn-info btn-xs text-bold">Getting version...</button>
                     </td>
                 </tr>
                 <tr>

@@ -13,13 +13,13 @@
 <link href="/phpietadmin/css/my.css" rel="stylesheet">
 <script data-main="/phpietadmin/js/common" src="/phpietadmin/js/lib/require.js"></script>
 <title>phpietadmin<?php if (isset($data['hostname'])) echo ' on ' . htmlspecialchars($data['hostname']); ?></title>
-<noscript>
-	<div class="container">
-		<div class="alert alert-warning" role="alert">
-			<h3 align="center">Warning - JavaScript is disabled. This application won't work correctly!</h3>
-		</div>
-	</div>
-</noscript>
+<div class="container">
+    <noscript>
+        <div class="alert alert-warning" role="alert">
+            <h3 class="center">Warning - JavaScript is disabled. This application won't work correctly!</h3>
+        </div>
+    </noscript>
+</div>
 <div hidden id="offlinemessage">
     Server connection failed... <img src="/phpietadmin/img/ajax-loader.gif" alt="Loading">
 </div>
