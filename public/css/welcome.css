@@ -39,3 +39,7 @@ h2.form-signin-heading {
 button.btn {
     width: 190px;
 }
+
+.center {
+    text-align: center;
+}

@@ -9,13 +9,13 @@
 <div class="container">
     <div class="form-signin">
         <h2 class="form-signin-heading">Installation</h2>
-        <div align="center" class="row top-buffer">
+        <div class="row top-buffer center">
             <div class="col-xs-12">
                 <button id="createDatabaseButton" class="btn btn-primary btn-lg">1. Create database</button>
                 <span class="hidden-xs glyphicon glyphicon-remove glyphicon-30 icon-danger" aria-hidden="true"></span>
             </div>
         </div>
-        <div align="center" class="row top-buffer">
+        <div class="row top-buffer center">
             <div class="col-md-12">
                 <button id="createFirstUserButton" class="btn btn-primary btn-lg" disabled>2. Create first user</button>
                 <span class="hidden-xs glyphicon glyphicon-remove glyphicon-30 icon-danger" aria-hidden="true"></span>
