@@ -1,4 +1,4 @@
-<div id="workspace">
+<div class="workspace">
     <div class="container">
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>

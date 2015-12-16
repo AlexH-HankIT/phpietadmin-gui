@@ -1,4 +1,4 @@
-<div id="configureTargetMenu" class="container">
+<div class="container">
 	<ul class="nav nav-tabs">
 		<li class="dropdown">
 			<a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-hdd"> LUN <b class = "caret"></b></a>

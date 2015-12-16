@@ -10,18 +10,18 @@ class Overview extends core\BaseController {
         if ($format === 'json') {
             echo $disk->get_disks('json');
         } else {
-            $data = array(
+            // Navigation
+            $this->view('breadcrumb', array(
+                    array('href' => '#', 'text' => 'Overview'),
+                    array('text' => 'Disks')
+                )
+            );
+
+            // Table
+            $table = array(
                 'head' => array(
                     "data-data-field='body'",
-                    "data-show-refresh='true'",
-                    "data-search='true'",
-                    "data-show-export='true'",
-                    "data-show-columns='true'",
-                    "data-pagination='true'",
-                    "data-show-pagination-switch='true'",
-                    "data-page-list='[10, 25, 50, 100, ALL]'",
-                    "data-url='/phpietadmin/overview/disks/json'",
-                    "data-search-align='left'"
+                    "data-url='" . WEB_PATH . "/overview/disks/json'"
                 ),
                 'body' => array(
                     array("field" => "NAME", "heading" => "NAME"),
@@ -32,10 +32,7 @@ class Overview extends core\BaseController {
                     array("field" => "MOUNTPOINT", "heading" => "MOUNTPOINT")
                 )
             );
-
-            // display empty template
-            // javascript can insert the json there
-            $this->view('bootstrapTable', $data);
+            $this->view('bootstrapTable', $table);
         }
     }
 

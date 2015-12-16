@@ -1,4 +1,4 @@
-<div id="workspace">
+<div class="workspace">
     <div class = "container">
         <?php if (is_array($data)) { ?>
             <?php if (!empty($data['type'])) { ?>

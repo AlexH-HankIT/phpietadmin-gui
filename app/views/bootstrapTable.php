@@ -1,6 +1,8 @@
-<div id="workspace">
+<div class="workspace">
     <div class="container">
-        <table id="table"
+        <table
+            id="table"
+            data-show-export="true"
             <?php foreach ($data['head'] as $head) { ?>
                 <?php echo $head ?>
             <?php } ?>>
