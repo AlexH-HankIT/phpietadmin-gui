@@ -1,6 +1,6 @@
-define(['jquery', 'bootstrap'], function($) {
+define(['jquery', 'bootstrap'], function ($) {
     return {
-        createDatabase: function() {
+        createDatabase: function () {
             var $createDatabaseButton,
                 $createFirstUserButton;
 
@@ -11,7 +11,7 @@ define(['jquery', 'bootstrap'], function($) {
                 $createFirstUserButton.attr('disabled', false);
             }
 
-            $createDatabaseButton.on('click', function() {
+            $createDatabaseButton.on('click', function () {
                 var $span = $(this).next('span');
 
                 // If the span has the icon-success class
@@ -21,7 +21,7 @@ define(['jquery', 'bootstrap'], function($) {
                         url: '/phpietadmin/install/database',
                         type: 'get',
                         success: function (data) {
-                            if(data.code !== 0) {
+                            if (data.code !== 0) {
                                 $span.removeClass('glyphicon-remove icon-danger').addClass('glyphicon-ok icon-success');
                                 $createFirstUserButton.attr('disabled', false);
                             } else {
@@ -60,18 +60,15 @@ define(['jquery', 'bootstrap'], function($) {
             });
 
             // On modal hide
-            $addUserModal.on('hidden.bs.dropdown', function () {
+            $addUserModal.on('hidden.bs.modal', function () {
                 $('#addUserAuthCode').val('');
             });
 
-            $('div.modal-footer').children('input.btn').on('click', function() {
-                // Validate input fields not empty
+            $('div.modal-body').children('form').submit(function () {
+                console.log($(this).children('input[name="authCode"]'));
 
-                $('form').once('submit', function(data) {
-                    console.log(data);
-                });
                 $.ajax({
-                    url: '/phpietadmin/install/user',
+                    url: $(this).attr('action'),
                     type: 'post',
                     data: {
                         'password1': $password.val(),
@@ -80,13 +77,19 @@ define(['jquery', 'bootstrap'], function($) {
                         'authCode': $authCode.val()
                     },
                     success: function (data) {
-                        $addUserModal.modal('hide');
                         console.log(data);
+                        if (data.code !== 0) {
+                            $('div.error').text(data.message)
+                        } else {
+                            $addUserModal.modal('hide');
+                        }
                     },
                     error: function (data) {
                         console.log(data);
                     }
                 });
+
+                return false;
             });
         }
     }

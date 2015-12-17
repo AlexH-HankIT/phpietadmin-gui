@@ -26,10 +26,8 @@
                         <input type="password" name="password2" class="form-control" placeholder="Repeat password" required>
                     </div>
                     <div class="form-group error"></div>
+                    <input class="btn btn-lg btn-primary btn-block" type='submit' value='Create'>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <input class="btn btn-lg btn-primary btn-block" type='submit' value='Create'>
             </div>
         </div>
     </div>
