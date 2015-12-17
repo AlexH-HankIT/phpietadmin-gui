@@ -5,7 +5,7 @@ use app\controllers,
     app\models\logging,
     app\models;
 
-require_once MODEL_DIR . '/functions.php';
+require_once MODEL_DIR . '/misc.php';
 
 class App {
     protected $controllerObject;
@@ -13,36 +13,50 @@ class App {
     protected $method = 'index';
     protected $params = [];
     protected $url;
+    protected $installed;
 
     public function __construct() {
         array_filter($_POST, array($this, 'sanitize'));
         array_filter($_GET, array($this, 'sanitize'));
         $this->url = $this->parseUrl();
+
+        if (!file_exists(DB_FILE) || getVersionFile()['status'] === 'new') {
+            $this->installed = false;
+        } else {
+            $this->installed = true;
+        }
     }
 
     public function app() {
-        if (!file_exists(DB_FILE)) {
-            header('Location: ' . WEB_PATH . '/install');;
-            $this->controllerName = 'app\\controllers\\install' ;
-        }
-
         if (file_exists(CONTROLLER_DIR . '/' . $this->url[0] . '.php')) {
             $this->controllerName = 'app\\controllers\\' . $this->url[0];
             unset($this->url[0]);
         }
 
+        if ($this->installed === false) {
+            if ($this->controllerName !== 'app\\controllers\\install') {
+                header('Location: ' . WEB_PATH . '/install');
+                $this->controllerName = 'app\\controllers\\install';
+            }
+        } else {
+            if ($this->controllerName === 'app\\controllers\\install') {
+                die('<h1>Already installed</h1>');
+            }
+        }
+
         $this->controllerObject = new $this->controllerName;
 
+        // Do not use $this->installed here, because it is also false if the database exists
+        // but the version file has status="new"
         if (file_exists(DB_FILE)) {
             $this->setupRegistry();
         }
 
         $this->checkAuth();
 
-        if (file_exists(DB_FILE)) {
+        if ($this->installed === true) {
             $this->showHeader();
         }
-
 
         // If the method is not found throw an exception, display an error message and exit the application
         try {
@@ -83,27 +97,8 @@ class App {
         $this->params = $this->url ? array_values($this->url) : [];
         call_user_func_array([$this->controllerObject, $this->method], $this->params);
 
-        if (file_exists(DB_FILE)) {
+        if ($this->installed === true) {
             $this->showFooter();
-        }
-    }
-
-    public function install() {
-        $this->controllerObject = new controllers\install();
-
-        if (file_exists(DB_FILE)) {
-            $this->setupRegistry();
-        }
-
-        if (!isset($this->url[1])) {
-            $this->url[1] = 'index';
-        }
-
-        if (method_exists($this->controllerObject, $this->url[1])) {
-            $this->method = $this->url[1];
-            unset($this->url[1]);
-            $this->params = $this->url ? array_values($this->url) : [];
-            call_user_func_array([$this->controllerObject, $this->method], $this->params);
         }
     }
 

@@ -49,13 +49,9 @@ function get_dashboard_data() {
     $data['hostname'] = file_get_contents('/etc/hostname');
 
     // get version and release
-    try {
-        $versionFile = getVersionFile();
-        $data['phpietadminversion'] = $versionFile['version'];
-        $data['release'] = $versionFile['release'];
-    } catch (\Exception $e) {
-        // Error message
-    }
+    $versionFile = getVersionFile();
+    $data['phpietadminversion'] = $versionFile['version'];
+    $data['release'] = $versionFile['release'];
 
     $data['distribution'] = shell_exec('lsb_release -sd');
 

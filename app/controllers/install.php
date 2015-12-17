@@ -3,7 +3,7 @@ namespace app\controllers;
 
 use app\core;
 
-require_once MODEL_DIR . '/functions.php';
+require_once MODEL_DIR . '/misc.php';
 
 class install extends core\BaseController {
     private $dbExists = false;
@@ -15,18 +15,16 @@ class install extends core\BaseController {
         if (file_exists(DB_FILE)) {
             $this->dbExists = true;
         }
-    }
+   }
 
-    public function index() {
-        $data = array(
-            'database' => $this->dbExists
-        );
-
+   public function index() {
         // show welcome page
-        $this->view('install/welcome', $data);
-    }
+        $this->view('install/welcome', array(
+            'database' => $this->dbExists
+        ));
+   }
 
-    public function database() {
+   public function database() {
         if ($this->dbExists === false) {
             // create database
             exec('sqlite3 ' . DB_FILE . ' < ' . INSTALL_DIR . '/database.new.sql', $output, $code);
@@ -36,13 +34,10 @@ class install extends core\BaseController {
                 'code' => $code,
             ));
         }
-    }
+   }
 
-    public function user() {
+   public function user() {
         // create first user
-        // echo path to script for auth code generation
-        // provide help in case of error
-        // set version file status="installed"
         if (isset($_POST['password1'], $_POST['password2'], $_POST['authCode'], $_POST['username'])) {
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
             $authCode = filter_input(INPUT_POST, 'authCode', FILTER_SANITIZE_STRING);
@@ -51,12 +46,16 @@ class install extends core\BaseController {
             $user = $this->model('User', $username);
             $user->addFirstUser($authCode, $password1, $password2);
 
-            // Update version file
-            $versionFile = getVersionFile();
-            $versionFile['status'] = 'installed';
-            file_put_contents(VERSION_FILE, json_encode($versionFile));
+            $return = $user->logging->get_action_result();
 
-            echo json_encode($user->logging->get_action_result());
+            if ($return['code'] === 0) {
+                // Update version file
+                $versionFile = getVersionFile();
+                $versionFile['status'] = 'installed';
+                file_put_contents(VERSION_FILE, json_encode($versionFile));
+            }
+
+            echo json_encode($return);
         }
-    }
+   }
 }

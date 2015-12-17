@@ -1,5 +1,5 @@
 <?php
-require_once '../app/core/const.inc.php';
+require_once __DIR__ . '/../app/core/const.inc.php';
 
 function random_password( $length = 8 ) {
 	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

@@ -7,7 +7,7 @@
 <title>phpietadmin login</title>
 <div class="container">
     <form method="post" class="form-signin" autocomplete="off">
-        <h2 class="center" class="form-signin-heading">Please create a user</h2>
+        <h2 class="center form-signin-heading">Please create a user</h2>
         <input type="password" name="auth_code" id="auth_code" class="form-control" placeholder="Auth code" required autofocus>
         <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required>
         <input type="password" name="password1" id="inputPassword1" class="form-control" placeholder="Password" required>

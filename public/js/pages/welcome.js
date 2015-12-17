@@ -1,8 +1,11 @@
-define(['jquery'], function($) {
+define(['jquery', 'bootstrap'], function($) {
     return {
-        test: function () {
-            var $createFirstUserButton = $('#createFirstUserButton'),
-                $createDatabaseButton = $('#createDatabaseButton');
+        createDatabase: function() {
+            var $createDatabaseButton,
+                $createFirstUserButton;
+
+            $createDatabaseButton = $('#createDatabaseButton');
+            $createFirstUserButton = $('#createFirstUserButton');
 
             if ($createDatabaseButton.next('span').hasClass('icon-success')) {
                 $createFirstUserButton.attr('disabled', false);
@@ -31,18 +34,42 @@ define(['jquery'], function($) {
                     });
                 }
             });
+        },
+        addUserModal: function () {
+            var $password,
+                $passwordRepeat,
+                $username,
+                $authCode,
+                $addUserModal,
+                $passwordVal,
+                $passwordRepeatVal,
+                $usernameVal,
+                $authCodeVal;
 
-            $('#createUserButton').on('click', function() {
-                var $password,
-                    $passwordRepeat,
-                    $username,
-                    $authCode;
+            $password = $('#addUserPasswordInput');
+            $passwordRepeat = $('#addUserPasswordInputRepeat');
+            $username = $('#addUserUsernameInput');
+            $authCode = $('#addUserAuthCode');
+            $addUserModal = $('#addUserModal');
 
-                $password = $('#addUserPasswordInput');
-                $passwordRepeat = $('#addUserPasswordInputRepeat');
-                $username = $('#addUserUsernameInput');
-                $authCode = $('#addUserAuthCode');
+            $passwordVal = $password.val();
 
+            // On modal show
+            $addUserModal.on('shown.bs.modal', function () {
+                $('#addUserAuthCode').focus();
+            });
+
+            // On modal hide
+            $addUserModal.on('hidden.bs.dropdown', function () {
+                $('#addUserAuthCode').val('');
+            });
+
+            $('div.modal-footer').children('input.btn').on('click', function() {
+                // Validate input fields not empty
+
+                $('form').once('submit', function(data) {
+                    console.log(data);
+                });
                 $.ajax({
                     url: '/phpietadmin/install/user',
                     type: 'post',
@@ -51,9 +78,9 @@ define(['jquery'], function($) {
                         'password2': $passwordRepeat.val(),
                         'username': $username.val(),
                         'authCode': $authCode.val()
-
                     },
                     success: function (data) {
+                        $addUserModal.modal('hide');
                         console.log(data);
                     },
                     error: function (data) {
@@ -61,8 +88,6 @@ define(['jquery'], function($) {
                     }
                 });
             });
-
-
         }
     }
 });

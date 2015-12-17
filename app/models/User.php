@@ -60,23 +60,25 @@ class User extends core\BaseModel {
 
         // validate user table is empty to prevent this from working if there are already users
         if ($users === false) {
-            if ($password1 === $password2) {
-                $authCode = file_get_contents(AUTH_FILE);
-
-                if ($authCode === $user_input_auth_code) {
-                    $return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password1), 'root', true);
-
-                    if ($return !== 0) {
-                        $this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
+            if (file_exists(AUTH_FILE)) {
+                if ($password1 === $password2) {
+                    $authCode = file_get_contents(AUTH_FILE);
+                    if ($authCode === $user_input_auth_code) {
+                        $return = $this->database->add_phpietadmin_user($this->username, $this->hashPassword($password1), 'root', true);
+                        if ($return !== 0) {
+                            $this->logging->log_action_result('The user ' . $this->username . ' was not added to the database!', array('result' => $return, 'code_type' => 'extern'), __METHOD__);
+                        } else {
+                            $this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
+                            unlink(AUTH_FILE);
+                        }
                     } else {
-                        $this->logging->log_action_result('The user ' . $this->username . ' was successfully added to the database!', array('result' => 0, 'code_type' => 'intern'), __METHOD__);
-                        unlink(AUTH_FILE);
+                        $this->logging->log_action_result('Auth code is wrong!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
                     }
                 } else {
-                    $this->logging->log_action_result('Auth code is wrong!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
+                    $this->logging->log_action_result('Passwords do not match!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
                 }
             } else {
-                $this->logging->log_action_result('Passwords do not match!', array('result' => 10, 'code_type' => 'intern'), __METHOD__);
+                $this->logging->log_action_result('Please generate an auth code first!', array('result' => 3, 'code_type' => 'intern'), __METHOD__);
             }
         } else {
             $this->logging->log_action_result('The first user is already configured!', 1, 'first_login', __METHOD__);

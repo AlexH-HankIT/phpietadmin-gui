@@ -6,62 +6,34 @@
 <link href="/phpietadmin/css/welcome.css" type="text/css" rel="stylesheet">
 <script data-main="/phpietadmin/js/common" src="/phpietadmin/js/lib/require.js"></script>
 <title>phpietadmin installation</title>
-
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Add first user</h3>
+                <h3 class="modal-title center">Please create a user</h3>
             </div>
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="input-group">
-                            <span class="input-group-addon input-group-addon-16">Auth code</span>
-                            <input type="text" class="form-control" id="addUserAuthCode" placeholder="Auth code...">
-                        </div>
+                <form method="post" action="<?php echo WEB_PATH ?>/install/user">
+                    <div class="form-group">
+                        <input type="password" name="authCode" class="form-control" placeholder="Auth code" required autofocus>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="input-group">
-                            <span class="input-group-addon input-group-addon-16">Username</span>
-                            <input type="text" class="form-control" id="addUserUsernameInput" placeholder="Username...">
-                        </div>
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" placeholder="Username" required>
                     </div>
-                </div>
-                <div class="row top-buffer">
-                    <div class="col-md-12">
-                        <div class="input-group passwordInputGroup">
-                            <span class="input-group-addon input-group-addon-16">Password</span>
-                            <input type="text" class="form-control" id="addUserPasswordInput" placeholder="Password...">
-                        </div>
+                    <div class="form-group">
+                        <input type="password" name="password1" class="form-control" placeholder="Password" required>
+                        <input type="password" name="password2" class="form-control" placeholder="Repeat password" required>
                     </div>
-                </div>
-                <div class="row top-buffer">
-                    <div class="col-md-12">
-                        <div class="input-group passwordInputGroup">
-                            <span class="input-group-addon input-group-addon-16">Repeat</span>
-                            <input type="text" class="form-control" id="addUserPasswordInputRepeat" placeholder="Repeat...">
-                        </div>
-                    </div>
-                </div>
+                    <div class="form-group error"></div>
+                </form>
             </div>
             <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-offset-3 col-md-3">
-                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
-                    </div>
-                    <div class="col-md-offset-1 col-md-3">
-                        <button type="button" class="btn btn-success" id="createUserButton"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
-                    </div>
-                </div>
+                <input class="btn btn-lg btn-primary btn-block" type='submit' value='Create'>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container">
     <div class="form-signin">
         <h2 class="form-signin-heading">Installation</h2>
@@ -87,7 +59,8 @@
     require(['common'],function() {
         require(['pages/welcome', 'domReady'],function(methods, domReady) {
             domReady(function () {
-                methods.test();
+                methods.addUserModal();
+                methods.createDatabase();
             });
         });
     });
