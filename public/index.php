@@ -19,8 +19,4 @@ try {
 }
 
 // Check if installation is installed correctly
-if ($versionFile['status'] === 'new' || !file_exists(DB_FILE)) {
-    $app->install();
-} else {
-    $app->app();
-}
+$app->app();

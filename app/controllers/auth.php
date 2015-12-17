@@ -81,7 +81,7 @@ class Auth extends core\BaseController {
     public function logout() {
         $session = $this->model('Session');
         $session->logout();
-        header('Location: ' . WEB_PATH . '/auth/login');;
+        header('Location: ' . WEB_PATH . '/auth/login');
         die();
     }
 }

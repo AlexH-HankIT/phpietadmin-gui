@@ -5,6 +5,8 @@ use app\controllers,
     app\models\logging,
     app\models;
 
+require_once MODEL_DIR . '/functions.php';
+
 class App {
     protected $controllerObject;
     protected $controllerName = 'app\\controllers\\dashboard';
@@ -19,6 +21,11 @@ class App {
     }
 
     public function app() {
+        if (!file_exists(DB_FILE)) {
+            header('Location: ' . WEB_PATH . '/install');;
+            $this->controllerName = 'app\\controllers\\install' ;
+        }
+
         if (file_exists(CONTROLLER_DIR . '/' . $this->url[0] . '.php')) {
             $this->controllerName = 'app\\controllers\\' . $this->url[0];
             unset($this->url[0]);
@@ -26,9 +33,16 @@ class App {
 
         $this->controllerObject = new $this->controllerName;
 
-        $this->setupRegistry();
+        if (file_exists(DB_FILE)) {
+            $this->setupRegistry();
+        }
+
         $this->checkAuth();
-        $this->showHeader();
+
+        if (file_exists(DB_FILE)) {
+            $this->showHeader();
+        }
+
 
         // If the method is not found throw an exception, display an error message and exit the application
         try {
@@ -37,7 +51,7 @@ class App {
                     $this->method = $this->url[1];
                     unset($this->url[1]);
                 } else {
-                    if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
+                    if (isXHttpRequest() === true) {
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($this->url[1]) . ' doesn\'t exist!';
                     } else {
@@ -51,7 +65,7 @@ class App {
                 if (method_exists($this->controllerObject, 'index')) {
                     $this->method = 'index';
                 } else {
-                    if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
+                    if (isXHttpRequest() === true) {
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
                     } else {
@@ -68,7 +82,10 @@ class App {
 
         $this->params = $this->url ? array_values($this->url) : [];
         call_user_func_array([$this->controllerObject, $this->method], $this->params);
-        $this->showFooter();
+
+        if (file_exists(DB_FILE)) {
+            $this->showFooter();
+        }
     }
 
     public function install() {
@@ -112,15 +129,15 @@ class App {
     }
 
     private function showFooter() {
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+        if (!isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $this->controllerObject->view('footer');
         }
     }
 
     private function showHeader() {
         // If request is no ajax, display header, menu and footer
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
-            $this->controllerObject->view('header', $this->controllerObject->baseModel->std->get_dashboard_data());
+        if (!isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+            $this->controllerObject->view('header', get_dashboard_data());
             $this->controllerObject->view('menu');
         }
     }
@@ -132,7 +149,7 @@ class App {
 
             if ($session->checkLoggedIn($this->controllerName) !== true) {
                 // if user is not logged in redirect him and stop execution
-                if ($this->controllerObject->baseModel->std->IsXHttpRequest()) {
+                if (isXHttpRequest()) {
                     echo false;
                     die();
                 } else {
