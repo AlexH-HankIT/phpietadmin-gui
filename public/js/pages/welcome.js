@@ -47,6 +47,7 @@ define(['jquery', 'bootstrap'], function ($) {
                 $('input[name="password2"]', $this).val('');
                 $('input[name="username"]', $this).val('');
                 $('input[name="authCode"]', $this).val('');
+                $('div.error').html('');
             });
 
             $('div.modal-body').children('form').submit(function () {
