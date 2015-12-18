@@ -65,7 +65,8 @@ define(['jquery', 'bootstrap'], function ($) {
             });
 
             $('div.modal-body').children('form').submit(function () {
-                console.log($(this).children('input[name="authCode"]'));
+                cosole.log("test");
+                console.log($(this).children('input[name="authCode"]').val());
 
                 $.ajax({
                     url: $(this).attr('action'),
