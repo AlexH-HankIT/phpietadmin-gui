@@ -1,11 +1,8 @@
 define(['jquery', 'bootstrap'], function ($) {
     return {
         createDatabase: function () {
-            var $createDatabaseButton,
-                $createFirstUserButton;
-
-            $createDatabaseButton = $('#createDatabaseButton');
-            $createFirstUserButton = $('#createFirstUserButton');
+            var $createDatabaseButton = $('#createDatabaseButton'),
+                $createFirstUserButton = $('#createFirstUserButton');
 
             if ($createDatabaseButton.next('span').hasClass('icon-success')) {
                 $createFirstUserButton.attr('disabled', false);
@@ -36,60 +33,55 @@ define(['jquery', 'bootstrap'], function ($) {
             });
         },
         addUserModal: function () {
-            var $password,
-                $passwordRepeat,
-                $username,
-                $authCode,
-                $addUserModal,
-                $passwordVal,
-                $passwordRepeatVal,
-                $usernameVal,
-                $authCodeVal;
-
-            $password = $('#addUserPasswordInput');
-            $passwordRepeat = $('#addUserPasswordInputRepeat');
-            $username = $('#addUserUsernameInput');
-            $authCode = $('#addUserAuthCode');
-            $addUserModal = $('#addUserModal');
-
-            $passwordVal = $password.val();
+            var $addUserModal = $('#addUserModal');
 
             // On modal show
             $addUserModal.on('shown.bs.modal', function () {
-                $('#addUserAuthCode').focus();
+                $('input[name="authCode"]').focus();
             });
 
             // On modal hide
             $addUserModal.on('hidden.bs.modal', function () {
-                $('#addUserAuthCode').val('');
+                var $this = $(this);
+                $('input[name="password1"]', $this).val('');
+                $('input[name="password2"]', $this).val('');
+                $('input[name="username"]', $this).val('');
+                $('input[name="authCode"]', $this).val('');
             });
 
             $('div.modal-body').children('form').submit(function () {
-                cosole.log("test");
-                console.log($(this).children('input[name="authCode"]').val());
+                var $addUserModal = $('#addUserModal'),
+                    $password1 = $('input[name="password1"]'),
+                    $password2 = $('input[name="password2"]'),
+                    $username = $('input[name="username"]'),
+                    $authCode = $('input[name="authCode"]'),
+                    password1Val = $password1.val(),
+                    password2Val = $password2.val(),
+                    usernameVal = $username.val(),
+                    authCodeVal = $authCode.val();
 
                 $.ajax({
                     url: $(this).attr('action'),
                     type: 'post',
+                    dataType: 'json',
                     data: {
-                        'password1': $password.val(),
-                        'password2': $passwordRepeat.val(),
-                        'username': $username.val(),
-                        'authCode': $authCode.val()
+                        'password1': password1Val,
+                        'password2': password2Val,
+                        'username': usernameVal,
+                        'authCode': authCodeVal
                     },
                     success: function (data) {
-                        console.log(data);
                         if (data.code !== 0) {
                             $('div.error').text(data.message)
                         } else {
                             $addUserModal.modal('hide');
+                            window.location = "auth/login";
                         }
                     },
                     error: function (data) {
                         console.log(data);
                     }
                 });
-
                 return false;
             });
         }

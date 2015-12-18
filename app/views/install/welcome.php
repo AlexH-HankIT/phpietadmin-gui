@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="/phpietadmin/css/bootstrap.css" type="text/css" rel="stylesheet">
-<link href="/phpietadmin/css/login.css" type="text/css" rel="stylesheet">
-<link href="/phpietadmin/css/welcome.css" type="text/css" rel="stylesheet">
-<script data-main="/phpietadmin/js/common" src="/phpietadmin/js/lib/require.js"></script>
+<link href="<?php echo WEB_PATH ?>/css/bootstrap.css" type="text/css" rel="stylesheet">
+<link href="<?php echo WEB_PATH ?>/css/welcome.css" type="text/css" rel="stylesheet">
+<script data-main="<?php echo WEB_PATH ?>/js/common" src="<?php echo WEB_PATH ?>/js/lib/require.js"></script>
 <title>phpietadmin installation</title>
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
@@ -23,6 +22,8 @@
                     </div>
                     <div class="form-group">
                         <input type="password" name="password1" class="form-control" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
                         <input type="password" name="password2" class="form-control" placeholder="Repeat password" required>
                     </div>
                     <div class="form-group error"></div>

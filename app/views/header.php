@@ -11,8 +11,7 @@
 <link href="<?php echo WEB_PATH ?>/css/nprogress.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/bootstrap-select.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/my.css" rel="stylesheet">
-<script data-main="<?php echo WEB_PATH ?>js/common" src="<?php echo WEB_PATH ?>js/lib/require.js"></script>
-<span id="webPath" data-web-path="<?php echo WEB_PATH ?>"></span>
+<script data-main="<?php echo WEB_PATH ?>/js/common" src="<?php echo WEB_PATH ?>js/lib/require.js"></script>
 <title>phpietadmin<?php if (isset($data['hostname'])) echo ' on ' . htmlspecialchars($data['hostname']); ?></title>
 <div class="container">
     <noscript>

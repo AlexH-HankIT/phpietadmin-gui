@@ -1,5 +1,7 @@
-.top-buffer {
-    margin-top:20px;
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color:#fbfbfb;
 }
 
 span.glyphicon-30 {
@@ -42,4 +44,54 @@ button.btn {
 
 .center {
     text-align: center;
+}
+
+.form-signin .form-signin-heading, .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin  {
+    font-weight: normal;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    box-shadow: rgba(200,200,200,0.7) 0 4px 10px -1px;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-control {
+    background: #fbfbfb;
+}
+
+
+.top-buffer { margin-top:20px; }
+
+h2 {
+    text-align: center;
+    margin-top: 1px;
+    padding-bottom: 2px;
+}
+
+div.error {
+    text-align: center;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+.container {
+    padding-top: 6%;
+}
+
+div.error {
+    margin-bottom: 10px;
 }
