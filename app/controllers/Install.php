@@ -5,7 +5,7 @@ use app\core;
 
 require_once MODEL_DIR . '/misc.php';
 
-class install extends core\BaseController {
+class Install extends core\BaseController {
     private $dbExists = false;
 
    public function __construct() {
