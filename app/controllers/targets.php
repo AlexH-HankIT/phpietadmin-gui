@@ -4,7 +4,7 @@ namespace app\controllers;
 use app\core,
     app\models as models;
 
-class targets extends core\BaseController {
+class Targets extends core\BaseController {
     public function addtarget() {
         if (!empty($_POST['name'])) {
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
