@@ -4,7 +4,7 @@ use app\core,
 
 // Require files
 require_once __DIR__ . '/../app/core/const.inc.php';
-require_once MODEL_DIR . '/misc.php';
+require_once MODEL_DIR . '/Misc.php';
 
 // Register autoloader
 spl_autoload_register('app\models\Misc::loader');
