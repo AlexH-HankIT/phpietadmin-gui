@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, mylibs, swal, once, touchspin) {
-    var methods;
-
-    return methods = {
+    return {
         add_event_handler_settings_table_checkbox: function () {
             var value = $('.value');
 

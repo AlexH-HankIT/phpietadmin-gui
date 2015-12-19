@@ -1,6 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
-    var methods;
-    return methods = {
+    return {
         add_event_handler_deletelunbutton: function () {
             $('#deleteLunButton').once('click', function () {
                 var $deleteLunSelect = $('#deleteLunSelect'),

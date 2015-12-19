@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
-    var methods;
-
-    return methods = {
+    return {
         enableFilterTablePlugin: function () {
             // Enable filter table plugin
             $('.searchabletable').filterTable({minRows: 0});

@@ -1,7 +1,5 @@
 define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
-    var methods;
-
-    return methods = {
+    return {
         shrink: function () {
             var $slider = $('#shrink_slider');
             var $shrink_input = $('#shrink_input');

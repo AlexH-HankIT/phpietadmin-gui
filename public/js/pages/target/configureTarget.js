@@ -1,7 +1,5 @@
 define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylibs) {
-    var methods;
-
-    return methods = {
+    return {
         addEventHandler: function() {
             var $targetSelect = $('#targetSelect');
 

@@ -1,7 +1,5 @@
 define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
-    var methods;
-
-    return methods = {
+    return {
         editPasswordModel: function() {
             var $editPasswordModal = $('#editPasswordModal'),
                 $passwordInput = $('.passwordInput'),

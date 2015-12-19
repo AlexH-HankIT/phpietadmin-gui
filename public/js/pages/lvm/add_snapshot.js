@@ -1,7 +1,5 @@
 define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
-    var methods;
-
-    return methods = {
+    return {
         add_snapshot: function () {
             var $slider = $("#add_snapshot_size_slider");
             var $add_snapshot_size_input = $('#add_snapshot_size_input');

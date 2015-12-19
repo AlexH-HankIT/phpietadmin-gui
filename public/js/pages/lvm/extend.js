@@ -1,7 +1,5 @@
 define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touchspin, qtip) {
-    var methods;
-
-    return methods = {
+    return {
         extend: function () {
             var $slider = $('#extend_slider'),
                 $extend_size_input = $('#extend_size'),

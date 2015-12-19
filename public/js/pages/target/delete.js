@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
-    var methods;
-
-    return methods = {
+    return {
         add_event_handler_deletetargetbutton: function () {
             $('#deletetargetbutton').once('click', function () {
                 var deleteacl;

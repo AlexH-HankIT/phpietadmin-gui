@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs'], function ($, mylibs) {
-    var methods;
-
-    return methods = {
+    return {
         delete_snapshot: function () {
             mylibs.select_all_checkbox($('#master_checkbox'));
 

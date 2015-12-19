@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
-    var methods;
-
-    return methods = {
+    return {
         deleteSessionButtonQtip: function () {
             $('.deleteSessionButton').qtip({
                 content: {

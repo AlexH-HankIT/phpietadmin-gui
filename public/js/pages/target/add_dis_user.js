@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
-    var Methods;
-
-    return Methods = {
+    return {
         add_event_handler_adddisuserbutton: function() {
             $(function() {
                 $(document).once('click', '#adddisuserbutton', function() {

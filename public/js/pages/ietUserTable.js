@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swal, Clipboard) {
-    var methods;
-
-    return methods = {
+    return {
         addEventHandlerPasswordField: function () {
             // Copy clipboard button
             var clipboard = new Clipboard('.copyPasswordButton', {

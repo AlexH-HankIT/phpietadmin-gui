@@ -1,8 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
-    // Define vars
-    var methods;
-
-    return methods = {
+    return {
         disable_special_chars: function () {
             var $iqninput = $('#iqninput');
 

@@ -1,7 +1,5 @@
 define(['jquery', 'qtip'], function ($, qtip) {
-    var methods;
-
-    return methods = {
+    return {
         add_qtip: function () {
             $('#HeaderDigest').qtip({
                 content: {

@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
-    var methods;
-
-    return methods = {
+    return {
         addEventHandler: function() {
             $('input[name="ruleType"]').once('change', function () {
                 methods.loadData();

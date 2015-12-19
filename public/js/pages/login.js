@@ -1,6 +1,5 @@
 define(['jquery', 'vibrate', 'hideShowPassword'], function ($, vibrate) {
-    var methods;
-    return methods = {
+    return {
         signIn: function () {
             var $username = $('.form-control[name="username"]'),
                 $password = $('.form-control[name="password1"]'),
