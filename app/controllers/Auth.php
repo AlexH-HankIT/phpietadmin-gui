@@ -67,7 +67,7 @@ class Auth extends core\BaseController {
             if ($this->baseModel->std->isValidAuthFile() === true) {
                 $this->view('login/first_signin');
             } else {
-                $this->view('login/signin');
+                $this->view('login');
             }
         }
     }

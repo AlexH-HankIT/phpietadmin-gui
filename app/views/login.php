@@ -17,7 +17,7 @@
                 <input type="checkbox" id="show-password"> <label for="show-password">Show password</label>
             </div>
         </div>
-        <input class="btn btn-lg btn-success btn-block" type='submit' value='Login'>
+        <input class="btn btn-lg btn-primary btn-block" type='submit' value='Login'>
         <div class="form-group error"></div>
     </form>
 </div>
