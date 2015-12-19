@@ -21,6 +21,10 @@ define('DB_FILE', APP_DIR . '/config.db');
 define('AUTH_FILE', APP_DIR . '/auth');
 define('VERSION_FILE', BASE_DIR . '/version.json');
 
-// Indicates the application mode, values are dev and pro
-// If set to dev the status value from the version file is ignored
+/*
+ * Indicates the application mode, values are 'dev' or 'pro'
+ * If status equals 'dev', the application will always "think" it is correctly installed
+ * even if the version file says otherwise or the database is missing
+ * In productive use this *must* be set to pro
+ */
 define('MODE', 'dev');

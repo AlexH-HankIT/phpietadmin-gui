@@ -17,18 +17,17 @@ class App {
         array_filter($_POST, array($this, 'sanitize'));
         array_filter($_GET, array($this, 'sanitize'));
         $this->url = $this->parseUrl();
+    }
 
-        if (!file_exists(DB_FILE)) {
-            $this->installed = false;
-        } else if (models\Misc::getVersionFile()['status'] === 'new') {
-            // if the application is in dev mode, ignore the version file status
-            if (MODE === 'dev') {
-                $this->installed = true;
-            } else {
-                $this->installed = false;
-            }
-        } else {
+    public function isInstalled() {
+        if (MODE === 'dev') {
             $this->installed = true;
+        } else {
+            if (!file_exists(DB_FILE) || models\Misc::getVersionFile()['status'] === 'new') {
+                $this->installed = false;
+            } else {
+                $this->installed = true;
+            }
         }
     }
 
@@ -51,9 +50,7 @@ class App {
 
         $this->controllerObject = new $this->controllerName;
 
-        // Do not use $this->installed here, because it is also false if the database exists
-        // but the version file has status="new"
-        if (file_exists(DB_FILE)) {
+        if ($this->installed === true) {
             $this->setupRegistry();
         }
 
