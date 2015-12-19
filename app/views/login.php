@@ -26,7 +26,7 @@
     require(['common'], function () {
         require(['pages/login', 'domReady'], function (methods, domReady) {
             domReady(function () {
-                methods.signIn();
+                methods.login();
             });
         });
     });
