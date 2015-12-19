@@ -1,8 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\core,
-    app\models;
+use app\core;
 
 class Connection extends core\BaseController {
     /**
