@@ -18,8 +18,15 @@ class App {
         array_filter($_GET, array($this, 'sanitize'));
         $this->url = $this->parseUrl();
 
-        if (!file_exists(DB_FILE) || models\Misc::getVersionFile()['status'] === 'new') {
+        if (!file_exists(DB_FILE)) {
             $this->installed = false;
+        } else if (models\Misc::getVersionFile()['status'] === 'new') {
+            // if the application is in dev mode, ignore the version file status
+            if (MODE === 'dev') {
+                $this->installed = true;
+            } else {
+                $this->installed = false;
+            }
         } else {
             $this->installed = true;
         }
