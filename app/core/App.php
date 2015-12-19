@@ -5,8 +5,6 @@ use app\controllers,
     app\models\logging,
     app\models;
 
-require_once MODEL_DIR . '/misc.php';
-
 class App {
     protected $controllerObject;
     protected $controllerName = 'app\\controllers\\dashboard';
@@ -20,7 +18,7 @@ class App {
         array_filter($_GET, array($this, 'sanitize'));
         $this->url = $this->parseUrl();
 
-        if (!file_exists(DB_FILE) || getVersionFile()['status'] === 'new') {
+        if (!file_exists(DB_FILE) || models\Misc::getVersionFile()['status'] === 'new') {
             $this->installed = false;
         } else {
             $this->installed = true;
@@ -65,7 +63,7 @@ class App {
                     $this->method = $this->url[1];
                     unset($this->url[1]);
                 } else {
-                    if (isXHttpRequest() === true) {
+                    if (models\Misc::isXHttpRequest() === true) {
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($this->url[1]) . ' doesn\'t exist!';
                     } else {
@@ -79,7 +77,7 @@ class App {
                 if (method_exists($this->controllerObject, 'index')) {
                     $this->method = 'index';
                 } else {
-                    if (isXHttpRequest() === true) {
+                    if (models\Misc::isXHttpRequest() === true) {
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
                     } else {
@@ -124,15 +122,15 @@ class App {
     }
 
     private function showFooter() {
-        if (!isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $this->controllerObject->view('footer');
         }
     }
 
     private function showHeader() {
         // If request is no ajax, display header, menu and footer
-        if (!isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
-            $this->controllerObject->view('header', get_dashboard_data());
+        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+            $this->controllerObject->view('header', models\Misc::get_dashboard_data());
             $this->controllerObject->view('menu');
         }
     }
@@ -144,7 +142,7 @@ class App {
 
             if ($session->checkLoggedIn($this->controllerName) !== true) {
                 // if user is not logged in redirect him and stop execution
-                if (isXHttpRequest()) {
+                if (models\Misc::isXHttpRequest()) {
                     echo false;
                     die();
                 } else {

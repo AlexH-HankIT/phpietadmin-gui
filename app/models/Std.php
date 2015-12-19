@@ -77,62 +77,6 @@ class Std {
     }
 
     /**
-     * Collects data for the phpietadmin dashboard
-     *
-     * @return array
-     */
-    public function get_dashboard_data() {
-        $data['hostname'] = file_get_contents('/etc/hostname');
-
-        // get version and release
-        try {
-            $versionFile = $this->getVersionFile();
-            $data['phpietadminversion'] = $versionFile['version'];
-            $data['release'] = $versionFile['release'];
-        } catch (\Exception $e) {
-            // Error message
-        }
-
-        $data['distribution'] = shell_exec('lsb_release -sd');
-
-        $hwdata = file('/proc/cpuinfo');
-        $hwdata[4] = str_replace("model", '', $hwdata[4]);
-        $hwdata[4] = str_replace("name", '', $hwdata[4]);
-        $data['cpu'] = str_replace(":", '', $hwdata[4]);
-
-        $data['uptime'] = shell_exec('uptime -p');
-        $data['systemstart'] = shell_exec('uptime -s');
-
-        preg_match('/load average: (.*)/', shell_exec('uptime'), $matches);
-        $data['currentload'] = $matches[1];
-
-        $mem = file('/proc/meminfo');
-        preg_match('/[0-9]+/', $mem[0], $matches);
-        $data['memtotal'] = intval($matches[0] / 1024);
-
-        preg_match('/[0-9]+/', $mem[1], $matches);
-        $data['memused'] = intval($matches[0] / 1024);
-
-        $data['systemtime'] = shell_exec('date');
-        $data['kernel'] = shell_exec('uname -r');
-
-        return $data;
-    }
-
-    /**
-     * Checks if an incoming request is an ajax
-     *
-     * @return bool
-     */
-    public function IsXHttpRequest() {
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      *
      * Escape and execute a command
      * $return['status'] = string, contains a error message from the program executed
@@ -335,19 +279,6 @@ class Std {
             }
         } else {
             return false;
-        }
-    }
-
-    public function getVersionFile() {
-        if (file_exists(VERSION_FILE)) {
-            $versionFile = json_decode(file_get_contents(VERSION_FILE), true);
-            if ($versionFile !== NULL) {
-                return $versionFile;
-            } else {
-                throw new \Exception('Version file is invalid!');
-            }
-        } else {
-            throw new \Exception('Version file not found!');
         }
     }
 }

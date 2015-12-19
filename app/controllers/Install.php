@@ -1,9 +1,8 @@
 <?php
 namespace app\controllers;
 
-use app\core;
-
-require_once MODEL_DIR . '/misc.php';
+use app\core,
+    app\models;
 
 class Install extends core\BaseController {
     private $dbExists = false;
@@ -50,7 +49,7 @@ class Install extends core\BaseController {
 
             if ($return['code'] === 0) {
                 // Update version file
-                $versionFile = getVersionFile();
+                $versionFile = models\Misc::getVersionFile();
                 $versionFile['status'] = 'installed';
                 file_put_contents(VERSION_FILE, json_encode($versionFile));
             }

@@ -1,7 +1,8 @@
 <?php
 namespace app\controllers;
 
-use app\core;
+use app\core,
+    app\models;
 
 class Dashboard extends core\BaseController {
     /**
@@ -12,7 +13,7 @@ class Dashboard extends core\BaseController {
      *
      */
     public function index() {
-        $data = $this->baseModel->std->get_dashboard_data();
+        $data = models\Misc::get_dashboard_data();
         $this->view('dashboard', $data);
     }
 }

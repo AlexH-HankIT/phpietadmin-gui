@@ -1,7 +1,8 @@
 <?php
 namespace app\controllers;
 
-use app\core;
+use app\core,
+    app\models;
 
 class Auth extends core\BaseController {
     /**
@@ -33,7 +34,7 @@ class Auth extends core\BaseController {
             $return = $session->login($password1);
 
             if ($return === true) {
-                if ($this->baseModel->std->IsXHttpRequest() === true) {
+                if (models\Misc::IsXHttpRequest() === true) {
                     echo json_encode(array(
                         'url' => WEB_PATH . '/dashboard',
                         'status' => 'success'
@@ -44,13 +45,13 @@ class Auth extends core\BaseController {
                 die();
             } else {
                 if ($this->baseModel->std->isValidAuthFile() === true) {
-                    if ($this->baseModel->std->IsXHttpRequest() === true) {
+                    if (models\Misc::IsXHttpRequest() === true) {
                         echo json_encode($user->logging->get_action_result());
                     } else {
                         $this->view('message', $user->logging->get_action_result()['message']);
                     }
                 } else {
-                    if ($this->baseModel->std->IsXHttpRequest() === true) {
+                    if (models\Misc::IsXHttpRequest() === true) {
                         echo json_encode(array(
                             'message' => 'Wrong username or password!',
                             'status' => 'failure'
