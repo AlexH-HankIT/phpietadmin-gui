@@ -18,7 +18,7 @@ class Install extends core\BaseController {
 
    public function index() {
         // show welcome page
-        $this->view('install/welcome', array(
+        $this->view('install', array(
             'database' => $this->dbExists
         ));
    }

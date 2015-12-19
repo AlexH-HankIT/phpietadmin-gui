@@ -56,7 +56,7 @@
 </div>
 <script>
     require(['common'],function() {
-        require(['pages/welcome', 'domReady'],function(methods, domReady) {
+        require(['pages/install', 'domReady'],function(methods, domReady) {
             domReady(function () {
                 methods.addUserModal();
                 methods.createDatabase();
