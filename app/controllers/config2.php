@@ -3,7 +3,7 @@ namespace app\controllers;
 
 use app\core;
 
-class config extends core\BaseController {
+class Config extends core\BaseController {
     /**
      *
      * Displays the phpietadmin user config menu
