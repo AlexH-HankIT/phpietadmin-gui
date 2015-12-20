@@ -17,6 +17,8 @@ class App {
         array_filter($_POST, array($this, 'sanitize'));
         array_filter($_GET, array($this, 'sanitize'));
         $this->url = $this->parseUrl();
+
+        $this->isInstalled();
     }
 
     public function isInstalled() {
@@ -50,7 +52,7 @@ class App {
 
         $this->controllerObject = new $this->controllerName;
 
-        if ($this->installed === true) {
+        if (file_exists(DB_FILE)) {
             $this->setupRegistry();
         }
 
