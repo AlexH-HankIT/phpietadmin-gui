@@ -34,7 +34,7 @@ class App {
     }
 
     public function app() {
-        if (file_exists(CONTROLLER_DIR . '/' . $this->url[0] . '.php')) {
+        if (file_exists(CONTROLLER_DIR . '/' . ucfirst($this->url[0]) . '.php')) {
             $this->controllerName = 'app\\controllers\\' . $this->url[0];
             unset($this->url[0]);
         }
