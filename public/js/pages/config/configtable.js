@@ -1,7 +1,5 @@
 define(['jquery'], function ($) {
-    var methods;
-
-    return methods = {
+    return {
         add_event_handler_config: function () {
             /* Configuration menu */
             $('.workspace').once('click', '#config-menu a', function () {

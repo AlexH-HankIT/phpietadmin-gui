@@ -1,9 +1,10 @@
 <?php
 namespace app\controllers;
 
-use app\core;
+use app\core,
+    app\models;
 
-class config extends core\BaseController {
+class Config extends core\BaseController {
     /**
      *
      * Displays the phpietadmin user config menu
@@ -100,7 +101,7 @@ class config extends core\BaseController {
             }
         } else {
             try {
-                $versionFile = $this->baseModel->std->getVersionFile();
+                $versionFile = models\Misc::getVersionFile();
                 $data['installedVersion'] = $versionFile['version'];
                 $data['installedRelease'] = $versionFile['release'];
                 $data['installedDownload'] = $versionFile['download'];

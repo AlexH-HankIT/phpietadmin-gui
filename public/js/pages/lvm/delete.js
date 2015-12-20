@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs'], function ($, mylibs) {
-    var methods;
-
-    return methods = {
+    return {
         remove: function () {
             $('#delete_volume_button').once('click', function () {
                 if ($('#safety_checkbox').prop("checked")) {

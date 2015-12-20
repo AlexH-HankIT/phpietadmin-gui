@@ -10,42 +10,71 @@ class App {
     protected $controllerName = 'app\\controllers\\dashboard';
     protected $method = 'index';
     protected $params = [];
+    protected $url;
+    protected $installed;
 
     public function __construct() {
         array_filter($_POST, array($this, 'sanitize'));
         array_filter($_GET, array($this, 'sanitize'));
+        $this->url = $this->parseUrl();
 
-        $url = $this->parseUrl();
+        $this->isInstalled();
+    }
 
-        if (file_exists(CONTROLLER_DIR . '/' . $url[0] . '.php')) {
-            $this->controllerName = 'app\\controllers\\' . $url[0];
-            unset($url[0]);
+    public function isInstalled() {
+        if (MODE === 'dev') {
+            $this->installed = true;
+        } else {
+            if (!file_exists(DB_FILE) || models\Misc::getVersionFile()['status'] === 'new') {
+                $this->installed = false;
+            } else {
+                $this->installed = true;
+            }
+        }
+    }
+
+    public function app() {
+        if (file_exists(CONTROLLER_DIR . '/' . ucfirst($this->url[0]) . '.php')) {
+            $this->controllerName = 'app\\controllers\\' . $this->url[0];
+            unset($this->url[0]);
         }
 
-        $registry = Registry::getInstance();
-        $registry->set('database', new models\Database());
-        $registry->set('logging', new logging\Logging());
-        $registry->set('std', new models\Std());
+        if ($this->installed === false) {
+            if ($this->controllerName !== 'app\\controllers\\install') {
+                header('Location: ' . WEB_PATH . '/install');
+                $this->controllerName = 'app\\controllers\\install';
+            }
+        } else {
+            if ($this->controllerName === 'app\\controllers\\install') {
+                die('<h1>Already installed</h1>');
+            }
+        }
 
         $this->controllerObject = new $this->controllerName;
-        $this->controllerObject->baseModel = new BaseModel();
+
+        if (file_exists(DB_FILE)) {
+            $this->setupRegistry();
+        }
 
         $this->checkAuth();
-        $this->showHeader();
+
+        if ($this->installed === true) {
+            $this->showHeader();
+        }
 
         // If the method is not found throw an exception, display an error message and exit the application
         try {
-            if (isset($url[1])) {
-                if (method_exists($this->controllerObject, $url[1])) {
-                    $this->method = $url[1];
-                    unset($url[1]);
+            if (isset($this->url[1])) {
+                if (method_exists($this->controllerObject, $this->url[1])) {
+                    $this->method = $this->url[1];
+                    unset($this->url[1]);
                 } else {
-                    if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
+                    if (models\Misc::isXHttpRequest() === true) {
                         http_response_code(404);
-                        echo 'Method ' . htmlspecialchars($url[1]) . ' doesn\'t exist!';
+                        echo 'Method ' . htmlspecialchars($this->url[1]) . ' doesn\'t exist!';
                     } else {
                         http_response_code(404);
-                        $this->controllerObject->view('message', 'Method ' . $url[1] . ' doesn\'t exist!');
+                        $this->controllerObject->view('message', 'Method ' . $this->url[1] . ' doesn\'t exist!');
                     }
                     throw new \Exception();
                 }
@@ -54,7 +83,7 @@ class App {
                 if (method_exists($this->controllerObject, 'index')) {
                     $this->method = 'index';
                 } else {
-                    if ($this->controllerObject->baseModel->std->IsXHttpRequest() === true) {
+                    if (models\Misc::isXHttpRequest() === true) {
                         http_response_code(404);
                         echo 'Method ' . htmlspecialchars($this->method) . ' doesn\'t exist!';
                     } else {
@@ -69,46 +98,57 @@ class App {
             die();
         }
 
-        $this->params = $url ? array_values($url) : [];
+        $this->params = $this->url ? array_values($this->url) : [];
         call_user_func_array([$this->controllerObject, $this->method], $this->params);
-        $this->showFooter();
+
+        if ($this->installed === true) {
+            $this->showFooter();
+        }
     }
 
-    public function parseUrl() {
+    private function parseUrl() {
         if (isset($_GET['url'])) {
             return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
         }
     }
 
+    private function setupRegistry() {
+        $registry = Registry::getInstance();
+        $registry->set('database', new models\Database());
+        $registry->set('logging', new logging\Logging());
+        $registry->set('std', new models\Std());
+        $this->controllerObject->baseModel = new BaseModel();
+    }
+
     // Sanitize user input
     // Unlikely that this does something useful
     // but it's a welcome addition
-    protected function sanitize(&$value) {
+    private function sanitize(&$value) {
         $value = addslashes(strip_tags(trim($value)));
     }
 
-    protected function showFooter() {
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
+    private function showFooter() {
+        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $this->controllerObject->view('footer');
         }
     }
 
-    protected function showHeader() {
+    private function showHeader() {
         // If request is no ajax, display header, menu and footer
-        if (!$this->controllerObject->baseModel->std->IsXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
-            $this->controllerObject->view('header', $this->controllerObject->baseModel->std->get_dashboard_data());
+        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+            $this->controllerObject->view('header', models\Misc::get_dashboard_data());
             $this->controllerObject->view('menu');
         }
     }
 
-    protected function checkAuth() {
+    private function checkAuth() {
         // auth controller is accessible without authentication
-        if ($this->controllerName !== 'app\controllers\auth') {
+        if ($this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
             $session = $this->controllerObject->model('Session');
 
             if ($session->checkLoggedIn($this->controllerName) !== true) {
                 // if user is not logged in redirect him and stop execution
-                if ($this->controllerObject->baseModel->std->IsXHttpRequest()) {
+                if (models\Misc::isXHttpRequest()) {
                     echo false;
                     die();
                 } else {

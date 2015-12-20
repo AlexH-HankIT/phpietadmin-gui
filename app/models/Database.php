@@ -29,8 +29,7 @@ class Database extends \SQLite3 {
                 $this->database_action_log = true;
             }
         } else {
-            echo "<h1>Database connection failed</h1>";
-            die();
+            die('<h1>Database connection failed</h1>');
         }
     }
 

@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs'], function ($, mylibs) {
-    var Methods;
-
-    return Methods = {
+    return {
         add_event_handler: function () {
             $(function() {
                 var logical_volume_selector = $('#logical_volume_selector');

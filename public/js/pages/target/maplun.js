@@ -1,6 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
-    var methods;
-    return methods = {
+    return {
         add_event_handler_maplunbutton: function () {
             $('#map_lun_button').once('click', function () {
                     var $logical_volume_selector = $('#logical_volume_selector'),

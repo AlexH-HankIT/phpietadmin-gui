@@ -1,10 +1,9 @@
 <?php
 namespace app\controllers;
 
-use app\core,
-    app\models;
+use app\core;
 
-class connection extends core\BaseController {
+class Connection extends core\BaseController {
     /**
      *
      * echos a service status

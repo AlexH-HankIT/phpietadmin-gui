@@ -1,7 +1,5 @@
 define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
-    var methods;
-
-    return methods = {
+    return {
         slider: function () {
             var $slider = $('.add_slider');
             var $size_input = $('.size_input');

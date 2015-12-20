@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs'], function ($, mylibs) {
-    var methods;
-
-    return methods = {
+    return {
         rename: function () {
             $('#rename_volume_button').once('click', function () {
                 var input = $('#name_input');

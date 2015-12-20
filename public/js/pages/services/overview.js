@@ -1,7 +1,5 @@
 define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
-    var methods;
-
-    return methods = {
+    return {
         set_service_status: function () {
             $('.servicename').each(function () {
                 mylibs.check_service_status($(this));

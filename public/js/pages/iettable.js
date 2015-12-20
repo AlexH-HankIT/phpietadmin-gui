@@ -1,7 +1,5 @@
 define(['jquery'], function($) {
-    var methods;
-
-    return methods = {
+    return {
         change_expand_row_button: function() {
             $('.workspace').once('click', '.clickable', function () {
                 var $this = $(this).closest('tr').find('.expandrow');

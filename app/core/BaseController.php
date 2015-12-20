@@ -22,7 +22,7 @@ class BaseController {
     }
 
     public function view($view, $data = []) {
-        if (file_exists(__DIR__ . '/../../app/views/' . $view . '.php')) {
+        if (file_exists(VIEW_DIR . '/' . $view . '.php')) {
             require_once VIEW_DIR . '/' . $view . '.php';
         } else {
             echo 'File ' . htmlspecialchars($view) . ' not found!';

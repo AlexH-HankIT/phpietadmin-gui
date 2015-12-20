@@ -3,7 +3,7 @@ namespace app\controllers;
 
 use app\core;
 
-class objects extends core\BaseController {
+class Objects extends core\BaseController {
     public function index() {
         $data['type'] = $this->baseModel->database->get_object_types();
         $data['objects'] = $this->baseModel->database->get_all_objects();

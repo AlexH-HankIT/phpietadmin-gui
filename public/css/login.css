@@ -33,13 +33,13 @@ body {
     background: #fbfbfb;
 }
 
-#inputUsername {
+#addUserUsernameInput {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-#inputPassword1 {
+#addUserPasswordInput {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
@@ -47,13 +47,13 @@ body {
     border-top-right-radius: 0;
 }
 
-#inputPassword2 {
+#addUserPasswordInputRepeat {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
 
-#auth_code {
+#addUserAuthCode {
     margin-bottom: 10px;
 }
 
