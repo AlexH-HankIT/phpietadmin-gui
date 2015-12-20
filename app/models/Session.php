@@ -68,8 +68,10 @@ class Session extends core\BaseModel {
                         // If $idle_value is 0, the auto logout feature is disabled
                         if ($idle_value !== 0) {
                             if (time() - $_SESSION['last_activity'] > $idle_value * 60) {
-                                $this->logging->log_access_result('Logout due to timeout', 'failure', 'check', __METHOD__);
-                                $this->logout();
+                                if (MODE !== 'dev') {
+                                    $this->logging->log_access_result('Logout due to timeout', 'failure', 'check', __METHOD__);
+                                    $this->logout();
+                                }
                             } else {
                                 // Update time
                                 // Don't update if controller is connection
