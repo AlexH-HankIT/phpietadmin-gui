@@ -27,4 +27,8 @@ define('VERSION_FILE', BASE_DIR . '/version.json');
  * even if the version file says otherwise or the database is missing
  * In productive use this *must* be set to pro
  */
-define('MODE', 'dev');
+if (file_exists(BASE_DIR . '/dev')) {
+    define('MODE', 'dev');
+} else {
+    define('MODE', 'pro');
+}
