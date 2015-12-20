@@ -12,8 +12,7 @@ if (file_exists(AUTH_FILE)) {
 } else {
 	$password = random_password(8);
 	if (file_put_contents(AUTH_FILE, $password) !== false) {
-		echo "Success\n";
-		echo "Code is " . $password . "\n";
+		echo "Code is " . $password . "\nOpen your new phpietadmin installation and create a user.\n";
 		chown(AUTH_FILE, 'www-data');
 	} else {
 		echo "Failure\n";
