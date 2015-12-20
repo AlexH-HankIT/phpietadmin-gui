@@ -28,6 +28,10 @@ class Install extends core\BaseController {
             // create database
             exec('sqlite3 ' . DB_FILE . ' < ' . INSTALL_DIR . '/database.new.sql', $output, $code);
 
+            if (!file_exists(DB_FILE)) {
+                $code = 3;
+            }
+
             echo json_encode(array(
                 'output' => $output,
                 'code' => $code,
