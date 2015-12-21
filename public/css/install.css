@@ -1,9 +1,3 @@
-body {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color:#fbfbfb;
-}
-
 span.glyphicon-30 {
     font-size: 30px;
     vertical-align: middle;
@@ -26,24 +20,8 @@ h2.form-signin-heading {
     }
 }
 
-.icon-danger {
-    color: #d9534f;
-}
-
-.icon-success {
-    color: #5cb85c;
-}
-
-.icon-warning {
-    color: #f0ad4e;
-}
-
-button.btn {
+.button-width {
     width: 190px;
-}
-
-.center {
-    text-align: center;
 }
 
 .form-signin .form-signin-heading, .checkbox {
@@ -74,18 +52,10 @@ button.btn {
 }
 
 
-.top-buffer { margin-top:20px; }
-
 h2 {
     text-align: center;
     margin-top: 1px;
     padding-bottom: 2px;
-}
-
-div.error {
-    text-align: center;
-    margin-top: 14px;
-    margin-bottom: 0;
 }
 
 .container {

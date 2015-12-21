@@ -2,6 +2,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="<?php echo WEB_PATH ?>/css/bootstrap.css" type="text/css" rel="stylesheet">
+<link href="<?php echo WEB_PATH ?>/css/base.css" type="text/css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/login.css" type="text/css" rel="stylesheet">
 <script data-main="<?php echo WEB_PATH ?>/js/common" src="<?php echo WEB_PATH ?>/js/lib/require.js"></script>
 <title>phpietadmin login</title>
@@ -17,7 +18,7 @@
                 <input type="checkbox" id="show-password"> <label for="show-password">Show password</label>
             </div>
         </div>
-        <input class="btn btn-lg btn-primary btn-block" type='submit' value='Login'>
+        <input class="btn btn-lg btn-primary btn-block button-width" type='submit' value='Login'>
         <div class="form-group error"></div>
     </form>
 </div>
