@@ -1,10 +1,11 @@
 define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylibs) {
     return {
         addEventHandler: function() {
-            var $targetSelect = $('#targetSelect');
+            var $targetSelect = $('#targetSelect'),
+                _this = this;
 
             $targetSelect.once('change', function () {
-                methods.initialLoad();
+                _this.initialLoad();
             });
 
             $targetSelect.selectpicker();
@@ -65,7 +66,7 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
                     hash = '#maplun';
                 }
 
-                methods.loadMenu(iqnVal, hash);
+                this.loadMenu(iqnVal, hash);
                 mylibs.loadConfigureTargetBody(hash, iqnVal);
                 link = '/phpietadmin/targets/configure/' + iqnVal + hash;
             }
