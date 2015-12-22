@@ -19,7 +19,7 @@
             </div>
         </div>
         <input class="btn btn-lg btn-primary btn-block button-width" type='submit' value='Login'>
-        <div class="form-group error"></div>
+        <div class="form-group formError"></div>
     </form>
 </div>
 

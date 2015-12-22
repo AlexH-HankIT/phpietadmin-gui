@@ -4,7 +4,7 @@ define(['jquery', 'vibrate', 'hideShowPassword'], function ($, vibrate) {
             var $username = $('.form-control[name="username"]'),
                 $password = $('.form-control[name="password1"]'),
                 $button = $('input[type="submit"]'),
-                $error = $('div.error');
+                $error = $('div.formError');
 
             $('#show-password').change(function () {
                 $password.hideShowPassword($(this).prop('checked'));
