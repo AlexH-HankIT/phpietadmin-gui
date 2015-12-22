@@ -11,24 +11,35 @@ class App {
     protected $method = 'index';
     protected $params = [];
     protected $url;
-    protected $installed;
 
     public function __construct() {
         array_filter($_POST, array($this, 'sanitize'));
         array_filter($_GET, array($this, 'sanitize'));
         $this->url = $this->parseUrl();
-
-        $this->isInstalled();
     }
 
-    public function isInstalled() {
-        if (MODE === 'dev') {
-            $this->installed = true;
-        } else {
-            if (!file_exists(DB_FILE) || models\Misc::getVersionFile()['status'] === 'new') {
-                $this->installed = false;
-            } else {
-                $this->installed = true;
+    private function installDb() {
+        exec('sqlite3 ' . DB_FILE . ' < ' . INSTALL_DIR . '/database.new.sql', $output, $code);
+
+        if ($code !== 0) {
+            die('<h1>Unable to create database</h1>');
+        }
+    }
+
+    private function updateDb() {
+        // check if db update is necessary
+        $version = $this->controllerObject->baseModel->database->get_config('version');
+        $version['value'] = str_replace('.', '', $version['value']);
+
+        try {
+            $versionFile = models\Misc::getVersionFile();
+        } catch (\Exception $e) {
+            die('<h1>'  . $e->getMessage() . '</h1>');
+        }
+
+        if ($versionFile['version'] > $version['value']) {
+            if (MODE !== 'dev') {
+                exec('sqlite3 ' . DB_FILE . ' < ' . INSTALL_DIR . '/database.update.sql');
             }
         }
     }
@@ -39,28 +50,16 @@ class App {
             unset($this->url[0]);
         }
 
-        if ($this->installed === false) {
-            if ($this->controllerName !== 'app\\controllers\\install') {
-                header('Location: ' . WEB_PATH . '/install');
-                $this->controllerName = 'app\\controllers\\install';
-            }
-        } else {
-            if ($this->controllerName === 'app\\controllers\\install') {
-                die('<h1>Already installed</h1>');
-            }
-        }
-
         $this->controllerObject = new $this->controllerName;
 
-        if (file_exists(DB_FILE)) {
-            $this->setupRegistry();
+        if (!file_exists(DB_FILE)) {
+            $this->installDb();
         }
 
+        $this->setupRegistry();
+        $this->updateDb();
         $this->checkAuth();
-
-        if ($this->installed === true) {
-            $this->showHeader();
-        }
+        $this->showHeader();
 
         // If the method is not found throw an exception, display an error message and exit the application
         try {
@@ -101,9 +100,8 @@ class App {
         $this->params = $this->url ? array_values($this->url) : [];
         call_user_func_array([$this->controllerObject, $this->method], $this->params);
 
-        if ($this->installed === true) {
-            $this->showFooter();
-        }
+
+        $this->showFooter();
     }
 
     private function parseUrl() {
@@ -128,14 +126,14 @@ class App {
     }
 
     private function showFooter() {
-        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
             $this->controllerObject->view('footer');
         }
     }
 
     private function showHeader() {
         // If request is no ajax, display header, menu and footer
-        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
             $this->controllerObject->view('header', models\Misc::get_dashboard_data());
             $this->controllerObject->view('menu');
         }
@@ -143,7 +141,7 @@ class App {
 
     private function checkAuth() {
         // auth controller is accessible without authentication
-        if ($this->controllerName !== 'app\controllers\auth' && $this->controllerName !== 'app\controllers\install') {
+        if ($this->controllerName !== 'app\controllers\auth') {
             $session = $this->controllerObject->model('Session');
 
             if ($session->checkLoggedIn($this->controllerName) !== true) {
