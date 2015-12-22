@@ -19,5 +19,5 @@ try {
     die('<h1>Invalid version file!</h1>');
 }
 
-// Check if installation is installed correctly
+// Start application
 $app->app();
