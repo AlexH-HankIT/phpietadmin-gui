@@ -39,7 +39,7 @@
         <h2 class="form-signin-heading">Installation</h2>
         <div class="row top-buffer center">
             <div class="col-xs-12">
-                <button id="createDatabaseButton" class="btn btn-primary btn-lg">1. Create database</button>
+                <button id="createDatabaseButton" class="btn btn-primary btn-lg button-width">1. Create database</button>
                 <?php if ($data['database'] === true) { ?>
                     <span class="hidden-xs glyphicon glyphicon-ok glyphicon-30 icon-success" aria-hidden="true"></span>
                 <?php } else { ?>
@@ -49,7 +49,7 @@
         </div>
         <div class="row top-buffer center">
             <div class="col-md-12">
-                <button id="createFirstUserButton" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addUserModal" disabled>2. Create first user</button>
+                <button id="createFirstUserButton" class="btn btn-primary btn-lg button-width" data-toggle="modal" data-target="#addUserModal" disabled>2. Create first user</button>
                 <span class="hidden-xs glyphicon glyphicon-remove glyphicon-30 icon-danger" aria-hidden="true"></span>
             </div>
         </div>

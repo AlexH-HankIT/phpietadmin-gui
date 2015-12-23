@@ -1,6 +1,5 @@
 define(function() {
-	var methods;
-	return methods = {
+	return {
 		request_image: function (url) {
 			return new Promise(function (resolve, reject) {
 				var img = new Image();
@@ -14,6 +13,8 @@ define(function() {
 			});
 		},
 		ping: function (url, multiplier) {
+			var _this = this;
+
 			return new Promise(function (resolve, reject) {
 				var start = (new Date()).getTime();
 				var response = function () {
@@ -21,7 +22,7 @@ define(function() {
 					delta *= (multiplier || 1);
 					resolve(delta);
 				};
-				methods.request_image(url).then(response).catch(response);
+				_this.request_image(url).then(response).catch(response);
 
 				// Set a timeout for max-pings, 5s.
 				setTimeout(function () {
