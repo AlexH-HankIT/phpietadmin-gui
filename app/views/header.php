@@ -12,6 +12,11 @@
 <link href="<?php echo WEB_PATH ?>/css/bootstrap-select.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/base.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/my.css" rel="stylesheet">
+<script>
+    // Define require js base url
+    var require = { baseUrl: "<?php echo WEB_PATH . '/js'?>" };
+</script>
+
 <script data-main="<?php echo WEB_PATH ?>/js/common" src="<?php echo WEB_PATH ?>/js/lib/require.js"></script>
 <title>phpietadmin<?php if (isset($data['hostname'])) echo ' on ' . htmlspecialchars($data['hostname']); ?></title>
 <div class="container">
