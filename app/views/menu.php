@@ -10,7 +10,7 @@
         </div>
         <div class = "collapse navbar-collapse navHeaderCollapse">
             <ul class = "nav navbar-nav navbar-right">
-                <li><a id="menudashboard" class="workspaceTab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'> Dashboard</span></a></li>
+                <li><a class="workspaceTab" href='/phpietadmin/dashboard'><span class="glyphicon glyphicon-dashboard"></span> <span class='hidden-sm hidden-md'> Dashboard</span></a></li>
                 <li class = "dropdown">
                     <a href='#' class = "dropdown-toggle" data-toggle = "dropdown"><span class="glyphicon glyphicon-blackboard"></span> <span class='hidden-sm'> Overview</span> <b class = "caret"></b></a>
                     <ul class = "dropdown-menu">
