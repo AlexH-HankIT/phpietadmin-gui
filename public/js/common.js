@@ -34,32 +34,35 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
                 $mainMenu = $('div.navbar-static-top'),
                 $footer = $('footer');
 
-            setInterval(function () {
-                pingjs.ping(require.toUrl('../connection/check_server_online'), 0.3).then(function(delta) {
-                    if (uiBlocked === true) {
-                        uiBlocked = false;
-                        $.unblockUI();
-                        $mainMenu.show();
-                        $footer.show();
-                    }
-                }).catch(function() {
-                    if (uiBlocked === false) {
-                        uiBlocked = true;
-                        $mainMenu.hide();
-                        $footer.hide();
-                        $.blockUI({
-                            message: $('#offlinemessage'),
-                            css: {
-                                border: 'none',
-                                padding: '15px',
-                                backgroundColor: '#222',
-                                opacity: .5,
-                                color: '#fff'
-                            }
-                        });
-                    }
-                });
-            }, 2000);
+            // Only use pingjs in non internet explorer browsers, since they don't support promises
+            if (mylibs.detectIE() === false) {
+                setInterval(function () {
+                    pingjs.ping(require.toUrl('../connection/check_server_online'), 0.3).then(function(delta) {
+                        if (uiBlocked === true) {
+                            uiBlocked = false;
+                            $.unblockUI();
+                            $mainMenu.show();
+                            $footer.show();
+                        }
+                    }).catch(function() {
+                        if (uiBlocked === false) {
+                            uiBlocked = true;
+                            $mainMenu.hide();
+                            $footer.hide();
+                            $.blockUI({
+                                message: $('#offlinemessage'),
+                                css: {
+                                    border: 'none',
+                                    padding: '15px',
+                                    backgroundColor: '#222',
+                                    opacity: .5,
+                                    color: '#fff'
+                                }
+                            });
+                        }
+                    });
+                }, 2000);
+            }
 
             setInterval(mylibs.check_session_expired(), (15000));
 
