@@ -1,8 +1,10 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return {
         addEventHandler: function() {
+            var _this = this;
+
             $('input[name="ruleType"]').once('change', function () {
-                methods.loadData();
+                _this.loadData();
             });
 
             $('.deleteRuleButton').once('click', function () {
