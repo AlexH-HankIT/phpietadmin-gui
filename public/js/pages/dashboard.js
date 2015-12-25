@@ -24,7 +24,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
             });
 
             $versionCheck.once('click', function() {
-                mylibs.load_workspace($(this).data('url'));
+                mylibs.load_workspace($(this).data('url'), $(".workspaceTab[href*='config/release']"));
             });
         }
     };
