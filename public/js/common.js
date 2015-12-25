@@ -35,7 +35,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
                 $footer = $('footer');
 
             setInterval(function () {
-                pingjs.ping('/phpietadmin/connection/check_server_online', 0.3).then(function(delta) {
+                pingjs.ping(require.toUrl('../connection/check_server_online'), 0.3).then(function(delta) {
                     if (uiBlocked === true) {
                         uiBlocked = false;
                         $.unblockUI();
@@ -104,12 +104,14 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
             $navBarRight.once('click', 'a', function () {
                 var $this = $(this),
                     link = $this.attr('href');
-                if (link !== '/phpietadmin/auth/logout') {
+
+                // Don't fire ajax for logout button
+                if (link.indexOf('/auth/logout') > -1) {
+                    return true;
+                } else {
                     if (link !== '#') {
                         return mylibs.load_workspace(link, $this);
                     }
-                } else {
-                    return true;
                 }
             });
 
