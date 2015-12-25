@@ -19,7 +19,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         type: 'post',
                         success: function (data) {
                             if (data['code'] == 0) {
-                                methods.loadData();
+                                _this.loadData();
                             } else {
                                 swal({
                                     title: 'Error',

@@ -6,6 +6,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_servicestart: function () {
+            var _this = this;
+
             $('.workspace').once('click', '.servicestart', function () {
                 $.ajax({
                     url: '/phpietadmin/service/change_service_state',
@@ -15,7 +17,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                     },
                     type: 'post',
                     success: function () {
-                        methods.set_service_status();
+                        _this.set_service_status();
                     },
                     error: function () {
                         swal({
@@ -28,6 +30,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_servicestop: function () {
+            var _this = this;
+
             $('.workspace').once('click', '.servicestop', function () {
                 var data = {
                     'servicename': $(this).closest('tr').find('.servicename').text(),
@@ -39,7 +43,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                     data: data,
                     type: 'post',
                     success: function () {
-                        methods.set_service_status();
+                        _this.set_service_status();
                     },
                     error: function () {
                         swal({
@@ -52,6 +56,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             });
         },
         add_event_handler_servicerestart: function () {
+            var _this = this;
+
             $('.workspace').once('click', '.servicerestart', function () {
                 var data = {
                     'servicename': $(this).closest('tr').find('.servicename').text(),
@@ -63,7 +69,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                     data: data,
                     type: 'post',
                     success: function (data) {
-                        methods.set_service_status();
+                        _this.set_service_status();
                     },
                     error: function () {
                         swal({

@@ -1,6 +1,5 @@
 define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], function($, qtip, filterTable, swal, blockUI) {
-    var methods;
-    return methods = {
+    return {
         check_session_expired: function() {
             if (window.location.pathname !== '/phpietadmin/auth/login') {
                 $.ajax({
@@ -104,6 +103,8 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             });
         },
         load_workspace: function (link, clicked) {
+            var _this = this;
+
             // select menu
             if (clicked !== undefined && clicked !== '') {
                 $('div.navHeaderCollapse').find('ul').children('li').removeClass('active');
@@ -136,7 +137,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                         '</div>');
                     } else {
                         // Hide menu onchange on devices <768px
-                        if (methods.getSize() === 'visible-xs') {
+                        if (_this.getSize() === 'visible-xs') {
                             $('.navbar-toggle').click();
                         }
                         window.history.pushState({path: link}, '', link);
