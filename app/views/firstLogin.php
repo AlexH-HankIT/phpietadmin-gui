@@ -5,10 +5,10 @@
 <link href="<?php echo WEB_PATH ?>/css/base.css" type="text/css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/login.css" type="text/css" rel="stylesheet">
 <script data-main="<?php echo WEB_PATH ?>/js/common" src="<?php echo WEB_PATH ?>/js/lib/require.js"></script>
-<title>phpietadmin first login</title>
+<title><?php echo PROJECT_NAME ?> first login</title>
 <div class="container">
     <form method="post" class="form-signin" autocomplete="off">
-        <h2 class="form-signin-header">phpietadmin</h2>
+        <h2 class="form-signin-header"><?php echo PROJECT_NAME ?></h2>
         <div class="form-group">
             <input type="text" name="authcode" class="form-control" placeholder="Auth code" required autofocus>
         </div>

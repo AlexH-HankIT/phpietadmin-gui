@@ -5,7 +5,7 @@
 <link href="<?php echo WEB_PATH ?>/css/base.css" type="text/css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/install.css" type="text/css" rel="stylesheet">
 <script data-main="<?php echo WEB_PATH ?>/js/common" src="<?php echo WEB_PATH ?>/js/lib/require.js"></script>
-<title>phpietadmin installation</title>
+<title><?php echo PROJECT_NAME ?> installation</title>
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">

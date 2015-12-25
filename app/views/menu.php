@@ -1,7 +1,7 @@
 <div class = "navbar navbar-inverse navbar-static-top">
     <div class = "container">
         <div class="navbar-header">
-            <a href = "#" class = "navbar-brand hidden-sm hidden-md">phpietadmin</a>
+            <a href = "#" class = "navbar-brand hidden-sm hidden-md"><?php echo PROJECT_NAME ?></a>
             <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
                 <span class = "icon-bar"></span>
                 <span class = "icon-bar"></span>
