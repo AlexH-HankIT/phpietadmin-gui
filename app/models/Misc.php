@@ -87,4 +87,16 @@ class Misc {
 
         return $data;
     }
+
+    public static function isValidAuthFile() {
+        if (file_exists(AUTH_FILE)) {
+            if (filesize(AUTH_FILE) !== 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
