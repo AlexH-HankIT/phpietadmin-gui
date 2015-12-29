@@ -10,7 +10,7 @@
     <form method="post" class="form-signin" autocomplete="off">
         <h2 class="form-signin-header"><?php echo PROJECT_NAME ?></h2>
         <div class="form-group">
-            <input type="text" name="authcode" class="form-control" placeholder="Auth code" required autofocus>
+            <input type="password" name="authcode" class="form-control" placeholder="Auth code" required autofocus>
         </div>
         <div class="form-group">
             <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
