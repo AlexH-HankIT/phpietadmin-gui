@@ -18,10 +18,10 @@ class Auth extends core\BaseController {
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
             $password1 = filter_input(INPUT_POST, 'password1', FILTER_SANITIZE_STRING);
 
-            if (file_exists(AUTH_FILE)) {
-                if (isset($_POST['password2'], $_POST['auth_code'])) {
+            if (models\Misc::isValidAuthFile()) {
+                if (isset($_POST['password2'], $_POST['authCode'])) {
                     $password2 = filter_input(INPUT_POST, 'password2', FILTER_SANITIZE_STRING);
-                    $auth_code = filter_input(INPUT_POST, 'auth_code', FILTER_SANITIZE_STRING);
+                    $auth_code = filter_input(INPUT_POST, 'authCode', FILTER_SANITIZE_STRING);
                     $user = $this->model('User', $username);
                     $user->addFirstUser($auth_code, $password1, $password2);
                 }
@@ -44,27 +44,29 @@ class Auth extends core\BaseController {
                 }
                 die();
             } else {
-                if (models\Misc::IsXHttpRequest() === true) {
-                    if (file_exists(AUTH_FILE)) {
-                        echo json_encode($user->logging->get_action_result());
+                if (isset($user) && is_object($user)) {
+                    if (models\Misc::IsXHttpRequest() === true) {
+                        if (models\Misc::isValidAuthFile()) {
+                            echo json_encode($user->logging->get_action_result());
+                        } else {
+                            echo json_encode(array(
+                                'message' => 'Wrong username or password!',
+                                'status' => 'failure'
+                            ));
+                        }
                     } else {
-                        echo json_encode(array(
-                            'message' => 'Wrong username or password!',
-                            'status' => 'failure'
-                        ));
-                    }
-                } else {
-                    if (file_exists(AUTH_FILE)) {
-                        $this->view('message', $user->logging->get_action_result()['message']);
-                    } else {
-                        $this->view('message', 'Wrong username or password!');
-                        header('refresh:2;url=' . WEB_PATH . '/auth/login');
+                        if (models\Misc::isValidAuthFile()) {
+                            $this->view('message', $user->logging->get_action_result()['message']);
+                        } else {
+                            $this->view('message', 'Wrong username or password!');
+                            header('refresh:2;url=' . WEB_PATH . '/auth/login');
+                        }
                     }
                 }
                 die();
             }
         } else {
-            if (file_exists(AUTH_FILE)) {
+            if (models\Misc::isValidAuthFile()) {
                 $this->view('firstLogin');
             } else {
                 $this->view('login');

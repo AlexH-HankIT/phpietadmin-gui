@@ -21,7 +21,7 @@
         <div class="form-group">
             <input type="password" name="password2" class="form-control" placeholder="Repeat" required>
         </div>
-        <input class="btn btn-lg btn-primary btn-block button-width" type='submit' value='Login'>
+        <input class="btn btn-lg btn-primary btn-block button-width" type='submit' value='Create'>
         <div class="form-group formError"></div>
     </form>
 </div>
