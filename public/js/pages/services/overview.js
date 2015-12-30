@@ -10,7 +10,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
 
             $('.workspace').once('click', '.servicestart', function () {
                 $.ajax({
-                    url: '/phpietadmin/service/change_service_state',
+                    url: require.toUrl('../service/change_service_state'),
                     data: {
                         'servicename': $(this).closest('tr').find('.servicename').text(),
                         'start': ''
@@ -39,7 +39,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                 };
 
                 $.ajax({
-                    url: '/phpietadmin/service/change_service_state',
+                    url: require.toUrl('../service/change_service_state'),
                     data: data,
                     type: 'post',
                     success: function () {
@@ -65,7 +65,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                 };
 
                 $.ajax({
-                    url: '/phpietadmin/service/change_service_state',
+                    url: require.toUrl('../service/change_service_state'),
                     data: data,
                     type: 'post',
                     success: function (data) {

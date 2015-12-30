@@ -13,7 +13,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         });
                     } else {
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/maplun',
+                            url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/maplun'),
                             data: {
                                 'type': $('#type').find('option:selected').val(),
                                 'mode': $('#mode').find('option:selected').val(),

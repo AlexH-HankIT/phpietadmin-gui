@@ -9,7 +9,7 @@ define(['jquery', 'bootstrapSelect'], function ($) {
                 var $newVersionPanel = $('#newVersionPanel');
 
                 $.ajax({
-                    url: '/phpietadmin/config/release',
+                    url: require.toUrl('../config/release'),
                     data: {
                         'release': release.toLowerCase()
                     },

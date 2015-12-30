@@ -22,7 +22,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         var $this = $(this);
 
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/addrule',
+                            url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/addrule'),
                             data: {
                                 'type': $("input[name='type']:checked").val(),
                                 'id': $this.closest('tr').find('.objectId').text()

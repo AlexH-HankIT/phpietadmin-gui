@@ -3,7 +3,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
         checkVersion: function () {
             var $versionCheck = $('#versionCheck');
             $.ajax({
-                url: '/phpietadmin/config/checkUpdate',
+                url: require.toUrl('../config/checkUpdate'),
                 dataType: 'json',
                 type: 'get',
                 global: false,

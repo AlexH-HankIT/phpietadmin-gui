@@ -55,7 +55,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
         addEventHandlerDeleteUserRow: function () {
             $('.workspace').once('click', '.deleteuserrow', function () {
                 var $thisRow = $(this).closest('tr'),
-                    url = '/phpietadmin/ietusers';
+                    url = require.toUrl('../ietusers');
 
                 swal({
                         title: 'Are you sure?',
@@ -119,7 +119,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                     $addUserPasswordInput = $('#addUserPasswordInput'),
                     passwordVal = $addUserPasswordInput.val(),
                     $addUserPasswordInputParentDiv = $addUserPasswordInput.parent('div'),
-                    url = '/phpietadmin/ietusers',
+                    url = require.toUrl('../ietusers'),
                     $showErrorInModal = $('#showErrorInModal');
 
                 // Validate input fields not empty

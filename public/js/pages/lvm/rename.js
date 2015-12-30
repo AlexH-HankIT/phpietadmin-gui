@@ -5,8 +5,8 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                 var input = $('#name_input');
 
                 if (input.val() !== '') {
-                    var data = $('#logical_volume_selector').find('option:selected').data();
-                    var url = '/phpietadmin/lvm/configure';
+                    var data = $('#logical_volume_selector').find('option:selected').data(),
+                        url = require.toUrl('../lvm/configure');
 
                     $.ajax({
                         url: url + '/rename',

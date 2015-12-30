@@ -52,7 +52,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     return false;
                 } else {
                     $.ajax({
-                        url: '/phpietadmin/targets/addtarget',
+                        url: require.toUrl('../targets/addtarget'),
                         data: {
                             "name": $iqninput.val()
                         },

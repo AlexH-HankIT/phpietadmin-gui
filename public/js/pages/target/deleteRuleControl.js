@@ -10,7 +10,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             $('.deleteRuleButton').once('click', function () {
                 $('.object_delete_checkbox:checked').each(function () {
                     $.ajax({
-                        url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule',
+                        url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule'),
                         data: {
                             'value': $(this).closest('tr').find('.objectValue').text(),
                             'ruleType': $("input[name='ruleType']:checked").val()
@@ -42,7 +42,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         loadData: function() {
             var $deleteRuleData = $('#deleteRuleData');
             $deleteRuleData.fadeOut('fast', function () {
-                $deleteRuleData.load('/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule',
+                $deleteRuleData.load(require.toUrl('../targets/configure/') + $('#targetSelect').find('option:selected').val() + '/deleterule',
                     {ruleType: $("input[name='ruleType']:checked").val()},
                     function (response, status) {
                         $deleteRuleData.fadeIn('fast');

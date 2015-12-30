@@ -21,7 +21,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         checkbox.each(function () {
                             var $this = $(this);
                             $.ajax({
-                                url: '/phpietadmin/targets/deletedisuser',
+                                url: require.toUrl('../targets/deletedisuser'),
                                 data: {
                                     "id": $(this).closest('tr').find('.delete_dis_user_id').text(),
                                     "type": $(this).closest('tr').find('.delete_dis_user_type').text()

@@ -64,8 +64,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                                 closeOnConfirm: false
                             },
                             function () {
-                                var data = $('#logical_volume_selector').find("option:selected").data();
-                                var url = '/phpietadmin/lvm/configure/shrink';
+                                var data = $('#logical_volume_selector').find("option:selected").data(),
+                                    url = require.toUrl('../lvm/configure/shrink');
 
                                 $.ajax({
                                     url: url,

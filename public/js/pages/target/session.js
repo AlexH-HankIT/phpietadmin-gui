@@ -17,7 +17,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                 bodyId = '/session';
 
             $('.deleteSessionButton').once('click', function () {
-                var url = '/phpietadmin/targets/configure/' + iqn + bodyId;
+                var url = require.toUrl('../targets/configure/') + iqn + bodyId;
                 $.ajax({
                     url: url,
                     data: {

@@ -12,7 +12,7 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
         },
         loadMenu: function (iqnVal, hash) {
             $('#configureTargetMenu').fadeOut('fast', function(){
-                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/menu', function (response, status) {
+                $(this).load(require.toUrl('../targets/configure/') + iqnVal + '/menu', function (response, status) {
                     $(this).fadeIn('fast');
                     if (status === 'error') {
                         // Display error message
@@ -57,7 +57,7 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
                 link;
 
             if (iqn.attr('id') === 'default') {
-                link = '/phpietadmin/targets/configure';
+                link =require.toUrl('../targets/configure/');
                 $('#configureTargetMenu').fadeOut('fast', function() { $(this).html(''); });
                 $('#configureTargetBody').fadeOut('fast', function() { $(this).html(''); });
             } else {
@@ -68,7 +68,7 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
 
                 this.loadMenu(iqnVal, hash);
                 mylibs.loadConfigureTargetBody(hash, iqnVal);
-                link = '/phpietadmin/targets/configure/' + iqnVal + hash;
+                link = require.toUrl('../targets/configure/') + iqnVal + hash;
             }
 
             window.history.pushState({path: link}, '', link);

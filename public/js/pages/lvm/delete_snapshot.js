@@ -4,7 +4,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
             mylibs.select_all_checkbox($('#master_checkbox'));
 
             $('.delete_snapshot.btn').once('click', function () {
-                var url = '/phpietadmin/lvm/configure/snapshot/delete';
+                var url = require.toUrl('../lvm/configure/snapshot/delete');
                 $('.delete_snapshot.checkbox:checked').each(function () {
                     $.ajax({
                         url: url,

@@ -15,7 +15,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                     if (lv !== default_value) {
                         configure_lvm_menu.show();
 
-                        mylibs.load_lvm_target_body('/phpietadmin/lvm/configure/extent');
+                        mylibs.load_lvm_target_body(require.toUrl('../lvm/configure/extent'));
 
                         configure_lvm_menu.find('ul').children('li').removeClass('active').each(function() {
                             $(this).removeClass('active');

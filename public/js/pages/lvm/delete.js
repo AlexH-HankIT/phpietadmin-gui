@@ -3,14 +3,14 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
         remove: function () {
             $('#delete_volume_button').once('click', function () {
                 if ($('#safety_checkbox').prop("checked")) {
-                    var url = '/phpietadmin/lvm/configure';
-                    var $selected_volume = $('#logical_volume_selector').find("option:selected");
+                    var url = require.toUrl('../lvm/configure'),
+                        $selected_volume = $('#logical_volume_selector').find("option:selected");
 
                     $.ajax({
                         url: url + '/delete',
                         data: {
-                            'lv': $selected_volume.attr('data-lv'),
-                            'vg': $selected_volume.attr('data-vg'),
+                            'lv': $selected_volume.data('lv'),
+                            'vg': $selected_volume.data('vg'),
                             'delete': true
                         },
                         dataType: 'json',

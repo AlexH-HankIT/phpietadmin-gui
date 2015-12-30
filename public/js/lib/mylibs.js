@@ -30,13 +30,13 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             return false;
         },
         check_session_expired: function() {
-            if (window.location.pathname !== '/phpietadmin/auth/login') {
+            if (window.location.pathname.indexOf('/auth/logout') >= -1) {
                 $.ajax({
-                    url: '/phpietadmin/connection/check_session_expired',
+                    url: require.toUrl('../connection/check_session_expired'),
                     type: 'post',
                     global: false,
                     success: function (data) {
-                        if (data == '') {
+                        if (data.length === 0) {
                             // reload the page to display the login form
                             window.location.reload();
                         }
@@ -116,7 +116,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                 service_status = $this_row.find('.servicestatus');
 
             $.ajax({
-                url: '/phpietadmin/connection/status',
+                url: require.toUrl('../connection/status'),
                 data: {
                     "servicename": $this_row.find('.servicename').text()
                 },
@@ -202,7 +202,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
         },
         loadConfigureTargetBody: function (body, iqnVal) {
             $('#configureTargetBody').fadeOut('fast', function(){
-                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/' + body.substring(1), function (response, status) {
+                $(this).load(require.toUrl('../targets/configure/') + iqnVal + '/' + body.substring(1), function (response, status) {
                     $(this).fadeIn('fast');
                     if (status === 'error') {
                         // Display error message
