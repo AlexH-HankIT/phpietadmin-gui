@@ -54,10 +54,12 @@ class App {
 
         if (!file_exists(DB_FILE)) {
             $this->installDb();
+            $this->setupRegistry();
+        } else {
+            $this->updateDb();
+            $this->setupRegistry();
         }
 
-        $this->setupRegistry();
-        $this->updateDb();
         $this->checkAuth();
         $this->showHeader();
 
