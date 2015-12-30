@@ -34,7 +34,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
                 $mainMenu = $('div.navbar-static-top'),
                 $footer = $('footer');
 
-            // Only use pingjs in non internet explorer browsers, since they don't support promises
+            // Only use pingjs in non internet explorer browsers, since ie does not support promises
             if (mylibs.detectIE() === false) {
                 setInterval(function () {
                     pingjs.ping(require.toUrl('../connection/check_server_online'), 0.3).then(function(delta) {
