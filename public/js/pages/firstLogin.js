@@ -23,7 +23,7 @@ define(['jquery', 'vibrate'], function($, vibrate) {
                     },
                     success: function (data) {
                         $button.val('Connecting...');
-                        if (data['status'] !== 'success') {
+                        if (data['code'] !== 0) {
                             $('.form-signin').vibrate({
                                 frequency: 5000,
                                 spread: 5,
