@@ -22,6 +22,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             var $this = $(this);
                             $.ajax({
                                 url: require.toUrl('../targets/deletedisuser'),
+                                beforeSend: mylibs.checkAjaxRunning(),
                                 data: {
                                     "id": $(this).closest('tr').find('.delete_dis_user_id').text(),
                                     "type": $(this).closest('tr').find('.delete_dis_user_type').text()

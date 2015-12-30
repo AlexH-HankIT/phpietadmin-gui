@@ -106,6 +106,7 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                 } else {
                     $.ajax({
                         url: url,
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "vg": $vg_selector.find('option:selected').data('vg'),
                             "name": name,

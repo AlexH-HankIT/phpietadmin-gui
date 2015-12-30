@@ -53,6 +53,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 } else {
                     $.ajax({
                         url: require.toUrl('../targets/addtarget'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "name": $iqninput.val()
                         },

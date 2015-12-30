@@ -11,6 +11,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 $('.object_delete_checkbox:checked').each(function () {
                     $.ajax({
                         url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             'value': $(this).closest('tr').find('.objectValue').text(),
                             'ruleType': $("input[name='ruleType']:checked").val()

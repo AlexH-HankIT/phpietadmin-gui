@@ -52,6 +52,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
                 } else {
                     $.ajax({
                         url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/settings'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             'option': this_row.find('.option').text(),
                             'oldvalue': oldvalue,

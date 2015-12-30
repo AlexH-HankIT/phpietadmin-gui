@@ -14,6 +14,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     } else {
                         $.ajax({
                             url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/maplun'),
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'type': $('#type').find('option:selected').val(),
                                 'mode': $('#mode').find('option:selected').val(),

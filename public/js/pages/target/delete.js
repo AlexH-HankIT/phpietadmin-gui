@@ -27,6 +27,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
 
                     $.ajax({
                         url: url + '/' + $('#targetSelect').find('option:selected').val() + '/delete',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "delete_acl": deleteacl,
                             "force": force

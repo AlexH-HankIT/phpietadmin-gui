@@ -22,6 +22,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
                         $.ajax({
                             url: url,
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'id': $thisRow.find('.id').text(),
                                 'type': $thisRow.find('.type').text()

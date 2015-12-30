@@ -20,6 +20,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     checkboxes.each(function () {
                         $.ajax({
                             url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/adduser'),
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'type': $("input[name='type']:checked").val(),
                                 'id': $(this).closest('tr').find('.userId').text()

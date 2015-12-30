@@ -216,6 +216,11 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                     }
                 });
             });
+        },
+        checkAjaxRunning: function(xhr) {
+            if($('#ajaxIndicator').text() === 'true') {
+                xhr.abort();
+            }
         }
     }
 });

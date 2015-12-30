@@ -69,6 +69,7 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
 
                                 $.ajax({
                                     url: url,
+                                    beforeSend: mylibs.checkAjaxRunning(),
                                     data: {
                                         'vg': data.vg,
                                         'lv': data.lv,

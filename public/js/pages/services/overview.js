@@ -11,6 +11,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             $('.workspace').once('click', '.servicestart', function () {
                 $.ajax({
                     url: require.toUrl('../service/change_service_state'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: {
                         'servicename': $(this).closest('tr').find('.servicename').text(),
                         'start': ''
@@ -40,6 +41,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
 
                 $.ajax({
                     url: require.toUrl('../service/change_service_state'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: data,
                     type: 'post',
                     success: function () {
@@ -66,6 +68,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
 
                 $.ajax({
                     url: require.toUrl('../service/change_service_state'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: data,
                     type: 'post',
                     success: function (data) {

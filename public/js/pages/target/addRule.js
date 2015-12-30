@@ -23,6 +23,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
                         $.ajax({
                             url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/addrule'),
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'type': $("input[name='type']:checked").val(),
                                 'id': $this.closest('tr').find('.objectId').text()

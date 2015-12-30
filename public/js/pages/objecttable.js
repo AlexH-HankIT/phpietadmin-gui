@@ -95,6 +95,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     var url = require.toUrl('../objects');
                     $.ajax({
                         url: url + '/add',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "type": addObjectModalTypeSelectVal,
                             "name": addObjectModalNameInputVal,
@@ -157,6 +158,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     function () {
                         $.ajax({
                             url: url + '/delete',
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 "id": $this.closest('tr').attr('id')
                             },

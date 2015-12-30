@@ -8,6 +8,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                 $('.delete_snapshot.checkbox:checked').each(function () {
                     $.ajax({
                         url: url,
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "snapshot": $(this).closest('tr').find('.delete_snapshot.lv_name').text(),
                             "vg": $('#logical_volume_selector').find("option:selected").attr('data-vg')

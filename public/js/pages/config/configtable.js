@@ -13,6 +13,7 @@ define(['jquery'], function ($) {
 
                     $.ajax({
                         url: require.toUrl('../config/edit_config'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "option": option,
                             "value": value

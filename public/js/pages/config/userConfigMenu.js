@@ -34,6 +34,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 if ($passwordInputParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: require.toUrl('../config/user/change'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "username": $('#savedUsername').val(),
                             "value": inputPasswordVal
@@ -106,6 +107,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 if ($passwordInputCreateUserParentDiv.hasClass('has-success') && $usernameNewParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: url + '/add',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "username": usernameNewVal,
                             "password": inputPasswordNewVal
@@ -147,6 +149,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 var url = require.toUrl('../config/user');
                 $.ajax({
                     url: url + '/delete',
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: {
                         "username": $(this).closest('tr').find('.username').text()
                     },

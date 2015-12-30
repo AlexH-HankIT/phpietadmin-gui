@@ -10,6 +10,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
 
                     $.ajax({
                         url: url + '/rename',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             'vg': data.vg,
                             'lv': data.lv,

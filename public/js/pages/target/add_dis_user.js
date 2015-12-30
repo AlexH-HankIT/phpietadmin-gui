@@ -18,6 +18,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                             var $this = $(this);
                             $.ajax({
                                 url: require.toUrl('../targets/adddisuser'),
+                                beforeSend: mylibs.checkAjaxRunning(),
                                 data: {
                                     "type": type,
                                     "id": $this.closest('tr').find('.userid').text()

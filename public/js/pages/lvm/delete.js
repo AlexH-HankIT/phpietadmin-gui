@@ -8,6 +8,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
 
                     $.ajax({
                         url: url + '/delete',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             'lv': $selected_volume.data('lv'),
                             'vg': $selected_volume.data('vg'),

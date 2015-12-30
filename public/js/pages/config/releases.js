@@ -10,6 +10,7 @@ define(['jquery', 'bootstrapSelect'], function ($) {
 
                 $.ajax({
                     url: require.toUrl('../config/release'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: {
                         'release': release.toLowerCase()
                     },

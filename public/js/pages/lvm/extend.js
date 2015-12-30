@@ -77,6 +77,7 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touc
 
                         $.ajax({
                             url: url,
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'vg': data.vg,
                                 'lv': data.lv,

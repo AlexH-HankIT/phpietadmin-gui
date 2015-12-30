@@ -69,6 +69,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                     function () {
                         $.ajax({
                             url: url + '/delete_from_db',
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 "username": $thisRow.find('.username').text()
                             },
@@ -138,6 +139,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                 if ($addUserPasswordInputParentDiv.hasClass('has-success') && $addUserUsernameInputParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: url + '/add_to_db',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "username": usernameVal,
                             "password": passwordVal

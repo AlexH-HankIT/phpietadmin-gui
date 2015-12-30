@@ -33,6 +33,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                         function () {
                             $.ajax({
                                 url: require.toUrl('../service/add'),
+                                beforeSend: mylibs.checkAjaxRunning(),
                                 data: {
                                     'servicename': $this_row.find('.serviceinput').val(),
                                     'action': 'delete'
@@ -103,6 +104,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
 
                         $.ajax({
                             url: require.toUrl('../service/add'),
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: data,
                             dataType: 'json',
                             type: 'post',
@@ -161,6 +163,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                 var serviceenabledspan = $this_row.find('.serviceenabledspan');
                 $.ajax({
                     url: require.toUrl('../service/add'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: data,
                     dataType: 'json',
                     type: 'post',

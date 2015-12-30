@@ -7,6 +7,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
                 $.ajax({
                     url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deletelun'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: {
                         'path': selected.attr('data-path')
                     },
