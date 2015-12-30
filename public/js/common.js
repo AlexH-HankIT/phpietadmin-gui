@@ -46,19 +46,22 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
                         }
                     }).catch(function() {
                         if (uiBlocked === false) {
-                            uiBlocked = true;
-                            $mainMenu.hide();
-                            $footer.hide();
-                            $.blockUI({
-                                message: $('#offlinemessage'),
-                                css: {
-                                    border: 'none',
-                                    padding: '15px',
-                                    backgroundColor: '#222',
-                                    opacity: .5,
-                                    color: '#fff'
-                                }
-                            });
+                            // Only block gui, if no ajax is running
+                            if ($('#ajaxIndicator').text() === false) {
+                                uiBlocked = true;
+                                $mainMenu.hide();
+                                $footer.hide();
+                                $.blockUI({
+                                    message: $('#offlinemessage'),
+                                    css: {
+                                        border: 'none',
+                                        padding: '15px',
+                                        backgroundColor: '#222',
+                                        opacity: .5,
+                                        color: '#fff'
+                                    }
+                                });
+                            }
                         }
                     });
                 }, 2000);
@@ -67,10 +70,12 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
             setInterval(mylibs.check_session_expired, 5000);
 
             $(document).ajaxStart(function() {
+                $('#ajaxIndicator').text(true);
                 nprogress.start();
             });
 
             $(document).ajaxComplete(function() {
+                $('#ajaxIndicator').text(false);
                 nprogress.done();
             });
 

@@ -30,3 +30,4 @@
     <span class="visible-md"></span>
     <span class="visible-lg"></span>
 </span>
+<span id="ajaxIndicator" hidden>false</span>
