@@ -64,7 +64,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
                 }, 2000);
             }
 
-            setInterval(mylibs.check_session_expired(), (15000));
+            setInterval(mylibs.check_session_expired, 5000);
 
             $(document).ajaxStart(function() {
                 nprogress.start();
