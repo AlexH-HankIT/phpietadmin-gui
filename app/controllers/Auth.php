@@ -44,23 +44,25 @@ class Auth extends core\BaseController {
                 }
                 die();
             } else {
-                if (isset($user) && is_object($user)) {
-                    if (models\Misc::IsXHttpRequest() === true) {
-                        if (models\Misc::isValidAuthFile()) {
+                if (models\Misc::IsXHttpRequest() === true) {
+                    if (models\Misc::isValidAuthFile()) {
+                        if (isset($user) && is_object($user)) {
                             echo json_encode($user->logging->get_action_result());
-                        } else {
-                            echo json_encode(array(
-                                'message' => 'Wrong username or password!',
-                                'status' => 'failure'
-                            ));
                         }
                     } else {
-                        if (models\Misc::isValidAuthFile()) {
+                        echo json_encode(array(
+                            'message' => 'Wrong username or password!',
+                            'status' => 'failure'
+                        ));
+                    }
+                } else {
+                    if (models\Misc::isValidAuthFile()) {
+                        if (isset($user) && is_object($user)) {
                             $this->view('message', $user->logging->get_action_result()['message']);
-                        } else {
-                            $this->view('message', 'Wrong username or password!');
-                            header('refresh:2;url=' . WEB_PATH . '/auth/login');
                         }
+                    } else {
+                        $this->view('message', 'Wrong username or password!');
+                        header('refresh:2;url=' . WEB_PATH . '/auth/login');
                     }
                 }
                 die();

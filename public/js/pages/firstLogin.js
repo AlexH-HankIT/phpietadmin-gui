@@ -22,8 +22,6 @@ define(['jquery', 'vibrate'], function($, vibrate) {
                         'password2': $password2.val()
                     },
                     success: function (data) {
-                        console.log(data);
-
                         $button.val('Connecting...');
                         if (data['status'] !== 'success') {
                             $('.form-signin').vibrate({
