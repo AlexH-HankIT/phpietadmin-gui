@@ -56,8 +56,8 @@ class App {
             $this->installDb();
             $this->setupRegistry();
         } else {
-            $this->updateDb();
             $this->setupRegistry();
+            $this->updateDb();
         }
 
         $this->checkAuth();
