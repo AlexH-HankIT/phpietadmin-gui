@@ -23,7 +23,9 @@ define(['jquery', 'vibrate'], function($, vibrate) {
                     },
                     success: function (data) {
                         $button.val('Connecting...');
-                        if (data['code'] !== 0) {
+                        if (data['status'] === 'success') {
+                            window.location.href = data['url'];
+                        } else {
                             $('.form-signin').vibrate({
                                 frequency: 5000,
                                 spread: 5,
@@ -31,8 +33,6 @@ define(['jquery', 'vibrate'], function($, vibrate) {
                             });
                             $error.text(data['message']);
                             $button.val('Login');
-                        } else {
-                            window.location.href = data['url'];
                         }
                     },
                     error: function (data) {
