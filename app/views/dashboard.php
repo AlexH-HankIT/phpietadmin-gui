@@ -24,7 +24,13 @@
                 </tr>
                 <tr>
                     <td class="dashboardoption">release</td>
-                    <td class="dashboardvalue"><?php echo htmlspecialchars($data['release']); ?></td>
+                    <td class="dashboardvalue">
+                        <?php if ($data['release'] === 'stable') { ?>
+                            <button class="btn btn-success btn-xs text-bold">stable</button>
+                        <?php } else { ?>
+                            <button class="btn btn-danger btn-xs text-bold"><?php echo htmlspecialchars($data['release']); ?></button>
+                        <?php } ?>
+                    </td>
                 </tr>
                 <tr>
                     <td class="dashboardoption">Distribution</td>
