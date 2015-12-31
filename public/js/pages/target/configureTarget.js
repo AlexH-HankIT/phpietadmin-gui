@@ -11,9 +11,11 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
             $targetSelect.selectpicker();
         },
         loadMenu: function (iqnVal, hash) {
-            $('#configureTargetMenu').fadeOut('fast', function(){
-                $(this).load(require.toUrl('../targets/configure/') + iqnVal + '/menu', function (response, status) {
-                    $(this).fadeIn('fast');
+            var $configureTargetMenu = $('#configureTargetMenu');
+
+            $configureTargetMenu.fadeOut('fast', function(){
+                $configureTargetMenu.load(require.toUrl('../targets/configure/') + iqnVal + '/menu', function (response, status) {
+                    $configureTargetMenu.fadeIn('fast');
                     if (status === 'error') {
                         // Display error message
                         $(this).html(
@@ -56,8 +58,8 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
                 hash = window.location.hash,
                 link;
 
-            if (iqn.attr('id') === 'default') {
-                link =require.toUrl('../targets/configure/');
+            if (iqn.hasClass('bs-title-option')) {
+                link = require.toUrl('../targets/configure');
                 $('#configureTargetMenu').fadeOut('fast', function() { $(this).html(''); });
                 $('#configureTargetBody').fadeOut('fast', function() { $(this).html(''); });
             } else {

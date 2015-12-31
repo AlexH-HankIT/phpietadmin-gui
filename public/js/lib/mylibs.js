@@ -152,9 +152,8 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             var $workspace_wrapper = $('#workspace_wrapper'),
                 $waitIndicator = $('#workspaceLoadingIndicator');
 
-            $waitIndicator.fadeIn('fast');
-
             $workspace_wrapper.fadeOut('fast', function(){
+                $waitIndicator.fadeIn('fast');
                 $workspace_wrapper.load(link, function (response, status) {
                     $waitIndicator.fadeOut('fast', function() {
                         $workspace_wrapper.fadeIn('fast');
@@ -206,19 +205,25 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             });
         },
         loadConfigureTargetBody: function (body, iqnVal) {
-            $('#configureTargetBody').fadeOut('fast', function(){
-                $(this).load(require.toUrl('../targets/configure/') + iqnVal + '/' + body.substring(1), function (response, status) {
-                    $(this).fadeIn('fast');
-                    if (status === 'error') {
-                        // Display error message
-                        $(this).html(
-                            "<div class='container'>" +
-                            "<div class='alert alert-warning' role='alert'>" +
-                            '<h3 align="center">Sorry, can\'t load the body!</h3>' +
-                            '</div>' +
-                            '</div>'
-                        );
-                    }
+            var $configureTargetBodyLoadingIndicator = $('#configureTargetBodyLoadingIndicator'),
+                $configureTargetBody = $('#configureTargetBody');
+
+            $configureTargetBody.fadeOut('fast', function(){
+                $configureTargetBodyLoadingIndicator.fadeIn('fast');
+                $configureTargetBody.load(require.toUrl('../targets/configure/') + iqnVal + '/' + body.substring(1), function (response, status) {
+                    $configureTargetBodyLoadingIndicator.fadeOut('fast', function() {
+                        $configureTargetBody.fadeIn('fast');
+                        if (status === 'error') {
+                            // Display error message
+                            $(this).html(
+                                "<div class='container'>" +
+                                "<div class='alert alert-warning' role='alert'>" +
+                                '<h3 align="center">Sorry, can\'t load the body!</h3>' +
+                                '</div>' +
+                                '</div>'
+                            );
+                        }
+                    });
                 });
             });
         },
