@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrapSelect'], function ($) {
+define(['jquery', 'mylibs', 'bootstrapSelect'], function ($, mylibs) {
     return {
         addEventHandler: function() {
             var $releaseSelect = $('select');
