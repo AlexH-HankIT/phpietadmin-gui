@@ -150,7 +150,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
 
             // ignore the workspace and load only the container class
             var $workspace_wrapper = $('#workspace_wrapper'),
-                $waitIndicator = $('#waitIndicator');
+                $waitIndicator = $('#workspaceLoadingIndicator');
 
             $waitIndicator.fadeIn('fast');
 

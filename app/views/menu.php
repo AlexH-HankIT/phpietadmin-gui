@@ -81,12 +81,13 @@
         </div>
     </div>
 </div>
-<div id="waitIndicator" hidden>
-    <div class="container text-center">
-        Loading, please wait...
+<div id='workspace_wrapper'>
+    <div id="workspaceLoadingIndicator" hidden>
+        <div class="container text-center">
+            Loading, please wait...
+        </div>
     </div>
 </div>
-<div id='workspace_wrapper'></div>
 <script>
     require(['common'],function(methods) {
         methods.common();
