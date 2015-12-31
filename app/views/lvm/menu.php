@@ -4,7 +4,7 @@
 			<div class='panel panel-default'>
 				<ol class='panel-heading breadcrumb'>
 					<li><a href='#'>LVM</a></li>
-					<li class='active'>Configure</a></li>
+					<li class='active'>Configure</li>
 				</ol>
 				<div class='panel-body'>
 					<select id="logical_volume_selector" class="form-control">

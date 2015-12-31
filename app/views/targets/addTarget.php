@@ -2,7 +2,7 @@
     <div class='panel panel-default'>
         <ol class='panel-heading breadcrumb'>
             <li><a href='#'>Targets</a></li>
-            <li class='active'>Add</a></li>
+            <li class='active'>Add</li>
         </ol>
         <div class='panel-body'>
             <div class='row'>
