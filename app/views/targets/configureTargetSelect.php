@@ -21,6 +21,12 @@
         </div>
     </div>
     <div id="configureTargetMenu"></div>
+
+    <div id="configureTargetBodyLoadingIndicator" hidden>
+        <div class="container text-center">
+            Loading, please wait...
+        </div>
+    </div>
     <div id='configureTargetBody'></div>
     <script>
         require(['common'], function () {

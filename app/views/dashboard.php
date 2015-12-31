@@ -4,8 +4,6 @@
             <ol class='panel-heading breadcrumb'>
                 <li class="active">Dashboard</li>
             </ol>
-
-
             <table class = "table table-striped">
                 <thead>
                 <tr>
@@ -61,10 +59,8 @@
                     <td class="dashboardvalue"><?php echo htmlspecialchars($data['kernel']); ?></td>
                 </tr>
                 </tbody>
-
             </table>
         </div>
-
         <script>
             require(['common'],function() {
                 require(['pages/dashboard', 'domReady'],function(methods, domReady) {

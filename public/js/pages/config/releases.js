@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrapSelect'], function ($) {
+define(['jquery', 'mylibs', 'bootstrapSelect'], function ($, mylibs) {
     return {
         addEventHandler: function() {
             var $releaseSelect = $('select');
@@ -9,7 +9,8 @@ define(['jquery', 'bootstrapSelect'], function ($) {
                 var $newVersionPanel = $('#newVersionPanel');
 
                 $.ajax({
-                    url: '/phpietadmin/config/release',
+                    url: require.toUrl('../config/release'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: {
                         'release': release.toLowerCase()
                     },

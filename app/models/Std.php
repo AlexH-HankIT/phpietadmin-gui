@@ -269,16 +269,4 @@ class Std {
             return false;
         }
     }
-
-    public function isValidAuthFile() {
-        if (file_exists(AUTH_FILE)) {
-            if (filesize(AUTH_FILE) !== 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
 }

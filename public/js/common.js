@@ -1,5 +1,4 @@
 requirejs.config({
-    baseUrl: "/phpietadmin/js",
     paths: {
         jquery: 'lib/jquery-2.1.4',
         jqueryUi: 'lib/jquery-ui',
@@ -35,40 +34,48 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
                 $mainMenu = $('div.navbar-static-top'),
                 $footer = $('footer');
 
-            setInterval(function () {
-                pingjs.ping('/phpietadmin/connection/check_server_online', 0.3).then(function(delta) {
-                    if (uiBlocked === true) {
-                        uiBlocked = false;
-                        $.unblockUI();
-                        $mainMenu.show();
-                        $footer.show();
-                    }
-                }).catch(function() {
-                    if (uiBlocked === false) {
-                        uiBlocked = true;
-                        $mainMenu.hide();
-                        $footer.hide();
-                        $.blockUI({
-                            message: $('#offlinemessage'),
-                            css: {
-                                border: 'none',
-                                padding: '15px',
-                                backgroundColor: '#222',
-                                opacity: .5,
-                                color: '#fff'
+            // Only use pingjs in non internet explorer browsers, since ie does not support promises
+            if (mylibs.detectIE() === false) {
+                setInterval(function () {
+                    pingjs.ping(require.toUrl('../connection/check_server_online'), 0.3).then(function(delta) {
+                        if (uiBlocked === true) {
+                            uiBlocked = false;
+                            $.unblockUI();
+                            $mainMenu.show();
+                            $footer.show();
+                        }
+                    }).catch(function() {
+                        if (uiBlocked === false) {
+                            // Only block gui, if no ajax is running
+                            if ($('#ajaxIndicator').text() === false) {
+                                uiBlocked = true;
+                                $mainMenu.hide();
+                                $footer.hide();
+                                $.blockUI({
+                                    message: $('#offlinemessage'),
+                                    css: {
+                                        border: 'none',
+                                        padding: '15px',
+                                        backgroundColor: '#222',
+                                        opacity: .5,
+                                        color: '#fff'
+                                    }
+                                });
                             }
-                        });
-                    }
-                });
-            }, 2000);
+                        }
+                    });
+                }, 2000);
+            }
 
-            setInterval(mylibs.check_session_expired(), (15000));
+            setInterval(mylibs.check_session_expired, 5000);
 
             $(document).ajaxStart(function() {
+                $('#ajaxIndicator').text(true);
                 nprogress.start();
             });
 
             $(document).ajaxComplete(function() {
+                $('#ajaxIndicator').text(false);
                 nprogress.done();
             });
 
@@ -105,12 +112,14 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
             $navBarRight.once('click', 'a', function () {
                 var $this = $(this),
                     link = $this.attr('href');
-                if (link !== '/phpietadmin/auth/logout') {
+
+                // Don't fire ajax for logout button
+                if (link.indexOf('/auth/logout') > -1) {
+                    return true;
+                } else {
                     if (link !== '#') {
                         return mylibs.load_workspace(link, $this);
                     }
-                } else {
-                    return true;
                 }
             });
 

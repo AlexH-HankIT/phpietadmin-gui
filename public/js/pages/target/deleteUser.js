@@ -18,10 +18,11 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         var $thisRow = $(this).closest('tr'),
                             iqn = $('#targetSelect').find('option:selected').val(),
                             bodyId =  '/deleteuser',
-                            url = '/phpietadmin/targets/configure/' + iqn + bodyId;
+                            url = require.toUrl('../targets/configure/') + iqn + bodyId;
 
                         $.ajax({
                             url: url,
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'id': $thisRow.find('.id').text(),
                                 'type': $thisRow.find('.type').text()

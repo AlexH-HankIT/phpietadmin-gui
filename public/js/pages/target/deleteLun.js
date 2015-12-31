@@ -6,7 +6,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     selected = $deleteLunSelect.find('option:selected');
 
                 $.ajax({
-                    url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deletelun',
+                    url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deletelun'),
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: {
                         'path': selected.attr('data-path')
                     },

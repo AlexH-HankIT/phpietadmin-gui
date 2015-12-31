@@ -72,11 +72,12 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touc
                         });
                     } else {
                         var data = $('#logical_volume_selector').find("option:selected").data(),
-                            url = '/phpietadmin/lvm/configure/extent',
+                            url = require.toUrl('../lvm/configure/extent'),
                             remap = $('#remapLun').prop('checked');
 
                         $.ajax({
                             url: url,
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'vg': data.vg,
                                 'lv': data.lv,

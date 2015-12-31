@@ -55,7 +55,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
         addEventHandlerDeleteUserRow: function () {
             $('.workspace').once('click', '.deleteuserrow', function () {
                 var $thisRow = $(this).closest('tr'),
-                    url = '/phpietadmin/ietusers';
+                    url = require.toUrl('../ietusers');
 
                 swal({
                         title: 'Are you sure?',
@@ -69,6 +69,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                     function () {
                         $.ajax({
                             url: url + '/delete_from_db',
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 "username": $thisRow.find('.username').text()
                             },
@@ -119,7 +120,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                     $addUserPasswordInput = $('#addUserPasswordInput'),
                     passwordVal = $addUserPasswordInput.val(),
                     $addUserPasswordInputParentDiv = $addUserPasswordInput.parent('div'),
-                    url = '/phpietadmin/ietusers',
+                    url = require.toUrl('../ietusers'),
                     $showErrorInModal = $('#showErrorInModal');
 
                 // Validate input fields not empty
@@ -138,6 +139,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                 if ($addUserPasswordInputParentDiv.hasClass('has-success') && $addUserUsernameInputParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: url + '/add_to_db',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "username": usernameVal,
                             "password": passwordVal

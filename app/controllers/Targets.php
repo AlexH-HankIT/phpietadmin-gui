@@ -312,7 +312,7 @@ class Targets extends core\BaseController {
     private function settings($iqn) {
         if (isset($_POST['option'], $_POST['newvalue'])) {
             $target = $this->model('target\Target', $iqn);
-            $target->add_setting($option = filter_input(INPUT_POST, 'option', FILTER_SANITIZE_STRING), filter_input(INPUT_POST, 'newvalue', FILTER_SANITIZE_STRING));
+            $target->add_setting(filter_input(INPUT_POST, 'option', FILTER_SANITIZE_STRING), filter_input(INPUT_POST, 'newvalue', FILTER_SANITIZE_STRING));
             echo json_encode($target->logging->get_action_result());
         } else {
             $target = $this->model('target\Target', $iqn);

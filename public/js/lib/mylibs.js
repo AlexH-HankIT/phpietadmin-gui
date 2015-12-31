@@ -1,14 +1,42 @@
 define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], function($, qtip, filterTable, swal, blockUI) {
-    var methods;
-    return methods = {
+    return {
+        /**
+         * @url http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery/21712356#21712356
+         * @returns {*}
+         */
+        detectIE: function () {
+            var ua = window.navigator.userAgent;
+
+            var msie = ua.indexOf('MSIE ');
+            if (msie > 0) {
+                // IE 10 or older => return version number
+                return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+            }
+
+            var trident = ua.indexOf('Trident/');
+            if (trident > 0) {
+                // IE 11 => return version number
+                var rv = ua.indexOf('rv:');
+                return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+            }
+
+            var edge = ua.indexOf('Edge/');
+            if (edge > 0) {
+                // Edge (IE 12+) => return version number
+                return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+            }
+
+            // other browser
+            return false;
+        },
         check_session_expired: function() {
-            if (window.location.pathname !== '/phpietadmin/auth/login') {
+            if (window.location.pathname.indexOf('/auth/logout') >= -1) {
                 $.ajax({
-                    url: '/phpietadmin/connection/check_session_expired',
+                    url: require.toUrl('../connection/check_session_expired'),
                     type: 'post',
                     global: false,
                     success: function (data) {
-                        if (data == '') {
+                        if (data.length === 0) {
                             // reload the page to display the login form
                             window.location.reload();
                         }
@@ -88,7 +116,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                 service_status = $this_row.find('.servicestatus');
 
             $.ajax({
-                url: '/phpietadmin/connection/status',
+                url: require.toUrl('../connection/status'),
                 data: {
                     "servicename": $this_row.find('.servicename').text()
                 },
@@ -104,6 +132,8 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             });
         },
         load_workspace: function (link, clicked) {
+            var _this = this;
+
             // select menu
             if (clicked !== undefined && clicked !== '') {
                 $('div.navHeaderCollapse').find('ul').children('li').removeClass('active');
@@ -119,28 +149,32 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             $('.workspace').remove();
 
             // ignore the workspace and load only the container class
-            var $workspace_wrapper = $('#workspace_wrapper');
+            var $workspace_wrapper = $('#workspace_wrapper'),
+                $waitIndicator = $('#workspaceLoadingIndicator');
 
             $workspace_wrapper.fadeOut('fast', function(){
+                $waitIndicator.fadeIn('fast');
                 $workspace_wrapper.load(link, function (response, status) {
-                    $workspace_wrapper.fadeIn('fast');
-                    if (status == 'error') {
-                        $(this).html("<div id='workspace'>" +
-                        "<div class='container'>" +
-                        "<div class='alert alert-warning' role='alert'>" +
-                        "<h3 align='center'>" +
-                        response +
-                        "</h3>" +
-                        "</div>" +
-                        '</div>' +
-                        '</div>');
-                    } else {
-                        // Hide menu onchange on devices <768px
-                        if (methods.getSize() === 'visible-xs') {
-                            $('.navbar-toggle').click();
+                    $waitIndicator.fadeOut('fast', function() {
+                        $workspace_wrapper.fadeIn('fast');
+                        if (status == 'error') {
+                            $(this).html("<div id='workspace'>" +
+                                "<div class='container'>" +
+                                "<div class='alert alert-warning' role='alert'>" +
+                                "<h3 align='center'>" +
+                                response +
+                                "</h3>" +
+                                "</div>" +
+                                '</div>' +
+                                '</div>');
+                        } else {
+                            // Hide menu onchange on devices <768px
+                            if (_this.getSize() === 'visible-xs') {
+                                $('.navbar-toggle').click();
+                            }
+                            window.history.pushState({path: link}, '', link);
                         }
-                        window.history.pushState({path: link}, '', link);
-                    }
+                    });
                 });
             });
             return false;
@@ -171,21 +205,32 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             });
         },
         loadConfigureTargetBody: function (body, iqnVal) {
-            $('#configureTargetBody').fadeOut('fast', function(){
-                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/' + body.substring(1), function (response, status) {
-                    $(this).fadeIn('fast');
-                    if (status === 'error') {
-                        // Display error message
-                        $(this).html(
-                            "<div class='container'>" +
-                            "<div class='alert alert-warning' role='alert'>" +
-                            '<h3 align="center">Sorry, can\'t load the body!</h3>' +
-                            '</div>' +
-                            '</div>'
-                        );
-                    }
+            var $configureTargetBodyLoadingIndicator = $('#configureTargetBodyLoadingIndicator'),
+                $configureTargetBody = $('#configureTargetBody');
+
+            $configureTargetBody.fadeOut('fast', function(){
+                $configureTargetBodyLoadingIndicator.fadeIn('fast');
+                $configureTargetBody.load(require.toUrl('../targets/configure/') + iqnVal + '/' + body.substring(1), function (response, status) {
+                    $configureTargetBodyLoadingIndicator.fadeOut('fast', function() {
+                        $configureTargetBody.fadeIn('fast');
+                        if (status === 'error') {
+                            // Display error message
+                            $(this).html(
+                                "<div class='container'>" +
+                                "<div class='alert alert-warning' role='alert'>" +
+                                '<h3 align="center">Sorry, can\'t load the body!</h3>' +
+                                '</div>' +
+                                '</div>'
+                            );
+                        }
+                    });
                 });
             });
+        },
+        checkAjaxRunning: function(xhr) {
+            if($('#ajaxIndicator').text() === 'true') {
+                xhr.abort();
+            }
         }
     }
 });

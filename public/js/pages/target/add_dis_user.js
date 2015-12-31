@@ -17,7 +17,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function($, mylibs, swal) {
                         checkbox.each(function () {
                             var $this = $(this);
                             $.ajax({
-                                url: '/phpietadmin/targets/adddisuser',
+                                url: require.toUrl('../targets/adddisuser'),
+                                beforeSend: mylibs.checkAjaxRunning(),
                                 data: {
                                     "type": type,
                                     "id": $this.closest('tr').find('.userid').text()

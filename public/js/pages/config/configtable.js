@@ -12,7 +12,8 @@ define(['jquery'], function ($) {
                     var value = $this.prev().val();
 
                     $.ajax({
-                        url: '/phpietadmin/config/edit_config',
+                        url: require.toUrl('../config/edit_config'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "option": option,
                             "value": value

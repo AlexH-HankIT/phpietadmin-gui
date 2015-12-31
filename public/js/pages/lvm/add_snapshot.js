@@ -48,11 +48,12 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                 });
 
                 $('#create_snapshot').once('click', function () {
-                    var data = $('#logical_volume_selector').find("option:selected").data();
-                    var url = '/phpietadmin/lvm/configure/snapshot/add';
+                    var data = $('#logical_volume_selector').find("option:selected").data(),
+                        url = require.toUrl('../lvm/configure/snapshot/add');
 
                     $.ajax({
                         url: url,
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             'vg': data.vg,
                             'lv': data.lv,

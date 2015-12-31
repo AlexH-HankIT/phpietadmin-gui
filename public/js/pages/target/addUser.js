@@ -19,7 +19,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 } else {
                     checkboxes.each(function () {
                         $.ajax({
-                            url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/adduser',
+                            url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/adduser'),
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 'type': $("input[name='type']:checked").val(),
                                 'id': $(this).closest('tr').find('.userId').text()

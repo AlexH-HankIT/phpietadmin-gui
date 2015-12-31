@@ -92,9 +92,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         addObjectModalValueInputError.show().text("Invalid input");
                     }
                 } else {
-                    var url = '/phpietadmin/objects';
+                    var url = require.toUrl('../objects');
                     $.ajax({
                         url: url + '/add',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "type": addObjectModalTypeSelectVal,
                             "name": addObjectModalNameInputVal,
@@ -143,7 +144,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         },
         addEventHandlerDeleteObject: function () {
             $('.workspace').once('click', '.objectDelete', function () {
-                var url = '/phpietadmin/objects',
+                var url = require.toUrl('../objects'),
                     $this = $(this);
                 swal({
                         title: 'Are you sure?',
@@ -157,6 +158,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     function () {
                         $.ajax({
                             url: url + '/delete',
+                            beforeSend: mylibs.checkAjaxRunning(),
                             data: {
                                 "id": $this.closest('tr').attr('id')
                             },

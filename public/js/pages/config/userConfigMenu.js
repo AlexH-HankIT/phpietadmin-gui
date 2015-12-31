@@ -33,7 +33,8 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 // Only close modal on success
                 if ($passwordInputParentDiv.hasClass('has-success')) {
                     $.ajax({
-                        url: '/phpietadmin/config/user/change',
+                        url: require.toUrl('../config/user/change'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "username": $('#savedUsername').val(),
                             "value": inputPasswordVal
@@ -67,7 +68,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
             var $createUserModal = $('#createUserModal'),
                 $usernameNew = $('#usernameNew'),
                 $showErrorInCreateUserModal = $('#showErrorInCreateUserModal'),
-                url = '/phpietadmin/config/user',
+                url = require.toUrl('../config/user'),
                 $passwordInputCreateUser = $('.passwordInputCreateUser'),
                 $passwordInputCreateUserParentDiv = $passwordInputCreateUser.parent('div'),
                 $usernameNewParentDiv = $usernameNew.parent('div');
@@ -106,6 +107,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 if ($passwordInputCreateUserParentDiv.hasClass('has-success') && $usernameNewParentDiv.hasClass('has-success')) {
                     $.ajax({
                         url: url + '/add',
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "username": usernameNewVal,
                             "password": inputPasswordNewVal
@@ -144,9 +146,10 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
         table: function() {
             // delete user
             $('#userTable').once('click', '.deleteUserSpan', function() {
-                var url = '/phpietadmin/config/user';
+                var url = require.toUrl('../config/user');
                 $.ajax({
                     url: url + '/delete',
+                    beforeSend: mylibs.checkAjaxRunning(),
                     data: {
                         "username": $(this).closest('tr').find('.username').text()
                     },

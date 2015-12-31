@@ -1,6 +1,6 @@
 <div class="workspace">
     <div class = 'container'>
-    <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> If you add a service, you have to also add it *manually* to the phpietadmin sudoer file!</div>
+    <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-exclamation-sign"></span> If you add a service, you have to also add it *manually* to the <?php echo PROJECT_NAME ?> sudoer file!</div>
 
         <div class="panel panel-default">
             <ol class='panel-heading breadcrumb'>

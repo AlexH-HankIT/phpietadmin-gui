@@ -4,10 +4,11 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
             mylibs.select_all_checkbox($('#master_checkbox'));
 
             $('.delete_snapshot.btn').once('click', function () {
-                var url = '/phpietadmin/lvm/configure/snapshot/delete';
+                var url = require.toUrl('../lvm/configure/snapshot/delete');
                 $('.delete_snapshot.checkbox:checked').each(function () {
                     $.ajax({
                         url: url,
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "snapshot": $(this).closest('tr').find('.delete_snapshot.lv_name').text(),
                             "vg": $('#logical_volume_selector').find("option:selected").attr('data-vg')

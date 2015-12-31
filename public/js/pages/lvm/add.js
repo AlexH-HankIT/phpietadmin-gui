@@ -94,8 +94,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
             });
 
             $('#create_volume_button').once('click', function () {
-                var name = $name_input.val();
-                var url = '/phpietadmin/lvm/add';
+                var name = $name_input.val(),
+                    url = require.toUrl('../lvm/add');
 
                 if (name === '' || name === undefined) {
                     swal({
@@ -106,6 +106,7 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                 } else {
                     $.ajax({
                         url: url,
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "vg": $vg_selector.find('option:selected').data('vg'),
                             "name": name,

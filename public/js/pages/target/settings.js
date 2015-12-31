@@ -51,7 +51,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
                     this_row.find('.value').parents('td').addClass('has-error')
                 } else {
                     $.ajax({
-                        url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/settings',
+                        url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/settings'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             'option': this_row.find('.option').text(),
                             'oldvalue': oldvalue,

@@ -3,7 +3,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
         checkVersion: function () {
             var $versionCheck = $('#versionCheck');
             $.ajax({
-                url: '/phpietadmin/config/checkUpdate',
+                url: require.toUrl('../config/checkUpdate'),
                 dataType: 'json',
                 type: 'get',
                 global: false,
@@ -24,7 +24,7 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
             });
 
             $versionCheck.once('click', function() {
-                mylibs.load_workspace($(this).attr('data-url'));
+                mylibs.load_workspace($(this).data('url'), $(".workspaceTab[href*='config/release']"));
             });
         }
     };

@@ -1,14 +1,17 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return {
         addEventHandler: function() {
+            var _this = this;
+
             $('input[name="ruleType"]').once('change', function () {
-                methods.loadData();
+                _this.loadData();
             });
 
             $('.deleteRuleButton').once('click', function () {
                 $('.object_delete_checkbox:checked').each(function () {
                     $.ajax({
-                        url: '/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule',
+                        url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule'),
+                        beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             'value': $(this).closest('tr').find('.objectValue').text(),
                             'ruleType': $("input[name='ruleType']:checked").val()
@@ -17,7 +20,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         type: 'post',
                         success: function (data) {
                             if (data['code'] == 0) {
-                                methods.loadData();
+                                _this.loadData();
                             } else {
                                 swal({
                                     title: 'Error',
@@ -40,7 +43,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
         loadData: function() {
             var $deleteRuleData = $('#deleteRuleData');
             $deleteRuleData.fadeOut('fast', function () {
-                $deleteRuleData.load('/phpietadmin/targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule',
+                $deleteRuleData.load(require.toUrl('../targets/configure/') + $('#targetSelect').find('option:selected').val() + '/deleterule',
                     {ruleType: $("input[name='ruleType']:checked").val()},
                     function (response, status) {
                         $deleteRuleData.fadeIn('fast');

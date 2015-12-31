@@ -14,7 +14,7 @@ define(['jquery', 'bootstrapTableExport'], function ($) {
                 pageList: [10, 25, 50, 100, 'ALL']
             });
             function responseHandler(res) {
-                return res[$table.attr('data-data-field')];
+                return res[$table.data('data-field')];
             }
         }
     };

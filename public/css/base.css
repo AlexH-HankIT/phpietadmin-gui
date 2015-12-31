@@ -1,0 +1,25 @@
+.icon-danger {
+    color: #d9534f;
+}
+
+.icon-success {
+    color: #5cb85c;
+}
+
+.icon-warning {
+    color: #f0ad4e;
+}
+
+.center {
+    text-align: center;
+}
+
+.top-buffer {
+    margin-top:20px;
+}
+
+.formError {
+    text-align: center;
+    margin-top: 14px;
+    margin-bottom: 0;
+}

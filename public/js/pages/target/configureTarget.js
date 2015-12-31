@@ -1,18 +1,21 @@
 define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylibs) {
     return {
         addEventHandler: function() {
-            var $targetSelect = $('#targetSelect');
+            var $targetSelect = $('#targetSelect'),
+                _this = this;
 
             $targetSelect.once('change', function () {
-                methods.initialLoad();
+                _this.initialLoad();
             });
 
             $targetSelect.selectpicker();
         },
         loadMenu: function (iqnVal, hash) {
-            $('#configureTargetMenu').fadeOut('fast', function(){
-                $(this).load('/phpietadmin/targets/configure/' + iqnVal + '/menu', function (response, status) {
-                    $(this).fadeIn('fast');
+            var $configureTargetMenu = $('#configureTargetMenu');
+
+            $configureTargetMenu.fadeOut('fast', function(){
+                $configureTargetMenu.load(require.toUrl('../targets/configure/') + iqnVal + '/menu', function (response, status) {
+                    $configureTargetMenu.fadeIn('fast');
                     if (status === 'error') {
                         // Display error message
                         $(this).html(
@@ -55,8 +58,8 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
                 hash = window.location.hash,
                 link;
 
-            if (iqn.attr('id') === 'default') {
-                link = '/phpietadmin/targets/configure';
+            if (iqn.hasClass('bs-title-option')) {
+                link = require.toUrl('../targets/configure');
                 $('#configureTargetMenu').fadeOut('fast', function() { $(this).html(''); });
                 $('#configureTargetBody').fadeOut('fast', function() { $(this).html(''); });
             } else {
@@ -65,9 +68,9 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
                     hash = '#maplun';
                 }
 
-                methods.loadMenu(iqnVal, hash);
+                this.loadMenu(iqnVal, hash);
                 mylibs.loadConfigureTargetBody(hash, iqnVal);
-                link = '/phpietadmin/targets/configure/' + iqnVal + hash;
+                link = require.toUrl('../targets/configure/') + iqnVal + hash;
             }
 
             window.history.pushState({path: link}, '', link);
