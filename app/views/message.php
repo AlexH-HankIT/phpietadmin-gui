@@ -1,5 +1,5 @@
 <div class="workspace">
-    <?php if (!isset($data['container'])) { ?>
+    <?php if (!isset($data['container']) || (isset($data['container']) && $data['container'] === true)) { ?>
     <div class="container">
         <?php } ?>
         <?php if (is_array($data)) { ?>
@@ -19,7 +19,7 @@
         <?php } else { ?>
             <div class="alert alert-info" role="alert"><h3 class="text-center"><?php echo htmlspecialchars($data); ?></h3></div>
         <?php } ?>
-        <?php if (!isset($data['container'])) { ?>
+        <?php if (!isset($data['container']) || (isset($data['container']) && $data['container'] === true)) { ?>
     </div>
 <?php } ?>
 </div>

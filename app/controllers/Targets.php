@@ -38,7 +38,7 @@ class Targets extends core\BaseController {
             if ($data != 0) {
                 $this->view('targets/add_dis_user', $data);
             } else {
-                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => false));
+                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => true));
             }
         }
     }
@@ -57,7 +57,7 @@ class Targets extends core\BaseController {
             if ($data !== false) {
                 $this->view('targets/delete_dis_user', $data);
             } else {
-                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => false));
+                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => true));
             }
         }
     }
