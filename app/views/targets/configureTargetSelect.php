@@ -3,11 +3,11 @@
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>
                 <li><a href='#'>Targets</a></li>
-                <li class='active'>Configure</li>
+                <li class='active'><a href='#'>Configure</a></li>
+                <li><a id="dynamicBreadcrumb" href='#'>maplun</a></li>
             </ol>
             <div class='panel-body'>
-                <select id="targetSelect" data-live-search="true" data-width="100%" title="Select a target to configure"
-                        data-size="10">
+                <select id="targetSelect" data-live-search="true" data-width="100%" title="Select a target to configure" data-size="10">
                     <?php foreach ($data['targets'] as $target) { ?>
                         <option <?php if (isset($target['lun'])) {
                             echo "data-subtext=\"" . count($target['lun']) . " lun/s\"";
@@ -17,17 +17,16 @@
                         </option>
                     <?php } ?>
                 </select>
+                <div id="configureTargetMenu"></div>
+                <div class="top-buffer" id="configureTargetBodyLoadingIndicator" hidden>
+                    <div class="container text-center">
+                        Loading, please wait...
+                    </div>
+                </div>
+                <div class="top-buffer" id='configureTargetBody'></div>
             </div>
         </div>
     </div>
-    <div id="configureTargetMenu"></div>
-
-    <div id="configureTargetBodyLoadingIndicator" hidden>
-        <div class="container text-center">
-            Loading, please wait...
-        </div>
-    </div>
-    <div id='configureTargetBody'></div>
     <script>
         require(['common'], function () {
             require(['pages/target/configureTarget', 'domReady'], function (methods, domReady) {

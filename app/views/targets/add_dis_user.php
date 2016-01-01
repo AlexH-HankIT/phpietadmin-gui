@@ -23,7 +23,7 @@
                 <table id="adddisusertable" class="table table-striped searchabletable">
                     <thead>
                     <tr>
-                        <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                        <th class="col-md-1"><span class="glyphicon glyphicon glyphicon-ok icon-success glyphicon-20"></span></th>
                         <th class="col-md-11">Username</th>
                     </tr>
                     </thead>

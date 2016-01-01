@@ -17,7 +17,7 @@
 <div class="container">
     <noscript>
         <div class="alert alert-warning" role="alert">
-            <h3 class="center">Warning - JavaScript is disabled. This application won't work correctly!</h3>
+            <h3 class="text-center">Warning - JavaScript is disabled. This application won't work correctly!</h3>
         </div>
     </noscript>
 </div>

@@ -33,7 +33,7 @@ define(['jquery', 'mylibs', 'bootstrapSelect'], function ($, mylibs) {
                                 '</div>'
                                 ).fadeIn('fast');
                         } else {
-                            $newVersionPanel.hide().html('<div class="alert alert-danger center panel-aligned" role="alert">No update available!</div>').fadeIn('fast');
+                            $newVersionPanel.hide().html('<div class="alert alert-danger text-center panel-aligned" role="alert">No update available!</div>').fadeIn('fast');
                         }
                     },
                     error: function () {

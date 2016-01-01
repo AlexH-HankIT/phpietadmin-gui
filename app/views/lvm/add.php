@@ -41,7 +41,7 @@
                 </div>
                 <div class="row top-buffer" hidden id="too_small_row">
                     <div class="col-md-12">
-                        <div class="alert alert-warning" role="alert"><h3 class="center">The volume group has not enough space left!</h3></div>
+                        <div class="alert alert-warning" role="alert"><h3 class="text-center">The volume group has not enough space left!</h3></div>
                     </div>
                 </div>
             </div>

@@ -1,12 +1,8 @@
 @media (min-width: 880px) {
     ul.nav li.dropdown:hover ul.dropdown-menu{
         display: block;
-        margin-top:0px
+        margin-top:0;
     }
-}
-
-.footer {
-    position: absolute;
 }
 
 .bestaetigung {
@@ -18,18 +14,6 @@ li {
     list-style-type: none;
 }
 
-.green {
-    color: #5cb85c;
-}
-
-.red {
-    color: #d9534f;
-}
-
-em{
-    background-color: yellow
-}
-
 .filter-table .quick {
     margin-left: 0.5em; font-size: 0.8em; text-decoration: none;
 }
@@ -38,27 +22,12 @@ em{
     text-decoration: underline;
 }
 
-td.alt {
-    background-color: #ffc; background-color: rgba(255, 255, 0, 0.2);
-}
-
-.glyphicon-20 {
-    font-size: 20px
-}
-
-.glyphicon-15 {
-    font-size: 15px
-}
-
-.panel-body {
-    padding-top: 0;
-}
-
 select {
     border:1px solid #ccc;
     vertical-align:top;
     height:20px;
 }
+
 input, select{
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -93,6 +62,6 @@ div.ui-slider-range.ui-widget-header {
     padding-top: 11px;
 }
 
-.text-bold {
-    font-weight: bold;
+.panel-body {
+    padding-top: 0;
 }

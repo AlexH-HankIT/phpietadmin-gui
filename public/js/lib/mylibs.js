@@ -98,7 +98,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                     $(this).html("<div id='configure_lvm_body'>" +
                     "<div class='container'>" +
                     "<div class='alert alert-warning' role='alert'>" +
-                    "<h3 align='center'>" +
+                    "<h3 class='text-center'>" +
                     response +
                     "</h3>" +
                     "</div>" +
@@ -161,7 +161,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                             $(this).html("<div id='workspace'>" +
                                 "<div class='container'>" +
                                 "<div class='alert alert-warning' role='alert'>" +
-                                "<h3 align='center'>" +
+                                "<h3 class='text-center'>" +
                                 response +
                                 "</h3>" +
                                 "</div>" +
@@ -180,7 +180,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             return false;
         },
         getSize: function () {
-            /* Use the #mq-detector span to determin the device size we are on */
+            /* Use the #mq-detector span to determine the device size we are on */
             var currMqIdx = undefined,
                 mqDetector = $("#mq-detector"),
                 mqSelectors = [
@@ -218,7 +218,7 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                             $(this).html(
                                 "<div class='container'>" +
                                 "<div class='alert alert-warning' role='alert'>" +
-                                '<h3 align="center">Sorry, can\'t load the body!</h3>' +
+                                '<h3 class="text-center">Sorry, can\'t load the body!</h3>' +
                                 '</div>' +
                                 '</div>'
                             );

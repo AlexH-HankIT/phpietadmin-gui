@@ -10,10 +10,6 @@
     color: #f0ad4e;
 }
 
-.center {
-    text-align: center;
-}
-
 .top-buffer {
     margin-top:20px;
 }
@@ -22,4 +18,16 @@
     text-align: center;
     margin-top: 14px;
     margin-bottom: 0;
+}
+
+.glyphicon-20 {
+    font-size: 20px
+}
+
+.glyphicon-15 {
+    font-size: 15px
+}
+
+.text-bold {
+    font-weight: bold;
 }

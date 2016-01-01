@@ -38,7 +38,7 @@ class Targets extends core\BaseController {
             if ($data != 0) {
                 $this->view('targets/add_dis_user', $data);
             } else {
-                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => true));
             }
         }
     }
@@ -57,7 +57,7 @@ class Targets extends core\BaseController {
             if ($data !== false) {
                 $this->view('targets/delete_dis_user', $data);
             } else {
-                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => true));
             }
         }
     }
@@ -146,7 +146,7 @@ class Targets extends core\BaseController {
                 $target->add_lun($path, $mode, $type);
                 echo json_encode($target->logging->get_action_result());
             } else {
-                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger', 'container' => false));
             }
         } else {
             $targets = $this->model('target\Target', false);
@@ -155,7 +155,7 @@ class Targets extends core\BaseController {
             if (!empty($unused_lun) && $unused_lun !== false) {
                 $this->view('targets/maplun', $unused_lun);
             } else {
-                $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - No logical volumes available!', 'type' => 'warning', 'container' => false));
             }
         }
     }
@@ -179,10 +179,10 @@ class Targets extends core\BaseController {
                     // display lun for iqn
                     $this->view('targets/deleteLun', $data);
                 } else {
-                    $this->view('message', array('message' => 'Error - No lun available!', 'type' => 'warning'));
+                    $this->view('message', array('message' => 'Error - No lun available!', 'type' => 'warning', 'container' => false));
                 }
             } else {
-                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger', 'container' => false));
             }
         }
     }
@@ -199,7 +199,7 @@ class Targets extends core\BaseController {
             $data = $this->baseModel->database->get_all_objects();
 
             if ($data === 3) {
-                $this->view('message', array('message' => 'Error - No objects available!', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - No objects available!', 'type' => 'warning', 'container' => false));
             } else {
                 $this->view('targets/addRule', $data);
             }
@@ -226,7 +226,7 @@ class Targets extends core\BaseController {
                     // display target type
                     $this->view('targets/deleteRule', $data);
                 } else {
-                    $this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning'));
+                    $this->view('message', array('message' => 'Error - No target acl available!', 'type' => 'warning', 'container' => false));
                 }
             } else if ($_POST['ruleType'] === 'initiators') {
                 $data = $target->get_acls('initiators');
@@ -236,7 +236,7 @@ class Targets extends core\BaseController {
                     // display initiator acl as default
                     $this->view('targets/deleteRule', $data);
                 } else {
-                    $this->view('message', array('message' => 'Error - No initiator acl available!', 'type' => 'warning'));
+                    $this->view('message', array('message' => 'Error - No initiator acl available!', 'type' => 'warning', 'container' => false));
                 }
             }
         } else {
@@ -257,7 +257,7 @@ class Targets extends core\BaseController {
             if ($data != 0) {
                 $this->view('targets/addUser', $data);
             } else {
-                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => false));
             }
         }
     }
@@ -276,7 +276,7 @@ class Targets extends core\BaseController {
             $data = $target->get_user();
 
             if ($data == 3 || $data == false) {
-                $this->view('message', array('message' => 'Error - No users set for this target!', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - No users set for this target!', 'type' => 'warning', 'container' => false));
             } else {
                 $this->view('targets/deleteUser', $data);
             }
@@ -292,7 +292,7 @@ class Targets extends core\BaseController {
                 $target->disconnect_session($sid);
                 echo json_encode($target->logging->get_action_result());
             } else {
-                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger'));
+                $this->view('message', array('message' => 'The target does not exist!', 'type' => 'danger', 'container' => false));
             }
         } else {
             $target = $this->model('target\Target', $iqn);
@@ -304,7 +304,7 @@ class Targets extends core\BaseController {
 
                 $this->view('targets/session', $view);
             } else {
-                $this->view('message', array('message' => 'Error - The target has no open sessions!', 'type' => 'warning'));
+                $this->view('message', array('message' => 'Error - The target has no open sessions!', 'type' => 'warning', 'container' => false));
             }
         }
     }
