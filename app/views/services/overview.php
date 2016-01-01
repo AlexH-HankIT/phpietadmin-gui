@@ -12,9 +12,9 @@
                     <tr>
                         <th><span class='glyphicon glyphicon-tags'></span></th>
                         <th>Status</th>
-                        <th class='center'>Start</th>
-                        <th class='center'>Stop</th>
-                        <th class='center'>Restart</th>
+                        <th class='text-center'>Start</th>
+                        <th class='text-center'>Stop</th>
+                        <th class='text-center'>Restart</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -22,9 +22,9 @@
                         <tr class='servicerow'>
                             <td class='servicename col-md-6'><?php echo htmlspecialchars($row['name']) ?></td>
                             <td class='col-md-3'><span class='servicestatus'></span></td>
-                            <td class='col-md-1 center'><a href='#' class='servicestart'><span class='glyphicon glyphicon-play glyphicon-20'></span></a></td>
-                            <td class='col-md-1 center'><a href='#' class='servicestop'><span class='glyphicon glyphicon-stop glyphicon-20'></span></a></td>
-                            <td class='col-md-1 center'><a href='#' class='servicerestart'><span class='glyphicon glyphicon-repeat glyphicon-20'></span></a></td>
+                            <td class='col-md-1 text-center'><a href='#' class='servicestart'><span class='glyphicon glyphicon-play glyphicon-20'></span></a></td>
+                            <td class='col-md-1 text-center'><a href='#' class='servicestop'><span class='glyphicon glyphicon-stop glyphicon-20'></span></a></td>
+                            <td class='col-md-1 text-center'><a href='#' class='servicerestart'><span class='glyphicon glyphicon-repeat glyphicon-20'></span></a></td>
                         </tr>
                     <?php } ?>
                     </tbody>

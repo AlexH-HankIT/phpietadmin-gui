@@ -21,7 +21,7 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
                         $(this).html(
                             "<div class='container'>" +
                             "<div class='alert alert-warning' role='alert'>" +
-                            '<h3 align="center">Sorry, can\'t load the menu!</h3>' +
+                            '<h3 class="text-center">Sorry, can\'t load the menu!</h3>' +
                             '</div>' +
                             '</div>'
                         );
@@ -43,6 +43,7 @@ define(['jquery', 'once', 'mylibs', 'bootstrapSelect'], function ($, once, mylib
                             var url = $(this).children('a').attr('href'),
                                 hash = url.substring(url.indexOf('#'));
 
+                            $('#dynamicBreadcrumb').attr('href', hash).text(hash.substring(1)).prev().addClass('active').prev().removeClass('active');
                             $('#configureTargetMenu').find('ul').children('li').removeClass('active');
                             $(this).addClass('active').parents('li').addClass('active');
 

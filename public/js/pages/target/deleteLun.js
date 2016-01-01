@@ -1,15 +1,16 @@
-define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
+define(['jquery', 'mylibs', 'sweetalert', 'bootstrapSelect'], function ($, mylibs, swal) {
     return {
         add_event_handler_deletelunbutton: function () {
+            var $deleteLunSelect = $('#deleteLunSelect');
+            $deleteLunSelect.selectpicker();
             $('#deleteLunButton').once('click', function () {
-                var $deleteLunSelect = $('#deleteLunSelect'),
-                    selected = $deleteLunSelect.find('option:selected');
-
+                var selected = $deleteLunSelect.find('option:selected'),
+                    iqnVal = $('#targetSelect').find('option:selected').val();
                 $.ajax({
-                    url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deletelun'),
+                    url: require.toUrl('../targets/configure/' + iqnVal + '/deletelun'),
                     beforeSend: mylibs.checkAjaxRunning(),
                     data: {
-                        'path': selected.attr('data-path')
+                        'path': selected.text()
                     },
                     dataType: 'json',
                     type: 'post',
@@ -20,16 +21,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                 type: 'success',
                                 text: data['message']
                             }, function() {
-                                // remove selected element
-                                selected.remove();
-
-                                if ($deleteLunSelect.find('option').length === 0) {
-                                    $('#configure_target_body').replaceWith('<div id="configure_target_body">' +
-                                    '<div class = "container">' +
-                                    '<div class="alert alert-warning" role="alert"><h3 align="center">Error - No lun available!</h3></div>' +
-                                    '</div>' +
-                                    '</div>')
-                                }
+                                mylibs.loadConfigureTargetBody('#deletelun', iqnVal);
                             });
                         } else {
                             swal({

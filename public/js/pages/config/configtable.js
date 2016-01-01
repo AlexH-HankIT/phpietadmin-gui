@@ -1,4 +1,4 @@
-define(['jquery'], function ($) {
+define(['jquery', 'mylibs'], function ($, mylibs) {
     return {
         add_event_handler_config: function () {
             /* Configuration menu */

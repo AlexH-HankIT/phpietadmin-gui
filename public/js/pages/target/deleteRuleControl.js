@@ -51,7 +51,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             $(this).html(
                                 "<div class='container'>" +
                                 "<div class='alert alert-warning' role='alert'>" +
-                                "<h3 align='center'>" +
+                                "<h3 class='text-center'>" +
                                 response +
                                 "</h3>" +
                                 "</div>" +

@@ -14,7 +14,7 @@
                 <table class="table table-striped searchabletable" id="deletedisusertable">
                     <thead>
                     <tr>
-                        <th><span class="glyphicon glyphicon glyphicon-ok green glyphicon-20"></span></th>
+                        <th><span class="glyphicon glyphicon glyphicon-ok icon-success glyphicon-20"></span></th>
                         <th>Type</th>
                         <th>User</th>
                     </tr>

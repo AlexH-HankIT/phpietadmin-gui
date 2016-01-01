@@ -95,15 +95,11 @@ class App {
                 }
             }
         } catch (\Exception $e) {
-            $this->showFooter();
             die();
         }
 
         $this->params = $this->url ? array_values($this->url) : [];
         call_user_func_array([$this->controllerObject, $this->method], $this->params);
-
-
-        $this->showFooter();
     }
 
     private function parseUrl() {
