@@ -1,5 +1,5 @@
 # phpietadmin
-Phpietadmin is an easy to use webinterface to control the iet daemon (http://sourceforge.net/projects/iscsitarget/) written in php and javascript.
+Phpietadmin is an easy to use webinterface to control the iscsi enterprise target (iet) daemon (http://sourceforge.net/projects/iscsitarget/) written in php and javascript.
 
 ## Intention
 The main reason for developing this was, to create a way to configure the daemon while it’s in use. The iet daemon reads
