@@ -8,10 +8,9 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <select id="vg_selector" class="form-control">
-                            <option id="default">Select a volume group</option>
+                        <select id="vg_selector" data-live-search="true" data-width="100%" title="Select a volume group..." data-size="10">
                             <?php foreach ($data as $row) { ?>
-                                <option data-vg="<?php echo htmlspecialchars($row['VG']); ?>" data-free="<?php echo htmlspecialchars($row['VFree']); ?>"><?php echo htmlspecialchars($row['VG']); ?> | <?php echo htmlspecialchars($row['VFree'])?> GB Free</option>
+                                <option data-subtext="<?php echo htmlspecialchars($row['VFree'])?> GB Free" data-free="<?php echo htmlspecialchars($row['VFree']); ?>"><?php echo htmlspecialchars($row['VG']); ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -46,7 +45,7 @@
                 </div>
             </div>
             <div class="panel-footer" id="add_lv_panel_footer" hidden>
-                <button id="create_volume_button" class="btn btn-success" type='submit'><span class="glyphicon glyphicon-plus"></span> Create</button>
+                <button id="create_volume_button" class="btn btn-success" type='submit' data-loading-text="Creating..."><span class="glyphicon glyphicon-plus"></span> Create</button>
             </div>
         </div>
     </div>

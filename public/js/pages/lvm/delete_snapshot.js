@@ -4,14 +4,17 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
             mylibs.select_all_checkbox($('#master_checkbox'));
 
             $('.delete_snapshot.btn').once('click', function () {
-                var url = require.toUrl('../lvm/configure/snapshot/delete');
+                var url = require.toUrl('../lvm/configure/snapshot/delete'),
+                    $selected = $('#logical_volume_selector').find("option:selected"),
+                    $button = $(this);
                 $('.delete_snapshot.checkbox:checked').each(function () {
+                    $button.button('loading');
                     $.ajax({
                         url: url,
                         beforeSend: mylibs.checkAjaxRunning(),
                         data: {
                             "snapshot": $(this).closest('tr').find('.delete_snapshot.lv_name').text(),
-                            "vg": $('#logical_volume_selector').find("option:selected").attr('data-vg')
+                            'vg': $selected.data('subtext')
                         },
                         dataType: 'json',
                         type: 'post',
@@ -29,6 +32,8 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
+                                }, function () {
+                                    $button.button('reset');
                                 });
                             }
                         },
@@ -37,6 +42,8 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function () {
+                                $button.button('reset');
                             });
                         }
                     });

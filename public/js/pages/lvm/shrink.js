@@ -1,9 +1,9 @@
 define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
     return {
         shrink: function () {
-            var $slider = $('#shrink_slider');
-            var $shrink_input = $('#shrink_input');
-            var data = $slider.data();
+            var $slider = $('#shrink_slider'),
+                $shrink_input = $('#shrink_input'),
+                data = $slider.data();
 
             if (data !== undefined) {
                 var max = parseInt(data.max);
@@ -30,8 +30,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                 });
 
                 $shrink_input.once('input change', function () {
-                    var $this = $(this);
-                    var value = $this.val();
+                    var $this = $(this),
+                        value = $this.val();
 
                     if (mylibs.is_int(value) === false) {
                         value = max;
@@ -46,7 +46,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                 });
 
                 $('#shrink_volume_button').once('click', function () {
-                    var new_size = $shrink_input.val();
+                    var new_size = $shrink_input.val(),
+                        $button = $(this);
 
                     if (new_size >= max) {
                         swal({
@@ -64,15 +65,16 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                                 closeOnConfirm: false
                             },
                             function () {
-                                var data = $('#logical_volume_selector').find("option:selected").data(),
+                                var $selected = $('#logical_volume_selector').find("option:selected"),
                                     url = require.toUrl('../lvm/configure/shrink');
 
+                                $button.button('loading');
                                 $.ajax({
                                     url: url,
                                     beforeSend: mylibs.checkAjaxRunning(),
                                     data: {
-                                        'vg': data.vg,
-                                        'lv': data.lv,
+                                        'vg': $selected.data('subtext'),
+                                        'lv': $selected.text(),
                                         'size': new_size
                                     },
                                     dataType: 'json',
@@ -91,6 +93,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                                                 title: 'Error',
                                                 type: 'error',
                                                 text: data['message']
+                                            }, function () {
+                                                $button.button('reset');
                                             });
                                         }
                                     },
@@ -99,6 +103,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider'], function (mylibs, touchspin) {
                                             title: 'Error',
                                             type: 'error',
                                             text: 'Something went wrong while submitting!'
+                                        }, function () {
+                                            $button.button('reset');
                                         });
                                     }
                                 });

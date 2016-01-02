@@ -1,4 +1,4 @@
-define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touchspin, qtip) {
+define(['mylibs', 'touchspin', 'qtip', 'jqueryUiSlider'], function (mylibs, touchspin, qtip) {
     return {
         extend: function () {
             var $slider = $('#extend_slider'),
@@ -62,7 +62,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touc
                 });
 
                 $('#extend_lv_button').once('click', function () {
-                    var new_size = $extend_size_input.val();
+                    var new_size = $extend_size_input.val(),
+                        $button = $(this);
 
                     if (new_size <= min) {
                         swal({
@@ -71,16 +72,17 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touc
                             text: 'No changes made!'
                         });
                     } else {
-                        var data = $('#logical_volume_selector').find("option:selected").data(),
+                        var $selected = $('#logical_volume_selector').find("option:selected"),
                             url = require.toUrl('../lvm/configure/extent'),
                             remap = $('#remapLun').prop('checked');
 
+                        $button.button('loading');
                         $.ajax({
                             url: url,
                             beforeSend: mylibs.checkAjaxRunning(),
                             data: {
-                                'vg': data.vg,
-                                'lv': data.lv,
+                                'vg': $selected.data('subtext'),
+                                'lv': $selected.text(),
                                 'size': new_size,
                                 'remap': remap
                             },
@@ -100,6 +102,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touc
                                         title: 'Error',
                                         type: 'error',
                                         text: data['message']
+                                    }, function() {
+                                        $button.button('reset');
                                     });
                                 }
                             },
@@ -108,6 +112,8 @@ define(['mylibs', 'touchspin', 'jqueryUiSlider', 'qtip'], function (mylibs, touc
                                     title: 'Error',
                                     type: 'error',
                                     text: 'Something went wrong while submitting!'
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         });
