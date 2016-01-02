@@ -20,7 +20,7 @@ class Lvm extends core\BaseController {
             if ($data !== false) {
                 $this->view('lvm/add', $data);
             } else {
-                $this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
+                $this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger', 'container' => false));
             }
         }
     }
@@ -135,7 +135,7 @@ class Lvm extends core\BaseController {
                                 if (floatval($data['vg'][0]['VFree']) > 1.1) {
                                     $this->view('lvm/add_snapshot', $data);
                                 } else {
-                                    $this->view('message', array('message' => 'Error - Volume group is to small for new snapshots!', 'type' => 'warning'));
+                                    $this->view('message', array('message' => 'Error - Volume group is to small for new snapshots!', 'type' => 'warning', 'container' => false));
                                 }
                             } else {
                                 // lv doesn't exist
@@ -159,7 +159,7 @@ class Lvm extends core\BaseController {
                             if ($data['lv'] !== false) {
                                 $this->view('lvm/delete_snapshot', $data);
                             } else {
-                                $this->view('message', array('message' => 'Error - No snapshots found!', 'type' => 'warning'));
+                                $this->view('message', array('message' => 'Error - No snapshots found!', 'type' => 'warning', 'container' => false));
                             }
                         }
                     }

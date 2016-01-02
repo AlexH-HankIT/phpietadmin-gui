@@ -2,18 +2,26 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
     return {
         rename: function () {
             $('#rename_volume_button').once('click', function () {
-                var input = $('#name_input');
+                var input = $('#name_input'),
+                    $button = $(this);
 
-                if (input.val() !== '') {
-                    var data = $('#logical_volume_selector').find('option:selected').data(),
+                if (input.length === 0) {
+                    swal({
+                        title: 'Error',
+                        type: 'error',
+                        text: 'Please choose a name!'
+                    });
+                } else {
+                    var $selected = $('#logical_volume_selector').find("option:selected"),
                         url = require.toUrl('../lvm/configure');
 
+                    $button.button('loading');
                     $.ajax({
                         url: url + '/rename',
                         beforeSend: mylibs.checkAjaxRunning(),
                         data: {
-                            'vg': data.vg,
-                            'lv': data.lv,
+                            'vg': $selected.data('subtext'),
+                            'lv': $selected.text(),
                             'name': input.val()
                         },
                         dataType: 'json',
@@ -32,6 +40,8 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
+                                }, function () {
+                                    $button.button('reset');
                                 });
                             }
                         },
@@ -40,19 +50,15 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function () {
+                                $button.button('reset');
                             });
                         }
-                    });
-                } else {
-                    swal({
-                        title: 'Error',
-                        type: 'error',
-                        text: 'Please choose a name!'
                     });
                 }
             });
         },
-        focusInput: function() {
+        focusInput: function () {
             $('#name_input', '#configure_lvm_body').focus();
         }
     };

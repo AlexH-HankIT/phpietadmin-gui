@@ -4,14 +4,16 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
             $('#delete_volume_button').once('click', function () {
                 if ($('#safety_checkbox').prop("checked")) {
                     var url = require.toUrl('../lvm/configure'),
-                        $selected_volume = $('#logical_volume_selector').find("option:selected");
+                        $selected = $('#logical_volume_selector').find("option:selected"),
+                        $button = $(this);
 
+                    $button.button('loading');
                     $.ajax({
                         url: url + '/delete',
                         beforeSend: mylibs.checkAjaxRunning(),
                         data: {
-                            'lv': $selected_volume.data('lv'),
-                            'vg': $selected_volume.data('vg'),
+                            'vg': $selected.data('subtext'),
+                            'lv': $selected.text(),
                             'delete': true
                         },
                         dataType: 'json',
@@ -30,6 +32,8 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         },
@@ -38,6 +42,8 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     });
