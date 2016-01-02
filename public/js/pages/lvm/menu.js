@@ -8,6 +8,7 @@ define(['jquery', 'mylibs', 'bootstrapSelect'], function ($, mylibs) {
 
             $logicalVolumeSelector.once('change', function () {
                 $configureLvmMenu.fadeIn('fast');
+                $('#configureLvmBody').addClass('top-buffer');
 
                 mylibs.load_lvm_target_body(require.toUrl('../lvm/configure/extent'));
 

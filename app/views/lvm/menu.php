@@ -31,7 +31,7 @@
                         Loading, please wait...
                     </div>
                 </div>
-                <div class="top-buffer" id="configureLvmBody"></div>
+                <div id="configureLvmBody"></div>
             </div>
         </div>
     </div>
