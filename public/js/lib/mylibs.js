@@ -85,27 +85,33 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
             return retVal;
         },
         load_lvm_target_body: function (link, clicked) {
-            var logical_volume_selector_selected = $('#logical_volume_selector').find("option:selected");
-            $('#configure_lvm_body').remove();
+            var logical_volume_selector_selected = $('#logical_volume_selector').find("option:selected"),
+                $configureLvmBodyLoadingIndicator = $('#configureLvmBodyLoadingIndicator'),
+                $configureLvmBody = $('#configureLvmBody');
 
             if (clicked !== undefined && clicked != '') {
                 $('#configure_lvm_menu').find('ul').children('li').removeClass('active');
                 clicked.parents('li').addClass('active');
             }
 
-            $('#configure_lvm_body_wrapper').load(link, {lv: logical_volume_selector_selected.attr('data-lv'), vg: logical_volume_selector_selected.attr('data-vg')}, function (response, status) {
-                if (status == 'error') {
-                    $(this).html("<div id='configure_lvm_body'>" +
-                    "<div class='container'>" +
-                    "<div class='alert alert-warning' role='alert'>" +
-                    "<h3 class='text-center'>" +
-                    response +
-                    "</h3>" +
-                    "</div>" +
-                    '</div>' +
-                    '</div>');
-                }
+            $configureLvmBody.fadeOut('fast', function(){
+                $configureLvmBodyLoadingIndicator.fadeIn('fast');
+                $configureLvmBody.load(link, {lv: logical_volume_selector_selected.text(), vg: logical_volume_selector_selected.data('subtext')}, function (response, status) {
+                    $configureLvmBodyLoadingIndicator.fadeOut('fast', function() {
+                        $configureLvmBody.fadeIn('fast');
+                        if (status == 'error') {
+                            $configureLvmBody.html(
+                                "<div class='alert alert-warning' role='alert'>" +
+                                "<h3 class='text-center'>" +
+                                response +
+                                "</h3>" +
+                                "</div>"
+                            );
+                        }
+                    });
+                });
             });
+
             return false;
         },
         is_int: function(value) {

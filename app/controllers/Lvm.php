@@ -34,7 +34,7 @@ class Lvm extends core\BaseController {
                 if ($data !== false) {
                     $this->view('lvm/menu', $data);
                 } else {
-                    $this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger'));
+                    $this->view('message', array('message' => 'Error - No volume groups found', 'type' => 'danger', 'container' => false));
                 }
                 break;
             case 'extent':
@@ -74,7 +74,7 @@ class Lvm extends core\BaseController {
                         $data['vg'] = $vg->get_vg();
 
                         if ($data['vg'][0]['VFree'] <= 2) {
-                            $this->view('message', array('message' => 'Error - The volume group ' . $data['vg'][0]['VG'] . ' is too small!', 'type' => 'warning'));
+                            $this->view('message', array('message' => 'Error - The volume group ' . $data['vg'][0]['VG'] . ' is too small!', 'type' => 'warning', 'container' => false));
                         } else {
                             $this->view('lvm/extend', $data);
                         }
@@ -103,7 +103,7 @@ class Lvm extends core\BaseController {
                         $data['vg'] = $vg->get_vg();
 
                         if ($data['lv'][0]['LSize'] <= 1) {
-                            $this->view('message', array('message' => 'Error - The logical volume ' . $data['vg'][0]['VG'] . ' is too small!', 'type' => 'warning'));
+                            $this->view('message', array('message' => 'Error - The logical volume ' . $data['vg'][0]['VG'] . ' is too small!', 'type' => 'warning', 'container' => false));
                         } else {
                             $this->view('lvm/shrink', $data);
                         }
