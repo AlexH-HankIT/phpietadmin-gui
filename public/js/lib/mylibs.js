@@ -205,9 +205,21 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                 }
             }
         },
-        select_all_checkbox: function(checkbox) {
-            checkbox.once('click', function() {
-                $(this).closest('table').find('td input:checkbox').prop('checked', this.checked);
+        select_all_checkbox: function(masterCheckbox) {
+            var allCheckboxes = masterCheckbox.closest('table').find('td input:checkbox');
+
+            // Select all checkboxes
+            masterCheckbox.once('click', function() {
+                allCheckboxes.prop('checked', this.checked);
+            });
+
+            // Deselect master checkbox, if a checkbox is unchecked
+            allCheckboxes.change(function(){
+                if (allCheckboxes.not(':checked').length == 0) {
+                    masterCheckbox.prop('checked', true);
+                } else {
+                    masterCheckbox.prop('checked', false);
+                }
             });
         },
         loadConfigureTargetBody: function (body, iqnVal) {
@@ -233,9 +245,9 @@ define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], 
                 });
             });
         },
-        checkAjaxRunning: function(xhr) {
+        checkAjaxRunning: function() {
             if($('#ajaxIndicator').text() === 'true') {
-                xhr.abort();
+                return false;
             }
         }
     }
