@@ -41,7 +41,7 @@
         </tbody>
     </table>
 </div>
-<button class="delete_snapshot btn btn-danger" type='submit' data-loading-text="Deleting..."><span class="glyphicon glyphicon-trash"></span>
+<button class="delete_snapshot btn btn-danger" type='submit' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'><span class="glyphicon glyphicon-trash"></span>
     Delete
 </button>
 <script>

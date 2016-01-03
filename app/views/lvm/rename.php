@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<button id="rename_volume_button" class="btn btn-success top-buffer" type='submit' data-loading-text="Renaming..."><span class="glyphicon glyphicon-tag"></span>
+<button id="rename_volume_button" class="btn btn-success top-buffer" type='submit' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Renaming...'><span class="glyphicon glyphicon-tag"></span>
     Rename
 </button>
 <script>

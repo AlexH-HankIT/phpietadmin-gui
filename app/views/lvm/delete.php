@@ -12,7 +12,7 @@
         <label><input type="checkbox" id="safety_checkbox"> I understand, that this will delete all data stored on this volume</label>
     </div>
 </div>
-<button id="delete_volume_button" class="btn btn-danger top-buffer" type='submit' data-loading-text="Deleting..."><span
+<button id="delete_volume_button" class="btn btn-danger top-buffer" type='submit' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'><span
         class="glyphicon glyphicon-trash"></span> Delete
 </button>
 <script>

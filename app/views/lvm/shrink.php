@@ -19,7 +19,7 @@
         <div data-max="<?php echo htmlspecialchars($data['lv'][0]['LSize']) ?>" id="shrink_slider" class="slider"></div>
     </div>
 </div>
-<button id="shrink_volume_button" class="btn btn-warning top-buffer" type='submit' data-loading-text="Shrinking..."><span class="glyphicon glyphicon-minus"></span> Shrink
+<button id="shrink_volume_button" class="btn btn-warning top-buffer" type='submit' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Shrinking...'><span class="glyphicon glyphicon-minus"></span> Shrink
 </button>
 <script>
     require(['common'], function () {

@@ -21,8 +21,8 @@
              class="slider"></div>
     </div>
 </div>
-<button id="create_snapshot" class="btn btn-success top-buffer" type='submit' data-loading-text="Shooting..."><span class="glyphicon glyphicon-camera"></span>
-    Shoot it
+<button id="create_snapshot" class="btn btn-success top-buffer" type='submit' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Shooting...'>
+    <span class="glyphicon glyphicon-camera"></span> Shoot it
 </button>
 <script>
     require(['common'], function () {

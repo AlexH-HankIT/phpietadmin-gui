@@ -25,7 +25,7 @@
         <label><input type="checkbox" id="remapLun"> Remap lun</label> <a href="#"><span id="remapLunExplanation" class="glyphicon glyphicon-question-sign glyphicon-20" aria-hidden="true"></span></a>
     </div>
 </div>
-<button id='extend_lv_button' class='btn btn-success top-buffer'><span class='glyphicon glyphicon-plus' data-loading-text="Extending..."></span> Extend</button>
+<button id='extend_lv_button' class='btn btn-success top-buffer' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Extending...'><span class='glyphicon glyphicon-plus'></span> Extend</button>
 <script>
     require(['common'], function () {
         require(['pages/lvm/extend', 'domReady'], function (methods, domReady) {
