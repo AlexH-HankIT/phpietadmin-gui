@@ -38,7 +38,9 @@
                                 <div id="showErrorInModal" class="col-md-3"></div>
                                 <div class="col-md-5 col-md-offset-4">
                                     <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
-                                    <button type="button" class="btn btn-success" id="savePasswordButton"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+                                    <button class="btn btn-success has-spinner" id="savePasswordButton" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Saving...'>
+                                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +67,11 @@
                                 <td class="col-md-1 col-sm-1 text-center"><button data-toggle="tooltip" data-trigger="manual" title="Copied!" class="btn btn-xs btn-warning copyPasswordButton"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Copy</button></td>
                                 <td class="col-md-2 col-sm-1 text-center"><input class="showPasswordCheckbox" type="checkbox"></td>
                                 <td class="col-md-4 col-sm-3"><span class="passwordPlaceholder"><i>Hidden</i></span><span class="password" hidden><?php echo htmlspecialchars($row['password']); ?></span></td>
-                                <td class="col-md-1 col-sm-1"><button class="btn btn-xs btn-danger deleteuserrow"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</button></td>
+                                <td class="col-md-1 col-sm-1">
+                                    <button class="btn btn-xs btn-danger has-spinner deleteuserrow" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'>
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete
+                                    </button>
+                                </td>
                             </tr>
                         <?php } ?>
                     <?php } ?>

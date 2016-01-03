@@ -9,6 +9,10 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                 $inputPassword.focus();
             });
 
+            $editPasswordModal.once('hidden.bs.modal', function () {
+                $('.editPasswordSpan').button('reset');
+            });
+
             // Remove error, when input field is filled
             $passwordInput.once('click', function() {
                 $(this).parent('div').removeClass('has-error');
@@ -16,13 +20,16 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
 
             // insert username into loaded modal
             $('.editPasswordSpan').once('click', function() {
-                $('#savedUsername').val($(this).closest('tr').find('.username').text());
+                var $this = $(this);
+                $('#savedUsername').val($this.closest('tr').find('.username').text());
+                $this.button('loading');
             });
 
             $('#savePasswordButton').once('click', function() {
                 var inputPasswordVal = $inputPassword.val(),
                     inputPasswordRepeatVal = $('#inputPasswordRepeat').val(),
-                    $passwordInputParentDiv = $passwordInput.parent('div');
+                    $passwordInputParentDiv = $passwordInput.parent('div'),
+                    $button = $(this);
 
                 if ($passwordInput.val() === '' || inputPasswordVal !== inputPasswordRepeatVal) {
                     $passwordInputParentDiv.addClass('has-error');
@@ -32,6 +39,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
 
                 // Only close modal on success
                 if ($passwordInputParentDiv.hasClass('has-success')) {
+                    $button.button('loading');
                     $.ajax({
                         url: require.toUrl('../config/user/change'),
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -52,13 +60,17 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
 
                                     // Empty the password input fields
                                     $passwordInput.val('');
+
+                                    $button.button('reset');
                                 }, 400);
                             } else {
                                 $('#showErrorInModal').html(data['message']);
+                                $button.button('reset');
                             }
                         },
                         error: function () {
                             $('#showErrorInModal').html('Submit failed!');
+                            $button.button('reset');
                         }
                     });
                 }
@@ -89,7 +101,8 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
             $('#saveUserButton').once('click', function() {
                 var usernameNewVal = $usernameNew.val(),
                     inputPasswordNewVal = $('#inputPasswordNew').val(),
-                    inputPasswordRepeatNewVal = $('#inputPasswordRepeatNew').val();
+                    inputPasswordRepeatNewVal = $('#inputPasswordRepeatNew').val(),
+                    $button = $(this);
 
                 if ($passwordInputCreateUser.val() === '' || inputPasswordNewVal !== inputPasswordRepeatNewVal) {
                     $passwordInputCreateUserParentDiv.addClass('has-error');
@@ -105,6 +118,7 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
 
                 // Only close modal on success
                 if ($passwordInputCreateUserParentDiv.hasClass('has-success') && $usernameNewParentDiv.hasClass('has-success')) {
+                    $button.button('loading');
                     $.ajax({
                         url: url + '/add',
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -125,6 +139,8 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                                     $usernameNewParentDiv.removeClass('has-success has-error');
                                     $passwordInputCreateUser.val('');
                                     $usernameNew.val('');
+
+                                    $button.button('reset');
                                 }, 400);
 
                                 $createUserModal.once('hidden.bs.modal', function() {
@@ -134,10 +150,12 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                                 $usernameNewParentDiv.removeClass('has-success').addClass('has-error');
                                 $passwordInputCreateUserParentDiv.removeClass('has-success').addClass('has-error');
                                 $showErrorInCreateUserModal.html(data['message']);
+                                $button.button('reset');
                             }
                         },
                         error: function () {
                             $showErrorInCreateUserModal.html('Submit failed!');
+                            $button.button('reset');
                         }
                     });
                 }
@@ -146,12 +164,14 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
         table: function() {
             // delete user
             $('#userTable').once('click', '.deleteUserSpan', function() {
-                var url = require.toUrl('../config/user');
+                var url = require.toUrl('../config/user'),
+                    $button = $(this);
+                $button.button('loading');
                 $.ajax({
                     url: url + '/delete',
                     beforeSend: mylibs.checkAjaxRunning(),
                     data: {
-                        "username": $(this).closest('tr').find('.username').text()
+                        "username": $button.closest('tr').find('.username').text()
                     },
                     dataType: 'json',
                     type: 'post',
@@ -163,6 +183,8 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                                 title: 'Error',
                                 type: 'error',
                                 text: data['message']
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     },
@@ -171,6 +193,8 @@ define(['jquery', 'sweetalert', 'mylibs'], function ($, swal, mylibs) {
                             title: 'Error',
                             type: 'error',
                             text: 'Something went wrong while submitting!'
+                        }, function() {
+                            $button.button('reset');
                         });
                     }
                 });

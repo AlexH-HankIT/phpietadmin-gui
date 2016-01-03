@@ -34,10 +34,11 @@
                         <div class="modal-footer">
                             <div class="row">
                                 <div id="showErrorInModal" class="col-md-5"></div>
-
                                 <div class="col-md-5 col-md-offset-2">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
-                                    <button type="button" class="btn btn-success" id="savePasswordButton"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+                                    <button type="button" class="btn btn-default" id="exitPasswordEditModal" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
+                                    <button class="btn btn-success has-spinner" type="submit" id="savePasswordButton" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Saving...'>
+                                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +83,9 @@
                                 <div id="showErrorInCreateUserModal" class="col-md-5"></div>
                                 <div class="col-md-5 col-md-offset-2">
                                     <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
-                                    <button type="button" class="btn btn-success" id="saveUserButton"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Create</button>
+                                    <button class="btn btn-success has-spinner" id="saveUserButton" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Creating...'>
+                                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Create
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -105,8 +108,16 @@
                             <tr>
                                 <td class="col-md-4 col-sm-4 username"><?php echo htmlspecialchars($user['username']) ?></td>
                                 <td class="col-md-6 col-sm-4"><?php echo htmlspecialchars($user['permission']) ?></td>
-                                <td class="col-md-1 col-sm-1 text-center"><button class="btn btn-xs btn-danger deleteUserSpan"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
-                                <td class="col-md-1 col-sm-1 text-center"><button class="btn btn-xs btn-warning editPasswordSpan" data-toggle="modal" data-target="#editPasswordModal"><span class="glyphicon glyphicon-pencil"></span> Edit</button></td>
+                                <td class="col-md-1 col-sm-1 text-center">
+                                    <button class="btn btn-xs btn-warning editPasswordSpan has-spinner" type="submit" data-toggle="modal" data-target="#editPasswordModal" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Editing...'>
+                                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                                    </button>
+                                </td>
+                                <td class="col-md-1 col-sm-1 text-center">
+                                    <button class="btn btn-xs btn-danger deleteUserSpan has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'>
+                                        <span class="glyphicon glyphicon-trash"></span> Delete
+                                    </button>
+                                </td>
                             </tr>
                         <?php } ?>
 					<?php } ?>

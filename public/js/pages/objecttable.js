@@ -55,7 +55,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             workspace.once('click', '#saveObjectButton', function() {
                 var addObjectModalTypeSelectVal = addObjectModalTypeSelect.find('option:selected').val(),
                     addObjectModalNameInputVal = addObjectModalNameInput.val(),
-                    addObjectModalValueInputVal = addObjectModalValueInput.val();
+                    addObjectModalValueInputVal = addObjectModalValueInput.val(),
+                    $button = $(this);
 
                 if(addObjectModalNameInputVal === '') {
                     addObjectModalNameInputDiv.addClass('has-error');
@@ -93,6 +94,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     }
                 } else {
                     var url = require.toUrl('../objects');
+                    $button.button('loading');
                     $.ajax({
                         url: url + '/add',
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -110,6 +112,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
 
                                 setTimeout(function() {
                                     addObjectModal.modal('hide');
+                                    $button.button('reset');
                                 }, 400);
 
                                 addObjectModal.once('hidden.bs.modal', function() {
@@ -125,10 +128,13 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     addObjectModalNameInputError.show().text("In use!");
                                     addObjectModalNameInputDiv.addClass('has-error');
                                 }
+                                $button.button('reset');
                             } else if (data['code'] === 6) {
                                 // cant write to database
+                                $button.button('reset');
                             } else {
                                 // unknown error
+                                $button.button('reset');
                             }
                         },
                         error: function () {
@@ -136,6 +142,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     });
@@ -146,6 +154,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             $('.workspace').once('click', '.objectDelete', function () {
                 var url = require.toUrl('../objects'),
                     $this = $(this);
+
+                $this.button('loading');
                 swal({
                         title: 'Are you sure?',
                         text: 'The object won\'t be deleted from the iet allow files!',
@@ -155,35 +165,43 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         confirmButtonText: 'Yes, delete it!',
                         closeOnConfirm: false
                     },
-                    function () {
-                        $.ajax({
-                            url: url + '/delete',
-                            beforeSend: mylibs.checkAjaxRunning(),
-                            data: {
-                                "id": $this.closest('tr').attr('id')
-                            },
-                            dataType: 'json',
-                            type: 'post',
-                            success: function (data) {
-                                if (data['code'] === 0) {
-                                    swal.close();
-                                    return mylibs.load_workspace(url);
-                                } else {
+                    function (status) {
+                        if (status === true) {
+                            $.ajax({
+                                url: url + '/delete',
+                                beforeSend: mylibs.checkAjaxRunning(),
+                                data: {
+                                    "id": $this.closest('tr').attr('id')
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function (data) {
+                                    if (data['code'] === 0) {
+                                        swal.close();
+                                        return mylibs.load_workspace(url);
+                                    } else {
+                                        swal({
+                                            title: 'Error',
+                                            type: 'error',
+                                            text: data['message']
+                                        }, function() {
+                                            $this.button('reset');
+                                        });
+                                    }
+                                },
+                                error: function () {
                                     swal({
                                         title: 'Error',
                                         type: 'error',
-                                        text: data['message']
+                                        text: 'Something went wrong while submitting!'
+                                    }, function() {
+                                        $this.button('reset');
                                     });
                                 }
-                            },
-                            error: function () {
-                                swal({
-                                    title: 'Error',
-                                    type: 'error',
-                                    text: 'Something went wrong while submitting!'
-                                });
-                            }
-                        });
+                            });
+                        } else {
+                            $this.button('reset');
+                        }
                     });
             });
         }

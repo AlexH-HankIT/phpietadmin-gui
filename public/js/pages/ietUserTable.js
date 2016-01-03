@@ -43,9 +43,9 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
 
             // show/hide password
             $('.showPasswordCheckbox').once('change', function() {
-                var $this = $(this);
-                $this.closest('tr').find('span.passwordPlaceholder').toggle();
-                $this.closest('tr').find('span.password').toggle();
+                var $thisRow = $(this).closest('tr');
+                $thisRow.find('span.passwordPlaceholder').toggle();
+                $thisRow.find('span.password').toggle();
             });
         },
         enableFilterTablePlugin: function () {
@@ -54,9 +54,11 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
         },
         addEventHandlerDeleteUserRow: function () {
             $('.workspace').once('click', '.deleteuserrow', function () {
-                var $thisRow = $(this).closest('tr'),
+                var $this = $(this),
+                    $thisRow = $this.closest('tr'),
                     url = require.toUrl('../ietusers');
 
+                $this.button('loading');
                 swal({
                         title: 'Are you sure?',
                         text: 'The user won\'t be deleted from the iet config file!',
@@ -66,35 +68,43 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                         confirmButtonText: 'Yes, delete it!',
                         closeOnConfirm: false
                     },
-                    function () {
-                        $.ajax({
-                            url: url + '/delete_from_db',
-                            beforeSend: mylibs.checkAjaxRunning(),
-                            data: {
-                                "username": $thisRow.find('.username').text()
-                            },
-                            dataType: 'json',
-                            type: 'post',
-                            success: function (data) {
-                                if (data['code'] === 0) {
-                                    swal.close();
-                                    return mylibs.load_workspace(url);
-                                } else {
+                    function (status) {
+                        if (status === true) {
+                            $.ajax({
+                                url: url + '/delete_from_db',
+                                beforeSend: mylibs.checkAjaxRunning(),
+                                data: {
+                                    "username": $thisRow.find('.username').text()
+                                },
+                                dataType: 'json',
+                                type: 'post',
+                                success: function (data) {
+                                    if (data['code'] === 0) {
+                                        swal.close();
+                                        return mylibs.load_workspace(url);
+                                    } else {
+                                        swal({
+                                            title: 'Error',
+                                            type: 'error',
+                                            text: data['message']
+                                        }, function() {
+                                            $this.button('reset');
+                                        });
+                                    }
+                                },
+                                error: function () {
                                     swal({
                                         title: 'Error',
                                         type: 'error',
-                                        text: data['message']
+                                        text: 'Something went wrong while submitting!'
+                                    }, function() {
+                                        $this.button('reset');
                                     });
                                 }
-                            },
-                            error: function () {
-                                swal({
-                                    title: 'Error',
-                                    type: 'error',
-                                    text: 'Something went wrong while submitting!'
-                                });
-                            }
-                        });
+                            });
+                        } else {
+                            $this.button('reset');
+                        }
                     });
             });
         },
@@ -121,7 +131,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                     passwordVal = $addUserPasswordInput.val(),
                     $addUserPasswordInputParentDiv = $addUserPasswordInput.parent('div'),
                     url = require.toUrl('../ietusers'),
-                    $showErrorInModal = $('#showErrorInModal');
+                    $showErrorInModal = $('#showErrorInModal'),
+                    $button = $(this);
 
                 // Validate input fields not empty
                 if (usernameVal === '') {
@@ -137,6 +148,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
 
                 // Only close modal on success
                 if ($addUserPasswordInputParentDiv.hasClass('has-success') && $addUserUsernameInputParentDiv.hasClass('has-success')) {
+                    $button.button('loading');
                     $.ajax({
                         url: url + '/add_to_db',
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -166,10 +178,12 @@ define(['jquery', 'mylibs', 'sweetalert', 'clipboard'], function ($, mylibs, swa
                                 $addUserUsernameInputParentDiv.removeClass('has-success').addClass('has-error');
                                 $addUserPasswordInputParentDiv.removeClass('has-success').addClass('has-error');
                                 $showErrorInModal.html(data['message']);
+                                $button.button('reset');
                             }
                         },
                         error: function () {
                             $showErrorInModal.html('Submit failed!');
+                            $button.button('reset');
                         }
                     });
                 }

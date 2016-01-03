@@ -53,7 +53,10 @@
                                 </div>
                                 <div class="col-md-5 col-md-offset-7">
                                     <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close</button>
-                                    <button type="button" class="btn btn-success" id="saveObjectButton"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save</button>
+
+                                    <button class="btn btn-success has-spinner" id="saveObjectButton" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Saving...'>
+                                        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +81,11 @@
                                 <td class='col-md-2 col-sm-2 objectType'><?php echo htmlspecialchars($objects['type']); ?></td>
                                 <td class='col-md-4 col-sm-4 objectName'><?php echo htmlspecialchars($objects['name']); ?></td>
                                 <td class='col-md-4 col-sm-4 objectValue'><?php echo htmlspecialchars($objects['value']); ?></td>
-                                <td class="col-md-1 col-sm-1"><button class="btn btn-xs btn-danger objectDelete"><span class="glyphicon glyphicon-remove"></span> Delete</button></td>
+                                <td class="col-md-1 col-sm-1">
+                                    <button class="btn btn-xs btn-danger has-spinner objectDelete" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'>
+                                        <span class="glyphicon glyphicon-trash"></span> Delete
+                                    </button>
+                                </td>
                             </tr>
                         <?php } ?>
                     <?php } ?>

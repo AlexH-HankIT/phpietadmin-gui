@@ -19,9 +19,9 @@
                         <td class="col-md-2"><?php echo htmlspecialchars($value[4]) ?></td>
                         <td class="col-md-1">
                             <?php if ($value[5] == 'success') { ?>
-                                <span class="glyphicon  glyphicon glyphicon-ok glyphicon-20" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon glyphicon-ok glyphicon-20" aria-hidden="true"></span>
                             <?php } else { ?>
-                                <span class="glyphicon  glyphicon glyphicon-remove glyphicon-20" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon glyphicon-remove glyphicon-20" aria-hidden="true"></span>
                             <?php } ?>
                         </td>
                         <td class="col-md-1"><?php echo htmlspecialchars($value[6]) ?></td>
