@@ -9,7 +9,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             mylibs.select_all_checkbox($('#masterCheckbox'));
 
             $('#addAllowRuleButton').once('click', function () {
-                var checkboxes = $('.objectCheckbox:checked');
+                var checkboxes = $('.objectCheckbox:checked'),
+                    $button = $(this);
 
                 if (!checkboxes.val()) {
                     swal({
@@ -20,7 +21,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                 } else {
                     checkboxes.each(function () {
                         var $this = $(this);
-
+                        $button.button('loading');
                         $.ajax({
                             url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/addrule'),
                             beforeSend: mylibs.checkAjaxRunning(),
@@ -38,11 +39,14 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         text: data['message']
                                     });
                                     $this.removeAttr('checked');
+                                    $button.button('reset');
                                 } else {
                                     swal({
                                         title: 'Error',
                                         type: 'error',
                                         text: data['message']
+                                    }, function() {
+                                        $button.button('reset');
                                     });
                                 }
                             },
@@ -51,6 +55,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     title: 'Error',
                                     type: 'error',
                                     text: 'Something went wrong while submitting!'
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         });

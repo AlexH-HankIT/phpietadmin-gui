@@ -5,7 +5,9 @@ define(['jquery', 'mylibs', 'sweetalert', 'bootstrapSelect'], function ($, mylib
             $deleteLunSelect.selectpicker();
             $('#deleteLunButton').once('click', function () {
                 var selected = $deleteLunSelect.find('option:selected'),
-                    iqnVal = $('#targetSelect').find('option:selected').val();
+                    iqnVal = $('#targetSelect').find('option:selected').val(),
+                    $button = $(this);
+                $button.button('loading');
                 $.ajax({
                     url: require.toUrl('../targets/configure/' + iqnVal + '/deletelun'),
                     beforeSend: mylibs.checkAjaxRunning(),
@@ -28,6 +30,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'bootstrapSelect'], function ($, mylib
                                 title: 'Error',
                                 type: 'error',
                                 text: data['message']
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     },
@@ -36,6 +40,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'bootstrapSelect'], function ($, mylib
                             title: 'Error',
                             type: 'error',
                             text: 'Something went wrong while submitting!'
+                        }, function() {
+                            $button.button('reset');
                         });
                     }
                 });

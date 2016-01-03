@@ -1,8 +1,9 @@
 define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
     return {
         add_event_handler_deletetargetbutton: function () {
-            $('#deletetargetbutton').once('click', function () {
-                var deleteacl;
+            $('#deleteTargetButton').once('click', function () {
+                var deleteacl,
+                    $button = $(this);
                 if ($('#deleteacl').prop('checked')) {
                     deleteacl = 1;
                 } else {
@@ -24,7 +25,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                     });
                 } else {
                     var url = require.toUrl('../targets/configure');
-
+                    $button.button('loading');
                     $.ajax({
                         url: url + '/' + $('#targetSelect').find('option:selected').val() + '/delete',
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -48,6 +49,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         },
@@ -56,6 +59,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     });

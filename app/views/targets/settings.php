@@ -35,7 +35,7 @@
                     </td>
                 <?php } ?>
                 <td>
-                    <button class="btn btn-xs btn-success savevalueinput">
+                    <button class="btn btn-success has-spinner saveValueButton" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Saving...'>
                         <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
                     </button>
                 </td>

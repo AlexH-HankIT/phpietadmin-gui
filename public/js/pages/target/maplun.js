@@ -3,9 +3,12 @@ define(['jquery', 'mylibs', 'sweetalert', 'bootstrapSelect'], function ($, mylib
         add_event_handler_maplunbutton: function () {
             var $logical_volume_selector = $('#logical_volume_selector');
             $logical_volume_selector.selectpicker();
-            $('#map_lun_button').once('click', function () {
+            $('#mapLunButton').once('click', function () {
                     var selected = $logical_volume_selector.find("option:selected"),
-                        iqnVal = $('#targetSelect').find('option:selected').val();
+                        iqnVal = $('#targetSelect').find('option:selected').val(),
+                        $button = $(this);
+
+                    $button.button('loading');
                     $.ajax({
                         url: require.toUrl('../targets/configure/' + iqnVal + '/maplun'),
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -30,6 +33,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'bootstrapSelect'], function ($, mylib
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         },
@@ -38,6 +43,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'bootstrapSelect'], function ($, mylib
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     });

@@ -1,10 +1,10 @@
 define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return {
         disable_special_chars: function () {
-            var $iqninput = $('#iqninput');
+            var $iqninput = $('#iqninput'),
 
             // Save default input for later restore
-            var data = $iqninput.val();
+            data = $iqninput.val();
 
             // Validates the iqn input field
             $iqninput.keydown(function (e) {
@@ -43,14 +43,16 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
         },
         add_event_handler_addtargetbutton: function () {
-            $('#addtargetbutton').once('click', function () {
+            $('#addTargetButton').once('click', function () {
                 var $iqninput = $('#iqninput'),
-                    $iqninputParentDiv = $iqninput.parent('div');
+                    $iqninputParentDiv = $iqninput.parent('div'),
+                    $button = $(this);
 
                 if ($iqninput.val() === '') {
                     $iqninputParentDiv.addClass('has-error');
                     return false;
                 } else {
+                    $button.button('loading');
                     $.ajax({
                         url: require.toUrl('../targets/addtarget'),
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -70,6 +72,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     },
                                     function () {
                                         $iqninput.val('');
+                                        $button.button('reset');
                                     });
                             } else {
                                 swal({
@@ -79,16 +82,17 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     },
                                     function () {
                                         $iqninputParentDiv.addClass('has-error');
+                                        $button.button('reset');
                                     });
                             }
                         },
                         error: function (data) {
-                            console.log(data);
                             swal({
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
                             });
+                            $button.button('reset');
                         }
                     });
                 }

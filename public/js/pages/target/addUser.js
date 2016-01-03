@@ -8,7 +8,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             mylibs.select_all_checkbox($('#master_checkbox'));
 
             $('.addUserButton').once('click', function () {
-                var checkboxes = $('.addusercheckbox:checked');
+                var checkboxes = $('.addusercheckbox:checked'),
+                    $button = $(this);
 
                 if (!checkboxes.val()) {
                     swal({
@@ -18,6 +19,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                     });
                 } else {
                     checkboxes.each(function () {
+                        $button.button('loading');
                         $.ajax({
                             url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/adduser'),
                             beforeSend: mylibs.checkAjaxRunning(),
@@ -33,13 +35,18 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         title: 'Success',
                                         type: 'success',
                                         text: data['message']
+                                    }, function() {
+                                        $button.button('reset');
+                                        checkboxes.removeAttr('checked');
                                     });
-                                    checkboxes.removeAttr('checked');
                                 } else {
                                     swal({
                                         title: 'Error',
                                         type: 'error',
                                         text: data['message']
+                                    }, function() {
+                                        $button.button('reset');
+                                        checkboxes.removeAttr('checked');
                                     });
                                 }
                             },
@@ -48,6 +55,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     title: 'Error',
                                     type: 'error',
                                     text: 'Something went wrong while submitting!'
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         });

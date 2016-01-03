@@ -5,17 +5,16 @@
 <?php } ?>
 <div class="row">
     <div class="col-md-12">
-        <select id="deleteLunSelect" data-live-search="true" data-width="100%" data-size="10">
+        <select id="deleteLunSelect" data-show-subtext="true" data-live-search="true" data-width="100%" data-size="10">
             <?php foreach ($data['lun'] as $value) { ?>
-                <option class="lun"
-                        data-subtext="ID: <?php echo htmlspecialchars($value['id']); ?>"><?php echo htmlspecialchars($value['path']); ?></option>
+                <option class="lun" data-subtext="ID: <?php echo htmlspecialchars($value['id']); ?>"><?php echo htmlspecialchars($value['path']); ?></option>
             <?php } ?>
         </select>
     </div>
 </div>
 <div class="row top-buffer">
     <div class="col-md-12">
-        <button id="deleteLunButton" class="btn btn-danger" type="submit">
+        <button id="deleteLunButton" class="btn btn-danger has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'>
             <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
         </button>
     </div>

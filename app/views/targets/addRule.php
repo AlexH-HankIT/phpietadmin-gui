@@ -1,4 +1,4 @@
-<button id="addAllowRuleButton" type="button" class="btn btn-success">
+<button id="addAllowRuleButton" class="btn btn-success has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Adding...'>
     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Allow
 </button>
 <div class="btn-group" data-toggle="buttons">

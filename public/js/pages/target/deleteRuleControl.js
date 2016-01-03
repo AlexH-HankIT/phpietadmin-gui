@@ -8,7 +8,10 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             });
 
             $('.deleteRuleButton').once('click', function () {
+                var $button = $(this);
+
                 $('.object_delete_checkbox:checked').each(function () {
+                    $button.button('loading');
                     $.ajax({
                         url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/deleterule'),
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -21,11 +24,14 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         success: function (data) {
                             if (data['code'] == 0) {
                                 _this.loadData();
+                                $button.button('reset');
                             } else {
                                 swal({
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         },
@@ -34,6 +40,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     });

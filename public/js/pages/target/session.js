@@ -17,7 +17,9 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                 bodyId = '/session';
 
             $('.deleteSessionButton').once('click', function () {
-                var url = require.toUrl('../targets/configure/') + iqn + bodyId;
+                var url = require.toUrl('../targets/configure/') + iqn + bodyId,
+                    $button = $(this);
+                $button.button('loading');
                 $.ajax({
                     url: url,
                     beforeSend: mylibs.checkAjaxRunning(),
@@ -40,6 +42,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                                 title: 'Error',
                                 type: 'error',
                                 text: data['message']
+                            }, function() {
+                                $button.button('reset');
                             });
                         }
                     },
@@ -48,6 +52,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                             title: 'Error',
                             type: 'error',
                             text: 'Something went wrong while submitting!'
+                        }, function() {
+                            $button.button('reset');
                         });
                     }
                 });

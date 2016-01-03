@@ -27,8 +27,8 @@
 </div>
 <div class='row top-buffer'>
     <div class='col-md-12'>
-        <button id="map_lun_button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>
-            Add
+        <button id="mapLunButton" class="btn btn-success has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Adding...'>
+            <span class="glyphicon glyphicon-plus"></span> Add
         </button>
     </div>
 </div>

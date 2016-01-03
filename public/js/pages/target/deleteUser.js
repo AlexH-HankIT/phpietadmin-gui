@@ -5,8 +5,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             $('.searchabletable').filterTable({minRows: 0});
         },
         add_event_handler_deleteuserbutton: function () {
-            $(document).once('click', '#deleteuserbutton', function () {
-                var $userDeleteCheckbox = $('.userDeleteCheckbox:checked');
+            $('#deleteUserButton').once('click', function () {
+                var $userDeleteCheckbox = $('.userDeleteCheckbox:checked'),
+                    $button = $(this);
                 if (!$userDeleteCheckbox.val()) {
                     swal({
                         title: 'Error',
@@ -20,6 +21,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                             bodyId =  '/deleteuser',
                             url = require.toUrl('../targets/configure/') + iqn + bodyId;
 
+                        $button.button('loading');
                         $.ajax({
                             url: url,
                             beforeSend: mylibs.checkAjaxRunning(),
@@ -37,6 +39,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                         title: 'Error',
                                         type: 'error',
                                         text: data['message']
+                                    }, function() {
+                                        $button.button('reset');
                                     });
                                 }
                             },
@@ -45,6 +49,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     title: 'Error',
                                     type: 'error',
                                     text: 'Something went wrong while submitting!'
+                                }, function() {
+                                    $button.button('reset');
                                 });
                             }
                         });

@@ -1,6 +1,7 @@
 <div class="row hidden-xs">
     <div class="col-md-12">
-        <button class="btn btn-success addUserButton"><span class="glyphicon glyphicon-plus"></span> Add
+        <button class="btn btn-success has-spinner addUserButton" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Adding...'>
+            <span class="glyphicon glyphicon-plus"></span> Add
         </button>
         <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-default active">

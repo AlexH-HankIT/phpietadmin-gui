@@ -18,8 +18,8 @@
             <div class='panel-footer'>
                 <div class='row'>
                     <div class='col-md-12'>
-                        <button id='addtargetbutton' class='btn btn-success'><span class='glyphicon glyphicon-plus'></span>
-                            Add
+                        <button id="addTargetButton" class="btn btn-success has-spinner" type='submit' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Adding...'>
+                            <span class="glyphicon glyphicon-plus"></span> Add
                         </button>
                     </div>
                 </div>

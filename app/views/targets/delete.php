@@ -28,7 +28,7 @@
 </div>
 <div class="row top-buffer">
     <div class="col-md-12">
-        <button id="deletetargetbutton" class="btn btn-danger" type="submit">
+        <button id="deleteTargetButton" class="btn btn-danger has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'>
             <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
         </button>
     </div>

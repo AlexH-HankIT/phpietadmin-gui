@@ -25,8 +25,9 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
             });
         },
         add_event_handler_save_value: function () {
-            $('.savevalueinput').once('click', function () {
-                var this_row = $(this).closest('tr'),
+            $('.saveValueButton').once('click', function () {
+                var $this = $(this),
+                    this_row = $this.closest('tr'),
                     newvalue,
                     type,
                     oldvalue = this_row.find('.default_value_before_change').val();
@@ -50,6 +51,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
                 } else if (newvalue === '') {
                     this_row.find('.value').parents('td').addClass('has-error')
                 } else {
+                    $this.button('loading');
                     $.ajax({
                         url: require.toUrl('../targets/configure/' + $('#targetSelect').find('option:selected').val() + '/settings'),
                         beforeSend: mylibs.checkAjaxRunning(),
@@ -77,12 +79,16 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
                                     }
 
                                     this_row.find('.default_value_before_change').val(newvalue);
+
+                                    $this.button('reset');
                                 });
                             } else {
                                 swal({
                                     title: 'Error',
                                     type: 'error',
                                     text: data['message']
+                                }, function() {
+                                    $this.button('reset');
                                 });
                             }
                         },
@@ -91,6 +97,8 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
                                 title: 'Error',
                                 type: 'error',
                                 text: 'Something went wrong while submitting!'
+                            }, function() {
+                                $this.button('reset');
                             });
                         }
                     });

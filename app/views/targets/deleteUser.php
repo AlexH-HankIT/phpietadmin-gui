@@ -1,4 +1,4 @@
-<button id="deleteuserbutton" class="btn btn-danger" type="submit">
+<button id="deleteUserButton" class="btn btn-danger has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'>
     <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
 </button>
 <div class="table-responsive top-buffer">

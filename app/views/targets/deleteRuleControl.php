@@ -1,8 +1,9 @@
 <div class="row">
     <div class="col-md-12 hidden-xs">
-        <button class="btn btn-danger deleteRuleButton" type="submit">
+        <button class="btn btn-danger has-spinner deleteRuleButton" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Deleting...'>
             <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Delete
         </button>
+
         <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-default active">
                 <input type="radio" name="ruleType" value="initiators" checked="checked">Initiators

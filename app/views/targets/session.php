@@ -19,7 +19,7 @@
                 <td><?php echo htmlspecialchars($value['hd']) ?></td>
                 <td><?php echo htmlspecialchars($value['dd']) ?></td>
                 <td>
-                    <button class="btn btn-xs btn-danger deleteSessionButton">
+                    <button id="create_volume_button" class="btn btn-danger btn-xs deleteSessionButton has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Disconnecting...'>
                         <span class="glyphicon glyphicon-remove"></span> Disconnect
                     </button>
                 </td>
