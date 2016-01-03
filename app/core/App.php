@@ -29,7 +29,12 @@ class App {
     private function updateDb() {
         // check if db update is necessary
         $version = $this->controllerObject->baseModel->database->get_config('version');
-        $version['value'] = str_replace('.', '', $version['value']);
+
+        // If version is false, the database has no version entry, therefore version 0.6.2 or older is used
+        // Which means we have to update the database anyway
+        if ($version !== false) {
+            $version['value'] = str_replace('.', '', $version['value']);
+        }
 
         try {
             $versionFile = models\Misc::getVersionFile();
@@ -37,7 +42,7 @@ class App {
             die('<h1>'  . $e->getMessage() . '</h1>');
         }
 
-        if ($versionFile['version'] > $version['value']) {
+        if ($version === false || $versionFile['version'] > $version['value']) {
             if (MODE !== 'dev') {
                 exec('sqlite3 ' . DB_FILE . ' < ' . INSTALL_DIR . '/database.update.sql');
             }
@@ -121,12 +126,6 @@ class App {
     // but it's a welcome addition
     private function sanitize(&$value) {
         $value = addslashes(strip_tags(trim($value)));
-    }
-
-    private function showFooter() {
-        if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
-            $this->controllerObject->view('footer');
-        }
     }
 
     private function showHeader() {
