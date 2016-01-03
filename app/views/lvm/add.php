@@ -45,7 +45,9 @@
                 </div>
             </div>
             <div class="panel-footer" id="add_lv_panel_footer" hidden>
-                <button id="create_volume_button" class="btn btn-success" type='submit' data-loading-text="Creating..."><span class="glyphicon glyphicon-plus"></span> Create</button>
+                <button id="create_volume_button" class="btn btn-success has-spinner" type='submit' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Creating...'>
+                    <span class="glyphicon glyphicon-plus"></span> Create
+                </button>
             </div>
         </div>
     </div>
