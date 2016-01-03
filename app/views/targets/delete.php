@@ -5,8 +5,7 @@
 <?php } ?>
 <?php if (isset($data['lun'])) { ?>
     <div class="alert alert-warning" role="alert">
-        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Warning - Target has luns. Delete
-        thembefore you delete the target!</h3></div>
+        <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Warning - Target has luns. Delete them before you delete the target!</h3></div>
 <?php } ?>
 <div class="row">
     <div class="col-md-12">
