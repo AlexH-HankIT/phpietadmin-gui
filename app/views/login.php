@@ -18,11 +18,10 @@
                 <input type="checkbox" id="show-password"> <label for="show-password">Show password</label>
             </div>
         </div>
-        <input class="btn btn-lg btn-primary btn-block button-width" type='submit' value='Login'>
+        <button class="btn btn-lg btn-primary btn-block button-width" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Loading...' type="submit">Login</button>
         <div class="form-group formError"></div>
     </form>
 </div>
-
 <script>
     require(['common'], function () {
         require(['pages/login', 'domReady'], function (methods, domReady) {

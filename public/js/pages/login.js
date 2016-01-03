@@ -3,7 +3,7 @@ define(['jquery', 'vibrate', 'hideShowPassword'], function ($, vibrate) {
         login: function () {
             var $username = $('.form-control[name="username"]'),
                 $password = $('.form-control[name="password1"]'),
-                $button = $('input[type="submit"]'),
+                $button = $('button[type="submit"]'),
                 $error = $('div.formError');
 
             $('#show-password').change(function () {
@@ -11,9 +11,8 @@ define(['jquery', 'vibrate', 'hideShowPassword'], function ($, vibrate) {
             });
 
             $('form.form-signin').submit(function () {
-                $button.val('Login');
                 $error.text('');
-
+                $button.button('loading');
                 $.ajax({
                     dataType: 'json',
                     type: 'post',
@@ -22,21 +21,21 @@ define(['jquery', 'vibrate', 'hideShowPassword'], function ($, vibrate) {
                         'password1': $password.val()
                     },
                     success: function (data) {
-                        $button.val('Connecting...');
                         if (data['status'] !== 'success') {
+                            $button.button('reset');
                             $('.form-signin').vibrate({
                                 frequency: 5000,
                                 spread: 5,
                                 duration: 400
                             });
                             $error.text(data['message']);
-                            $button.val('Login');
                         } else {
                             window.location.href = data['url'];
                         }
                     },
                     error: function (data) {
                         console.log(data);
+                        $button.button('reset');
                     }
                 });
                 return false;
