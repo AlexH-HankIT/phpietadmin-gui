@@ -22,7 +22,7 @@
 </div>
 <div class="row top-buffer">
     <div class="col-md-12">
-        <label><input type="checkbox" id="remapLun"> Remap lun</label> <a href="#"><span id="remapLunExplanation" class="glyphicon glyphicon-question-sign glyphicon-20" aria-hidden="true"></span></a>
+        <label><input type="checkbox" id="remapLun"> Remap lun</label> <span id="remapLunExplanation" class="label label-info"><span class="glyphicon glyphicon-info-sign"></span> Info</span>
     </div>
 </div>
 <button id='extend_lv_button' class='btn btn-success top-buffer' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Extending...'><span class='glyphicon glyphicon-plus'></span> Extend</button>
