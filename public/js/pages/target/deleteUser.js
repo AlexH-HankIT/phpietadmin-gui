@@ -5,6 +5,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             $('.searchabletable').filterTable({minRows: 0});
         },
         add_event_handler_deleteuserbutton: function () {
+            mylibs.select_all_checkbox($('#masterCheckbox'));
             $('#deleteUserButton').once('click', function () {
                 var $userDeleteCheckbox = $('.userDeleteCheckbox:checked'),
                     $button = $(this);

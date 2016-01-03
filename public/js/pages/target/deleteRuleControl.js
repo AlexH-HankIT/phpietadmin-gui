@@ -23,8 +23,8 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                         type: 'post',
                         success: function (data) {
                             if (data['code'] == 0) {
-                                _this.loadData();
                                 $button.button('reset');
+                                _this.loadData();
                             } else {
                                 swal({
                                     title: 'Error',

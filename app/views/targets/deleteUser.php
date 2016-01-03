@@ -5,7 +5,7 @@
     <table class="table table-striped searchabletable" id="deleteusertable">
         <thead>
         <tr>
-            <th><span class="glyphicon glyphicon glyphicon-ok icon-success glyphicon-20"></span></th>
+            <th><input id="masterCheckbox" type="checkbox"></th>
             <th>Type</th>
             <th>User</th>
         </tr>

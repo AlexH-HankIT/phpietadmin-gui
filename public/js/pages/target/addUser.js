@@ -5,7 +5,9 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
             $('.searchabletable').filterTable({minRows: 0});
         },
         add_event_handler_adduserbutton: function () {
-            mylibs.select_all_checkbox($('#master_checkbox'));
+            var $masterCheckbox = $('#master_checkbox');
+
+            mylibs.select_all_checkbox($masterCheckbox);
 
             $('.addUserButton').once('click', function () {
                 var checkboxes = $('.addusercheckbox:checked'),
@@ -38,6 +40,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     }, function() {
                                         $button.button('reset');
                                         checkboxes.removeAttr('checked');
+                                        $masterCheckbox.removeAttr('checked');
                                     });
                                 } else {
                                     swal({
@@ -47,6 +50,7 @@ define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
                                     }, function() {
                                         $button.button('reset');
                                         checkboxes.removeAttr('checked');
+                                        $masterCheckbox.removeAttr('checked');
                                     });
                                 }
                             },

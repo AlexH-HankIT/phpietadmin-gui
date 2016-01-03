@@ -20,3 +20,12 @@
         </tbody>
     </table>
 </div>
+<script>
+    require(['common'], function () {
+        require(['pages/target/deleteRule', 'domReady'], function (methods, domReady) {
+            domReady(function () {
+                methods.checkboxes();
+            });
+        });
+    });
+</script>
