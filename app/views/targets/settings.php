@@ -4,7 +4,8 @@
         <tr>
             <th>Option</th>
             <th>Value</th>
-            <th>Save</th>
+            <th class="text-center">Save</th>
+            <th class="text-center">Info</th>
         </tr>
         </thead>
         <tbody>
@@ -34,10 +35,13 @@
                                value="<?php echo htmlspecialchars($row['defaultvalue']); ?>">
                     </td>
                 <?php } ?>
-                <td>
+                <td class="text-center">
                     <button class="btn btn-success has-spinner saveValueButton" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Saving...'>
                         <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Save
                     </button>
+                </td>
+                <td class="text-center">
+                    <button class="btn btn-info" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span> Info</button>
                 </td>
             </tr>
         <?php } ?>
@@ -46,12 +50,12 @@
 </div>
 <script>
     require(['common'], function () {
-        require(['pages/target/settings', 'domReady', 'pages/target/qtipSettings'], function (settings, domReady, qtipSettings) {
+        require(['pages/target/settings', 'domReady'], function (settings, domReady) {
             domReady(function () {
                 settings.add_event_handler_settings_table_checkbox();
                 settings.add_event_handler_save_value();
                 settings.remove_error();
-                qtipSettings.add_qtip();
+                settings.info();
             });
         });
     });

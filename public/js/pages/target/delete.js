@@ -4,6 +4,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
             $('#deleteTargetButton').once('click', function () {
                 var deleteacl,
                     $button = $(this);
+                $('[data-toggle="popover"]').popover();
                 if ($('#deleteacl').prop('checked')) {
                     deleteacl = 1;
                 } else {
@@ -64,17 +65,6 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                             });
                         }
                     });
-                }
-            });
-        },
-        add_qtip: function() {
-            $('#icon_force').qtip({
-                content: {
-                    text: 'Delete target even if in use. Requires \'Delete acl\'. ' +
-                          'Does not work, if a \'ALL\' initiator acl is configured for this or all targets!'
-                },
-                style: {
-                    classes: 'qtip-youtube'
                 }
             });
         }
