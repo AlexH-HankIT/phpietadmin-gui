@@ -1,4 +1,4 @@
-define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
+define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return {
         deleteSessionButton: function () {
             var iqn = $('#targetSelect').find('option:selected').val(),

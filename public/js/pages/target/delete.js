@@ -1,10 +1,11 @@
-define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
+define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return {
         add_event_handler_deletetargetbutton: function () {
+            $('.btn.btn-xs.btn-info').popover();
+
             $('#deleteTargetButton').once('click', function () {
                 var deleteacl,
                     $button = $(this);
-                $('[data-toggle="popover"]').popover();
                 if ($('#deleteacl').prop('checked')) {
                     deleteacl = 1;
                 } else {

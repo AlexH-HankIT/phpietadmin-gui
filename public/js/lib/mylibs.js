@@ -1,4 +1,4 @@
-define(['jquery', 'qtip', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], function($, qtip, filterTable, swal, blockUI) {
+define(['jquery', 'filtertable', 'sweetalert', 'blockUI', 'bootstrap'], function($, filterTable, swal, blockUI) {
     return {
         /**
          * @url http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery/21712356#21712356

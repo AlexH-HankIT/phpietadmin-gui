@@ -5,8 +5,6 @@ requirejs.config({
         jqueryUiSlider: 'lib/jquery-ui-slider-pips',
         bootstrap: 'lib/bootstrap.amd',
         filtertable: 'lib/jquery.filtertable.amd',
-        qtip: 'lib/jquery.qtip',
-        imagesloaded: 'lib/imagesloaded.pkg.amd',
         sweetalert: 'lib/sweetalert',
         mylibs: 'lib/mylibs',
         blockUI: 'lib/jquery.blockUI',

@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="<?php echo WEB_PATH ?>/css/bootstrap.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/bootstrap-table.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/jquery.qtip.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/sweetalert.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/jquery-ui.css" rel="stylesheet">
 <link href="<?php echo WEB_PATH ?>/css/jquery-ui-slider-pips.css" rel="stylesheet">

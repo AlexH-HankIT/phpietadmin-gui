@@ -22,7 +22,17 @@
 </div>
 <div class="row top-buffer">
     <div class="col-md-12">
-        <label><input type="checkbox" id="remapLun"> Remap lun</label> <span id="remapLunExplanation" class="label label-info"><span class="glyphicon glyphicon-info-sign"></span> Info</span>
+        <label><input type="checkbox" id="remapLun"> Remap lun</label>
+
+        <button class="btn btn-xs btn-info" data-placement="right"
+                data-toggle="popover"
+                data-trigger="hover"
+                data-content="Delete and attach the lun to inform ietd and the initiator of the size change.
+                The MS iscsi inititator seems to handle this well. However, don't use it, unless you know what you are doing!
+                If the volume is not mapped on a target, this does nothing.">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Info
+        </button>
+
     </div>
 </div>
 <button id='extend_lv_button' class='btn btn-success top-buffer' data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Extending...'><span class='glyphicon glyphicon-plus'></span> Extend</button>
