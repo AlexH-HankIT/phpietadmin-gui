@@ -19,7 +19,11 @@
                 <td><?php echo htmlspecialchars($value['hd']) ?></td>
                 <td><?php echo htmlspecialchars($value['dd']) ?></td>
                 <td>
-                    <button id="create_volume_button" class="btn btn-danger btn-xs deleteSessionButton has-spinner" type="submit" data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Disconnecting...'>
+                    <button class="btn btn-danger btn-xs deleteSessionButton has-spinner" type="submit"
+                            data-loading-text='<span class="glyphicon glyphicon-refresh glyphicon-spin"></span> Disconnecting...'
+                            data-container="body" data-toggle="popover" data-placement="right" data-trigger="hover"
+                            data-content="To disconnect an initiator permanently you have to delete the acl allowing the connection."
+                        >
                         <span class="glyphicon glyphicon-trash"></span> Disconnect
                     </button>
                 </td>
@@ -32,7 +36,6 @@
     require(['common'], function () {
         require(['pages/target/session', 'domReady'], function (methods, domReady) {
             domReady(function () {
-                methods.deleteSessionButtonQtip();
                 methods.deleteSessionButton();
             });
         });

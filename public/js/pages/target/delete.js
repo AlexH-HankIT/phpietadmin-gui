@@ -1,6 +1,8 @@
-define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qtip) {
+define(['jquery', 'mylibs', 'sweetalert'], function ($, mylibs, swal) {
     return {
         add_event_handler_deletetargetbutton: function () {
+            $('.btn.btn-xs.btn-info').popover();
+
             $('#deleteTargetButton').once('click', function () {
                 var deleteacl,
                     $button = $(this);
@@ -64,17 +66,6 @@ define(['jquery', 'mylibs', 'sweetalert', 'qtip'], function ($, mylibs, swal, qt
                             });
                         }
                     });
-                }
-            });
-        },
-        add_qtip: function() {
-            $('#icon_force').qtip({
-                content: {
-                    text: 'Delete target even if in use. Requires \'Delete acl\'. ' +
-                          'Does not work, if a \'ALL\' initiator acl is configured for this or all targets!'
-                },
-                style: {
-                    classes: 'qtip-youtube'
                 }
             });
         }

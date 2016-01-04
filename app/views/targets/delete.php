@@ -21,9 +21,12 @@
             <input id="force" type="checkbox" <?php if (isset($data['session'])) echo 'checked disabled' ?>>
             Force
         </label>
-        <a href="#">
-            <span id="icon_force" class="glyphicon glyphicon-question-sign glyphicon-20" aria-hidden="true"></span>
-        </a>
+        <button class="btn btn-xs btn-info" data-placement="right"
+                data-toggle="popover"
+                data-trigger="hover"
+                data-content="Delete target even if in use. Requires 'Delete acl' 'Does not work, if a 'ALL' initiator acl is configured for this or all targets!">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Info
+        </button>
     </div>
 </div>
 <div class="row top-buffer">
@@ -38,7 +41,6 @@
         require(['pages/target/delete', 'domReady'], function (methods, domReady) {
             domReady(function () {
                 methods.add_event_handler_deletetargetbutton();
-                methods.add_qtip();
             });
         });
     });
