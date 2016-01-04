@@ -99,4 +99,22 @@ class Misc {
             return false;
         }
     }
+
+    /**
+     * array_search for multidimensional arrays
+     *
+     * @param string $needle
+     * @param array $haystack
+     * @return int|bool
+     *
+     */
+    public static function recursive_array_search($needle, array $haystack) {
+        foreach ($haystack as $key => $value) {
+            $current_key = $key;
+            if ($needle === $value OR (is_array($value) && self::recursive_array_search($needle, $value) !== false)) {
+                return $current_key;
+            }
+        }
+        return false;
+    }
 }
