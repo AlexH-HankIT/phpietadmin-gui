@@ -2,57 +2,64 @@
 require_once __DIR__ . '/../app/core/const.inc.php';
 require_once MODEL_DIR . '/Misc.php';
 
+use app\models,
+    app\core;
+
 // Register autoloader
 spl_autoload_register('app\models\Misc::loader');
 
 if (is_writable(DB_FILE)) {
-    $database = new app\models\Database();
-    $users = $database->get_phpietadmin_user();
+    $registry = core\Registry::getInstance();
+    $registry->set('database', new models\Database());
+    $registry->set('logging', new models\logging\Logging());
 
-    $id = '';
-    do {
-        // list user
-        foreach ($users as $user) {
-            echo $user['user_id'] . ' ' . $user['username'] . "\n";
-        }
+    $userModel = new app\models\User();
+    $users = $userModel->returnData();
 
-        echo "Please enter the id of the user, whose password should be reset: \n";
-        $id = readline("ID: ");
+    if ($users === false) {
+        die("No users found!\n");
+    } else {
+        $id = '';
+        do {
+            // list user
+            foreach ($users as $user) {
+                echo $user['user_id'] . ' ' . $user['username'] . "\n";
+            }
 
-        // Validate
-        if (!is_numeric($id)) {
-            $id = '';
-        } else {
-            $key = app\models\Misc::recursiveArraySearch(intval($id), $users);
+            echo "Please enter the id of the user, whose password should be reset: \n";
+            $id = readline("ID: ");
 
-            if ($key !== false) {
-                if (isset($users[$key])) {
-                    $password1 = readline("New password: ");
+            // Validate
+            if (!is_numeric($id)) {
+                $id = '';
+            } else {
+                $key = app\models\Misc::recursiveArraySearch(intval($id), $users);
 
-                    if (!empty($password1)) {
-                        $password2 = readline("Repeat: ");
-                        if (!empty($password2)) {
+                if ($key !== false) {
+                    if (isset($users[$key])) {
+                        echo "Warning - password will be visible!\n";
+                        $password1 = readline("New password: ");
+                        if (!empty($password1)) {
+                            $password2 = readline("Repeat: ");
                             if ($password1 === $password2) {
-                                $password = password_hash($password1, PASSWORD_BCRYPT);
-                                $database->updatePhpietadminUserPassword($password, $users[$key]['username']);
+                                $user = new app\models\User($users[$key]['username']);
+                                $user->change($password1);
+                                echo $user->logging->get_action_result()['message'] . "\n";
                             } else {
-                                // error
+                                die("Passwords do not match!\n");
                             }
                         } else {
-                            // error
+                            die("Password cannot be empty!\n");
                         }
                     } else {
-                        // error
+                        $id = '';
                     }
                 } else {
                     $id = '';
                 }
-            } else {
-                $id = '';
             }
-        }
-    } while (empty($id));
-
+        } while (empty($id));
+    }
 } else {
-    // error
+    die("Database not found or not writable!");
 }
