@@ -41,7 +41,7 @@
                     </button>
                 </td>
                 <td class="text-center">
-                    <button class="btn btn-info" data-placement="right"><span class="glyphicon glyphicon-info-sign"></span> Info</button>
+                    <button class="btn btn-info" data-content=" " data-placement="right"><span class="glyphicon glyphicon-info-sign"></span> Info</button>
                 </td>
             </tr>
         <?php } ?>
@@ -52,10 +52,10 @@
     require(['common'], function () {
         require(['pages/target/settings', 'domReady'], function (settings, domReady) {
             domReady(function () {
+                settings.info();
                 settings.add_event_handler_settings_table_checkbox();
                 settings.add_event_handler_save_value();
                 settings.remove_error();
-                settings.info();
             });
         });
     });
