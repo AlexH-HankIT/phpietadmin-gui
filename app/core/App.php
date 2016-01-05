@@ -5,11 +5,25 @@ use app\controllers,
     app\models\logging,
     app\models;
 
+/**
+ * Entry point for this application. All requests are handled here.
+ * @package app\core
+ * @throws \Exception if the version file is invalid
+ */
 class App {
+    /** @var object $controllerObject Contains the object of the called controller */
     protected $controllerObject;
+
+    /** @var string $controllerName Contains the name of the called controller, it's initialized with a default value */
     protected $controllerName = 'app\\controllers\\dashboard';
+
+    /** @var string $method Contains the name of the called method, it's initialized with a default value */
     protected $method = 'index';
+
+    /** @var array $params Contains an array with all parameters */
     protected $params = [];
+
+    /** @var array $url Contains the url using the parseUrl() function */
     protected $url;
 
     public function __construct() {
@@ -18,6 +32,11 @@ class App {
         $this->url = $this->parseUrl();
     }
 
+    /**
+     * Create the database. Check if it's already there, otherwise you will delete all data ;-)
+     *
+     * @return void
+     */
     private function installDb() {
         exec('sqlite3 ' . DB_FILE . ' < ' . INSTALL_DIR . '/database.new.sql', $output, $code);
 
@@ -26,6 +45,14 @@ class App {
         }
     }
 
+    /**
+     * Check if the database has the same version as the application. If not update it using the
+     * database.update.sql file.
+     * Nothing will be done, if the application is in development mode.
+     *
+     * @throws \Exception if the version file is invalid
+     * @return void
+     */
     private function updateDb() {
         // check if db update is necessary
         $version = $this->controllerObject->baseModel->database->get_config('version');
@@ -49,6 +76,13 @@ class App {
         }
     }
 
+    /**
+     * This method start the application. It creates necessary objects, handles authentication
+     * and outputs the application header + menu if the request isn't an ajax
+     *
+     * @throws \Exception if the called controller or method is not found
+     * @return void
+     */
     public function app() {
         if (file_exists(CONTROLLER_DIR . '/' . ucfirst($this->url[0]) . '.php')) {
             $this->controllerName = 'app\\controllers\\' . $this->url[0];
@@ -107,12 +141,24 @@ class App {
         call_user_func_array([$this->controllerObject, $this->method], $this->params);
     }
 
+    /**
+     * Split the url for application routing
+     * @return array
+     */
     private function parseUrl() {
         if (isset($_GET['url'])) {
             return $url = explode('/', filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL));
         }
     }
 
+    /**
+     * Fill the registry with all necessary models and
+     * instantiated a baseModel, to access the models through the
+     * controllerObject
+     *
+     * @throws \Exception
+     * @return void
+     */
     private function setupRegistry() {
         $registry = Registry::getInstance();
         $registry->set('database', new models\Database());
@@ -120,13 +166,24 @@ class App {
         $this->controllerObject->baseModel = new BaseModel();
     }
 
-    // Sanitize user input
-    // Unlikely that this does something useful
-    // but it's a welcome addition
+    /**
+     * Sanitize user input
+     * Unlikely that this does something useful
+     * but it's a welcome addition
+     *
+     * @param $value array
+     * @return void
+     */
     private function sanitize(&$value) {
         $value = addslashes(strip_tags(trim($value)));
     }
 
+    /**
+     * Output application header and menu, if the user is authenticated and
+     * the request is not ajax
+     *
+     * @return void
+     */
     private function showHeader() {
         // If request is no ajax, display header, menu and footer
         if (!models\Misc::isXHttpRequest() && $this->controllerName !== 'app\controllers\auth') {
@@ -135,6 +192,11 @@ class App {
         }
     }
 
+    /**
+     * Validate if the user is correctly authenticated
+     *
+     * @return void
+     */
     private function checkAuth() {
         // auth controller is accessible without authentication
         if ($this->controllerName !== 'app\controllers\auth') {
