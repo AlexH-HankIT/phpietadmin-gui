@@ -153,7 +153,7 @@ class Target extends Exec {
         $this->check();
 
         if (isset($this->target_data['session'])) {
-            $key = $this->std->recursive_array_search($sid, $this->target_data['session']);
+            $key = models\Misc::recursiveArraySearch($sid, $this->target_data['session']);
 
             if ($key !== false) {
                 $return = $this->exec_disconnect_session($this->target_data['session'][$key]['sid'], $this->target_data['session'][$key]['cid']);
@@ -195,7 +195,7 @@ class Target extends Exec {
 
             if ($luns !== false) {
                 // get index of lun
-                $key = $this->std->recursive_array_search($path, $luns);
+                $key = models\Misc::recursiveArraySearch($path, $luns);
 
                 if ($key !== false) {
                     // delete lun from daemon
@@ -402,7 +402,7 @@ class Target extends Exec {
 
             // maybe use array_replace() here?
             foreach ($data as $value) {
-                $key = $this->std->recursive_array_search($value[0], $default_settings);
+                $key = models\Misc::recursiveArraySearch($value[0], $default_settings);
 
                 if ($key !== false) {
                     $string = trim(preg_replace('/\s+/', ' ', $value[1]));
@@ -439,14 +439,14 @@ class Target extends Exec {
         } else {
             // check if $newvalue is default value
             $default_settings = $this->database->get_iet_settings();
-            $default_settings_key = $this->std->recursive_array_search($option, $default_settings);
+            $default_settings_key = models\Misc::recursiveArraySearch($option, $default_settings);
 
             // get value before change
             $targetsettings = $this->get_settings();
 
             if (is_array($targetsettings)) {
                 // check if option is already defined
-                $key = $this->std->recursive_array_search($option, $targetsettings);
+                $key = models\Misc::recursiveArraySearch($option, $targetsettings);
 
                 // delete old value
                 if ($key !== false) {
@@ -627,7 +627,7 @@ class Target extends Exec {
             if ($database_user !== 0) {
                 // get ids for the usernames
                 foreach ($iet_user as $key => $iet) {
-                    $found = $this->std->recursive_array_search($iet['1'], $database_user);
+                    $found = models\Misc::recursiveArraySearch($iet['1'], $database_user);
                     $iet_user[$key][] = $database_user[$found]['id'];
                 }
                 return $iet_user;
@@ -657,7 +657,7 @@ class Target extends Exec {
                 }
             }
 
-            $return = $this->std->array_flatten(array_values($return));
+            $return = models\Misc::arrayFlatten(array_values($return));
 
             if (empty($return)) {
                 return false;
@@ -690,7 +690,7 @@ class Target extends Exec {
 
             if (isset($return) && is_array($return)) {
                 $return = array_values($return);
-                $key = $this->std->recursive_array_search($path, $return);
+                $key = models\Misc::recursiveArraySearch($path, $return);
                 return $return[$key]['iqn'];
             } else {
                 return false;
@@ -703,7 +703,7 @@ class Target extends Exec {
     public function is_lun($path) {
         $data = $this->return_all_used_lun();
         if ($data !== false) {
-            $return = $this->std->recursive_array_search($path, $data);
+            $return = models\Misc::recursiveArraySearch($path, $data);
             if ($return !== false) {
                 return true;
             } else {
@@ -718,7 +718,7 @@ class Target extends Exec {
         $luns = $this->return_target_property('lun');
 
         if ($luns !== false) {
-            $key = $this->std->recursive_array_search($path, $luns);
+            $key = models\Misc::recursiveArraySearch($path, $luns);
 
             if ($key !== false) {
                 $return = $this->delete_lun_from_daemon($luns[$key]['id']);

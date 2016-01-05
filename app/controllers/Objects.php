@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\core;
+use app\core, app\models;
 
 class Objects extends core\BaseController {
     public function index() {
@@ -11,7 +11,7 @@ class Objects extends core\BaseController {
     }
 
     public function add() {
-        if (isset($_POST['type'], $_POST['name'], $_POST['value']) && !$this->baseModel->std->mempty($_POST['type'], $_POST['name'], $_POST['value'])) {
+        if (isset($_POST['type'], $_POST['name'], $_POST['value']) && !models\Misc::mEmpty($_POST['type'], $_POST['name'], $_POST['value'])) {
             $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
             $value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
@@ -19,9 +19,9 @@ class Objects extends core\BaseController {
             $data = $this->baseModel->database->get_all_objects();
             try {
                 if (is_array($data)) {
-                    if ($this->baseModel->std->recursive_array_search($name, $data) !== false) {
+                    if (models\Misc::recursiveArraySearch($name, $data) !== false) {
                         throw new \exception('name');
-                    } else if ($this->baseModel->std->recursive_array_search($value, $data) !== false) {
+                    } else if (models\Misc::recursiveArraySearch($value, $data) !== false) {
                         throw new \exception('value');
                     }
                 }

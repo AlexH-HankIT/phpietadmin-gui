@@ -7,7 +7,6 @@ use app\models,
 class BaseModel {
     public $database;
     public $logging;
-    public $std;
 
     public function __construct() {
         $registry = Registry::getInstance();
@@ -16,7 +15,6 @@ class BaseModel {
         try {
             $this->database = $registry->get('database');
             $this->logging = $registry->get('logging');
-            $this->std = $registry->get('std');
         } catch (\Exception $e) {
             die('<h1>' . $e->getMessage() . '</h1>');
         }

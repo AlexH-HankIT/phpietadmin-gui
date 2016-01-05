@@ -23,7 +23,7 @@ if (is_writable(DB_FILE)) {
         if (!is_numeric($id)) {
             $id = '';
         } else {
-            $key = app\models\Misc::recursive_array_search(intval($id), $users);
+            $key = app\models\Misc::recursiveArraySearch(intval($id), $users);
 
             if ($key !== false) {
                 if (isset($users[$key])) {

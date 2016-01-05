@@ -1,7 +1,8 @@
 <?php
 namespace app\controllers;
 
-use app\core;
+use app\core,
+    app\models;
 
 class Ietusers extends core\BaseController {
     /**
@@ -24,7 +25,7 @@ class Ietusers extends core\BaseController {
      *
      */
     public function add_to_db() {
-        if (isset($_POST['username'], $_POST['password']) && !$this->baseModel->std->mempty($_POST['username'], $_POST['password'])) {
+        if (isset($_POST['username'], $_POST['password']) && !models\Misc::mEmpty($_POST['username'], $_POST['password'])) {
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
             $username = str_replace(' ', '', $username);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);

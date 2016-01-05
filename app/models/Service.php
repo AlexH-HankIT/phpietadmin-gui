@@ -1,7 +1,8 @@
 <?php
 namespace app\models;
 
-use app\core;
+use app\core,
+    app\models;
 
 class Service extends core\BaseModel {
     // true if the service is in the database
@@ -21,7 +22,7 @@ class Service extends core\BaseModel {
     protected function check_already_added() {
         $data = $this->database->get_services(true);
 
-        $status = $this->std->recursive_array_search($this->service_name, $data);
+        $status = Misc::recursiveArraySearch($this->service_name, $data);
 
         if ($status !== false) {
             $this->service_status = true;
@@ -166,7 +167,7 @@ class Service extends core\BaseModel {
         if ($this->service_status === true) {
             if ($param == 'start') {
                 $this->logging->log_debug_result($this->service_bin . ' ' . $this->service_name . ' start', __METHOD__, 'exec()');
-                $return = $this->std->exec_and_return($this->service_bin . ' ' . $this->service_name . ' start');
+                $return = models\Misc::logExec($this->service_bin . ' ' . $this->service_name . ' start');
                 if ($return['result'] === 0) {
                     $this->logging->log_action_result('The service ' . $this->service_name . ' was started!', $return, __METHOD__);
                 } else {
@@ -174,7 +175,7 @@ class Service extends core\BaseModel {
                 }
             } else if ($param === 'stop') {
                 $this->logging->log_debug_result($this->service_bin . ' ' . $this->service_name . ' stop', __METHOD__, 'exec()');
-                $return = $this->std->exec_and_return($this->service_bin . ' ' . $this->service_name . ' stop');
+                $return = models\Misc::logExec($this->service_bin . ' ' . $this->service_name . ' stop');
                 if ($return['result'] === 0) {
                     $this->logging->log_action_result('The service ' . $this->service_name . ' was stopped!', $return, __METHOD__);
                 } else {
@@ -182,7 +183,7 @@ class Service extends core\BaseModel {
                 }
             } else if ($param === 'restart') {
                 $this->logging->log_debug_result($this->service_bin . ' ' . $this->service_name . ' restart', __METHOD__, 'exec()');
-                $return = $this->std->exec_and_return($this->service_bin . ' ' . $this->service_name . ' restart');
+                $return = models\Misc::logExec($this->service_bin . ' ' . $this->service_name . ' restart');
                 if ($return['result'] === 0) {
                     $this->logging->log_action_result('The service ' . $this->service_name . ' was restarted!', $return, __METHOD__);
                 } else {
@@ -190,7 +191,7 @@ class Service extends core\BaseModel {
                 }
             } else if ($param === 'status') {
                 $this->logging->log_debug_result($this->service_bin . ' ' . $this->service_name . ' status', __METHOD__, 'exec()');
-                $return = $this->std->exec_and_return($this->service_bin . ' ' . $this->service_name . ' status');
+                $return = models\Misc::logExec($this->service_bin . ' ' . $this->service_name . ' status');
 
                 if ($return['result'] === 0) {
                     $this->logging->log_action_result('The service ' . $this->service_name . ' is running!', $return, __METHOD__);

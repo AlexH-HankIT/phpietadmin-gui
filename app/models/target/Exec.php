@@ -1,6 +1,8 @@
 <?php
 namespace app\models\target;
 
+use app\models;
+
 /**
  * Exec class with all cli commands
  *
@@ -33,7 +35,7 @@ class Exec extends Logic {
      *
      */
     protected function delete_target_from_daemon() {
-        return $this->std->exec_and_return($this->ietadm . ' --op delete --tid=' . $this->tid);
+        return models\Misc::logExec($this->ietadm . ' --op delete --tid=' . $this->tid);
     }
 
     /**
@@ -44,7 +46,7 @@ class Exec extends Logic {
      *
      */
     protected function add_target_to_daemon() {
-        return $this->std->exec_and_return($this->ietadm . ' --op new --tid=0 --params Name=' . $this->iqn);
+        return models\Misc::logExec($this->ietadm . ' --op new --tid=0 --params Name=' . $this->iqn);
     }
 
     /**
@@ -59,11 +61,11 @@ class Exec extends Logic {
      *
      */
     protected function add_lun_to_daemon($lun, $path, $iomode, $type) {
-        return $this->std->exec_and_return($this->ietadm . ' --op new --tid=' . $this->tid . ' --lun=' . $lun . ' --params Path=' . $path . ',Type=' . $type . ',IOMode=' . $iomode);
+        return models\Misc::logExec($this->ietadm . ' --op new --tid=' . $this->tid . ' --lun=' . $lun . ' --params Path=' . $path . ',Type=' . $type . ',IOMode=' . $iomode);
     }
 
     protected function delete_logical_volume($lun) {
-        return $this->std->exec_and_return($this->lvremove . ' --force ' . $lun);
+        return models\Misc::logExec($this->lvremove . ' --force ' . $lun);
     }
 
     /**
@@ -75,7 +77,7 @@ class Exec extends Logic {
      *
      */
     protected function delete_lun_from_daemon($id) {
-        return $this->std->exec_and_return($this->ietadm . ' --op delete --tid=' . $this->tid . ' --lun=' . $id);
+        return models\Misc::logExec($this->ietadm . ' --op delete --tid=' . $this->tid . ' --lun=' . $id);
     }
 
     /**
@@ -88,7 +90,7 @@ class Exec extends Logic {
      *
      */
     protected function add_config_to_daemon($option, $newvalue) {
-        return $this->std->exec_and_return($this->ietadm . ' --op update  --tid=' . $this->tid . '--params=' . $option . '=' . $newvalue);
+        return models\Misc::logExec($this->ietadm . ' --op update  --tid=' . $this->tid . '--params=' . $option . '=' . $newvalue);
     }
 
     /**
@@ -101,9 +103,9 @@ class Exec extends Logic {
      */
     protected function get_configured_iet_users($discovery = false) {
         if ($discovery === true) {
-            $return = $this->std->exec_and_return($this->ietadm . ' --op show --user');
+            $return = models\Misc::logExec($this->ietadm . ' --op show --user');
         } else {
-            $return = $this->std->exec_and_return($this->ietadm . ' --op show --tid=' . $this->tid . ' --user');
+            $return = models\Misc::logExecn($this->ietadm . ' --op show --tid=' . $this->tid . ' --user');
         }
 
         if (!empty($return['status'])) {
@@ -129,7 +131,7 @@ class Exec extends Logic {
      *
      */
     protected function exec_disconnect_session($sid, $cid) {
-        return $this->std->exec_and_return($this->ietadm . ' --op delete --tid=' . $this->tid . ' --sid=' . intval($sid) . ' --cid=' . intval($cid));
+        return models\Misc::logExec($this->ietadm . ' --op delete --tid=' . $this->tid . ' --sid=' . intval($sid) . ' --cid=' . intval($cid));
     }
 
     /**
@@ -141,7 +143,7 @@ class Exec extends Logic {
      *
      */
     protected function get_service_status($servicename) {
-        return $this->std->exec_and_return($this->service . ' ' . $servicename . ' status');
+        return models\Misc::logExec($this->service . ' ' . $servicename . ' status');
     }
 
     /**
@@ -155,7 +157,7 @@ class Exec extends Logic {
      *
      */
     protected function add_user_to_daemon($type, $username, $password) {
-        return $this->std->exec_and_return($this->ietadm . ' --op new --tid=' . $this->tid . ' --user --params=' . $type . '=' . $username . ',Password=' . $password);
+        return models\Misc::logExec($this->ietadm . ' --op new --tid=' . $this->tid . ' --user --params=' . $type . '=' . $username . ',Password=' . $password);
     }
 
     /**
@@ -168,7 +170,7 @@ class Exec extends Logic {
      *
      */
     protected function delete_user_from_daemon($type, $user) {
-        return $this->std->exec_and_return($this->ietadm . ' --op delete --tid=' . $this->tid . ' --user --params=' . $type . '=' . $user);
+        return models\Misc::logExec($this->ietadm . ' --op delete --tid=' . $this->tid . ' --user --params=' . $type . '=' . $user);
     }
 
     /**
@@ -182,7 +184,7 @@ class Exec extends Logic {
      *
      */
     protected function add_discovery_user_to_daemon($type, $username, $password) {
-        return $this->std->exec_and_return($this->ietadm . ' --op new --user --params=' . $type . '=' . $username . ',Password=' . $password);
+        return models\Misc::logExec($this->ietadm . ' --op new --user --params=' . $type . '=' . $username . ',Password=' . $password);
     }
 
     /**
@@ -195,6 +197,6 @@ class Exec extends Logic {
      *
      */
     protected function delete_discovery_user_from_daemon($type, $username) {
-        return $this->std->exec_and_return($this->ietadm . ' --op delete  --user --params=' . $type . '=' . $username);
+        return models\Misc::logExec($this->ietadm . ' --op delete  --user --params=' . $type . '=' . $username);
     }
 }

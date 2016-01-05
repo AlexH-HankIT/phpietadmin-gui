@@ -1,7 +1,7 @@
 <?php
 namespace app\models\target;
 
-use app\core;
+use app\core, app\models;
 
 class Parser extends core\BaseModel {
     protected $iqn;
@@ -166,7 +166,7 @@ class Parser extends core\BaseModel {
         $data .= "\n";
 
         if ($test === false) {
-            if ($this->std->backupFile($filename, 'file') === true) {
+            if (models\Misc::backupFile($filename, 'file') === true) {
                 // Write back
                 if (file_put_contents($filename, $data, LOCK_EX) !== false) {
                     return 0;
@@ -236,7 +236,7 @@ class Parser extends core\BaseModel {
      * @return array
      */
     private function add_object_to_iqn($object, array $file) {
-        $iqn_index = $this->std->array_find_iqn($this->iqn, $file);
+        $iqn_index = models\Misc::array_find_iqn($this->iqn, $file);
 
         if ($iqn_index !== false) {
             if (end($file) === "\n") {
@@ -708,7 +708,7 @@ class Parser extends core\BaseModel {
         }
 
         if (!empty($values)) {
-            $key = $this->std->recursive_array_search($this->iqn, $values);
+            $key = models\Misc::recursiveArraySearch($this->iqn, $values);
 
             if ($key !== false) {
                 return $values[$key];
@@ -732,7 +732,7 @@ class Parser extends core\BaseModel {
      *
      */
     private function delete_object_from_iqn($object, array $file) {
-        $iqn_index = $this->std->array_find_iqn($this->iqn, $file);
+        $iqn_index = models\Misc::array_find_iqn($this->iqn, $file);
 
         if ($iqn_index !== false) {
             $object_length = strlen($object);
@@ -842,7 +842,7 @@ class Parser extends core\BaseModel {
      *
      */
     private function delete_iqn_from_allow_file(array $file) {
-        $iqn_index = $this->std->array_find_iqn($this->iqn, $file);
+        $iqn_index = models\Misc::array_find_iqn($this->iqn, $file);
 
         if ($iqn_index !== false) {
             unset($file[$iqn_index]);

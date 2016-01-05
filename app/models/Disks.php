@@ -2,11 +2,12 @@
 namespace app\models;
 
 use app\models\logging,
-    app\core;
+    app\core,
+    app\models;
 
 class Disks extends core\BaseModel {
     public function get_disks($format = 'array') {
-        $return = $this->std->exec_and_return($this->database->get_config('lsblk')['value'] . ' --pairs');
+        $return = models\Misc::logExec($this->database->get_config('lsblk')['value'] . ' --pairs');
 
         if ($return['result'] == 0) {
             if (!empty($return['status'])) {

@@ -135,7 +135,7 @@ class Targets extends core\BaseController {
     }
 
     private function mapLun($iqn) {
-        if (isset($_POST['type'], $_POST['mode'], $_POST['path']) && !$this->baseModel->std->mempty($_POST['type'], $_POST['mode'], $_POST['path'])) {
+        if (isset($_POST['type'], $_POST['mode'], $_POST['path']) && !models\Misc::mEmpty($_POST['type'], $_POST['mode'], $_POST['path'])) {
             $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
             $mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRING);
             $path = filter_input(INPUT_POST, 'path', FILTER_SANITIZE_STRING);

@@ -35,7 +35,7 @@ class Service extends core\BaseController {
     }
 
     public function add() {
-        if (isset($_POST['servicename'], $_POST['action']) && !$this->baseModel->std->mempty($_POST['servicename'], $_POST['action'])) {
+        if (isset($_POST['servicename'], $_POST['action']) && !models\Misc::mEmpty($_POST['servicename'], $_POST['action'])) {
             $service_name = filter_input(INPUT_POST, 'servicename', FILTER_SANITIZE_STRING);
 
             switch ($_POST['action']) {

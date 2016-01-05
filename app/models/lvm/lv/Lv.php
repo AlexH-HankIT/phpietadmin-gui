@@ -1,7 +1,7 @@
 <?php
 namespace app\models\lvm\lv;
 
-use app\models\lvm\vg;
+use app\models\lvm\vg, app\models;
 
     /* ToDo:
         lv_attr:
@@ -138,7 +138,7 @@ use app\models\lvm\vg;
                 } else {
                     $data = $this->get_all_volumes_from_this_vg();
 
-                    $key = $this->std->recursive_array_search($new_lv_name, $data);
+                    $key = models\Misc::recursiveArraySearch($new_lv_name, $data);
 
                     if ($key !== false) {
                         $this->logging->log_action_result('A logical volume with the name ' . $new_lv_name . ' does already exist!', array('result' => 3, 'code_type' => 'intern'),  __METHOD__);

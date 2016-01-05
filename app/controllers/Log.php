@@ -1,12 +1,13 @@
 <?php
 namespace app\controllers;
 
-use app\core;
+use app\core,
+    app\models;
 
 class Log extends core\BaseController {
     public function show($param) {
         if ($param == 'action') {
-            $data = $this->baseModel->std->tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('action_log')['value']);
+            $data = models\Misc::tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('action_log')['value']);
             if ($data !== false) {
                 $this->view('table', array(
                         'title' => 'Action',
@@ -26,7 +27,7 @@ class Log extends core\BaseController {
                 $this->view('message', array('message' => 'The action log file is empty!', 'type' => 'danger'));
             }
         } else if ($param == 'access') {
-            $data = $this->baseModel->std->tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('access_log')['value']);
+            $data = models\Misc::tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('access_log')['value']);
             if ($data !== false) {
                 $this->view('table', array(
                         'title' => 'Access',

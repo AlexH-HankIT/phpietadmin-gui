@@ -117,7 +117,6 @@ class App {
         $registry = Registry::getInstance();
         $registry->set('database', new models\Database());
         $registry->set('logging', new logging\Logging());
-        $registry->set('std', new models\Std());
         $this->controllerObject->baseModel = new BaseModel();
     }
 

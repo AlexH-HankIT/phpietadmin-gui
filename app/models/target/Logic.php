@@ -1,6 +1,8 @@
 <?php
 namespace app\models\target;
 
+use app\models;
+
 class Logic extends Parser {
     /**
      *
@@ -48,7 +50,7 @@ class Logic extends Parser {
             if (empty($luns) || empty($iqns)) {
                 return false;
             } else {
-                $key = $this->std->recursive_array_search($path, $luns);
+                $key = models\Misc::recursiveArraySearch($path, $luns);
 
                 if ($key !== false) {
                     return $iqns[$key];
@@ -158,7 +160,7 @@ class Logic extends Parser {
             // index 0 contains the iqn
             unset($data[0]);
 
-            $key = $this->std->recursive_array_search($this->database->get_object_value($id), $data);
+            $key = models\Misc::recursiveArraySearch($this->database->get_object_value($id), $data);
 
             if ($key !== false) {
                 return true;
@@ -213,7 +215,7 @@ class Logic extends Parser {
             }
         } else {
             // delete lun with $path
-            $key = $this->std->recursive_array_search($path, $data['lun']);
+            $key = models\Misc::recursiveArraySearch($path, $data['lun']);
 
             if (isset($key) && isset($data['lun'][$key])) {
                 // delete lun and handle default parameter
@@ -243,7 +245,7 @@ class Logic extends Parser {
             return false;
         } else {
             // search for the index of the user
-            $key = $this->std->recursive_array_search($userdata['username'], $users);
+            $key = models\Misc::recursiveArraySearch($userdata['username'], $users);
 
             if ($key === false) {
                 return false;
@@ -252,7 +254,7 @@ class Logic extends Parser {
                     return true;
                 } else {
                     // search for the index of the user
-                    $key = $this->std->recursive_array_search($userdata['username'], $users);
+                    $key = models\Misc::recursiveArraySearch($userdata['username'], $users);
                     if ($users[$key][0] == $type && $userdata['username'] == $users[$key][1]) {
                         return true;
                     } else {
