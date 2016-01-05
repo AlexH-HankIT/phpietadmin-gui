@@ -1,71 +1,62 @@
 define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, mylibs, swal, once, touchspin) {
     return {
         info: function() {
-            $('[data-toggle="popover"]').popover();
-
-            $('.btn.btn-info').once('mouseover', function() {
+            $('.btn.btn-info').popover({
+                trigger : 'hover',
+                placement : 'right',
+                html: true
+            }).on('show.bs.popover', function() {
                 var $button = $(this);
-                switch($(this).closest('tr').attr('id')) {
+
+                switch($button.closest('tr').attr('id')) {
                     case 'HeaderDigest':
-                        $button.popover({
-                            content : 'Optional. If set to "CRC32C" and  the  initiator  is  configured ' +
+                        $button.attr('data-content',
+                            'Optional. If set to "CRC32C" and  the  initiator  is  configured ' +
                             'accordingly,  the  integrity  of  an iSCSI PDU\'s header segments ' +
                             'will be protected by a CRC32C checksum. The default  is  "None". ' +
-                            'Note  that  header  digests  are  not supported during discovery sessions.',
-                            trigger: "hover"
-                        });
+                            'Note  that  header  digests  are  not supported during discovery sessions.');
                         break;
                     case 'DataDigest':
-                        $button.popover({
-                            content : 'Optional. If set to "CRC32C" and  the  initiator  is  configured ' +
+                        $button.attr('data-content',
+                            'Optional. If set to "CRC32C" and  the  initiator  is  configured ' +
                             'accordingly,  the  integrity of an iSCSI PDU\'s data segment will ' +
                             'be protected by a CRC32C checksum. The default is  "None". ' +
-                            'Note that data digests are not supported during discovery sessions.',
-                            trigger: "hover"
-                        });
+                            'Note that data digests are not supported during discovery sessions.');
                         break;
                     case 'MaxConnections':
-                        $button.popover({
-                            content : 'Optional.  The number of connections within a session. Has to be ' +
+                        $button.attr('data-content',
+                            'Optional.  The number of connections within a session. Has to be ' +
                             'set to "1" (in words: one), which is also the default since MC/S ' +
-                            'is not supported.',
-                            trigger: "hover"
-                        });
+                            'is not supported.');
                         break;
                     case 'InitialR2T':
-                        $button.popover({
-                            content : 'Optional.  If  set to "Yes" (default), the initiator has to wait ' +
+                        $button.attr('data-content',
+                            'Optional.  If  set to "Yes" (default), the initiator has to wait ' +
                             'for the target to solicit SCSI data before sending  it.  Setting ' +
                             'it   to   "No"   allows   the  initiator  to  send  a  burst  of ' +
                             'FirstBurstLength bytes unsolicited right after and/or (depending' +
                             'on  the  setting  of  ImmediateData ) together with the command. ' +
-                            'Thus setting it to "No" may improve performance.',
-                            trigger: "hover"
-                        });
+                            'Thus setting it to "No" may improve performance.');
                         break;
                     case 'ImmediateData':
-                        $button.popover({
-                            content : 'Optional. This allows the initiator to append  unsolicited  data ' +
+                        $button.attr('data-content',
+                            'Optional. This allows the initiator to append  unsolicited  data ' +
                             'to  a command. To achieve better performance, this should be set ' +
-                            'to "Yes". The default is "No".',
-                            trigger: "hover"
-                        });
+                            'to "Yes". The default is "No".');
                         break;
                     case 'MaxRecvDataSegmentLength':
-                        $button.popover({
-                            content : 'Optional. Sets the maximum data segment length  that  can  be ' +
+                        $button.attr('data-content',
+                            'Optional. Sets the maximum data segment length  that  can  be ' +
                             'received. The value should be set to multiples of PAGE_SIZE. ' +
                             'Currently the maximum supported value is 64 * PAGE_SIZE, e.g. ' +
                             '262144 if PAGE_SIZE is 4kB. Configuring too large values may ' +
                             'lead to problems allocating sufficient memory, which in turn may ' +
                             'lead to SCSI commands timing out at the initiator host. The ' +
-                            'default value is 8192.',
-                            trigger: "hover"
-                        });
+                            'default value is 8192.');
                         break;
                     case 'MaxXmitDataSegmentLength':
-                        $button.popover({
-                            content : 'Optional. Sets the maximum data segment length that can be sent. ' +
+                        $button.attr('data-content',
+                            'Optional. Sets the maximum data segment length that can be sent. ' +
                             'The value actually used is the minimum of ' +
                             'MaxXmitDataSegmentLength   and   the    MaxRecvDataSegmentLength ' +
                             'announced  by  the  initiator.  The  value  should  be  set to ' +
@@ -73,114 +64,85 @@ define(['jquery', 'mylibs', 'sweetalert', 'once', 'touchspin'], function ($, myl
                             '64 * PAGE_SIZE, e.g. 262144 if PAGE_SIZE is 4kB. Configuring too ' +
                             'large values may lead to problems allocating sufficient  memory, ' +
                             'which  in  turn  may  lead  to  SCSI  commands timing out at the ' +
-                            'initiator host. The default value is 8192.',
-                            trigger: "hover"
-                        });
+                            'initiator host. The default value is 8192.');
                         break;
                     case 'MaxBurstLength':
-                        $button.popover({
-                            content : 'Optional. Sets the  maximum  amount  of  either  unsolicited  or ' +
+                        $button.attr('data-content',
+                            'Optional. Sets the  maximum  amount  of  either  unsolicited  or ' +
                             'solicited  data  the  initiator  may send in a single burst. Any ' +
                             'amount of data exceeding this value must be explicitly solicited ' +
                             'by  the  target.  The  value  should  be  set  to multiples of ' +
                             'PAGE_SIZE. Configuring too large values  may  lead  to  problems ' +
                             'allocating  sufficient  memory,  which  in turn may lead to SCSI ' +
-                            'commands timing out at the initiator host. The default value  is 262144.',
-                            trigger: "hover"
-                        });
+                            'commands timing out at the initiator host. The default value  is 262144.');
                         break;
                     case 'FirstBurstLength':
-                        $button.popover({
-                            content : 'Optional.  Sets the amount of unsolicited data the initiator may ' +
+                        $button.attr('data-content',
+                            'Optional.  Sets the amount of unsolicited data the initiator may ' +
                             'transmit in the first burst of a  transfer  either  with  and/or ' +
                             'right after the command, depending on the settings of InitialR2T ' +
                             'and  ImmediateData  value  should  be  set  to  multiples   of ' +
                             'PAGE_SIZE.  Configuring  too  large  values may lead to problems ' +
                             'allocating sufficient memory, which in turn  may  lead  to  SCSI ' +
-                            'commands  timing out at the initiator host. The default value is 65536.',
-                            trigger: "hover"
-                        });
+                            'commands  timing out at the initiator host. The default value is 65536.');
                         break;
                     case 'DefaultTime2Wait':
-                        $button.popover({
-                            content : 'Currently not implemented, but can  be  used  to  set  how  long ' +
+                        $button.attr('data-content',
+                            'Currently not implemented, but can  be  used  to  set  how  long ' +
                             'initiators  wait  before  logging  back in after a connection is ' +
-                            'logged out or dropped.',
-                            trigger: "hover"
-                        });
+                            'logged out or dropped.');
                         break;
                     case 'DefaultTime2Retain':
-                        $button.popover({
-                            content : 'Currently we  only  support  0  which  means  sessions  are  not ' +
-                            'retained after the last connection is logged out or dropped.',
-                            trigger: "hover"
-                        });
+                        $button.attr('data-content',
+                            'Currently we  only  support  0  which  means  sessions  are  not ' +
+                            'retained after the last connection is logged out or dropped.');
                         break;
                     case 'MaxOutstandingR2T':
-                        $button.popover({
-                            content : 'Optional.  Controls  the  maximum  number  of data transfers the ' +
+                        $button.attr('data-content',
+                            'Optional.  Controls  the  maximum  number  of data transfers the ' +
                             'target may request at once, each of up to MaxBurstLength  bytes. ' +
-                            'The default is 1.',
-                            trigger: "hover"
-                        });
+                            'The default is 1.');
                         break;
                     case 'DataPDUInOrder':
-                        $button.popover({
-                            content : 'Optional. Has to be set to "Yes" - which is also the default.',
-                            trigger: "hover"
-                        });
+                        $button.attr('data-content', 'Optional. Has to be set to "Yes" - which is also the default.');
                         break;
                     case 'DataSequenceInOrder':
-                        $button.popover({
-                            content : 'Optional. Has to be set to "Yes" - which is also the default.',
-                            trigger: "hover"
-                        });
+                        $button.attr('data-content', 'Optional. Has to be set to "Yes" - which is also the default.');
                         break;
                     case 'ErrorRecoveryLevel':
-                        $button.popover({
-                            content : 'Optional.  Has  to be set to "0" (in words: zero), which is also the default.',
-                            trigger: "hover"
-                        });
+                        $button.attr('data-content', 'Optional.  Has  to be set to "0" (in words: zero), which is also the default.');
                         break;
                     case 'NOPInterval':
-                        $button.popover({
-                            content : 'Optional. If value is non-zero, the initiator will  be  "ping"ed ' +
+                        $button.attr('data-content',
+                            'Optional. If value is non-zero, the initiator will  be  "ping"ed ' +
                             'during phases of inactivity (i.e. no data transfers) every value ' +
                             'seconds  to  verify  the  connection  is  still  alive.  If  the ' +
                             'initiator  fails  to  respond  within  NOPTimeout  seconds,  the ' +
-                            'connection will be closed.',
-                            trigger: "hover"
-                        });
+                            'connection will be closed.');
                         break;
                     case 'NOPTimeout':
-                        $button.popover({
-                            content : 'Optional. If a non-zero  NOPInterval  is  used  to  periodically ' +
+                        $button.attr('data-content',
+                            'Optional. If a non-zero  NOPInterval  is  used  to  periodically ' +
                             '"ping"  the  initiator during phases of inactivity (i.e. no data ' +
                             'transfers), the initiator must  respond  within  value  seconds, ' +
                             'otherwise the connection will be closed. If value is set to zero ' +
-                            'or if it exceeds NOPInterval , it will be set to NOPInterval.',
-                            trigger: "hover"
-                        });
+                            'or if it exceeds NOPInterval , it will be set to NOPInterval.');
                         break;
                     case 'Wthreads':
-                        $button.popover({
-                            content : 'Optional. The iSCSI target employs several  threads  to  perform ' +
+                        $button.attr('data-content',
+                            'Optional. The iSCSI target employs several  threads  to  perform ' +
                             'the  actual  block I/O to the device. Depending on your hardware ' +
                             'and your (expected) workload, the number of these threads may be ' +
                             'carefully  adjusted. The default value of 8 should be sufficient ' +
-                            'for most purposes.',
-                            trigger: "hover"
-                        });
+                            'for most purposes.');
                         break;
                     case 'QueuedCommands':
-                        $button.popover({
-                            content : 'Optional.  This  parameter  defines  a  window  of  commands  an ' +
+                        $button.attr('data-content',
+                            'Optional.  This  parameter  defines  a  window  of  commands  an ' +
                             'initiator  may  send  and  that  will be buffered by the target. ' +
                             'Depending on your hardware and  your  (expected)  workload,  the ' +
                             'value  may be carefully adjusted. The default value of 32 should ' +
-                            'be sufficient for most purposes.',
-                            trigger: "hover"
-                        });
+                            'be sufficient for most purposes.');
                         break;
                 }
             });
