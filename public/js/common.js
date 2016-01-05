@@ -29,8 +29,7 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
         common: function () {
             // check if server is alive
             var uiBlocked = false,
-                $mainMenu = $('div.navbar-static-top'),
-                $footer = $('footer');
+                $mainMenu = $('div.navbar-static-top');
 
             // Only use pingjs in non internet explorer browsers, since ie does not support promises
             if (mylibs.detectIE() === false) {
@@ -40,15 +39,13 @@ define(['jquery', 'mylibs', 'sweetalert', 'pingjs', 'nprogress', 'bootstrap', 'b
                             uiBlocked = false;
                             $.unblockUI();
                             $mainMenu.show();
-                            $footer.show();
                         }
                     }).catch(function() {
                         if (uiBlocked === false) {
                             // Only block gui, if no ajax is running
-                            if ($('#ajaxIndicator').text() === false) {
+                            if ($('#ajaxIndicator').text() === 'false') {
                                 uiBlocked = true;
                                 $mainMenu.hide();
-                                $footer.hide();
                                 $.blockUI({
                                     message: $('#offlinemessage'),
                                     css: {
