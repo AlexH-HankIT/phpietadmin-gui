@@ -1,6 +1,31 @@
 # phpietadmin
 Phpietadmin is an easy to use webinterface to control the iscsi enterprise target (iet) daemon (http://sourceforge.net/projects/iscsitarget/) written in php and javascript.
 
+## Features
+### Dashboard
+The dashboard provides a quick overview about your system and phpietadmin.
+
+### iSCSI
+phpietadmin enables you to configure all features of the iscsi enterprise target daemon via web, e.g.:
+
+    * Adding/Removing luns
+    * Initiator/Target allow
+    * User management
+    * Sessions
+    * Settings
+    * Target removal
+
+### LVM
+phpietadmin currently supports only lvm as iscsi luns!
+
+    * Adding volumes
+    * Extending volumes (+ notify iscsi initator about the change)
+    * Shrinking volumes
+    * Renaming volumes
+    * Deleting volumes
+
+..and more.
+
 ## Intention
 The main reason for developing this was, to create a way to configure the daemon while it’s in use. The iet daemon reads
 the config file only at start/restart. Changes after the daemon was started are only possible via the ietadm command line
@@ -25,69 +50,5 @@ Official support for CentOS is planned.
 
 ### Beta
 * https://github.com/HankIT/phpietadmin-doc/wiki/v0.6.2-%5Bbeta%5D
-
-## Features
-Take a look at the github releases for detailed information about the features.
-
-## Roadmap
-In version 0.7:
-* LVM
-    - [ ] Volume group menu (select which volume groups phpietadmin should use)
-    - [ ] Optional lv prefix (append LV_ or some other user chosen string)
-    - [ ] Add snapshot merge feature to gui
-    - [ ] Add enable/disable logical volume feature to gui
-
-* Frontend
-    - [ ] Use jwindow to dynamically display the status of running commands
-    - [ ] Drag & Drop with HTML5
-    - [ ] Menu to import orphaned objects into database
-    - [ ] Display input validation with bootstrap css Validation states (http://formvalidation.io/validators/integer/)
-    - [ ] Bootstrap-table Table Select Checkbox
-    - [ ] Awesome checkboxes (https://github.com/designmodo/Flat-UI)
-    - [ ] Improve nested table row handling
-    - [ ] Add target and lvm name to url
-    - [ ] Overview/Logical volumes VG selector
-    - [ ] Add "Edit file directly" option
-    - [ ] Searchable table for overview menu
-    - [ ] Release "compressed" javascript files
-
-* Backend
-    - [ ] Write process class to execute commands in the background (+ jwindow)
-    - [ ] Create complete documentation on https://readthedocs.org/
-    - [ ] Use unity testing
-    - [ ] Replace all error codes with exceptions
-    - [ ] Support "All" permission in ietd config files
-    - [ ] Write phpietadmin-cli
-    - [ ] Database error log
-
-* In version 0.8:
-    - [ ] Support for DRBD (show status)
-    - [ ] Support for HA Clusters (Corosync & Pacemaker, only for iet)
-
-* In version 0.9:
-    - [ ] Support for nfs
-
-## More
-- [ ] Software raid status
-- [ ] Support for samba shares
-- [ ] Show and configure network settings
-- [ ] Enable/Disable features
-- [ ] Support for apcupsd
-- [ ] Manual selection of block devices
-- [ ] HDD temp
-- [ ] Pie Chart for volume groups
-- [ ] Smart data
-- [ ] Backup config files (http://code.stephenmorley.org/php/diff-implementation/)
-- [ ] Menu to restore config files
-- [ ] function naming convention in models (prepend class name to function name)
-- [ ] Create "consistency", which displays if the daemon config and the config file are identically
-- [ ] Use composer
-- [ ] Use json for tables
-- [ ] Change duplication check (Try to select the specific value from the database)
-- [ ] Use own exception class for error handling
-- [ ] Sign archives
-- [ ] Separate database models
-- [ ] SSH login via web gui (https://github.com/liftoff/GateOne)
-- [ ] Add bar to snapshot delete gui
 
 If you have any problems, please open an issue!
