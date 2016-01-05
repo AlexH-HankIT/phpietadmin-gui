@@ -19,7 +19,7 @@ phpietadmin enables you to configure all features of the iscsi enterprise target
 phpietadmin currently only supports lvm as iscsi luns!
 
     * Adding volumes
-    * Extending volumes (+ notify iscsi initator about the change)
+    * Extending volumes (+ notify iscsi initiator about the change)
     * Shrinking volumes
     * Renaming volumes
     * Deleting volumes
