@@ -8,7 +8,9 @@ class Log extends core\BaseController {
     public function show($param) {
         if ($param == 'action') {
             $data = models\Misc::tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('action_log')['value']);
+
             if ($data !== false) {
+                $data = $this->formatDate($data);
                 $this->view('table', array(
                         'title' => 'Action',
                         'heading' => array(
@@ -29,6 +31,7 @@ class Log extends core\BaseController {
         } else if ($param == 'access') {
             $data = models\Misc::tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('access_log')['value']);
             if ($data !== false) {
+                $data = $this->formatDate($data);
                 $this->view('table', array(
                         'title' => 'Access',
                         'heading' => array(
@@ -50,5 +53,12 @@ class Log extends core\BaseController {
         } else {
             $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
         }
+    }
+
+    private function formatDate($data) {
+        array_walk($data, function(&$row) {
+            $row[0] = date(DATE_RFC822, $row[0]);
+        });
+        return $data;
     }
 }
