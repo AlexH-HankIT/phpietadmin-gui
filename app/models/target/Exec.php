@@ -105,7 +105,7 @@ class Exec extends Logic {
         if ($discovery === true) {
             $return = models\Misc::logExec($this->ietadm . ' --op show --user');
         } else {
-            $return = models\Misc::logExecn($this->ietadm . ' --op show --tid=' . $this->tid . ' --user');
+            $return = models\Misc::logExec($this->ietadm . ' --op show --tid=' . $this->tid . ' --user');
         }
 
         if (!empty($return['status'])) {
