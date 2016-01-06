@@ -16,52 +16,6 @@ class Targets extends core\BaseController {
         }
     }
 
-    public function adddisuser() {
-        if (isset($_POST['id'], $_POST['type'])) {
-            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-
-            if ($type === 'Incoming') {
-                $type = 'IncomingUser';
-            } else if ($type === 'Outgoing') {
-                $type = 'OutgoingUser';
-            } else {
-                echo "The type value is invalid!";
-                die();
-            }
-            $target = $this->model('target\Target');
-            $target->add_user($id, true, $type);
-            echo json_encode($target->logging->get_action_result());
-        } else {
-            $data = $this->baseModel->database->get_all_usernames(true);
-
-            if ($data != 0) {
-                $this->view('targets/add_dis_user', $data);
-            } else {
-                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => true));
-            }
-        }
-    }
-
-    public function deletedisuser() {
-        if (isset($_POST['type'], $_POST['id'])) {
-            $type = filter_input(INPUT_POST, 'type', FILTER_SANITIZE_STRING);
-            $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-
-            $target = $this->model('target\Target');
-            $target->delete_user($id, true, $type);
-            echo json_encode($target->logging->get_action_result());
-        } else {
-            $target = $this->model('target\Target');
-            $data = $target->get_user(true);
-            if ($data !== false) {
-                $this->view('targets/delete_dis_user', $data);
-            } else {
-                $this->view('message', array('message' => 'Error - No user available!', 'type' => 'warning', 'container' => true));
-            }
-        }
-    }
-
     public function configure($iqn = false, $function = false) {
         if ($iqn !== false) {
             $iqn = filter_var($iqn, FILTER_SANITIZE_STRING);

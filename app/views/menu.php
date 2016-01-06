@@ -29,9 +29,6 @@
                     <ul class = "dropdown-menu">
                         <li><a class="workspaceTab" href="<?php echo WEB_PATH ?>/targets/addtarget"><span class="glyphicon glyphicon-plus"></span> Add</a></li>
                         <li><a class="workspaceTab" href="<?php echo WEB_PATH ?>/targets/configure"><span class="glyphicon glyphicon-wrench"></span> Configure</a></li>
-                        <li class="divider"></li>
-                        <li><a class="workspaceTab" href="<?php echo WEB_PATH ?>/targets/adddisuser"><span class="glyphicon glyphicon-plus"></span> Add discovery user</a></li>
-                        <li><a class="workspaceTab" href="<?php echo WEB_PATH ?>/targets/deletedisuser"><span class="glyphicon glyphicon-trash"></span> Delete discovery user</a></li>
                     </ul>
                 </li>
                 <li><a class="workspaceTab" href="<?php echo WEB_PATH ?>/ietusers"><span class="glyphicon glyphicon-user"></span> <span>iSCSI users</span></a></li>
