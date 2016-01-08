@@ -46,10 +46,10 @@ class Overview extends core\BaseController {
         if ($view['data'] !== false) {
             if ($param == 'session') {
                 $view['type'] = 'session';
-                $this->view('targets/iettable', $view);
+                $this->view('ietOverviewTable', $view);
             } else if ($param == 'volume') {
                 $view['type'] = 'volume';
-                $this->view('targets/iettable', $view);
+                $this->view('ietOverviewTable', $view);
             } else {
                 $this->view('message', array('message' => 'Invalid url', 'type' => 'warning'));
             }
