@@ -11,20 +11,20 @@
                         <thead>
                         <tr>
                             <th class="col-md-1">Expand</th>
-                            <th class="col-md-2">tid</th>
-                            <th class="col-md-2">iqn</th>
+                            <th class="col-md-1">tid</th>
+                            <th class="col-md-4">iqn</th>
                             <th class="col-md-1"></th>
                             <th class="col-md-1"></th>
                             <th class="col-md-1"></th>
-                            <th class="col-md-1"></th>
+                            <th class="col-md-2"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php foreach ($data['data'] as $key => $row) { ?>
                             <tr class="clickable active" data-toggle="collapse" id="row<?php echo htmlspecialchars($key) ?>" data-target=".row<?php echo htmlspecialchars($key) ?>">
                                 <td class="col-md-1"><?php if (($data['type'] === 'volume' && isset($row['lun'])) || ($data['type'] === 'session' && isset($row['session']))) echo '<button class="btn btn-primary btn-xs expandRow"><span class="glyphicon glyphicon-15 glyphicon-plus"></span> <span>Show</span></button>' ?></td>
-                                <td class="col-md-2"><?php echo htmlspecialchars($row['tid']) ?></td>
-                                <td class="col-md-2"><a target='_blank' href='/phpietadmin/targets/configure/<?php echo htmlspecialchars($row['iqn']) ?>'><?php echo htmlspecialchars($row['iqn']) ?></a></td>
+                                <td class="col-md-1"><?php echo htmlspecialchars($row['tid']) ?></td>
+                                <td class="col-md-4"><a target='_blank' href='/phpietadmin/targets/configure/<?php echo htmlspecialchars($row['iqn']) ?>'><?php echo htmlspecialchars($row['iqn']) ?></a></td>
                                 <td class="col-md-1"></td>
                                 <td class="col-md-1"></td>
                                 <td class="col-md-1"></td>
