@@ -1,15 +1,18 @@
 define(['jquery', 'mylibs'], function ($, mylibs) {
     return {
-        add_event_handler_config: function () {
-            /* Configuration menu */
-            $('.workspace').once('click', '#config-menu a', function () {
-                var $this = $(this);
-                if ($('span', $this).hasClass('glyphicon-pencil')) {
+        addEventHandlerConfigMenu: function () {
+            $('.workspace').once('click', '#config-menu button', function () {
+                var $this = $(this),
+                    $icon = $('span.glyphicon', $this),
+                    $text = $('span', $this).last();
+
+                if ($icon.hasClass('glyphicon-pencil')) {
                     $this.prev().removeAttr("disabled");
-                    $('span', $this).removeClass("glyphicon-pencil").addClass("glyphicon-ok");
+                    $icon.removeClass("glyphicon-pencil").addClass("glyphicon-ok");
+                    $text.html('Save');
                 } else {
-                    var option = $this.attr("href").substring(1);
-                    var value = $this.prev().val();
+                    var option = $this.data('target'),
+                        value = $this.prev().val();
 
                     $.ajax({
                         url: require.toUrl('../config/edit_config'),
@@ -24,7 +27,8 @@ define(['jquery', 'mylibs'], function ($, mylibs) {
                             if (data['code'] === 0) {
                                 $this.next('.bestaetigung').removeClass("label-danger").addClass("label-success").text("Success").show(500).delay(1000).hide(0);
                                 $this.prev().prop('disabled', true);
-                                $('span', $this).removeClass("glyphicon-ok").addClass("glyphicon-pencil");
+                                $icon.removeClass("glyphicon-ok").addClass("glyphicon-pencil");
+                                $text.html('Edit');
                             } else {
                                 $this.next('.bestaetigung').removeClass("label-success").addClass("label-danger").text("Failed").show(500).delay(1000).hide(0);
                             }
