@@ -1,6 +1,9 @@
 # phpietadmin
 Phpietadmin is an easy to use webinterface to control the iscsi enterprise target (iet) daemon (http://sourceforge.net/projects/iscsitarget/) written in php and javascript.
 
+## Docs
+* https://github.com/HankIT/phpietadmin-doc/wiki/v0.6.3-%5Bstable%5D
+
 ## Features
 ### Dashboard
 The dashboard provides a quick overview about your system and phpietadmin.
@@ -39,16 +42,5 @@ backup is created before changes are made.
 ## Compatibility
 Phpietadmin is tested on Debian "Jessie" 8. Basically it should work on every linux distribution with php 5.6 >= and apache2.
 Official support for CentOS is planned.
-
-## Screens
-* https://github.com/HankIT/phpietadmin-gui/wiki/Screens-v0.6.1
-
-## Docs
-### Stable
-* https://github.com/HankIT/phpietadmin-gui/wiki/Installation-v0.6.1
-* https://github.com/HankIT/phpietadmin-gui/wiki/Update-v0.6-to-v0.6.1
-
-### Beta
-* https://github.com/HankIT/phpietadmin-doc/wiki/v0.6.2-%5Bbeta%5D
 
 If you have any problems, please open an issue!
