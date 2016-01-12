@@ -6,10 +6,8 @@
             <?php } ?>>
             <thead>
             <tr>
-                <?php foreach ($data['tableHead'] as $body) { ?>
-                    <th
-                        data-field="<?php echo $body['field'] ?>">
-                        <?php echo $body['heading'] ?></th>
+                <?php foreach ($data['tableHead'] as $tableHead) { ?>
+                    <th <?php foreach ($tableHead['fields'] as $fields) echo $fields ?>><?php echo $tableHead['heading'] ?></th>
                 <?php } ?>
             </tr>
             </thead>

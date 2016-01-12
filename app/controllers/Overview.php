@@ -25,22 +25,22 @@ class Overview extends core\BaseController {
                     "data-show-export='true'"
                 ),
                 'tableHead' => array(
-                    array("heading" => "NAME", array(
+                    array("heading" => "NAME", "fields" => array(
                         "data-field='NAME'"
                     )),
-                    array("heading" => "MIN", array(
+                    array("heading" => "MIN", "fields" => array(
                         "data-field='MIN'"
                     )),
-                    array("heading" => "RM", array(
+                    array("heading" => "RM", "fields" => array(
                         "data-field='RM'"
                     )),
-                    array("heading" => "SIZE", array(
+                    array("heading" => "SIZE", "fields" => array(
                         "data-field='SIZE'"
                     )),
-                    array("heading" => "TYPE", array(
+                    array("heading" => "TYPE", "fields" => array(
                         "data-field='TYPE'"
                     )),
-                    array("heading" => "MOUNTPOINT", array(
+                    array("heading" => "MOUNTPOINT", "fields" => array(
                         "data-field='MOUNTPOINT'"
                     ))
                 ),
