@@ -11,7 +11,7 @@ class Log extends core\BaseController {
 
             if ($data !== false) {
                 $data = $this->formatDate($data);
-                $this->view('table', array(
+                $this->view('logTable', array(
                         'title' => 'Action',
                         'heading' => array(
                             'timestamp',
@@ -32,7 +32,7 @@ class Log extends core\BaseController {
             $data = models\Misc::tail($this->baseModel->database->get_config('log_base')['value'] . '/' . $this->baseModel->database->get_config('access_log')['value']);
             if ($data !== false) {
                 $data = $this->formatDate($data);
-                $this->view('table', array(
+                $this->view('logTable', array(
                         'title' => 'Access',
                         'heading' => array(
                             'timestamp',

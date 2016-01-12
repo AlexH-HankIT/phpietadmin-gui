@@ -2,7 +2,7 @@
     <div class = "container">
         <div class='panel panel-default'>
             <ol class='panel-heading breadcrumb'>
-                <li><a href='#'>Overview</a></li>
+                <li><a href='#'>Logs</a></li>
                 <li class='active'><?php echo htmlspecialchars($data['title']); ?></li>
             </ol>
 
