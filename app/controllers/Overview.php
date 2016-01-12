@@ -5,12 +5,12 @@ use app\core;
 
 class Overview extends core\BaseController {
     public function disks($format = 'default') {
-        $disk = $this->model('Disks');
         // Json for retrieval via ajax
         if ($format === 'json') {
+            $disk = $this->model('Disks');
             echo $disk->get_disks('json');
         } else {
-            // Navigation
+            // Breadcrumbs
             $this->view('breadcrumb', array(
                     array('href' => '#', 'text' => 'Overview'),
                     array('text' => 'Disks')
@@ -18,21 +18,34 @@ class Overview extends core\BaseController {
             );
 
             // Table
-            $table = array(
-                'head' => array(
+            $this->view('bootstrapTable', array(
+                'tableAttributes' => array(
                     "data-data-field='body'",
-                    "data-url='" . WEB_PATH . "/overview/disks/json'"
+                    "data-url='" . WEB_PATH . "/overview/disks/json'",
+                    "data-show-export='true'"
                 ),
-                'body' => array(
-                    array("field" => "NAME", "heading" => "NAME"),
-                    array("field" => "MIN", "heading" => "MIN"),
-                    array("field" => "RM", "heading" => "RM"),
-                    array("field" => "SIZE", "heading" => "SIZE"),
-                    array("field" => "TYPE", "heading" => "TYPE"),
-                    array("field" => "MOUNTPOINT", "heading" => "MOUNTPOINT")
-                )
-            );
-            $this->view('bootstrapTable', $table);
+                'tableHead' => array(
+                    array("heading" => "NAME", array(
+                        "data-field='NAME'"
+                    )),
+                    array("heading" => "MIN", array(
+                        "data-field='MIN'"
+                    )),
+                    array("heading" => "RM", array(
+                        "data-field='RM'"
+                    )),
+                    array("heading" => "SIZE", array(
+                        "data-field='SIZE'"
+                    )),
+                    array("heading" => "TYPE", array(
+                        "data-field='TYPE'"
+                    )),
+                    array("heading" => "MOUNTPOINT", array(
+                        "data-field='MOUNTPOINT'"
+                    ))
+                ),
+                'js' => 'pages/bootstrapTable'
+            ));
         }
     }
 
