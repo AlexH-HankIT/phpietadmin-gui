@@ -76,10 +76,6 @@ class Auth extends core\BaseController {
         }
     }
 
-    private function firstLogin() {
-
-    }
-
     /**
      *
      * Handles the logout
