@@ -1,0 +1,70 @@
+{
+  "name": "phpietadmin-gui",
+  "homepage": "https://github.com/MrCrankHank/phpietadmin-gui",
+  "description": "",
+  "main": "",
+  "dependencies": {
+    "jquery": "=2.1.4",
+    "bootstrap": "=3.3.6",
+    "bootstrap-table": "=1.8.1",
+    "bootstrap-select": "=1.7.2",
+    "clipboard": "=1.5.5",
+    "requirejs-domready": "=2.0.1",
+    "hideshowpassword": "=2.0.11",
+    "bootstrap-touchspin": "=3.0.1",
+    "jquery-ui": "=1.11.4",
+    "jquery-ui-slider-pips": "=1.11.3",
+    "nprogress": "=0.2.0",
+    "requirejs": "=2.1.18",
+    "sweetalert": "=1.1.1"
+  },
+  "install" : {
+    "base":  "public/external",
+    "path" : {
+      "css": "{name}/css",
+      "js": "{name}/js",
+      "eot": "{name}/fonts",
+      "svg": "{name}/fonts",
+      "ttf": "{name}/fonts",
+      "woff": "{name}/fonts",
+      "woff2": "{name}/fonts",
+      "gif": "{name}/img",
+      "png": "{name}/img"
+    },
+    "sources" : {
+      "bootstrap" : {
+        "mapping": [
+          { "bower_components/bootstrap/dist/js/bootstrap.js": "bootstrap.js" },
+          { "bower_components/bootstrap/dist/css/bootstrap.css": "bootstrap.css" },
+          { "bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.eot": "glyphicons-halflings-regular.eot" },
+          { "bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.svg": "glyphicons-halflings-regular.svg" },
+          { "bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf": "glyphicons-halflings-regular.ttf" },
+          { "bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff": "glyphicons-halflings-regular.woff" },
+          { "bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2": "glyphicons-halflings-regular.woff2" }
+        ]
+      },
+      "x-editable": {
+        "mapping": [
+          { "bower_components/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css": "bootstrap-editable.css" },
+          { "bower_components/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js": "bootstrap-editable.min.js" },
+          { "bower_components/x-editable/dist/bootstrap3-editable/img/clear.png": "clear.png" },
+          { "bower_components/x-editable/dist/bootstrap3-editable/img/loading.gif": "loading.gif" }
+        ]
+      }
+    }
+  },
+  "moduleType": [
+    "globals"
+  ],
+  "authors": [
+    "Alexander Hank <mail@alexander-hank.de>"
+  ],
+  "license": "GPL2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

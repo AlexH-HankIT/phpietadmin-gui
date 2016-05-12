@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="<?php echo WEB_PATH ?>/css/bootstrap.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/bootstrap-table.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/sweetalert.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/jquery-ui.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/jquery-ui-slider-pips.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/jquery.bootstrap-touchspin.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/nprogress.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/bootstrap-select.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/base.css" rel="stylesheet">
-<link href="<?php echo WEB_PATH ?>/css/my.css" rel="stylesheet">
-<script data-main="<?php echo WEB_PATH ?>/js/common" src="<?php echo WEB_PATH ?>/js/lib/require.js"></script>
-<title><?php echo PROJECT_NAME ?><?php if (isset($data['hostname'])) echo ' on ' . htmlspecialchars($data['hostname']); ?></title>
+<base href="<?php app\models\Misc::echoHtmlEscapedString(WEB_PATH) ?>/">
+<link href="external/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="external/bootstrap-table/css/bootstrap-table.css" rel="stylesheet">
+<link href="external/sweetalert/css/sweetalert.css" rel="stylesheet">
+<link href="css/jquery-ui.css" rel="stylesheet">
+<link href="css/jquery-ui-slider-pips.css" rel="stylesheet">
+<link href="css/jquery.bootstrap-touchspin.css" rel="stylesheet">
+<link href="css/nprogress.css" rel="stylesheet">
+<link href="css/bootstrap-select.css" rel="stylesheet">
+<link href="css/base.css" rel="stylesheet">
+<link href="css/my.css" rel="stylesheet">
+<script data-main="js/common" src="js/lib/require.js"></script>
+<title><?php echo PROJECT_NAME ?><?php if (isset($data['hostname'])) echo ' on ' . app\models\Misc::echoHtmlEscapedString($data['hostname']); ?></title>
 <div class="container">
     <noscript>
         <div class="alert alert-warning" role="alert">

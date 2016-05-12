@@ -2,3 +2,4 @@
 app/config.db
 *.ppk
 optimizer/
+bower_components/

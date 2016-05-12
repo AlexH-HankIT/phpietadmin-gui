@@ -294,6 +294,11 @@ class Misc {
         return $result;
     }
 
+    public static function echoHtmlEscapedString($string) {
+        echo htmlspecialchars($string);
+        return "";
+    }
+
     /**
      * Backup a file to the phpietadmin backup dir
      * Only $maxBackups will be stored, before the oldest is deleted
